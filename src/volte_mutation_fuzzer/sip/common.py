@@ -215,7 +215,9 @@ class PacketDefinitionBase(BaseModel):
 class SIPPacketBase(BaseModel):
     """Common validation behavior shared by request/response wire models."""
 
-    model_config = ConfigDict(extra="forbid", populate_by_name=True, use_enum_values=True)
+    model_config = ConfigDict(
+        extra="forbid", populate_by_name=True, use_enum_values=True
+    )
 
 
 FromField = Field(
@@ -275,7 +277,13 @@ def wire_field_name(python_name: str) -> str:
 
 
 def field_location(python_name: str) -> SIPFieldLocation:
-    if python_name in {"method", "request_uri", "status_code", "reason_phrase", "sip_version"}:
+    if python_name in {
+        "method",
+        "request_uri",
+        "status_code",
+        "reason_phrase",
+        "sip_version",
+    }:
         return SIPFieldLocation.START_LINE
     if python_name == "body":
         return SIPFieldLocation.BODY
@@ -287,9 +295,13 @@ def is_repeatable(annotation: object) -> bool:
     if origin in {list, tuple}:
         return True
     if origin in {UnionType}:
-        return any(is_repeatable(arg) for arg in get_args(annotation) if arg is not type(None))
+        return any(
+            is_repeatable(arg) for arg in get_args(annotation) if arg is not type(None)
+        )
     if str(origin) == "typing.Union":
-        return any(is_repeatable(arg) for arg in get_args(annotation) if arg is not type(None))
+        return any(
+            is_repeatable(arg) for arg in get_args(annotation) if arg is not type(None)
+        )
     return False
 
 
@@ -324,7 +336,9 @@ def classify_status(status_code: int) -> StatusClass:
     return StatusClass(status_code // 100)
 
 
-def model_field_partition(model_type: type[BaseModel]) -> tuple[tuple[str, ...], tuple[str, ...]]:
+def model_field_partition(
+    model_type: type[BaseModel],
+) -> tuple[tuple[str, ...], tuple[str, ...]]:
     required: list[str] = []
     optional: list[str] = []
 

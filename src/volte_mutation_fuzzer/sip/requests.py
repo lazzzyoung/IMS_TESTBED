@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-from typing import Any, Literal
+from typing import Any, Literal, NotRequired, TypedDict
 
 from pydantic import Field, model_validator
 
@@ -189,7 +189,17 @@ class SIPRequestDefinition(PacketDefinitionBase):
     reception_profile: RequestReceptionProfile
 
 
-_REQUEST_METADATA: dict[SIPMethod, dict[str, object]] = {
+class RequestMetadata(TypedDict):
+    description: str
+    typical_scenario: str
+    reference_rfcs: tuple[str, ...]
+    reception_profile: RequestReceptionProfile
+    preconditions: NotRequired[tuple[str, ...]]
+    forbidden_fields: NotRequired[tuple[str, ...]]
+    conditional_required_fields: NotRequired[tuple[ConditionalFieldRule, ...]]
+
+
+_REQUEST_METADATA: dict[SIPMethod, RequestMetadata] = {
     SIPMethod.ACK: {
         "description": "Acknowledges the final response to an INVITE transaction.",
         "typical_scenario": "UE acted as UAS for INVITE and receives ACK after sending a final response.",
@@ -277,7 +287,9 @@ _REQUEST_METADATA: dict[SIPMethod, dict[str, object]] = {
     SIPMethod.NOTIFY: {
         "description": "Delivers subscription state or REFER progress notifications.",
         "typical_scenario": "UE previously subscribed to an event package or created an implicit REFER subscription.",
-        "preconditions": ("Active subscription or implicit REFER subscription exists.",),
+        "preconditions": (
+            "Active subscription or implicit REFER subscription exists.",
+        ),
         "reference_rfcs": ("RFC6665",),
         "reception_profile": RequestReceptionProfile.CONDITIONAL,
         "conditional_required_fields": (
@@ -397,7 +409,9 @@ REQUEST_DEFINITIONS: tuple[SIPRequestDefinition, ...] = tuple(
         optional_fields=model_field_partition(model_type)[1],
         forbidden_fields=tuple(metadata.get("forbidden_fields", ())),
         field_descriptors=build_field_descriptors(model_type),
-        conditional_required_fields=tuple(metadata.get("conditional_required_fields", ())),
+        conditional_required_fields=tuple(
+            metadata.get("conditional_required_fields", ())
+        ),
         reception_profile=metadata["reception_profile"],
     )
     for method, model_type in REQUEST_MODELS_BY_METHOD.items()

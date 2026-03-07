@@ -105,16 +105,44 @@ REQUEST_EXAMPLE_FIELDS: dict[SIPMethod, list[str]] = {
     SIPMethod.BYE: ["reason", "user_agent"],
     SIPMethod.CANCEL: ["reason", "user_agent"],
     SIPMethod.INFO: ["info_package", "content_type", "body"],
-    SIPMethod.INVITE: ["contact", "supported", "allow", "recv_info", "session_expires", "min_se", "content_type", "body"],
+    SIPMethod.INVITE: [
+        "contact",
+        "supported",
+        "allow",
+        "recv_info",
+        "session_expires",
+        "min_se",
+        "content_type",
+        "body",
+    ],
     SIPMethod.MESSAGE: ["content_type", "content_language", "body"],
-    SIPMethod.NOTIFY: ["contact", "event", "subscription_state", "content_type", "body"],
+    SIPMethod.NOTIFY: [
+        "contact",
+        "event",
+        "subscription_state",
+        "content_type",
+        "body",
+    ],
     SIPMethod.OPTIONS: ["accept", "allow", "supported"],
     SIPMethod.PRACK: ["rack", "recv_info"],
     SIPMethod.PUBLISH: ["event", "expires", "sip_if_match", "content_type", "body"],
-    SIPMethod.REFER: ["contact", "refer_to", "referred_by", "refer_sub", "target_dialog"],
+    SIPMethod.REFER: [
+        "contact",
+        "refer_to",
+        "referred_by",
+        "refer_sub",
+        "target_dialog",
+    ],
     SIPMethod.REGISTER: ["contact", "expires", "path", "recv_info", "user_agent"],
     SIPMethod.SUBSCRIBE: ["contact", "event", "expires", "accept", "supported"],
-    SIPMethod.UPDATE: ["contact", "recv_info", "session_expires", "min_se", "content_type", "body"],
+    SIPMethod.UPDATE: [
+        "contact",
+        "recv_info",
+        "session_expires",
+        "min_se",
+        "content_type",
+        "body",
+    ],
 }
 
 RESPONSE_EXTRA_FIELDS: dict[int, list[str]] = {
@@ -463,11 +491,14 @@ def header_line(field_name: str, context: dict[str, object]) -> str:
     if field_name == "content_language":
         return "Content-Language: ko"
     if field_name == "content_length":
-        return f"Content-Length: {len((body or '').encode('utf-8'))}"
+        body_text = body if isinstance(body, str) else ""
+        return f"Content-Length: {len(body_text.encode('utf-8'))}"
     return f"{wire_field_name(field_name)}: <value>"
 
 
-def build_packet_text(start_line: str, fields: list[str], context: dict[str, object]) -> str:
+def build_packet_text(
+    start_line: str, fields: list[str], context: dict[str, object]
+) -> str:
     lines = [start_line]
     field_set = set(fields)
     body = context.get("body") if "body" in field_set else None
@@ -476,7 +507,15 @@ def build_packet_text(start_line: str, fields: list[str], context: dict[str, obj
         field_set.add("content_type")
     field_set.add("content_length")
 
-    ordered_fields = [name for name in (REQUEST_FIELD_ORDER if context["kind"] == "request" else RESPONSE_FIELD_ORDER) if name in field_set and name != "body"]
+    ordered_fields = [
+        name
+        for name in (
+            REQUEST_FIELD_ORDER
+            if context["kind"] == "request"
+            else RESPONSE_FIELD_ORDER
+        )
+        if name in field_set and name != "body"
+    ]
 
     for field_name in ordered_fields:
         lines.append(header_line(field_name, context))
@@ -490,13 +529,24 @@ def build_packet_text(start_line: str, fields: list[str], context: dict[str, obj
 def request_packet_example(definition) -> str:
     method = SIPMethod(definition.method)
     context = request_context(definition)
-    shown_fields = list(dict.fromkeys(definition.required_fields + tuple(REQUEST_EXAMPLE_FIELDS.get(method, []))))
-    return build_packet_text(f"{method.value} {context['request_uri']} SIP/2.0", shown_fields, context)
+    shown_fields = list(
+        dict.fromkeys(
+            definition.required_fields + tuple(REQUEST_EXAMPLE_FIELDS.get(method, []))
+        )
+    )
+    return build_packet_text(
+        f"{method.value} {context['request_uri']} SIP/2.0", shown_fields, context
+    )
 
 
 def response_packet_example(definition) -> str:
     context = response_context(definition)
-    shown_fields = list(dict.fromkeys(definition.required_fields + tuple(RESPONSE_EXTRA_FIELDS.get(definition.status_code, []))))
+    shown_fields = list(
+        dict.fromkeys(
+            definition.required_fields
+            + tuple(RESPONSE_EXTRA_FIELDS.get(definition.status_code, []))
+        )
+    )
     start_line = f"SIP/2.0 {definition.status_code} {definition.reason_phrase}"
     return build_packet_text(start_line, shown_fields, context)
 
@@ -547,11 +597,21 @@ def render_request_docs() -> str:
                 "### 필수 헤더",
                 render_field_names(definition.required_fields),
                 "### 대표 선택/조건부 헤더",
-                render_field_names(tuple(name for name in REQUEST_EXAMPLE_FIELDS.get(SIPMethod(definition.method), []) if name not in definition.required_fields and name != "body")),
+                render_field_names(
+                    tuple(
+                        name
+                        for name in REQUEST_EXAMPLE_FIELDS.get(
+                            SIPMethod(definition.method), []
+                        )
+                        if name not in definition.required_fields and name != "body"
+                    )
+                ),
             ]
         )
         if definition.forbidden_fields:
-            lines.extend(["### 금지 헤더", render_field_names(definition.forbidden_fields)])
+            lines.extend(
+                ["### 금지 헤더", render_field_names(definition.forbidden_fields)]
+            )
         if definition.conditional_required_fields:
             lines.append("### 조건부 규칙")
             for rule in definition.conditional_required_fields:
@@ -605,7 +665,15 @@ def render_response_docs() -> str:
                 "### 필수 헤더",
                 render_field_names(definition.required_fields),
                 "### 대표 선택/조건부 헤더",
-                render_field_names(tuple(name for name in RESPONSE_EXTRA_FIELDS.get(definition.status_code, []) if name not in definition.required_fields and name != "body")),
+                render_field_names(
+                    tuple(
+                        name
+                        for name in RESPONSE_EXTRA_FIELDS.get(
+                            definition.status_code, []
+                        )
+                        if name not in definition.required_fields and name != "body"
+                    )
+                ),
             ]
         )
         if definition.conditional_required_fields:

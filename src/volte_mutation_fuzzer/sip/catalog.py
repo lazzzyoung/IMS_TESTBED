@@ -3,8 +3,16 @@ from __future__ import annotations
 from pydantic import BaseModel, ConfigDict, Field
 
 from volte_mutation_fuzzer.sip.common import SIPMethod, StatusClass
-from volte_mutation_fuzzer.sip.requests import REQUEST_DEFINITIONS, REQUEST_MODELS_BY_METHOD, SIPRequestDefinition
-from volte_mutation_fuzzer.sip.responses import RESPONSE_DEFINITIONS, RESPONSE_MODELS_BY_CODE, SIPResponseDefinition
+from volte_mutation_fuzzer.sip.requests import (
+    REQUEST_DEFINITIONS,
+    REQUEST_MODELS_BY_METHOD,
+    SIPRequestDefinition,
+)
+from volte_mutation_fuzzer.sip.responses import (
+    RESPONSE_DEFINITIONS,
+    RESPONSE_MODELS_BY_CODE,
+    SIPResponseDefinition,
+)
 
 
 class SIPCatalog(BaseModel):
@@ -16,8 +24,12 @@ class SIPCatalog(BaseModel):
 
     model_config = ConfigDict(extra="forbid")
 
-    request_definitions: tuple[SIPRequestDefinition, ...] = Field(default=REQUEST_DEFINITIONS)
-    response_definitions: tuple[SIPResponseDefinition, ...] = Field(default=RESPONSE_DEFINITIONS)
+    request_definitions: tuple[SIPRequestDefinition, ...] = Field(
+        default=REQUEST_DEFINITIONS
+    )
+    response_definitions: tuple[SIPResponseDefinition, ...] = Field(
+        default=RESPONSE_DEFINITIONS
+    )
 
     @property
     def request_count(self) -> int:
@@ -31,7 +43,11 @@ class SIPCatalog(BaseModel):
         return next(defn for defn in self.request_definitions if defn.method == method)
 
     def get_response(self, status_code: int) -> SIPResponseDefinition:
-        return next(defn for defn in self.response_definitions if defn.status_code == status_code)
+        return next(
+            defn
+            for defn in self.response_definitions
+            if defn.status_code == status_code
+        )
 
     def grouped_response_counts(self) -> dict[StatusClass, int]:
         counts = {status_class: 0 for status_class in StatusClass}
@@ -40,10 +56,16 @@ class SIPCatalog(BaseModel):
         return counts
 
     def request_json_schemas(self) -> dict[SIPMethod, dict[str, object]]:
-        return {method: model.model_json_schema() for method, model in REQUEST_MODELS_BY_METHOD.items()}
+        return {
+            method: model.model_json_schema()
+            for method, model in REQUEST_MODELS_BY_METHOD.items()
+        }
 
     def response_json_schemas(self) -> dict[int, dict[str, object]]:
-        return {code: model.model_json_schema() for code, model in RESPONSE_MODELS_BY_CODE.items()}
+        return {
+            code: model.model_json_schema()
+            for code, model in RESPONSE_MODELS_BY_CODE.items()
+        }
 
 
 SIP_CATALOG = SIPCatalog()
