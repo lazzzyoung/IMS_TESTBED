@@ -27,7 +27,7 @@ SIP는 VoIP, VoLTE, IMS 기반 메시징 등에서 세션을 설정·변경·종
 10. IoT / 인터콤 / CCTV
 
 ## CI / 품질 체크
-이 저장소에는 GitHub Actions 기반 CI가 포함되어 있으며, push 및 pull request마다 아래 검사를 수행한다.
+이 저장소에는 GitHub Actions 기반 CI가 포함되어 있으며, pull request마다 아래 검사를 수행한다.
 
 - `uv run ruff check .`
 - `uv run ruff format --check .`
