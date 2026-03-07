@@ -1,7 +1,7 @@
 [project]
 name = "volte-mutation-fuzzer"
 version = "0.1.0"
-description = "Add your description here"
+description = "Terminal-oriented SIP mutation fuzzer catalog and packet schemas"
 readme = "README.md"
 authors = [
     { name = "Chae-JS", email = "jschae02@khu.ac.kr" }
