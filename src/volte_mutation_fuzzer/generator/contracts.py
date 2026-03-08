@@ -185,3 +185,35 @@ class RequestSpec(BaseModel):
         if isinstance(value, Mapping):
             return dict(value)
         return value
+
+
+class ResponseSpec(BaseModel):
+    """Describes which SIP response the generator should produce."""
+
+    model_config = ConfigDict(extra="forbid", validate_assignment=True)
+
+    status_code: int = Field(ge=100, le=699)
+    related_method: SIPMethod
+    scenario: str | None = None
+    overrides: dict[str, Any] = Field(default_factory=dict)
+
+    @property
+    def has_overrides(self) -> bool:
+        return bool(self.overrides)
+
+    @field_validator("scenario", mode="before")
+    @classmethod
+    def _normalize_text(cls, value: Any) -> Any:
+        if not isinstance(value, str):
+            return value
+        stripped = value.strip()
+        return stripped or None
+
+    @field_validator("overrides", mode="before")
+    @classmethod
+    def _coerce_overrides(cls, value: Any) -> Any:
+        if value is None:
+            return {}
+        if isinstance(value, Mapping):
+            return dict(value)
+        return value
