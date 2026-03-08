@@ -1,12 +1,20 @@
 from __future__ import annotations
 
 from pathlib import Path
+import sys
+
+ROOT = Path(__file__).resolve().parents[1]
+SRC = ROOT / "src"
+if str(SRC) not in sys.path:
+    sys.path.insert(0, str(SRC))
 
 from volte_mutation_fuzzer.sip import SIPMethod
 from volte_mutation_fuzzer.sip.catalog import SIP_CATALOG
 from volte_mutation_fuzzer.sip.common import wire_field_name
 
-ROOT = Path(__file__).resolve().parents[1]
+PROTOCOL_DOCS_DIR = ROOT / "docs" / "프로토콜"
+REQUEST_DOC_PATH = PROTOCOL_DOCS_DIR / "요청-패킷-예시.md"
+RESPONSE_DOC_PATH = PROTOCOL_DOCS_DIR / "응답-패킷-예시.md"
 
 REQUEST_FIELD_ORDER = [
     "via",
@@ -559,8 +567,9 @@ def render_field_names(field_names: tuple[str, ...] | list[str]) -> str:
 
 def render_request_docs() -> str:
     lines = [
-        "# REQUEST.md",
+        "# SIP 요청 패킷 예시",
         "",
+        "> 이 문서는 `scripts/generate_packet_docs.py` 로 생성된다.",
         "> 이 문서는 각 SIP 요청을 **실제 SIP 텍스트 패킷 형태**로 이해하기 위한 설명 문서이다.",
         "> 예시 패킷은 대표 예시이며, 모든 선택 헤더를 다 포함하지는 않는다.",
         "",
@@ -627,8 +636,9 @@ def render_request_docs() -> str:
 
 def render_response_docs() -> str:
     lines = [
-        "# RESPONSE.md",
+        "# SIP 응답 패킷 예시",
         "",
+        "> 이 문서는 `scripts/generate_packet_docs.py` 로 생성된다.",
         "> 이 문서는 각 SIP 응답을 **실제 SIP 텍스트 패킷 형태**로 이해하기 위한 설명 문서이다.",
         "> 예시 패킷은 대표 예시이며, 응답 코드별 핵심 헤더만 우선 보여준다.",
         "",
@@ -690,9 +700,15 @@ def render_response_docs() -> str:
 
 
 def main() -> None:
-    (ROOT / "REQUEST.md").write_text(render_request_docs(), encoding="utf-8")
-    (ROOT / "RESPONSE.md").write_text(render_response_docs(), encoding="utf-8")
-    print("Generated REQUEST.md and RESPONSE.md")
+    PROTOCOL_DOCS_DIR.mkdir(parents=True, exist_ok=True)
+    REQUEST_DOC_PATH.write_text(render_request_docs(), encoding="utf-8")
+    RESPONSE_DOC_PATH.write_text(render_response_docs(), encoding="utf-8")
+    print(
+        "Generated protocol packet docs:",
+        REQUEST_DOC_PATH.relative_to(ROOT),
+        RESPONSE_DOC_PATH.relative_to(ROOT),
+    )
+
 
 
 if __name__ == "__main__":
