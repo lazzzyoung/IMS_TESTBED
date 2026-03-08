@@ -6,5 +6,12 @@ from volte_mutation_fuzzer.generator.contracts import (
     RequestSpec,
     ResponseSpec,
 )
+from volte_mutation_fuzzer.generator.core import SIPGenerator
 
-__all__ = ["DialogContext", "GeneratorSettings", "RequestSpec", "ResponseSpec"]
+__all__ = [
+    "DialogContext",
+    "GeneratorSettings",
+    "RequestSpec",
+    "ResponseSpec",
+    "SIPGenerator",
+]
