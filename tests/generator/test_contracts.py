@@ -2,7 +2,8 @@ from __future__ import annotations
 
 import unittest
 
-from volte_mutation_fuzzer.generator import GeneratorSettings
+from volte_mutation_fuzzer.generator import DialogContext, GeneratorSettings
+from volte_mutation_fuzzer.sip.common import NameAddress, SIPURI
 
 
 class GeneratorSettingsTests(unittest.TestCase):
@@ -57,6 +58,61 @@ class GeneratorSettingsTests(unittest.TestCase):
     def test_from_env_rejects_blank_required_string(self) -> None:
         with self.assertRaises(ValueError):
             GeneratorSettings.from_env({"VMF_GENERATOR_VIA_HOST": "   "})
+
+
+class DialogContextTests(unittest.TestCase):
+    def test_defaults_start_without_dialog_state(self) -> None:
+        context = DialogContext()
+
+        self.assertIsNone(context.call_id)
+        self.assertEqual(context.local_cseq, 0)
+        self.assertEqual(context.remote_cseq, 0)
+        self.assertEqual(context.route_set, ())
+        self.assertFalse(context.has_dialog)
+        self.assertFalse(context.is_registered)
+        self.assertFalse(context.is_reinvite)
+
+    def test_normalizes_identifiers_and_advances_sequences(self) -> None:
+        context = DialogContext(
+            call_id=" call-1 ",
+            local_tag=" ue-tag ",
+            remote_tag=" remote-tag ",
+            local_cseq=4,
+            remote_cseq=9,
+        )
+
+        self.assertEqual(context.call_id, "call-1")
+        self.assertEqual(context.local_tag, "ue-tag")
+        self.assertEqual(context.remote_tag, "remote-tag")
+        self.assertTrue(context.has_dialog)
+        self.assertEqual(context.next_local_cseq(), 5)
+        self.assertEqual(context.local_cseq, 5)
+        self.assertEqual(context.next_remote_cseq(), 10)
+        self.assertEqual(context.remote_cseq, 10)
+
+    def test_fork_for_reinvite_preserves_context_state(self) -> None:
+        route = NameAddress(uri=SIPURI(scheme="sip", user="proxy", host="ims.example.net"))
+        request_uri = SIPURI(scheme="sip", user="ue001", host="device.example.net")
+        context = DialogContext(
+            call_id="call-2",
+            local_tag="ue-tag",
+            remote_tag="remote-tag",
+            local_cseq=3,
+            remote_cseq=7,
+            route_set=(route,),
+            request_uri=request_uri,
+            is_registered=True,
+        )
+
+        reinvite_context = context.fork_for_reinvite()
+
+        self.assertIsNot(reinvite_context, context)
+        self.assertFalse(context.is_reinvite)
+        self.assertTrue(reinvite_context.is_reinvite)
+        self.assertEqual(reinvite_context.call_id, "call-2")
+        self.assertEqual(reinvite_context.route_set, (route,))
+        self.assertEqual(reinvite_context.request_uri, request_uri)
+        self.assertTrue(reinvite_context.is_registered)
 
 
 if __name__ == "__main__":

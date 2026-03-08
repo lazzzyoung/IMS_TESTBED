@@ -6,6 +6,8 @@ from typing import Any, ClassVar
 
 from pydantic import BaseModel, ConfigDict, Field, field_validator
 
+from volte_mutation_fuzzer.sip.common import NameAddress, URIReference
+
 
 class GeneratorSettings(BaseModel):
     """Environment-backed defaults consumed by the SIP generator service."""
@@ -108,3 +110,46 @@ class GeneratorSettings(BaseModel):
     @classmethod
     def _normalize_transport(cls, value: str) -> str:
         return value.upper()
+
+
+class DialogContext(BaseModel):
+    """State carried across related SIP messages within one dialog or flow."""
+
+    model_config = ConfigDict(extra="forbid", validate_assignment=True)
+
+    call_id: str | None = Field(default=None, min_length=1)
+    local_tag: str | None = Field(default=None, min_length=1)
+    remote_tag: str | None = Field(default=None, min_length=1)
+    local_cseq: int = Field(default=0, ge=0, lt=2**31)
+    remote_cseq: int = Field(default=0, ge=0, lt=2**31)
+    route_set: tuple[NameAddress | URIReference, ...] = ()
+    request_uri: URIReference | None = None
+    is_registered: bool = False
+    is_reinvite: bool = False
+
+    @property
+    def has_dialog(self) -> bool:
+        return (
+            self.call_id is not None
+            and self.local_tag is not None
+            and self.remote_tag is not None
+        )
+
+    def next_local_cseq(self) -> int:
+        self.local_cseq += 1
+        return self.local_cseq
+
+    def next_remote_cseq(self) -> int:
+        self.remote_cseq += 1
+        return self.remote_cseq
+
+    def fork_for_reinvite(self) -> "DialogContext":
+        return self.model_copy(update={"is_reinvite": True})
+
+    @field_validator("call_id", "local_tag", "remote_tag", mode="before")
+    @classmethod
+    def _normalize_text(cls, value: Any) -> Any:
+        if not isinstance(value, str):
+            return value
+        stripped = value.strip()
+        return stripped or None
