@@ -189,6 +189,23 @@ class SIPGeneratorSignatureTests(unittest.TestCase):
                 self.assertEqual(packet.method, method)
                 self.assertEqual(packet.cseq.method, method)
 
+    def test_build_cseq_can_reuse_local_dialog_sequence_without_mutating_context(
+        self,
+    ) -> None:
+        generator = SIPGenerator(GeneratorSettings())
+        context = DialogContext(local_cseq=7, remote_cseq=4)
+
+        cseq = generator._build_cseq(
+            SIPMethod.INVITE,
+            context,
+            local_origin=True,
+        )
+
+        self.assertEqual(cseq.sequence, 7)
+        self.assertEqual(cseq.method, SIPMethod.INVITE)
+        self.assertEqual(context.local_cseq, 7)
+        self.assertEqual(context.remote_cseq, 4)
+
     def test_build_response_defaults_produces_valid_ok_payload_from_dialog_context(
         self,
     ) -> None:

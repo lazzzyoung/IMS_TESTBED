@@ -221,9 +221,10 @@ class SIPGenerator:
             "from_": self._build_to(context),
             "to": self._build_from(context),
             "call_id": self._build_call_id(context),
-            "cseq": CSeqHeader(
-                sequence=max(context.local_cseq, 1),
-                method=spec.related_method,
+            "cseq": self._build_cseq(
+                spec.related_method,
+                context,
+                local_origin=True,
             ),
             "server": self.settings.user_agent,
             "content_length": 0,
@@ -442,7 +443,13 @@ class SIPGenerator:
         self,
         method: SIPMethod,
         context: DialogContext | None,
+        *,
+        local_origin: bool = False,
     ) -> CSeqHeader:
+        if local_origin:
+            sequence = 1 if context is None or context.local_cseq == 0 else context.local_cseq
+            return CSeqHeader(sequence=sequence, method=method)
+
         sequence = 1 if context is None else context.next_remote_cseq()
         return CSeqHeader(sequence=sequence, method=method)
 
