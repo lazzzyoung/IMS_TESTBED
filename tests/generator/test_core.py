@@ -16,7 +16,12 @@ from volte_mutation_fuzzer.sip.requests import (
     InviteRequest,
     OptionsRequest,
 )
-from volte_mutation_fuzzer.sip.responses import OkResponse, RingingResponse, TryingResponse
+from volte_mutation_fuzzer.sip.responses import (
+    RESPONSE_MODELS_BY_CODE,
+    OkResponse,
+    RingingResponse,
+    TryingResponse,
+)
 
 
 class SIPGeneratorSignatureTests(unittest.TestCase):
@@ -183,6 +188,80 @@ class SIPGeneratorSignatureTests(unittest.TestCase):
 
                 self.assertEqual(packet.method, method)
                 self.assertEqual(packet.cseq.method, method)
+
+    def test_build_response_defaults_produces_valid_ok_payload_from_dialog_context(
+        self,
+    ) -> None:
+        generator = SIPGenerator(GeneratorSettings())
+        context = DialogContext(
+            call_id="call-1",
+            local_tag="ue-tag",
+            local_cseq=7,
+            route_set=(
+                NameAddress(
+                    display_name="Edge Proxy",
+                    uri=SIPURI(scheme="sip", host="proxy.example.net"),
+                ),
+            ),
+        )
+
+        defaults = generator._build_response_defaults(
+            ResponseSpec(status_code=200, related_method=SIPMethod.INVITE),
+            context,
+        )
+        packet = OkResponse.model_validate(defaults)
+
+        self.assertEqual(packet.status_code, 200)
+        self.assertEqual(packet.reason_phrase, "OK")
+        self.assertEqual(packet.from_.display_name, "UE")
+        self.assertEqual(packet.from_.parameters["tag"], "ue-tag")
+        self.assertEqual(packet.to.display_name, "Remote")
+        self.assertEqual(packet.to.parameters["tag"], context.remote_tag)
+        self.assertEqual(packet.call_id, "call-1")
+        self.assertEqual(packet.cseq.sequence, 7)
+        self.assertEqual(packet.cseq.method, SIPMethod.INVITE)
+        self.assertEqual(packet.server, "volte-mutation-fuzzer/0.1.0")
+        self.assertEqual(packet.record_route, list(context.route_set))
+        self.assertEqual(len(packet.contact), 1)
+
+    def test_build_response_defaults_cover_all_response_models(self) -> None:
+        generator = SIPGenerator(GeneratorSettings())
+
+        for status_code, model in RESPONSE_MODELS_BY_CODE.items():
+            with self.subTest(status_code=status_code, model=model.__name__):
+                definition = SIP_CATALOG.get_response(status_code)
+                related_method = (
+                    definition.related_methods[0]
+                    if definition.related_methods
+                    else SIPMethod.OPTIONS
+                )
+                context = DialogContext(
+                    call_id="call-1",
+                    local_tag="ue-tag",
+                    remote_tag="remote-tag",
+                    local_cseq=3,
+                    route_set=(
+                        NameAddress(
+                            display_name="Edge Proxy",
+                            uri=SIPURI(scheme="sip", host="proxy.example.net"),
+                        ),
+                    ),
+                )
+
+                defaults = generator._build_response_defaults(
+                    ResponseSpec(
+                        status_code=status_code,
+                        related_method=related_method,
+                    ),
+                    context,
+                )
+                packet = model.model_validate(defaults)
+
+                self.assertEqual(packet.status_code, status_code)
+                self.assertEqual(packet.reason_phrase, definition.reason_phrase)
+                self.assertEqual(packet.call_id, "call-1")
+                self.assertEqual(packet.cseq.sequence, 3)
+                self.assertEqual(packet.cseq.method, related_method)
 
     def test_apply_overrides_returns_new_payload_without_mutating_defaults(self) -> None:
         generator = SIPGenerator(GeneratorSettings())

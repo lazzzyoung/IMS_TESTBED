@@ -11,12 +11,15 @@ from volte_mutation_fuzzer.generator.contracts import (
 )
 from volte_mutation_fuzzer.sip.catalog import SIPCatalog, SIP_CATALOG
 from volte_mutation_fuzzer.sip.common import (
+    AuthChallenge,
     CSeqHeader,
     EventHeader,
     NameAddress,
     RAckHeader,
+    RetryAfterHeader,
     SIPMethod,
     SIPURI,
+    StatusClass,
     SubscriptionStateHeader,
     URIReference,
     ViaHeader,
@@ -204,7 +207,87 @@ class SIPGenerator:
         spec: ResponseSpec,
         context: DialogContext,
     ) -> dict[str, Any]:
-        raise NotImplementedError
+        model = self._resolve_response_model(spec)
+        definition = self.catalog.get_response(spec.status_code)
+
+        defaults: dict[str, Any] = {
+            "status_code": spec.status_code,
+            "reason_phrase": definition.reason_phrase,
+            "sip_version": "SIP/2.0",
+            "via": [self._build_via()],
+            "from_": self._build_to(context),
+            "to": self._build_from(context),
+            "call_id": self._build_call_id(context),
+            "cseq": CSeqHeader(
+                sequence=max(context.local_cseq, 1),
+                method=spec.related_method,
+            ),
+            "server": self.settings.user_agent,
+            "content_length": 0,
+        }
+
+        if context.route_set:
+            defaults["record_route"] = list(context.route_set)
+
+        if (
+            definition.status_class == StatusClass.SUCCESS
+            and spec.related_method == SIPMethod.INVITE
+        ) or definition.status_class == StatusClass.REDIRECTION:
+            defaults["contact"] = [self._build_contact()]
+
+        if spec.status_code == 489:
+            defaults["allow_events"] = ("presence",)
+
+        if spec.status_code == 494:
+            defaults["require"] = ("sec-agree",)
+
+        if spec.status_code == 503:
+            defaults["retry_after"] = RetryAfterHeader(seconds=120)
+
+        for field_name, field in model.model_fields.items():
+            if field_name in defaults or not field.is_required():
+                continue
+            defaults[field_name] = self._build_required_response_field(field_name)
+
+        return defaults
+
+    def _build_required_response_field(self, field_name: str) -> Any:
+        if field_name == "allow":
+            return tuple(SIPMethod)
+
+        if field_name in {"proxy_authenticate", "www_authenticate"}:
+            return (
+                AuthChallenge(
+                    realm=self.settings.from_host,
+                    nonce=uuid4().hex,
+                ),
+            )
+
+        if field_name == "unsupported":
+            return ("100rel",)
+
+        if field_name == "require":
+            return ("100rel",)
+
+        if field_name == "min_se":
+            return 1800
+
+        if field_name == "min_expires":
+            return 300
+
+        if field_name == "geolocation_error":
+            return "location-invalid"
+
+        if field_name == "alert_msg_error":
+            return "unsupported-alert"
+
+        if field_name == "recv_info":
+            return ("g.3gpp.iari-ref",)
+
+        if field_name == "security_server":
+            return ("ipsec-3gpp;q=0.1",)
+
+        raise ValueError(f"unsupported required response field: {field_name}")
 
     def _apply_overrides(
         self,
