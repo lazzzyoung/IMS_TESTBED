@@ -24,6 +24,31 @@ from volte_mutation_fuzzer.sip.common import (
 from volte_mutation_fuzzer.sip.requests import REQUEST_MODELS_BY_METHOD, SIPRequest
 from volte_mutation_fuzzer.sip.responses import SIPResponse
 
+_DIALOG_PRECONDITIONS = frozenset(
+    {
+        "Confirmed dialog exists.",
+        "Existing dialog exists.",
+        "Early or confirmed dialog exists.",
+    }
+)
+
+_INVITE_TRANSACTION_PRECONDITIONS = frozenset(
+    {
+        "Matching INVITE transaction exists.",
+        "Matching INVITE server transaction is still proceeding.",
+    }
+)
+
+_ADVISORY_PRECONDITIONS = frozenset(
+    {
+        "Active subscription or implicit REFER subscription exists.",
+        "Reliable provisional response was sent.",
+        "UE acts as a publication target/service.",
+        "UE acts like a registrar or registration service.",
+        "UE supports the targeted event package.",
+    }
+)
+
 
 class SIPGenerator:
     """Orchestrates request/response model generation from generator contracts."""
@@ -169,7 +194,33 @@ class SIPGenerator:
         context: DialogContext | None,
         preconditions: tuple[str, ...],
     ) -> None:
-        raise NotImplementedError
+        for precondition in preconditions:
+            if precondition in _DIALOG_PRECONDITIONS:
+                if context is None or not context.has_dialog:
+                    raise ValueError(
+                        f"{precondition} request generation requires an existing "
+                        "dialog context with call-id/local-tag/remote-tag."
+                    )
+                continue
+
+            if precondition in _INVITE_TRANSACTION_PRECONDITIONS:
+                has_invite_transaction = (
+                    context is not None
+                    and context.call_id is not None
+                    and context.remote_tag is not None
+                    and context.request_uri is not None
+                )
+                if not has_invite_transaction:
+                    raise ValueError(
+                        f"{precondition} request generation requires INVITE "
+                        "transaction context with call-id/from-tag/request-uri."
+                    )
+                continue
+
+            if precondition in _ADVISORY_PRECONDITIONS:
+                continue
+
+            raise ValueError(f"unsupported request precondition: {precondition}")
 
     def _build_via(self) -> ViaHeader:
         return ViaHeader(

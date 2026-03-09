@@ -163,6 +163,109 @@ class SIPGeneratorSignatureTests(unittest.TestCase):
         self.assertEqual(packet.from_.uri.host, "override.example.net")
         self.assertEqual(packet.from_.parameters["tag"], "override-tag")
 
+    def test_validate_preconditions_allows_empty_precondition_list(self) -> None:
+        generator = SIPGenerator(GeneratorSettings())
+
+        generator._validate_preconditions(context=None, preconditions=())
+
+    def test_validate_preconditions_requires_dialog_context_for_dialog_scoped_rules(
+        self,
+    ) -> None:
+        generator = SIPGenerator(GeneratorSettings())
+        dialog_preconditions = (
+            "Confirmed dialog exists.",
+            "Existing dialog exists.",
+            "Early or confirmed dialog exists.",
+        )
+
+        for precondition in dialog_preconditions:
+            with self.subTest(precondition=precondition, context="missing"):
+                with self.assertRaisesRegex(ValueError, precondition):
+                    generator._validate_preconditions(
+                        context=None,
+                        preconditions=(precondition,),
+                    )
+
+            with self.subTest(precondition=precondition, context="incomplete"):
+                with self.assertRaisesRegex(ValueError, precondition):
+                    generator._validate_preconditions(
+                        context=DialogContext(call_id="call-1", local_tag="ue-tag"),
+                        preconditions=(precondition,),
+                    )
+
+            with self.subTest(precondition=precondition, context="complete"):
+                generator._validate_preconditions(
+                    context=DialogContext(
+                        call_id="call-1",
+                        local_tag="ue-tag",
+                        remote_tag="remote-tag",
+                    ),
+                    preconditions=(precondition,),
+                )
+
+    def test_validate_preconditions_requires_invite_transaction_context(self) -> None:
+        generator = SIPGenerator(GeneratorSettings())
+        transaction_preconditions = (
+            "Matching INVITE transaction exists.",
+            "Matching INVITE server transaction is still proceeding.",
+        )
+
+        for precondition in transaction_preconditions:
+            with self.subTest(precondition=precondition, context="missing"):
+                with self.assertRaisesRegex(ValueError, precondition):
+                    generator._validate_preconditions(
+                        context=None,
+                        preconditions=(precondition,),
+                    )
+
+            with self.subTest(precondition=precondition, context="incomplete"):
+                with self.assertRaisesRegex(ValueError, precondition):
+                    generator._validate_preconditions(
+                        context=DialogContext(call_id="call-1"),
+                        preconditions=(precondition,),
+                    )
+
+            with self.subTest(precondition=precondition, context="complete"):
+                generator._validate_preconditions(
+                    context=DialogContext(
+                        call_id="call-1",
+                        local_tag="ue-tag",
+                        remote_tag="remote-tag",
+                        request_uri=SIPURI(
+                            scheme="sip",
+                            user="ue001",
+                            host="device.example.net",
+                        ),
+                    ),
+                    preconditions=(precondition,),
+                )
+
+    def test_validate_preconditions_treats_capability_rules_as_advisory(self) -> None:
+        generator = SIPGenerator(GeneratorSettings())
+        advisory_preconditions = (
+            "Active subscription or implicit REFER subscription exists.",
+            "Reliable provisional response was sent.",
+            "UE acts as a publication target/service.",
+            "UE acts like a registrar or registration service.",
+            "UE supports the targeted event package.",
+        )
+
+        for precondition in advisory_preconditions:
+            with self.subTest(precondition=precondition):
+                generator._validate_preconditions(
+                    context=None,
+                    preconditions=(precondition,),
+                )
+
+    def test_validate_preconditions_rejects_unknown_rule_strings(self) -> None:
+        generator = SIPGenerator(GeneratorSettings())
+
+        with self.assertRaisesRegex(ValueError, "unsupported request precondition"):
+            generator._validate_preconditions(
+                context=None,
+                preconditions=("Unexpected request precondition.",),
+            )
+
 
 if __name__ == "__main__":
     unittest.main()
