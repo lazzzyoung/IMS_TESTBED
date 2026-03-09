@@ -10,7 +10,7 @@ from volte_mutation_fuzzer.generator import (
     SIPGenerator,
 )
 from volte_mutation_fuzzer.sip.catalog import SIPCatalog, SIP_CATALOG
-from volte_mutation_fuzzer.sip.common import SIPMethod, SIPURI
+from volte_mutation_fuzzer.sip.common import NameAddress, SIPMethod, SIPURI
 from volte_mutation_fuzzer.sip.requests import (
     REQUEST_MODELS_BY_METHOD,
     InviteRequest,
@@ -126,6 +126,42 @@ class SIPGeneratorSignatureTests(unittest.TestCase):
 
                 self.assertEqual(packet.method, method)
                 self.assertEqual(packet.cseq.method, method)
+
+    def test_apply_overrides_returns_new_payload_without_mutating_defaults(self) -> None:
+        generator = SIPGenerator(GeneratorSettings())
+        defaults = {
+            "method": SIPMethod.OPTIONS,
+            "max_forwards": 70,
+            "extension_headers": {"X-Trace": "default"},
+        }
+        overrides = {
+            "max_forwards": 10,
+            "extension_headers": {"X-Trace": "override"},
+        }
+
+        merged = generator._apply_overrides(defaults, overrides)
+
+        self.assertEqual(merged["max_forwards"], 10)
+        self.assertEqual(merged["extension_headers"], {"X-Trace": "override"})
+        self.assertEqual(defaults["max_forwards"], 70)
+        self.assertEqual(defaults["extension_headers"], {"X-Trace": "default"})
+
+    def test_apply_overrides_normalizes_from_alias(self) -> None:
+        generator = SIPGenerator(GeneratorSettings())
+        defaults = generator._build_request_defaults(RequestSpec(method=SIPMethod.OPTIONS))
+        replacement_from = NameAddress(
+            display_name="Override Remote",
+            uri=SIPURI(scheme="sip", user="override", host="override.example.net"),
+            parameters={"tag": "override-tag"},
+        )
+
+        merged = generator._apply_overrides(defaults, {"from": replacement_from})
+        packet = OptionsRequest.model_validate(merged)
+
+        self.assertNotIn("from", merged)
+        self.assertEqual(packet.from_.display_name, "Override Remote")
+        self.assertEqual(packet.from_.uri.host, "override.example.net")
+        self.assertEqual(packet.from_.parameters["tag"], "override-tag")
 
 
 if __name__ == "__main__":

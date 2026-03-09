@@ -155,7 +155,13 @@ class SIPGenerator:
         defaults: dict[str, Any],
         overrides: dict[str, Any],
     ) -> dict[str, Any]:
-        raise NotImplementedError
+        merged = dict(defaults)
+
+        for field_name, value in overrides.items():
+            normalized_field_name = "from_" if field_name == "from" else field_name
+            merged[normalized_field_name] = value
+
+        return merged
 
     def _validate_preconditions(
         self,
