@@ -34,16 +34,98 @@ class SIPGeneratorSignatureTests(unittest.TestCase):
         self.assertEqual(generator.catalog.request_count, 14)
         self.assertEqual(generator.catalog.response_count, 75)
 
-    def test_public_methods_are_stubbed_until_implementation_is_added(self) -> None:
+    def test_generate_request_returns_valid_request_instance(self) -> None:
         generator = SIPGenerator(GeneratorSettings())
 
-        with self.assertRaises(NotImplementedError):
-            generator.generate_request(RequestSpec(method="OPTIONS"))
+        packet = generator.generate_request(RequestSpec(method=SIPMethod.OPTIONS))
 
-        with self.assertRaises(NotImplementedError):
+        self.assertIsInstance(packet, OptionsRequest)
+        self.assertEqual(packet.method, SIPMethod.OPTIONS)
+        self.assertEqual(packet.request_uri.host, "example.com")
+        self.assertEqual(packet.cseq.sequence, 1)
+        self.assertEqual(packet.cseq.method, SIPMethod.OPTIONS)
+
+    def test_generate_request_rejects_missing_transaction_preconditions_before_mutation(
+        self,
+    ) -> None:
+        generator = SIPGenerator(GeneratorSettings())
+        context = DialogContext(local_tag="ue-tag")
+
+        with self.assertRaisesRegex(ValueError, "Matching INVITE transaction exists."):
+            generator.generate_request(RequestSpec(method=SIPMethod.ACK), context)
+
+        self.assertIsNone(context.call_id)
+        self.assertIsNone(context.remote_tag)
+        self.assertIsNone(context.request_uri)
+        self.assertEqual(context.remote_cseq, 0)
+
+    def test_generate_response_returns_valid_response_instance(self) -> None:
+        generator = SIPGenerator(GeneratorSettings())
+        context = DialogContext(
+            call_id="call-1",
+            local_tag="ue-tag",
+            local_cseq=7,
+        )
+
+        packet = generator.generate_response(
+            ResponseSpec(status_code=200, related_method=SIPMethod.INVITE),
+            context,
+        )
+
+        self.assertIsInstance(packet, OkResponse)
+        self.assertEqual(packet.status_code, 200)
+        self.assertEqual(packet.reason_phrase, "OK")
+        self.assertEqual(packet.call_id, "call-1")
+        self.assertEqual(packet.cseq.sequence, 7)
+        self.assertEqual(packet.cseq.method, SIPMethod.INVITE)
+        self.assertEqual(packet.to.parameters["tag"], context.remote_tag)
+
+    def test_generate_response_rejects_missing_originating_request_context_before_mutation(
+        self,
+    ) -> None:
+        generator = SIPGenerator(GeneratorSettings())
+        context = DialogContext(local_tag="ue-tag", local_cseq=1)
+
+        with self.assertRaisesRegex(
+            ValueError,
+            "UE originated the corresponding request.",
+        ):
             generator.generate_response(
-                ResponseSpec(status_code=100, related_method="OPTIONS"),
-                DialogContext(),
+                ResponseSpec(status_code=200, related_method=SIPMethod.INVITE),
+                context,
+            )
+
+        self.assertIsNone(context.call_id)
+        self.assertIsNone(context.remote_tag)
+
+    def test_generate_request_surfaces_catalog_model_mismatch(self) -> None:
+        invite_definition = SIP_CATALOG.get_request(SIPMethod.INVITE)
+        mismatched_catalog = SIPCatalog(
+            request_definitions=tuple(
+                invite_definition.model_copy(update={"model_name": "WrongInviteModel"})
+                if definition.method == SIPMethod.INVITE
+                else definition
+                for definition in SIP_CATALOG.request_definitions
+            ),
+            response_definitions=SIP_CATALOG.response_definitions,
+        )
+        generator = SIPGenerator(GeneratorSettings(), catalog=mismatched_catalog)
+
+        with self.assertRaisesRegex(ValueError, "request model mismatch"):
+            generator.generate_request(RequestSpec(method=SIPMethod.INVITE))
+
+    def test_generate_response_surfaces_catalog_related_method_failures(self) -> None:
+        generator = SIPGenerator(GeneratorSettings())
+        context = DialogContext(
+            call_id="call-1",
+            local_tag="ue-tag",
+            local_cseq=1,
+        )
+
+        with self.assertRaisesRegex(ValueError, "related method"):
+            generator.generate_response(
+                ResponseSpec(status_code=180, related_method=SIPMethod.OPTIONS),
+                context,
             )
 
     def test_resolve_request_model_returns_registered_request_type(self) -> None:

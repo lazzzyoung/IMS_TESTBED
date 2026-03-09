@@ -73,14 +73,40 @@ class SIPGenerator:
         spec: RequestSpec,
         context: DialogContext | None = None,
     ) -> SIPRequest:
-        raise NotImplementedError("request generation is not implemented yet")
+        model = self._resolve_request_model(spec)
+        definition = self.catalog.get_request(spec.method)
+
+        self._validate_preconditions(
+            context=context,
+            preconditions=definition.preconditions,
+        )
+
+        payload = self._build_request_defaults(spec, context)
+        if spec.has_overrides:
+            payload = self._apply_overrides(payload, spec.overrides)
+
+        # Pydantic BaseModel 내부 메서드이며, payload 검증과 최종 모델 인스턴스 생성을 함께 수행한다.
+        return model.model_validate(payload)
 
     def generate_response(
         self,
         spec: ResponseSpec,
         context: DialogContext,
     ) -> SIPResponse:
-        raise NotImplementedError("response generation is not implemented yet")
+        model = self._resolve_response_model(spec)
+        definition = self.catalog.get_response(spec.status_code)
+
+        self._validate_preconditions(
+            context=context,
+            preconditions=definition.preconditions,
+        )
+
+        payload = self._build_response_defaults(spec, context)
+        if spec.has_overrides:
+            payload = self._apply_overrides(payload, spec.overrides)
+
+        # Pydantic BaseModel 내부 메서드이며, payload 검증과 최종 모델 인스턴스 생성을 함께 수행한다.
+        return model.model_validate(payload)
 
     def _resolve_request_model(self, spec: RequestSpec) -> type[SIPRequest]:
         try:
