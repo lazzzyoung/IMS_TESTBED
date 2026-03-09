@@ -22,7 +22,7 @@ from volte_mutation_fuzzer.sip.common import (
     ViaHeader,
 )
 from volte_mutation_fuzzer.sip.requests import REQUEST_MODELS_BY_METHOD, SIPRequest
-from volte_mutation_fuzzer.sip.responses import SIPResponse
+from volte_mutation_fuzzer.sip.responses import RESPONSE_MODELS_BY_CODE, SIPResponse
 
 _DIALOG_PRECONDITIONS = frozenset(
     {
@@ -101,7 +101,38 @@ class SIPGenerator:
         return model
 
     def _resolve_response_model(self, spec: ResponseSpec) -> type[SIPResponse]:
-        raise NotImplementedError
+        try:
+            definition = self.catalog.get_response(spec.status_code)
+        except StopIteration as exc:
+            raise ValueError(
+                f"response status {spec.status_code} is not present in the SIP catalog"
+            ) from exc
+
+        try:
+            model = RESPONSE_MODELS_BY_CODE[spec.status_code]
+        except KeyError as exc:
+            raise ValueError(
+                f"response status {spec.status_code} does not have a registered SIP model"
+            ) from exc
+
+        if model.__name__ != definition.model_name:
+            raise ValueError(
+                f"response model mismatch for {spec.status_code}: "
+                f"catalog expects {definition.model_name}, "
+                f"mapping provides {model.__name__}"
+            )
+
+        if (
+            definition.related_methods
+            and spec.related_method not in definition.related_methods
+        ):
+            allowed_methods = ", ".join(method.value for method in definition.related_methods)
+            raise ValueError(
+                f"response status {spec.status_code} does not support related method "
+                f"{spec.related_method}; expected one of: {allowed_methods}"
+            )
+
+        return model
 
     def _build_request_defaults(
         self,

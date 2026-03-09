@@ -16,6 +16,7 @@ from volte_mutation_fuzzer.sip.requests import (
     InviteRequest,
     OptionsRequest,
 )
+from volte_mutation_fuzzer.sip.responses import OkResponse, RingingResponse, TryingResponse
 
 
 class SIPGeneratorSignatureTests(unittest.TestCase):
@@ -67,6 +68,62 @@ class SIPGeneratorSignatureTests(unittest.TestCase):
 
         with self.assertRaisesRegex(ValueError, "request model mismatch"):
             generator._resolve_request_model(RequestSpec(method=SIPMethod.INVITE))
+
+    def test_resolve_response_model_returns_registered_response_type(self) -> None:
+        generator = SIPGenerator(GeneratorSettings())
+
+        self.assertIs(
+            generator._resolve_response_model(
+                ResponseSpec(status_code=100, related_method=SIPMethod.OPTIONS)
+            ),
+            TryingResponse,
+        )
+        self.assertIs(
+            generator._resolve_response_model(
+                ResponseSpec(status_code=180, related_method=SIPMethod.INVITE)
+            ),
+            RingingResponse,
+        )
+        self.assertIs(
+            generator._resolve_response_model(
+                ResponseSpec(status_code=200, related_method=SIPMethod.BYE)
+            ),
+            OkResponse,
+        )
+
+    def test_resolve_response_model_rejects_status_code_missing_from_catalog(self) -> None:
+        generator = SIPGenerator(GeneratorSettings())
+
+        with self.assertRaisesRegex(ValueError, "response status 201"):
+            generator._resolve_response_model(
+                ResponseSpec(status_code=201, related_method=SIPMethod.INVITE)
+            )
+
+    def test_resolve_response_model_rejects_unsupported_related_method(self) -> None:
+        generator = SIPGenerator(GeneratorSettings())
+
+        with self.assertRaisesRegex(ValueError, "related method"):
+            generator._resolve_response_model(
+                ResponseSpec(status_code=180, related_method=SIPMethod.OPTIONS)
+            )
+
+    def test_resolve_response_model_rejects_catalog_model_mismatch(self) -> None:
+        ok_definition = SIP_CATALOG.get_response(200)
+        mismatched_catalog = SIPCatalog(
+            request_definitions=SIP_CATALOG.request_definitions,
+            response_definitions=tuple(
+                ok_definition.model_copy(update={"model_name": "WrongOkResponse"})
+                if definition.status_code == 200
+                else definition
+                for definition in SIP_CATALOG.response_definitions
+            ),
+        )
+        generator = SIPGenerator(GeneratorSettings(), catalog=mismatched_catalog)
+
+        with self.assertRaisesRegex(ValueError, "response model mismatch"):
+            generator._resolve_response_model(
+                ResponseSpec(status_code=200, related_method=SIPMethod.INVITE)
+            )
 
     def test_build_request_defaults_produces_valid_initial_options_payload(self) -> None:
         generator = SIPGenerator(GeneratorSettings())
