@@ -419,6 +419,50 @@ class SIPGeneratorSignatureTests(unittest.TestCase):
                     preconditions=(precondition,),
                 )
 
+    def test_validate_preconditions_requires_originating_request_context_for_response_rules(
+        self,
+    ) -> None:
+        generator = SIPGenerator(GeneratorSettings())
+        response_precondition = "UE originated the corresponding request."
+
+        with self.subTest(context="missing"):
+            with self.assertRaisesRegex(ValueError, response_precondition):
+                generator._validate_preconditions(
+                    context=None,
+                    preconditions=(response_precondition,),
+                )
+
+        with self.subTest(context="missing-call-id"):
+            with self.assertRaisesRegex(ValueError, response_precondition):
+                generator._validate_preconditions(
+                    context=DialogContext(local_tag="ue-tag", local_cseq=1),
+                    preconditions=(response_precondition,),
+                )
+
+        with self.subTest(context="missing-local-tag"):
+            with self.assertRaisesRegex(ValueError, response_precondition):
+                generator._validate_preconditions(
+                    context=DialogContext(call_id="call-1", local_cseq=1),
+                    preconditions=(response_precondition,),
+                )
+
+        with self.subTest(context="missing-local-cseq"):
+            with self.assertRaisesRegex(ValueError, response_precondition):
+                generator._validate_preconditions(
+                    context=DialogContext(call_id="call-1", local_tag="ue-tag"),
+                    preconditions=(response_precondition,),
+                )
+
+        with self.subTest(context="complete"):
+            generator._validate_preconditions(
+                context=DialogContext(
+                    call_id="call-1",
+                    local_tag="ue-tag",
+                    local_cseq=1,
+                ),
+                preconditions=(response_precondition,),
+            )
+
     def test_validate_preconditions_rejects_unknown_rule_strings(self) -> None:
         generator = SIPGenerator(GeneratorSettings())
 

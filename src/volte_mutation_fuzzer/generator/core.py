@@ -53,6 +53,8 @@ _ADVISORY_PRECONDITIONS = frozenset(
     }
 )
 
+_RESPONSE_PRECONDITIONS = frozenset({"UE originated the corresponding request."})
+
 
 class SIPGenerator:
     """Orchestrates request/response model generation from generator contracts."""
@@ -338,6 +340,20 @@ class SIPGenerator:
                 continue
 
             if precondition in _ADVISORY_PRECONDITIONS:
+                continue
+
+            if precondition in _RESPONSE_PRECONDITIONS:
+                has_originating_request_context = (
+                    context is not None
+                    and context.call_id is not None
+                    and context.local_tag is not None
+                    and context.local_cseq > 0
+                )
+                if not has_originating_request_context:
+                    raise ValueError(
+                        f"{precondition} response generation requires request "
+                        "context with call-id/from-tag/local-cseq."
+                    )
                 continue
 
             raise ValueError(f"unsupported request precondition: {precondition}")
