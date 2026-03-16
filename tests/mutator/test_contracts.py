@@ -41,12 +41,23 @@ class MutatorContractTestCase(unittest.TestCase):
 class MutationConfigTests(MutatorContractTestCase):
     def test_defaults_match_minimal_mutator_contract(self) -> None:
         config = MutationConfig()
+        payload = config.model_dump(mode="json")
 
         self.assertIsNone(config.seed)
         self.assertEqual(config.strategy, "default")
         self.assertEqual(config.layer, "auto")
         self.assertEqual(config.max_operations, 1)
         self.assertTrue(config.preserve_valid_model)
+        self.assertEqual(
+            set(payload),
+            {
+                "seed",
+                "strategy",
+                "layer",
+                "max_operations",
+                "preserve_valid_model",
+            },
+        )
 
     def test_normalizes_strategy_and_rejects_invalid_values(self) -> None:
         config = MutationConfig(strategy=" state_breaker ")
@@ -76,13 +87,25 @@ class MutationTargetTests(MutatorContractTestCase):
         self.assertEqual(target.alias, "Call-ID")
         self.assertEqual(target.operator_hint, "replace")
 
+    def test_normalizes_blank_alias_and_operator_hint_to_none(self) -> None:
+        target = MutationTarget(
+            layer="wire",
+            path=" header:Call-ID ",
+            alias="   ",
+            operator_hint="   ",
+        )
+
+        self.assertEqual(target.path, "header:Call-ID")
+        self.assertIsNone(target.alias)
+        self.assertIsNone(target.operator_hint)
+
     def test_rejects_blank_target_path(self) -> None:
         with self.assertRaises(ValueError):
             MutationTarget(layer="wire", path="   ")
 
 
 class MutationRecordTests(MutatorContractTestCase):
-    def test_records_operator_target_and_before_after_values(self) -> None:
+    def test_serializes_operator_target_and_before_after_values(self) -> None:
         record = MutationRecord(
             layer="wire",
             target=MutationTarget(layer="wire", path="header:Call-ID"),
@@ -92,13 +115,14 @@ class MutationRecordTests(MutatorContractTestCase):
             note=" removed duplicate header ",
         )
 
-        payload = record.model_dump()
+        payload = record.model_dump(mode="json", exclude_none=True)
         self.assertEqual(payload["layer"], "wire")
         self.assertEqual(payload["operator"], "delete_header")
         self.assertEqual(payload["target"]["path"], "header:Call-ID")
         self.assertEqual(payload["before"], "Call-ID: call-1")
-        self.assertIsNone(payload["after"])
         self.assertEqual(payload["note"], "removed duplicate header")
+        self.assertNotIn("after", payload)
+        self.assertEqual(payload["target"], {"layer": "wire", "path": "header:Call-ID"})
 
     def test_rejects_record_target_layer_mismatch(self) -> None:
         with self.assertRaises(ValueError):
@@ -110,7 +134,7 @@ class MutationRecordTests(MutatorContractTestCase):
 
 
 class MutatedCaseTests(MutatorContractTestCase):
-    def test_accepts_model_layer_results(self) -> None:
+    def test_model_layer_serializes_packets_records_and_aliases(self) -> None:
         original_packet = self.build_request()
         mutated_packet = original_packet.model_copy(update={"call_id": "call-2"})
         record = MutationRecord(
@@ -129,6 +153,7 @@ class MutatedCaseTests(MutatorContractTestCase):
             strategy=" state_breaker ",
             final_layer="model",
         )
+        payload = case.model_dump(mode="json", by_alias=True, exclude_none=True)
 
         self.assertEqual(case.strategy, "state_breaker")
         self.assertEqual(case.final_layer, "model")
@@ -136,8 +161,17 @@ class MutatedCaseTests(MutatorContractTestCase):
         assert mutated_packet is not None
         self.assertEqual(mutated_packet.call_id, "call-2")
         self.assertEqual(case.records[0].target.path, "call_id")
+        self.assertEqual(payload["final_layer"], "model")
+        self.assertEqual(payload["seed"], 17)
+        self.assertEqual(payload["strategy"], "state_breaker")
+        self.assertEqual(payload["mutated_packet"]["call_id"], "call-2")
+        self.assertIn("from", payload["original_packet"])
+        self.assertNotIn("from_", payload["original_packet"])
+        self.assertEqual(payload["records"][0]["target"]["path"], "call_id")
+        self.assertNotIn("wire_text", payload)
+        self.assertNotIn("packet_bytes", payload)
 
-    def test_accepts_wire_layer_results_without_mutated_packet(self) -> None:
+    def test_wire_layer_serializes_wire_artifact_only(self) -> None:
         original_packet = self.build_request()
 
         case = MutatedCase(
@@ -145,24 +179,38 @@ class MutatedCaseTests(MutatorContractTestCase):
             wire_text="OPTIONS sip:ue@example.com SIP/2.0\r\nCall-ID: broken\r\n\r\n",
             final_layer="wire",
         )
+        payload = case.model_dump(mode="json", by_alias=True, exclude_none=True)
 
         self.assertEqual(case.final_layer, "wire")
         self.assertIsNone(case.mutated_packet)
         wire_text = case.wire_text
         assert wire_text is not None
         self.assertIn("Call-ID: broken", wire_text)
+        self.assertEqual(payload["final_layer"], "wire")
+        self.assertEqual(
+            payload["wire_text"],
+            "OPTIONS sip:ue@example.com SIP/2.0\r\nCall-ID: broken\r\n\r\n",
+        )
+        self.assertEqual(payload["records"], [])
+        self.assertNotIn("mutated_packet", payload)
+        self.assertNotIn("packet_bytes", payload)
 
-    def test_accepts_byte_layer_results(self) -> None:
+    def test_byte_layer_serializes_ascii_packet_bytes(self) -> None:
         original_packet = self.build_response()
 
         case = MutatedCase(
             original_packet=original_packet,
-            packet_bytes=b"SIP/2.0 200 OK\r\n\xff\r\n",
+            packet_bytes=b"SIP/2.0 200 OK\r\n\r\n",
             final_layer="byte",
         )
+        payload = case.model_dump(mode="json", by_alias=True, exclude_none=True)
 
         self.assertEqual(case.final_layer, "byte")
-        self.assertEqual(case.packet_bytes, b"SIP/2.0 200 OK\r\n\xff\r\n")
+        self.assertEqual(case.packet_bytes, b"SIP/2.0 200 OK\r\n\r\n")
+        self.assertEqual(payload["final_layer"], "byte")
+        self.assertEqual(payload["packet_bytes"], "SIP/2.0 200 OK\r\n\r\n")
+        self.assertNotIn("mutated_packet", payload)
+        self.assertNotIn("wire_text", payload)
 
     def test_requires_matching_artifact_for_final_layer(self) -> None:
         original_packet = self.build_request()
