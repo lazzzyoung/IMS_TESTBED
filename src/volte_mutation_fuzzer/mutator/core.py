@@ -14,6 +14,7 @@ from volte_mutation_fuzzer.mutator.contracts import (
 )
 from volte_mutation_fuzzer.mutator.editable import (
     EditableHeader,
+    EditablePacketBytes,
     EditableSIPMessage,
     EditableStartLine,
 )
@@ -91,8 +92,17 @@ _WIRE_TARGET_ALIASES = {
     "content_length": "content_length",
 }
 
+_BYTE_TARGET_ALIASES = {
+    "delimiter:crlf": "delimiter:CRLF",
+    "segment:start-line": "segment:start_line",
+    "segment:start_line": "segment:start_line",
+}
+
 _HEADER_INDEX_PATTERN = re.compile(r"^header\[(\d+)\]$")
+_BYTE_INDEX_PATTERN = re.compile(r"^byte\[(\d+)\]$")
+_BYTE_RANGE_PATTERN = re.compile(r"^range\[(\d+):(\d+)\]$")
 _CONTENT_LENGTH_HEADER = "Content-Length"
+_CRLF_DELIMITER = b"\r\n"
 
 _MISSING = object()
 
@@ -187,6 +197,21 @@ class SIPMutator:
             canonical_name = _WIRE_TARGET_ALIASES.get(raw_name.lower())
             if canonical_name is None:
                 raise ValueError(f"unsupported wire target path: {target.path}")
+            return canonical_name
+
+        if target.layer == "byte":
+            raw_name = target.path.strip()
+            if byte_match := _BYTE_INDEX_PATTERN.fullmatch(raw_name):
+                return f"byte[{int(byte_match.group(1))}]"
+
+            if range_match := _BYTE_RANGE_PATTERN.fullmatch(raw_name):
+                start = int(range_match.group(1))
+                end = int(range_match.group(2))
+                return f"range[{start}:{end}]"
+
+            canonical_name = _BYTE_TARGET_ALIASES.get(raw_name.lower())
+            if canonical_name is None:
+                raise ValueError(f"unsupported byte target path: {target.path}")
             return canonical_name
 
         raise ValueError(f"unsupported target layer: {target.layer}")
@@ -304,9 +329,6 @@ class SIPMutator:
         if effective_layer == "auto":
             effective_layer = "model"
 
-        if effective_layer == "byte":
-            raise ValueError("byte mutation is not implemented yet")
-
         self._validate_supported_strategy(config.strategy, effective_layer)
 
         if effective_layer == "model":
@@ -329,6 +351,18 @@ class SIPMutator:
                 config=config,
                 context=context,
                 target=wire_target,
+            )
+
+        if effective_layer == "byte":
+            editable_message = self._to_editable_message(packet)
+            editable_bytes = self._to_packet_bytes(editable_message)
+            byte_target = target if target is None or target.layer == "byte" else None
+            return self._mutate_bytes(
+                packet=packet,
+                editable_bytes=editable_bytes,
+                config=config,
+                context=context,
+                target=byte_target,
             )
 
         raise ValueError(f"unsupported mutation layer: {effective_layer}")
@@ -408,6 +442,12 @@ class SIPMutator:
             if strategy != "default":
                 raise ValueError(
                     f"unsupported wire mutation strategy: {strategy}"
+                )
+            return
+        if layer == "byte":
+            if strategy != "default":
+                raise ValueError(
+                    f"unsupported byte mutation strategy: {strategy}"
                 )
             return
         raise ValueError(f"unsupported mutation layer: {layer}")
@@ -680,6 +720,171 @@ class SIPMutator:
     def _finalize_wire_message(self, editable_message: EditableSIPMessage) -> str:
         return editable_message.render()
 
+    def _to_packet_bytes(
+        self,
+        editable_message: EditableSIPMessage,
+    ) -> EditablePacketBytes:
+        return EditablePacketBytes.from_message(editable_message)
+
+    def _collect_byte_targets(
+        self,
+        editable_bytes: EditablePacketBytes,
+    ) -> tuple[MutationTarget, ...]:
+        data = editable_bytes.data
+        if not data:
+            return ()
+
+        targets: list[MutationTarget] = [
+            MutationTarget(layer="byte", path=f"byte[{index}]")
+            for index in range(len(data))
+        ]
+        targets.extend(
+            MutationTarget(layer="byte", path=f"range[{index}:{index + 1}]")
+            for index in range(len(data))
+        )
+
+        if self._find_crlf_offsets(data):
+            targets.append(MutationTarget(layer="byte", path="delimiter:CRLF"))
+
+        targets.append(MutationTarget(layer="byte", path="segment:start_line"))
+        return tuple(targets)
+
+    def _apply_byte_operator(
+        self,
+        editable_bytes: EditablePacketBytes,
+        target: MutationTarget,
+        operator: str,
+        rng: random.Random,
+    ) -> tuple[EditablePacketBytes, MutationRecord]:
+        data = editable_bytes.data
+
+        if operator == "flip_byte":
+            index = self._parse_byte_index(target.path)
+            before = data[index]
+            mask = 1 << rng.randrange(8)
+            after = before ^ mask
+            mutated_bytes = editable_bytes.overwrite(index, bytes([after]))
+            record = self._record_mutation(
+                target=target,
+                operator=operator,
+                before=before,
+                after=after,
+            )
+            return mutated_bytes, record
+
+        if operator == "insert_bytes":
+            start, end = self._start_line_range(data)
+            del start
+            insert_at = end
+            inserted = bytes([0xFF, rng.randrange(256)])
+            mutated_bytes = editable_bytes.insert(insert_at, inserted)
+            record = self._record_mutation(
+                target=target,
+                operator=operator,
+                before=b"",
+                after=inserted,
+            )
+            return mutated_bytes, record
+
+        if operator == "delete_range":
+            start, end = self._parse_byte_range(target.path)
+            before = data[start:end]
+            mutated_bytes = editable_bytes.delete(start, end)
+            record = self._record_mutation(
+                target=target,
+                operator=operator,
+                before=before,
+                after=b"",
+            )
+            return mutated_bytes, record
+
+        if operator == "truncate_bytes":
+            _start, end = self._start_line_range(data)
+            truncation_length = rng.randrange(end + 1)
+            before = data
+            mutated_bytes = editable_bytes.truncate(truncation_length)
+            record = self._record_mutation(
+                target=target,
+                operator=operator,
+                before=before[:end],
+                after=mutated_bytes.data,
+            )
+            return mutated_bytes, record
+
+        if operator == "damage_crlf":
+            offsets = self._find_crlf_offsets(data)
+            offset = offsets[rng.randrange(len(offsets))]
+            before = data[offset : offset + len(_CRLF_DELIMITER)]
+            mutated_bytes = editable_bytes.delete(offset, offset + 1)
+            after = mutated_bytes.data[offset : offset + 1]
+            record = self._record_mutation(
+                target=target,
+                operator=operator,
+                before=before,
+                after=after,
+            )
+            return mutated_bytes, record
+
+        raise ValueError(f"unsupported byte operator: {operator}")
+
+    def _mutate_bytes(
+        self,
+        *,
+        packet: PacketModel,
+        editable_bytes: EditablePacketBytes,
+        config: MutationConfig,
+        context: DialogContext | None,
+        target: MutationTarget | None,
+    ) -> MutatedCase:
+        self._snapshot_context(context)
+        rng = self._rng_from_seed(config.seed)
+        current_bytes = editable_bytes
+        records: list[MutationRecord] = []
+
+        if target is not None:
+            selected_target = self._build_canonical_byte_target(target, current_bytes)
+            operator = self._resolve_byte_operator(selected_target, rng)
+            current_bytes, record = self._apply_byte_operator(
+                current_bytes,
+                selected_target,
+                operator,
+                rng,
+            )
+            records.append(record)
+        else:
+            used_paths: set[str] = set()
+            for _ in range(config.max_operations):
+                available_targets = tuple(
+                    candidate
+                    for candidate in self._collect_byte_targets(current_bytes)
+                    if candidate.path not in used_paths
+                )
+                if not available_targets:
+                    break
+
+                selected_target = available_targets[rng.randrange(len(available_targets))]
+                operator = self._resolve_byte_operator(selected_target, rng)
+                current_bytes, record = self._apply_byte_operator(
+                    current_bytes,
+                    selected_target,
+                    operator,
+                    rng,
+                )
+                used_paths.add(selected_target.path)
+                records.append(record)
+
+        return MutatedCase(
+            original_packet=packet,
+            packet_bytes=self._finalize_packet_bytes(current_bytes),
+            records=tuple(records),
+            seed=config.seed,
+            strategy=config.strategy,
+            final_layer="byte",
+        )
+
+    def _finalize_packet_bytes(self, editable_bytes: EditablePacketBytes) -> bytes:
+        return editable_bytes.data
+
     def _build_canonical_wire_target(
         self,
         target: MutationTarget,
@@ -712,6 +917,47 @@ class SIPMutator:
             operator_hint=target.operator_hint,
         )
 
+    def _build_canonical_byte_target(
+        self,
+        target: MutationTarget,
+        editable_bytes: EditablePacketBytes,
+    ) -> MutationTarget:
+        canonical_path = self._normalize_target_name(target)
+        alias = target.alias
+        if alias is None and target.path != canonical_path:
+            alias = target.path
+
+        data = editable_bytes.data
+        if canonical_path.startswith("byte["):
+            index = self._parse_byte_index(canonical_path)
+            if index >= len(data):
+                raise ValueError(
+                    f"byte target is not available for packet: {canonical_path}"
+                )
+        elif canonical_path.startswith("range["):
+            start, end = self._parse_byte_range(canonical_path)
+            if start >= len(data) or end > len(data):
+                raise ValueError(
+                    f"byte target is not available for packet: {canonical_path}"
+                )
+        elif canonical_path == "delimiter:CRLF":
+            if not self._find_crlf_offsets(data):
+                raise ValueError(
+                    f"byte target is not available for packet: {canonical_path}"
+                )
+        elif canonical_path == "segment:start_line":
+            if not data:
+                raise ValueError(
+                    f"byte target is not available for packet: {canonical_path}"
+                )
+
+        return MutationTarget(
+            layer="byte",
+            path=canonical_path,
+            alias=alias,
+            operator_hint=target.operator_hint,
+        )
+
     def _resolve_wire_operator(
         self,
         target: MutationTarget,
@@ -727,6 +973,30 @@ class SIPMutator:
             if len(editable_message.headers) > 1:
                 operators.append("shuffle_header")
             operators = tuple(operators)
+
+        if target.operator_hint is not None:
+            if target.operator_hint not in operators:
+                raise ValueError(
+                    f"operator_hint '{target.operator_hint}' is not supported for {target.path}"
+                )
+            return target.operator_hint
+        return operators[rng.randrange(len(operators))]
+
+    def _resolve_byte_operator(
+        self,
+        target: MutationTarget,
+        rng: random.Random,
+    ) -> str:
+        if target.path.startswith("byte["):
+            operators = ("flip_byte",)
+        elif target.path.startswith("range["):
+            operators = ("delete_range",)
+        elif target.path == "delimiter:CRLF":
+            operators = ("damage_crlf",)
+        elif target.path == "segment:start_line":
+            operators = ("truncate_bytes", "insert_bytes")
+        else:
+            raise ValueError(f"unsupported byte target path: {target.path}")
 
         if target.operator_hint is not None:
             if target.operator_hint not in operators:
@@ -997,6 +1267,39 @@ class SIPMutator:
 
     def _header_snapshot(self, header: EditableHeader) -> tuple[str, str]:
         return (header.name, header.value)
+
+    def _parse_byte_index(self, path: str) -> int:
+        byte_match = _BYTE_INDEX_PATTERN.fullmatch(path)
+        if byte_match is None:
+            raise ValueError(f"unsupported byte target path: {path}")
+        return int(byte_match.group(1))
+
+    def _parse_byte_range(self, path: str) -> tuple[int, int]:
+        range_match = _BYTE_RANGE_PATTERN.fullmatch(path)
+        if range_match is None:
+            raise ValueError(f"unsupported byte target path: {path}")
+        start = int(range_match.group(1))
+        end = int(range_match.group(2))
+        if end <= start:
+            raise ValueError(f"unsupported byte target path: {path}")
+        return start, end
+
+    def _find_crlf_offsets(self, data: bytes) -> list[int]:
+        offsets: list[int] = []
+        start = 0
+        while True:
+            offset = data.find(_CRLF_DELIMITER, start)
+            if offset < 0:
+                break
+            offsets.append(offset)
+            start = offset + 1
+        return offsets
+
+    def _start_line_range(self, data: bytes) -> tuple[int, int]:
+        first_crlf = data.find(_CRLF_DELIMITER)
+        if first_crlf < 0:
+            return (0, len(data))
+        return (0, first_crlf)
 
 
 __all__ = ["PacketDefinition", "SIPMutator"]

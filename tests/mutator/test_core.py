@@ -517,12 +517,15 @@ class SIPMutatorModelMutationFailureTests(SIPMutatorTestCase):
                 MutationConfig(layer="wire"),
             )
 
-    def test_mutate_rejects_byte_layer_until_later_phase(self) -> None:
+    def test_mutate_rejects_unsupported_byte_strategy(self) -> None:
         mutator = SIPMutator()
         packet = self.build_request()
 
-        with self.assertRaisesRegex(ValueError, "byte mutation is not implemented yet"):
-            mutator.mutate(packet, MutationConfig(layer="byte"))
+        with self.assertRaisesRegex(ValueError, "unsupported byte mutation strategy"):
+            mutator.mutate(
+                packet,
+                MutationConfig(layer="byte", strategy="state_breaker"),
+            )
 
 
 if __name__ == "__main__":
