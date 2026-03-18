@@ -12,6 +12,8 @@
 | 분류 | 문서 | 설명 |
 | --- | --- | --- |
 | 기획 | [`기획/PRD.md`](기획/PRD.md) | 프로젝트 목표, 범위, 기능/비기능 요구사항, 단계별 완료 기준 |
+| 기획 | [`기획/GENERATOR_PRD.md`](기획/GENERATOR_PRD.md) | Generator의 책임, 공개 API, 내부 생성 흐름, CLI 경계를 정의한 상세 설계 문서 |
+| 기획 | [`기획/MUTATOR_PRD.md`](기획/MUTATOR_PRD.md) | Mutator의 책임, model/wire/byte 기반 변조 구조, Typer CLI 2가지 입력 모드, 사용자 노출 옵션 정책, 초기 구현 우선순위를 정의한 상세 설계 문서 |
 | 결과 | [`결과/GENERATOR-구현-결과.md`](결과/GENERATOR-구현-결과.md) | Generator 구현 상태, CLI 엔트리포인트 변경, 검증 결과 요약 |
 | 프로토콜 | [`프로토콜/단말-기준-SIP-메시지-분류.md`](프로토콜/단말-기준-SIP-메시지-분류.md) | 단말 기준 SIP Request/Response 전체 분류 문서 |
 | 프로토콜 | [`프로토콜/요청-패킷-예시.md`](프로토콜/요청-패킷-예시.md) | 요청 메시지별 대표 SIP 패킷 예시 |
