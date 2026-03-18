@@ -8,6 +8,8 @@ SIP는 VoIP, VoLTE, IMS 기반 메시징 등에서 세션을 설정·변경·종
 ## 문서 구조
 - [docs/README.md](docs/README.md): 전체 문서 인덱스
 - [docs/기획/PRD.md](docs/기획/PRD.md): 프로젝트 목표, 범위, 요구사항, 완료 기준
+- [docs/기획/GENERATOR_PRD.md](docs/기획/GENERATOR_PRD.md): Generator 상세 설계 문서
+- [docs/기획/MUTATOR_PRD.md](docs/기획/MUTATOR_PRD.md): Mutator 상세 설계 문서 (model/wire/byte 변조 + Typer CLI 설계 포함)
 - [docs/결과/GENERATOR-구현-결과.md](docs/결과/GENERATOR-구현-결과.md): Generator 구현 및 CLI 적용 결과
 - [docs/프로토콜/단말-기준-SIP-메시지-분류.md](docs/프로토콜/단말-기준-SIP-메시지-분류.md): 단말 기준 SIP 메시지 전체 분류
 - [docs/프로토콜/요청-패킷-예시.md](docs/프로토콜/요청-패킷-예시.md): 요청 패킷 예시 문서
@@ -16,7 +18,7 @@ SIP는 VoIP, VoLTE, IMS 기반 메시징 등에서 세션을 설정·변경·종
 
 ## 프로젝트 주요 구성요소
 1. Generator - SIP RFC 문서를 기반으로 하여 정상적인 SIP 메시지를 생성하는 모듈
-2. Mutator - Generator가 생성한 메시지를 변조해 다양한 입력을 생성하는 모듈
+2. Mutator - Generator가 생성한 메시지를 변조해 다양한 입력을 생성하는 모듈 (Typer 기반 CLI 제공 목표)
 3. Sender/Reactor - 생성된 메시지를 단말로 전송하고 단말의 응답 메시지를 처리하는 모듈
 4. Oracle - 퍼징 과정에서 단말의 크래시 또는 이상 동작을 탐지하고 기록하는 모듈
 5. Controller - ADB를 활용해 단말 동작을 제어하는 모듈
@@ -75,6 +77,47 @@ uv run fuzzer --help
 uv run fuzzer request --help
 uv run fuzzer response --help
 ```
+
+## Mutator CLI 설계 방향
+현재 저장소에서 구현 완료된 CLI는 Generator 쪽이지만, `docs/기획/MUTATOR_PRD.md` 기준으로 Mutator도 Typer 기반 CLI를 제공하는 방향을 목표로 한다.
+
+Mutator CLI는 아래 두 가지 입력 모드를 모두 지원해야 한다.
+
+1. **Generator CLI 출력 입력 모드**
+   - Generator CLI가 출력한 JSON baseline을 stdin 또는 파일로 받아 변조 결과를 출력
+   - 예시 목표 형태:
+
+```bash
+uv run fuzzer request OPTIONS | uv run fuzzer mutate packet --strategy header_chaos
+```
+
+2. **내부 generator 호출 모드**
+   - Mutator CLI가 내부적으로 `SIPGenerator`를 호출해 baseline을 만든 뒤 곧바로 변조
+   - 예시 목표 형태:
+
+```bash
+uv run fuzzer mutate request OPTIONS --strategy state_breaker
+uv run fuzzer mutate response 200 INVITE --context '{"call_id":"call-1","local_tag":"ue-tag","local_cseq":7}'
+```
+
+사용자에게 기본적으로 노출할 옵션은 아래와 같다.
+
+- `--strategy`
+- `--layer`
+- `--seed`
+- `--target`
+- `--max-operations`
+- baseline 입력 관련 옵션
+- 출력 포맷 관련 옵션
+
+고급 사용자에게는 필요 시 아래 옵션을 추가로 노출할 수 있다.
+
+- `--operator`
+- `--byte-offset`
+- `--byte-range`
+- `--preserve-valid-model`
+
+이 인터페이스는 아직 설계 단계이며, 자세한 책임 분리와 구현 순서는 `docs/기획/MUTATOR_PRD.md`를 기준으로 한다.
 
 ## CI / 품질 체크
 이 저장소에는 GitHub Actions 기반 CI가 포함되어 있으며, pull request마다 아래 검사를 수행한다.
