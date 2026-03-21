@@ -29,7 +29,7 @@ from volte_mutation_fuzzer.sip.responses import SIPResponse
 
 app = typer.Typer(
     add_completion=False,
-    help="Send generated or mutated SIP artifacts to a softphone-style target and collect socket responses.",
+    help="Send generated or mutated SIP artifacts to softphone or real-ue-direct targets and collect socket responses.",
 )
 
 
@@ -121,17 +121,23 @@ def _parse_stdin_artifact(raw: str) -> SendArtifact:
 
 def _build_target(
     *,
-    host: str,
-    port: int,
+    host: str | None,
+    port: int | None,
+    msisdn: str | None,
     transport: str,
     mode: str,
     timeout_seconds: float,
     label: str | None,
 ) -> TargetEndpoint:
+    if mode == "real-ue-direct" and host is not None and msisdn is not None:
+        raise typer.BadParameter(
+            "real-ue-direct requires exactly one of host or msisdn"
+        )
     try:
         return TargetEndpoint(
             host=host,
             port=port,
+            msisdn=msisdn,
             transport=cast(TransportProtocol, transport),
             mode=cast(TargetMode, mode),
             timeout_seconds=timeout_seconds,
@@ -148,8 +154,27 @@ def _render_result(result: SendReceiveResult) -> str:
 
 @app.command("packet")
 def packet_command(
-    target_host: Annotated[str, typer.Option("--target-host")],
-    target_port: Annotated[int, typer.Option("--target-port")] = 5060,
+    target_host: Annotated[
+        str | None,
+        typer.Option(
+            "--target-host",
+            help="Explicit target IP/host. Required outside real-ue-direct MSISDN resolution.",
+        ),
+    ] = None,
+    target_port: Annotated[
+        int | None,
+        typer.Option(
+            "--target-port",
+            help="Explicit target port override. Defaults to 5060 unless MSISDN resolution returns a contact port.",
+        ),
+    ] = None,
+    target_msisdn: Annotated[
+        str | None,
+        typer.Option(
+            "--target-msisdn",
+            help="Resolve a real UE contact from an MSISDN when using --mode real-ue-direct.",
+        ),
+    ] = None,
     transport: Annotated[str, typer.Option("--transport")] = "UDP",
     mode: Annotated[str, typer.Option("--mode")] = "softphone",
     timeout: Annotated[float, typer.Option("--timeout")] = 2.0,
@@ -167,6 +192,7 @@ def packet_command(
     target = _build_target(
         host=target_host,
         port=target_port,
+        msisdn=target_msisdn,
         transport=transport,
         mode=mode,
         timeout_seconds=timeout,
@@ -183,8 +209,27 @@ def packet_command(
 @app.command("request")
 def request_command(
     method: SIPMethod,
-    target_host: Annotated[str, typer.Option("--target-host")],
-    target_port: Annotated[int, typer.Option("--target-port")] = 5060,
+    target_host: Annotated[
+        str | None,
+        typer.Option(
+            "--target-host",
+            help="Explicit target IP/host. Required outside real-ue-direct MSISDN resolution.",
+        ),
+    ] = None,
+    target_port: Annotated[
+        int | None,
+        typer.Option(
+            "--target-port",
+            help="Explicit target port override. Defaults to 5060 unless MSISDN resolution returns a contact port.",
+        ),
+    ] = None,
+    target_msisdn: Annotated[
+        str | None,
+        typer.Option(
+            "--target-msisdn",
+            help="Resolve a real UE contact from an MSISDN when using --mode real-ue-direct.",
+        ),
+    ] = None,
     transport: Annotated[str, typer.Option("--transport")] = "UDP",
     mode: Annotated[str, typer.Option("--mode")] = "softphone",
     timeout: Annotated[float, typer.Option("--timeout")] = 2.0,
@@ -215,6 +260,7 @@ def request_command(
     target = _build_target(
         host=target_host,
         port=target_port,
+        msisdn=target_msisdn,
         transport=transport,
         mode=mode,
         timeout_seconds=timeout,
@@ -232,9 +278,28 @@ def request_command(
 def response_command(
     status_code: int,
     related_method: SIPMethod,
-    target_host: Annotated[str, typer.Option("--target-host")],
     context: Annotated[str, typer.Option("--context")],
-    target_port: Annotated[int, typer.Option("--target-port")] = 5060,
+    target_host: Annotated[
+        str | None,
+        typer.Option(
+            "--target-host",
+            help="Explicit target IP/host. Required outside real-ue-direct MSISDN resolution.",
+        ),
+    ] = None,
+    target_port: Annotated[
+        int | None,
+        typer.Option(
+            "--target-port",
+            help="Explicit target port override. Defaults to 5060 unless MSISDN resolution returns a contact port.",
+        ),
+    ] = None,
+    target_msisdn: Annotated[
+        str | None,
+        typer.Option(
+            "--target-msisdn",
+            help="Resolve a real UE contact from an MSISDN when using --mode real-ue-direct.",
+        ),
+    ] = None,
     transport: Annotated[str, typer.Option("--transport")] = "UDP",
     mode: Annotated[str, typer.Option("--mode")] = "softphone",
     timeout: Annotated[float, typer.Option("--timeout")] = 2.0,
@@ -265,6 +330,7 @@ def response_command(
     target = _build_target(
         host=target_host,
         port=target_port,
+        msisdn=target_msisdn,
         transport=transport,
         mode=mode,
         timeout_seconds=timeout,

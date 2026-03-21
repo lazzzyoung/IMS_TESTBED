@@ -15,6 +15,7 @@
 | 기획 | [`기획/GENERATOR_PRD.md`](기획/GENERATOR_PRD.md) | Generator의 책임, 공개 API, 내부 생성 흐름, CLI 경계를 정의한 상세 설계 문서 |
 | 기획 | [`기획/MUTATOR_PRD.md`](기획/MUTATOR_PRD.md) | Mutator의 책임, model/wire/byte 기반 변조 구조, Typer CLI 2가지 입력 모드, 사용자 노출 옵션 정책, 초기 구현 우선순위를 정의한 상세 설계 문서 |
 | 기획 | [`기획/PHASE4_PRD.md`](기획/PHASE4_PRD.md) | softphone-first Sender/Reactor의 1차 범위, capstone reference mapping, 공개 인터페이스, CLI 표면을 정의한 Phase 4 설계 문서 |
+| 기획 | [`기획/REAL_UE_DIRECT_PRD.md`](기획/REAL_UE_DIRECT_PRD.md) | capstone dumpipe 경로를 현재 sender에 이식하는 real-ue-direct 1차 범위, resolver 순서, route readiness 정책, 공개 CLI 규칙을 고정한 상세 설계 문서 |
 | 결과 | [`결과/GENERATOR-구현-결과.md`](결과/GENERATOR-구현-결과.md) | Generator 구현 상태, CLI 엔트리포인트 변경, 검증 결과 요약 |
 | 결과 | [`결과/PHASE4-SENDER-REACTOR-리서치.md`](결과/PHASE4-SENDER-REACTOR-리서치.md) | 현재 코드베이스, 이전 연구실 Kamailio/Open5GS 실험 자산, 공식 문서를 바탕으로 Phase 4 Sender/Reactor의 가능한 구현 경로를 비교한 사전 리서치 문서 |
 | 결과 | [`결과/PHASE4-REAL-UE-SOFTPHONE-후속-리서치.md`](결과/PHASE4-REAL-UE-SOFTPHONE-후속-리서치.md) | SDR/USRP 기반 실제 UE 경로와 softphone 경로를 별도로 깊게 조사하고, Linphone/Baresip/PJSIP 후보를 비교한 후속 리서치 문서 |

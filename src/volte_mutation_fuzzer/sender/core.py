@@ -15,6 +15,13 @@ from volte_mutation_fuzzer.sender.contracts import (
     SocketObservation,
     TargetEndpoint,
 )
+from volte_mutation_fuzzer.sender.real_ue import (
+    RealUEDirectError,
+    RealUEDirectResolver,
+    RealUEDirectRouteError,
+    check_route_to_target,
+    prepare_real_ue_direct_payload,
+)
 from volte_mutation_fuzzer.sip.render import PacketModel, render_packet_bytes
 
 _STATUS_LINE_PATTERN: Final[re.Pattern[str]] = re.compile(
@@ -26,7 +33,7 @@ _CRLF = "\r\n"
 
 
 class SIPSenderReactor:
-    """Softphone-first Sender/Reactor that sends one artifact and collects socket evidence."""
+    """Sender/Reactor that can target softphones and real-ue-direct dumpipe flows."""
 
     def send_artifact(
         self,
@@ -35,23 +42,43 @@ class SIPSenderReactor:
         *,
         collect_all_responses: bool = False,
     ) -> SendReceiveResult:
-        payload = self._build_payload(artifact)
         correlation_key = self._build_correlation_key(artifact.packet)
         started_at = time.time()
+        observer_events: list[str] = []
+        resolved_target = target
+        payload = b""
 
         try:
-            if target.transport == "UDP":
-                observations = self._send_udp(
+            if target.mode == "real-ue-direct":
+                (
+                    resolved_target,
                     payload,
+                    observations,
+                    direct_events,
+                ) = self._send_real_ue_direct(
+                    artifact,
                     target,
                     collect_all_responses=collect_all_responses,
                 )
+                observer_events.extend(direct_events)
             else:
-                observations = self._send_tcp(payload, target)
-        except OSError as exc:
+                payload = self._build_payload(artifact)
+                if target.transport == "UDP":
+                    observations = self._send_udp(
+                        payload,
+                        target,
+                        collect_all_responses=collect_all_responses,
+                    )
+                else:
+                    observations = self._send_tcp(payload, target)
+        except (OSError, RealUEDirectError) as exc:
+            if isinstance(exc, RealUEDirectError):
+                observer_events.extend(exc.observer_events)
+                if exc.resolved_target is not None:
+                    resolved_target = exc.resolved_target
             finished_at = time.time()
             return SendReceiveResult(
-                target=target,
+                target=resolved_target,
                 artifact_kind=artifact.artifact_kind,
                 correlation_key=correlation_key,
                 bytes_sent=len(payload),
@@ -60,11 +87,12 @@ class SIPSenderReactor:
                 send_started_at=started_at,
                 send_completed_at=finished_at,
                 error=str(exc),
+                observer_events=tuple(observer_events),
             )
 
         finished_at = time.time()
         return SendReceiveResult(
-            target=target,
+            target=resolved_target,
             artifact_kind=artifact.artifact_kind,
             correlation_key=correlation_key,
             bytes_sent=len(payload),
@@ -72,6 +100,7 @@ class SIPSenderReactor:
             responses=tuple(observations),
             send_started_at=started_at,
             send_completed_at=finished_at,
+            observer_events=tuple(observer_events),
         )
 
     def send_packet(
@@ -132,6 +161,57 @@ class SIPSenderReactor:
             cseq_sequence=getattr(cseq, "sequence", None),
         )
 
+    def _send_real_ue_direct(
+        self,
+        artifact: SendArtifact,
+        target: TargetEndpoint,
+        *,
+        collect_all_responses: bool,
+    ) -> tuple[TargetEndpoint, bytes, list[SocketObservation], tuple[str, ...]]:
+        resolved = RealUEDirectResolver().resolve(target)
+        resolved_target = target.model_copy(
+            update={
+                "host": resolved.host,
+                "port": resolved.port,
+                "label": resolved.label,
+            },
+            deep=True,
+        )
+
+        route_result = check_route_to_target(resolved.host)
+        observer_events = [*resolved.observer_events]
+        if route_result.ok:
+            observer_events.append(f"route-check:ok:{route_result.detail}")
+        else:
+            observer_events.append(f"route-check:missing:{route_result.detail}")
+            raise RealUEDirectRouteError(
+                "real-ue-direct route check failed for "
+                f"{resolved.host}: {route_result.detail}. "
+                "add a host or UE IMS subnet route before retrying",
+                observer_events=tuple(observer_events),
+                resolved_target=resolved_target,
+            )
+
+        observations: list[SocketObservation] = []
+        with socket.socket(socket.AF_INET, socket.SOCK_DGRAM) as sock:
+            sock.settimeout(target.timeout_seconds)
+            sock.connect((resolved.host, resolved.port))
+            local_host, local_port = sock.getsockname()
+            observer_events.append(f"direct-local:{local_host}:{local_port}")
+            payload, normalization_events = prepare_real_ue_direct_payload(
+                artifact,
+                local_host=local_host,
+                local_port=int(local_port),
+            )
+            observer_events.extend(normalization_events)
+            sock.send(payload)
+            observations = self._read_udp_observations(
+                sock,
+                collect_all_responses=collect_all_responses,
+            )
+
+        return resolved_target, payload, observations, tuple(observer_events)
+
     def _send_udp(
         self,
         payload: bytes,
@@ -139,30 +219,43 @@ class SIPSenderReactor:
         *,
         collect_all_responses: bool,
     ) -> list[SocketObservation]:
-        observations: list[SocketObservation] = []
+        assert target.host is not None
+        assert target.port is not None
         with socket.socket(socket.AF_INET, socket.SOCK_DGRAM) as sock:
             sock.settimeout(target.timeout_seconds)
             sock.sendto(payload, (target.host, target.port))
+            return self._read_udp_observations(
+                sock,
+                collect_all_responses=collect_all_responses,
+            )
 
-            while len(observations) < _MAX_UDP_RESPONSES:
-                try:
-                    data, addr = sock.recvfrom(_TCP_READ_SIZE)
-                except TimeoutError:
-                    break
+    def _read_udp_observations(
+        self,
+        sock: socket.socket,
+        *,
+        collect_all_responses: bool,
+    ) -> list[SocketObservation]:
+        observations: list[SocketObservation] = []
+        while len(observations) < _MAX_UDP_RESPONSES:
+            try:
+                data, addr = sock.recvfrom(_TCP_READ_SIZE)
+            except TimeoutError:
+                break
 
-                observation = self._parse_response(data, addr)
-                observations.append(observation)
-                if (
-                    not collect_all_responses
-                    and observation.classification != "provisional"
-                ):
-                    break
-
+            observation = self._parse_response(data, addr)
+            observations.append(observation)
+            if (
+                not collect_all_responses
+                and observation.classification != "provisional"
+            ):
+                break
         return observations
 
     def _send_tcp(
         self, payload: bytes, target: TargetEndpoint
     ) -> list[SocketObservation]:
+        assert target.host is not None
+        assert target.port is not None
         chunks: list[bytes] = []
         with socket.create_connection(
             (target.host, target.port), timeout=target.timeout_seconds

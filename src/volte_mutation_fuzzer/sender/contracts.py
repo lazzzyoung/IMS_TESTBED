@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+from ipaddress import ip_address
 from typing import Literal
 
 from pydantic import (
@@ -48,13 +49,14 @@ class TargetEndpoint(BaseModel):
     model_config = ConfigDict(extra="forbid", validate_assignment=True)
 
     mode: TargetMode = "softphone"
-    host: str = Field(min_length=1)
-    port: int = Field(default=5060, ge=1, le=65535)
+    host: str | None = Field(default=None, min_length=1)
+    port: int | None = Field(default=None, ge=1, le=65535)
+    msisdn: str | None = Field(default=None, min_length=1)
     transport: TransportProtocol = "UDP"
     timeout_seconds: float = Field(default=2.0, gt=0.0, le=60.0)
     label: str | None = None
 
-    @field_validator("host", "label", mode="before")
+    @field_validator("host", "label", "msisdn", mode="before")
     @classmethod
     def _normalize_text(cls, value: object) -> object:
         if not isinstance(value, str):
@@ -68,6 +70,38 @@ class TargetEndpoint(BaseModel):
         if not isinstance(value, str):
             return value
         return value.strip().upper()
+
+    @model_validator(mode="after")
+    def _validate_target_shape(self) -> "TargetEndpoint":
+        if self.mode == "real-ue-direct":
+            if self.host is None and self.msisdn is None:
+                raise ValueError(
+                    "real-ue-direct requires at least one of host or msisdn"
+                )
+            if self.transport != "UDP":
+                raise ValueError("real-ue-direct currently supports UDP only")
+            if self.host is not None:
+                try:
+                    parsed = ip_address(self.host)
+                except ValueError as exc:
+                    raise ValueError(
+                        "real-ue-direct target host must be an IPv4 address"
+                    ) from exc
+                if parsed.version != 4:
+                    raise ValueError(
+                        "real-ue-direct target host must be an IPv4 address"
+                    )
+                if self.port is None:
+                    object.__setattr__(self, "port", 5060)
+            return self
+
+        if self.msisdn is not None:
+            raise ValueError("msisdn is only supported in real-ue-direct mode")
+        if self.host is None:
+            raise ValueError("host must be set")
+        if self.port is None:
+            object.__setattr__(self, "port", 5060)
+        return self
 
 
 class SendArtifact(BaseModel):

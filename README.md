@@ -155,6 +155,41 @@ uv run fuzzer mutate request OPTIONS --layer wire | uv run fuzzer send packet --
 - `invalid_response`
 - `send_error`
 
+## real-ue-direct(dumpipe) quick start
+현재 브랜치에는 **실제 UE IMS IP로 직접 송신하는 `real-ue-direct` 경로**가 포함된다.
+이 경로는 capstone의 dumpipe 아이디어를 현재 sender에 맞게 좁혀 넣은 것이다.
+
+제약:
+- 1차 구현은 **UDP only**
+- `--target-host` 또는 `--target-msisdn` 중 하나만 사용
+- 시스템 route는 자동 변경하지 않고, **route readiness check만 수행**
+- `--target-msisdn` 경로는 **등록된 UE contact**가 resolver에서 보일 때만 동작
+
+직접 UE IMS IP를 알고 있을 때:
+
+```bash
+uv run fuzzer send request OPTIONS \
+  --mode real-ue-direct \
+  --target-host 10.20.20.2 \
+  --target-port 5060
+```
+
+MSISDN으로 contact를 풀 때:
+
+```bash
+uv run fuzzer send request OPTIONS \
+  --mode real-ue-direct \
+  --target-msisdn 222222
+```
+
+resolver 기본값은 capstone 실험망을 따른다.
+- `VMF_REAL_UE_SCSCF_CONTAINER` (default: `scscf`)
+- `VMF_REAL_UE_PCSCF_CONTAINER` (default: `pcscf`)
+- `VMF_REAL_UE_PYHSS_URL` (optional)
+- `VMF_REAL_UE_PCSCF_LOG_TAIL` (default: `500`)
+
+CLI 결과의 `observer_events`에는 resolver, route check, direct normalization 정보가 함께 기록된다.
+
 ## Softphone 실행 quick start
 현재 브랜치에는 **Baresip 실행용 poe task** 가 포함된다.
 이번 task는 softphone **설치나 SIP 계정 provisioning을 자동화하지 않고**, 이미 준비된 로컬 Baresip 실행만 담당한다.
