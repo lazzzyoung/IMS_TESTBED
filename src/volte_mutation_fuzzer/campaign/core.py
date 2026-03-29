@@ -33,6 +33,13 @@ from volte_mutation_fuzzer.sip.common import SIPMethod
 # Tier definitions
 # ---------------------------------------------------------------------------
 
+# layer별 지원 전략 매핑 — mutator/core.py _validate_supported_strategy와 동기화
+_SUPPORTED_STRATEGIES: dict[str, frozenset[str]] = {
+    "model": frozenset({"default", "state_breaker"}),
+    "wire": frozenset({"default"}),
+    "byte": frozenset({"default"}),
+}
+
 TIER_DEFINITIONS: dict[str, TierDefinition] = {
     "tier1": TierDefinition(
         methods=("OPTIONS", "INVITE", "MESSAGE", "REGISTER"),
@@ -83,13 +90,14 @@ class CaseGenerator:
         seen: set[tuple[str, str, str]] = set()
         combos: list[tuple[str, str, str]] = []
         for tier in tiers:
-            methods = [m for m in tier.methods if m in (config.strategies or tier.strategies) or True]
             for method in tier.methods:
                 for layer in tier.layers:
                     if layer not in config.layers:
                         continue
                     for strategy in tier.strategies:
                         if strategy not in config.strategies:
+                            continue
+                        if strategy not in _SUPPORTED_STRATEGIES.get(layer, frozenset()):
                             continue
                         key = (method, layer, strategy)
                         if key not in seen:
@@ -233,7 +241,11 @@ class CampaignExecutor:
                         f"  [CRASH] reproduction: {case_result.reproduction_cmd}",
                         file=sys.stderr,
                     )
-
+                if case_result.verdict == "unknown":
+                    print(
+                        f"  [ERROR] {case_result.reason}",
+                        file=sys.stderr,
+                    )
 
                 if config.cooldown_seconds > 0:
                     time.sleep(config.cooldown_seconds)

@@ -16,6 +16,7 @@ from volte_mutation_fuzzer.campaign.core import (
     CaseGenerator,
     ResultStore,
     TIER_DEFINITIONS,
+    _SUPPORTED_STRATEGIES,
 )
 from tests.sender._server import UDPResponder
 
@@ -32,18 +33,16 @@ class CaseGeneratorTests(unittest.TestCase):
         return CampaignConfig(**defaults)
 
     def test_tier1_generates_correct_combinations(self) -> None:
-        tier = TIER_DEFINITIONS["tier1"]
+        # tier1: 4 methods × (model×2 + wire×1 + byte×1) = 16 valid combos
         cfg = self._config(scope="tier1", max_cases=10000)
         cases = list(CaseGenerator(cfg).generate())
-        combo_count = len(tier.methods) * len(tier.layers) * len(tier.strategies)
-        self.assertEqual(len(cases), min(combo_count, 10000))
+        self.assertEqual(len(cases), 16)
 
     def test_tier1_combination_count(self) -> None:
-        tier = TIER_DEFINITIONS["tier1"]
+        # wire/state_breaker and byte/state_breaker are filtered out
         cfg = self._config(scope="tier1", max_cases=10000)
         cases = list(CaseGenerator(cfg).generate())
-        expected = len(tier.methods) * len(tier.layers) * len(tier.strategies)
-        self.assertEqual(len(cases), expected)
+        self.assertEqual(len(cases), 16)
 
     def test_max_cases_caps_output(self) -> None:
         cfg = self._config(scope="tier1", max_cases=5)
@@ -80,6 +79,23 @@ class CaseGeneratorTests(unittest.TestCase):
         cases = list(CaseGenerator(cfg).generate())
         methods_seen = {c.method for c in cases}
         self.assertEqual(methods_seen, set(tier.methods))
+
+    def test_no_invalid_layer_strategy_combinations(self) -> None:
+        cfg = self._config(scope="tier1", max_cases=10000)
+        cases = list(CaseGenerator(cfg).generate())
+        for case in cases:
+            supported = _SUPPORTED_STRATEGIES.get(case.layer, frozenset())
+            self.assertIn(
+                case.strategy,
+                supported,
+                f"Invalid combo: layer={case.layer} strategy={case.strategy}",
+            )
+
+    def test_wire_layer_only_generates_default_strategy(self) -> None:
+        cfg = self._config(scope="tier1", layers=("wire",), max_cases=10000)
+        cases = list(CaseGenerator(cfg).generate())
+        for case in cases:
+            self.assertEqual(case.strategy, "default")
 
     def test_all_scope_includes_all_tiers(self) -> None:
         cfg = self._config(scope="all", max_cases=100000)
@@ -338,3 +354,26 @@ class CampaignExecutorTests(unittest.TestCase):
         self.assertIn("--seed", cmd)
         self.assertIn(responder.host, cmd)
 
+    def test_unknown_verdict_prints_error_to_stderr(self) -> None:
+        import io
+        from unittest.mock import patch as mock_patch
+
+        with tempfile.TemporaryDirectory() as tmpdir:
+            out_path = str(Path(tmpdir) / "campaign.jsonl")
+            cfg = self._make_config(
+                "127.0.0.1", 19998,
+                max_cases=1,
+                output_path=out_path,
+                timeout_seconds=0.1,
+                layers=("model",),
+                strategies=("default",),
+            )
+            executor = CampaignExecutor(cfg)
+            with mock_patch.object(executor._generator, "generate_request", side_effect=RuntimeError("test error")):
+                stderr_buf = io.StringIO()
+                with mock_patch("sys.stderr", stderr_buf):
+                    executor.run()
+                output = stderr_buf.getvalue()
+
+        self.assertIn("[ERROR]", output)
+        self.assertIn("test error", output)
