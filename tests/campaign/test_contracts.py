@@ -38,13 +38,13 @@ class CampaignConfigTests(unittest.TestCase):
             CampaignConfig(target_host="127.0.0.1", max_cases=0)
 
     def test_scope_valid_values(self) -> None:
-        for scope in ("tier1", "tier2", "tier3", "tier4", "all"):
+        for scope in ("tier1", "tier2", "tier3", "tier4", "tier5", "all"):
             cfg = CampaignConfig(target_host="127.0.0.1", scope=scope)
             self.assertEqual(cfg.scope, scope)
 
     def test_scope_invalid(self) -> None:
         with self.assertRaises(ValidationError):
-            CampaignConfig(target_host="127.0.0.1", scope="tier5")
+            CampaignConfig(target_host="127.0.0.1", scope="tier6")
 
     def test_extra_fields_forbidden(self) -> None:
         with self.assertRaises(ValidationError):

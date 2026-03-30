@@ -15,6 +15,8 @@ from volte_mutation_fuzzer.campaign.contracts import (
     CaseSpec,
     TierDefinition,
 )
+from volte_mutation_fuzzer.dialog.core import DialogOrchestrator
+from volte_mutation_fuzzer.dialog.scenarios import scenario_for_method
 from volte_mutation_fuzzer.generator.contracts import GeneratorSettings, RequestSpec
 from volte_mutation_fuzzer.generator.core import SIPGenerator
 from volte_mutation_fuzzer.mutator.contracts import MutationConfig, MutatedCase
@@ -61,6 +63,12 @@ TIER_DEFINITIONS: dict[str, TierDefinition] = {
         layers=("wire", "byte"),
         strategies=("default",),
     ),
+    "tier5": TierDefinition(
+        methods=("CANCEL", "ACK", "BYE", "UPDATE", "REFER", "INFO"),
+        layers=("model", "wire"),
+        strategies=("default",),
+        requires_dialog=True,
+    ),
 }
 
 
@@ -88,9 +96,13 @@ class CaseGenerator:
 
         # Collect unique ordered combinations from all relevant tiers
         seen: set[tuple[str, str, str]] = set()
-        combos: list[tuple[str, str, str]] = []
+        combos: list[tuple[str, str, str, str | None]] = []
         for tier in tiers:
             for method in tier.methods:
+                dialog_scenario: str | None = None
+                if tier.requires_dialog:
+                    sc = scenario_for_method(method)
+                    dialog_scenario = sc.scenario_type if sc is not None else None
                 for layer in tier.layers:
                     if layer not in config.layers:
                         continue
@@ -104,9 +116,9 @@ class CaseGenerator:
                         key = (method, layer, strategy)
                         if key not in seen:
                             seen.add(key)
-                            combos.append(key)
+                            combos.append((method, layer, strategy, dialog_scenario))
 
-        for case_id, (method, layer, strategy) in enumerate(combos):
+        for case_id, (method, layer, strategy, dialog_scenario) in enumerate(combos):
             if case_id >= config.max_cases:
                 break
             yield CaseSpec(
@@ -115,6 +127,7 @@ class CaseGenerator:
                 method=method,
                 layer=layer,
                 strategy=strategy,
+                dialog_scenario=dialog_scenario,
             )
 
 
@@ -261,6 +274,11 @@ class CampaignExecutor:
                         f"  [STACK_FAILURE] reproduction: {case_result.reproduction_cmd}",
                         file=sys.stderr,
                     )
+                if case_result.verdict == "setup_failed":
+                    print(
+                        f"  [SETUP_FAILED] {case_result.reason}",
+                        file=sys.stderr,
+                    )
                 if case_result.verdict == "unknown":
                     print(
                         f"  [ERROR] {case_result.reason}",
@@ -292,6 +310,11 @@ class CampaignExecutor:
         return campaign
 
     def _execute_case(self, spec: CaseSpec) -> CaseResult:
+        if spec.dialog_scenario is not None:
+            return self._execute_dialog_case(spec)
+        return self._execute_stateless_case(spec)
+
+    def _execute_stateless_case(self, spec: CaseSpec) -> CaseResult:
         config = self._config
         timestamp = time.time()
         error: str | None = None
@@ -367,6 +390,128 @@ class CampaignExecutor:
                 timestamp=timestamp,
             )
 
+    def _execute_dialog_case(self, spec: CaseSpec) -> CaseResult:
+        config = self._config
+        timestamp = time.time()
+
+        scenario = scenario_for_method(spec.method)
+        if scenario is None:
+            return CaseResult(
+                case_id=spec.case_id,
+                seed=spec.seed,
+                method=spec.method,
+                layer=spec.layer,
+                strategy=spec.strategy,
+                verdict="unknown",
+                reason=f"no dialog scenario found for method {spec.method}",
+                elapsed_ms=0.0,
+                reproduction_cmd=self._build_reproduction_cmd(spec),
+                error="no scenario",
+                timestamp=timestamp,
+                dialog_scenario=spec.dialog_scenario,
+                setup_succeeded=False,
+            )
+
+        mutation_config = MutationConfig(
+            seed=spec.seed,
+            strategy=spec.strategy,
+            layer=spec.layer,
+        )
+
+        try:
+            orchestrator = DialogOrchestrator(
+                self._generator, self._mutator, self._target
+            )
+            exchange = orchestrator.execute(scenario, mutation_config)
+        except Exception as exc:
+            return CaseResult(
+                case_id=spec.case_id,
+                seed=spec.seed,
+                method=spec.method,
+                layer=spec.layer,
+                strategy=spec.strategy,
+                verdict="unknown",
+                reason=f"dialog executor error: {exc}",
+                elapsed_ms=0.0,
+                reproduction_cmd=self._build_reproduction_cmd(spec),
+                error=str(exc),
+                timestamp=timestamp,
+                dialog_scenario=spec.dialog_scenario,
+                setup_succeeded=False,
+            )
+
+        if not exchange.setup_succeeded:
+            return CaseResult(
+                case_id=spec.case_id,
+                seed=spec.seed,
+                method=spec.method,
+                layer=spec.layer,
+                strategy=spec.strategy,
+                verdict="setup_failed",
+                reason=exchange.error or "dialog setup failed",
+                elapsed_ms=0.0,
+                reproduction_cmd=self._build_reproduction_cmd(spec),
+                timestamp=timestamp,
+                dialog_scenario=spec.dialog_scenario,
+                setup_succeeded=False,
+            )
+
+        # Evaluate fuzz step result through oracle
+        fuzz_result = exchange.fuzz_result
+        if fuzz_result is None or fuzz_result.send_result is None:
+            return CaseResult(
+                case_id=spec.case_id,
+                seed=spec.seed,
+                method=spec.method,
+                layer=spec.layer,
+                strategy=spec.strategy,
+                verdict="unknown",
+                reason="fuzz step produced no send result",
+                elapsed_ms=0.0,
+                reproduction_cmd=self._build_reproduction_cmd(spec),
+                timestamp=timestamp,
+                dialog_scenario=spec.dialog_scenario,
+                setup_succeeded=True,
+            )
+
+        send_result = fuzz_result.send_result
+        oracle_context = OracleContext(
+            method=spec.method,
+            timeout_threshold_ms=config.timeout_seconds * 1000,
+        )
+        process_name = config.process_name if config.check_process else None
+        verdict = self._oracle.evaluate(
+            send_result,
+            oracle_context,
+            process_name=process_name,
+            log_path=config.log_path,
+        )
+
+        raw_response: str | None = None
+        if (
+            verdict.verdict in ("suspicious", "crash", "stack_failure")
+            and send_result.final_response
+        ):
+            raw_response = send_result.final_response.raw_text or None
+
+        return CaseResult(
+            case_id=spec.case_id,
+            seed=spec.seed,
+            method=spec.method,
+            layer=spec.layer,
+            strategy=spec.strategy,
+            verdict=verdict.verdict,
+            reason=verdict.reason,
+            response_code=verdict.response_code,
+            elapsed_ms=verdict.elapsed_ms,
+            process_alive=verdict.process_alive,
+            raw_response=raw_response,
+            reproduction_cmd=self._build_reproduction_cmd(spec),
+            timestamp=timestamp,
+            dialog_scenario=spec.dialog_scenario,
+            setup_succeeded=True,
+        )
+
     def _artifact_from_mutated(self, mutated: MutatedCase) -> SendArtifact:
         if mutated.final_layer == "wire" and mutated.wire_text is not None:
             return SendArtifact.from_wire_text(mutated.wire_text)
@@ -401,5 +546,7 @@ class CampaignExecutor:
                 summary.crash += 1
             case "stack_failure":
                 summary.stack_failure += 1
+            case "setup_failed":
+                summary.setup_failed += 1
             case _:
                 summary.unknown += 1

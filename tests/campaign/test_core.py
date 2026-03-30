@@ -377,3 +377,96 @@ class CampaignExecutorTests(unittest.TestCase):
 
         self.assertIn("[ERROR]", output)
         self.assertIn("test error", output)
+
+
+# ---------------------------------------------------------------------------
+# Tier5 / dialog fuzzing tests
+# ---------------------------------------------------------------------------
+
+
+class Tier5CaseGeneratorTests(unittest.TestCase):
+    def _config(self, **kwargs) -> CampaignConfig:
+        defaults = dict(target_host="127.0.0.1")
+        defaults.update(kwargs)
+        return CampaignConfig(**defaults)
+
+    def test_tier5_generates_dialog_scenarios(self) -> None:
+        cfg = self._config(
+            scope="tier5",
+            layers=("model",),
+            strategies=("default",),
+            max_cases=10000,
+        )
+        cases = list(CaseGenerator(cfg).generate())
+        # All tier5 cases should have a dialog_scenario set
+        for case in cases:
+            self.assertIsNotNone(
+                case.dialog_scenario,
+                f"Expected dialog_scenario for method {case.method}",
+            )
+
+    def test_tier5_methods_are_dialog_methods(self) -> None:
+        cfg = self._config(scope="tier5", max_cases=10000)
+        cases = list(CaseGenerator(cfg).generate())
+        expected_methods = {"CANCEL", "ACK", "BYE", "UPDATE", "REFER", "INFO"}
+        methods_seen = {c.method for c in cases}
+        self.assertEqual(methods_seen, expected_methods)
+
+    def test_tier5_scenario_types_are_valid(self) -> None:
+        from volte_mutation_fuzzer.dialog.contracts import DialogScenarioType
+        valid_types = {t.value for t in DialogScenarioType}
+        cfg = self._config(
+            scope="tier5",
+            layers=("model",),
+            strategies=("default",),
+            max_cases=10000,
+        )
+        cases = list(CaseGenerator(cfg).generate())
+        for case in cases:
+            if case.dialog_scenario is not None:
+                self.assertIn(case.dialog_scenario, valid_types)
+
+    def test_tier1_cases_have_no_dialog_scenario(self) -> None:
+        cfg = self._config(scope="tier1", max_cases=10000)
+        cases = list(CaseGenerator(cfg).generate())
+        for case in cases:
+            self.assertIsNone(case.dialog_scenario)
+
+
+class DialogCaseExecutionTests(unittest.TestCase):
+    """Test that dialog cases (spec.dialog_scenario set) use _execute_dialog_case."""
+
+    def _make_config(self, host: str, port: int, **kwargs) -> CampaignConfig:
+        defaults = dict(
+            target_host=host,
+            target_port=port,
+            scope="tier5",
+            layers=("model",),
+            strategies=("default",),
+            max_cases=2,
+            timeout_seconds=0.3,
+            cooldown_seconds=0.0,
+            check_process=False,
+        )
+        defaults.update(kwargs)
+        return CampaignConfig(**defaults)
+
+    def test_dialog_case_setup_failed_on_silent_target(self) -> None:
+        """A silent target causes setup_failed verdicts for dialog cases."""
+        with tempfile.TemporaryDirectory() as tmpdir:
+            out_path = str(Path(tmpdir) / "campaign.jsonl")
+            cfg = self._make_config("127.0.0.1", 19997, output_path=out_path)
+            executor = CampaignExecutor(cfg)
+            result = executor.run()
+
+        # All cases should be setup_failed (target doesn't respond to INVITE)
+        self.assertGreater(result.summary.setup_failed, 0)
+        self.assertEqual(result.summary.total, result.summary.setup_failed + result.summary.unknown)
+
+    def test_dialog_case_verdict_in_summary(self) -> None:
+        """Summary properly counts setup_failed."""
+        summary = CampaignSummary()
+        from volte_mutation_fuzzer.campaign.core import CampaignExecutor as CE
+        CE._update_summary(summary, "setup_failed")
+        self.assertEqual(summary.setup_failed, 1)
+        self.assertEqual(summary.total, 1)

@@ -21,7 +21,8 @@ def run_command(
         int, typer.Option("--target-port", help="Target SIP port.")
     ] = 5060,
     scope: Annotated[
-        str, typer.Option("--scope", help="Tier scope (tier1/tier2/tier3/tier4/all).")
+        str,
+        typer.Option("--scope", help="Tier scope (tier1/tier2/tier3/tier4/tier5/all)."),
     ] = "tier1",
     strategy: Annotated[
         str | None,
@@ -126,7 +127,8 @@ def run_command(
         f" suspicious={result.summary.suspicious}"
         f" timeout={result.summary.timeout}"
         f" crash={result.summary.crash}"
-        f" stack_failure={result.summary.stack_failure}",
+        f" stack_failure={result.summary.stack_failure}"
+        f" setup_failed={result.summary.setup_failed}",
         file=sys.stderr,
     )
     print(f"[vmf campaign] results saved to: {output}", file=sys.stderr)
