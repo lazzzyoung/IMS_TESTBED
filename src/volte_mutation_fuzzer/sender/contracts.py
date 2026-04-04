@@ -13,7 +13,7 @@ from pydantic import (
 from volte_mutation_fuzzer.sip.common import SIPMethod
 from volte_mutation_fuzzer.sip.render import PacketModel
 
-TargetMode = Literal["softphone", "real-ue-pcscf", "real-ue-direct"]
+TargetMode = Literal["softphone", "real-ue-direct"]
 TransportProtocol = Literal["UDP", "TCP"]
 ArtifactKind = Literal["packet", "wire", "bytes"]
 ObservationClass = Literal[

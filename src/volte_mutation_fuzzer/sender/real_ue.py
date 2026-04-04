@@ -8,11 +8,14 @@ import urllib.request
 from dataclasses import dataclass
 from typing import Final
 
+from volte_mutation_fuzzer.infra.core import setup_ue_route
 from volte_mutation_fuzzer.sender.contracts import SendArtifact, TargetEndpoint
 from volte_mutation_fuzzer.sip.common import NameAddress, SIPURI, ViaHeader
 from volte_mutation_fuzzer.sip.render import PacketModel, render_packet_bytes
 
 _CRLF: Final[str] = "\r\n"
+_DEFAULT_REAL_UE_IMS_SUBNET: Final[str] = "10.20.20.0/24"
+_DEFAULT_REAL_UE_UPF_IP: Final[str] = "172.22.0.8"
 _DEFAULT_SCSCF_CONTAINER: Final[str] = "scscf"
 _DEFAULT_PCSCF_CONTAINER: Final[str] = "pcscf"
 _DEFAULT_PCSCF_LOG_TAIL: Final[int] = 500
@@ -289,6 +292,31 @@ def check_route_to_target(target_ip: str) -> RouteCheckResult:
     return RouteCheckResult(True, first_line or f"route available for {target_ip}")
 
 
+def setup_route_to_target(
+    target_ip: str,
+    *,
+    env: dict[str, str] | None = None,
+) -> RouteCheckResult:
+    source = os.environ if env is None else env
+    ims_subnet = (
+        _normalize_optional_text(source.get("VMF_REAL_UE_IMS_SUBNET"))
+        or _DEFAULT_REAL_UE_IMS_SUBNET
+    )
+    upf_ip = (
+        _normalize_optional_text(source.get("VMF_REAL_UE_UPF_IP"))
+        or _DEFAULT_REAL_UE_UPF_IP
+    )
+
+    setup_result = setup_ue_route(ims_subnet=ims_subnet, upf_ip=upf_ip)
+    if not setup_result.ok:
+        return RouteCheckResult(False, setup_result.detail)
+
+    route_result = check_route_to_target(target_ip)
+    if route_result.ok:
+        return route_result
+    return RouteCheckResult(False, f"{setup_result.detail}; {route_result.detail}")
+
+
 def normalize_direct_packet(
     packet: PacketModel,
     *,
@@ -489,4 +517,5 @@ __all__ = [
     "UEContact",
     "check_route_to_target",
     "prepare_real_ue_direct_payload",
+    "setup_route_to_target",
 ]

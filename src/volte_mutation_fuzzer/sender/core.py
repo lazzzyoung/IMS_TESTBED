@@ -1,3 +1,4 @@
+import os
 import re
 import socket
 import time
@@ -19,6 +20,7 @@ from volte_mutation_fuzzer.sender.real_ue import (
     RealUEDirectRouteError,
     check_route_to_target,
     prepare_real_ue_direct_payload,
+    setup_route_to_target,
 )
 from volte_mutation_fuzzer.sip.render import PacketModel, render_packet_bytes
 
@@ -126,6 +128,15 @@ def read_udp_observations(
 
 class SIPSenderReactor:
     """Sender/Reactor that can target softphones and real-ue-direct dumpipe flows."""
+
+    def __init__(
+        self,
+        *,
+        auto_setup_route: bool = True,
+        env: dict[str, str] | None = None,
+    ) -> None:
+        self._auto_setup_route = auto_setup_route
+        self._env = os.environ if env is None else env
 
     def send_artifact(
         self,
@@ -260,7 +271,7 @@ class SIPSenderReactor:
         *,
         collect_all_responses: bool,
     ) -> tuple[TargetEndpoint, bytes, list[SocketObservation], tuple[str, ...]]:
-        resolved = RealUEDirectResolver().resolve(target)
+        resolved = RealUEDirectResolver(env=self._env).resolve(target)
         resolved_target = target.model_copy(
             update={
                 "host": resolved.host,
@@ -276,13 +287,29 @@ class SIPSenderReactor:
             observer_events.append(f"route-check:ok:{route_result.detail}")
         else:
             observer_events.append(f"route-check:missing:{route_result.detail}")
-            raise RealUEDirectRouteError(
-                "real-ue-direct route check failed for "
-                f"{resolved.host}: {route_result.detail}. "
-                "add a host or UE IMS subnet route before retrying",
-                observer_events=tuple(observer_events),
-                resolved_target=resolved_target,
-            )
+            if self._auto_setup_route:
+                setup_result = setup_route_to_target(resolved.host, env=self._env)
+                if setup_result.ok:
+                    observer_events.append(f"route-setup:ok:{setup_result.detail}")
+                else:
+                    observer_events.append(
+                        f"route-setup:failed:{setup_result.detail}"
+                    )
+                    raise RealUEDirectRouteError(
+                        "real-ue-direct route check failed for "
+                        f"{resolved.host}: {setup_result.detail}. "
+                        "add a host or UE IMS subnet route before retrying",
+                        observer_events=tuple(observer_events),
+                        resolved_target=resolved_target,
+                    )
+            else:
+                raise RealUEDirectRouteError(
+                    "real-ue-direct route check failed for "
+                    f"{resolved.host}: {route_result.detail}. "
+                    "add a host or UE IMS subnet route before retrying",
+                    observer_events=tuple(observer_events),
+                    resolved_target=resolved_target,
+                )
 
         observations: list[SocketObservation] = []
         with socket.socket(socket.AF_INET, socket.SOCK_DGRAM) as sock:
