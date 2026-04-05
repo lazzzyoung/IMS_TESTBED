@@ -27,7 +27,7 @@ from volte_mutation_fuzzer.generator.core import SIPGenerator
 from volte_mutation_fuzzer.mutator.contracts import MutationConfig, MutatedCase
 from volte_mutation_fuzzer.mutator.core import SIPMutator
 from volte_mutation_fuzzer.oracle.contracts import OracleContext
-from volte_mutation_fuzzer.oracle.core import LogOracle, OracleEngine
+from volte_mutation_fuzzer.oracle.core import LogOracle, OracleEngine, ProcessOracle
 from volte_mutation_fuzzer.sender.contracts import (
     SendArtifact,
     TargetEndpoint,
@@ -288,12 +288,20 @@ class CampaignExecutor:
         self._generator = generator or SIPGenerator(GeneratorSettings())
         self._mutator = mutator or SIPMutator()
         self._sender = sender or SIPSenderReactor()
+        docker_mode = config.mode == "real-ue-direct"
         if oracle is not None:
             self._oracle = oracle
         elif config.log_path is not None:
-            self._oracle = OracleEngine(log_oracle=LogOracle())
+            self._oracle = OracleEngine(
+                log_oracle=LogOracle(docker_mode=docker_mode),
+                process_oracle=ProcessOracle(docker_mode=docker_mode),
+                docker_mode=docker_mode,
+            )
         else:
-            self._oracle = OracleEngine()
+            self._oracle = OracleEngine(
+                process_oracle=ProcessOracle(docker_mode=docker_mode),
+                docker_mode=docker_mode,
+            )
         self._store = store or ResultStore(Path(config.output_path))
         self._target = TargetEndpoint(
             host=config.target_host,

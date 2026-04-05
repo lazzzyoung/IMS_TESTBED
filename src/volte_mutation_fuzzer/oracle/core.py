@@ -76,7 +76,15 @@ class SocketOracle:
 class ProcessOracle:
     """Checks if a named process is alive via pgrep."""
 
+    def __init__(self, docker_mode: bool = False) -> None:
+        self._docker_mode = docker_mode
+
     def check(self, process_name: str) -> ProcessCheckResult:
+        if self._docker_mode:
+            return self._check_docker(process_name)
+        return self._check_local(process_name)
+
+    def _check_local(self, process_name: str) -> ProcessCheckResult:
         check_time = time.time()
         try:
             result = subprocess.run(
@@ -106,6 +114,51 @@ class ProcessOracle:
                 error=str(exc),
             )
 
+    def _check_docker(self, container_name: str) -> ProcessCheckResult:
+        check_time = time.time()
+        try:
+            result = subprocess.run(
+                [
+                    "docker",
+                    "inspect",
+                    "--format={{.State.Status}}\n{{.State.Pid}}",
+                    container_name,
+                ],
+                capture_output=True,
+                text=True,
+                timeout=5,
+                check=False,
+            )
+            if result.returncode != 0:
+                error = (
+                    result.stderr.strip()
+                    or result.stdout.strip()
+                    or f"docker inspect exited with status {result.returncode}"
+                )
+                return ProcessCheckResult(
+                    process_name=container_name,
+                    alive=False,
+                    check_time=check_time,
+                    error=error,
+                )
+
+            lines = result.stdout.splitlines()
+            status = lines[0].strip() if lines else ""
+            pid = int(lines[1].strip()) if len(lines) > 1 else 0
+            return ProcessCheckResult(
+                process_name=container_name,
+                alive=status == "running",
+                pid=pid,
+                check_time=check_time,
+            )
+        except Exception as exc:
+            return ProcessCheckResult(
+                process_name=container_name,
+                alive=False,
+                check_time=check_time,
+                error=str(exc),
+            )
+
 
 class LogOracle:
     """Scans a log file for stack trace / fatal error patterns."""
@@ -123,8 +176,13 @@ class LogOracle:
         r"\bpanic:",
     )
 
-    def __init__(self, patterns: tuple[str, ...] | None = None) -> None:
+    def __init__(
+        self,
+        patterns: tuple[str, ...] | None = None,
+        docker_mode: bool = False,
+    ) -> None:
         raw = patterns or self.DEFAULT_PATTERNS
+        self._docker_mode = docker_mode
         self._compiled = re.compile("|".join(f"({p})" for p in raw), re.IGNORECASE)
 
     def check(
@@ -134,6 +192,13 @@ class LogOracle:
 
         Returns (result, new_position) so the caller can track incremental reads.
         """
+        if self._docker_mode:
+            return self._check_docker(log_path, after_position)
+        return self._check_file(log_path, after_position)
+
+    def _check_file(
+        self, log_path: str, after_position: int = 0
+    ) -> tuple[LogCheckResult, int]:
         path = Path(log_path)
         if not path.is_file():
             return LogCheckResult(
@@ -181,6 +246,64 @@ class LogOracle:
                 error=str(exc),
             ), after_position
 
+    def _check_docker(
+        self, container_name: str, after_position: int = 0
+    ) -> tuple[LogCheckResult, int]:
+        new_position = int(time.time())
+        try:
+            result = subprocess.run(
+                ["docker", "logs", "--since", str(after_position), container_name],
+                capture_output=True,
+                text=True,
+                timeout=5,
+                check=False,
+            )
+            if result.returncode != 0:
+                error = (
+                    result.stderr.strip()
+                    or result.stdout.strip()
+                    or f"docker logs exited with status {result.returncode}"
+                )
+                return (
+                    LogCheckResult(
+                        log_path=container_name,
+                        matched=False,
+                        error=error,
+                    ),
+                    after_position,
+                )
+
+            output = result.stdout
+            if result.stderr:
+                output = f"{output}\n{result.stderr}" if output else result.stderr
+
+            lines = output.splitlines()
+            for line in lines:
+                m = self._compiled.search(line)
+                if m:
+                    return LogCheckResult(
+                        log_path=container_name,
+                        matched=True,
+                        matched_pattern=m.group(0),
+                        matched_line=line[:500],
+                        lines_scanned=len(lines),
+                    ), new_position
+
+            return LogCheckResult(
+                log_path=container_name,
+                matched=False,
+                lines_scanned=len(lines),
+            ), new_position
+        except Exception as exc:
+            return (
+                LogCheckResult(
+                    log_path=container_name,
+                    matched=False,
+                    error=str(exc),
+                ),
+                after_position,
+            )
+
 
 class OracleEngine:
     """Combines SocketOracle + ProcessOracle into a single verdict."""
@@ -190,11 +313,14 @@ class OracleEngine:
         socket_oracle: SocketOracle | None = None,
         process_oracle: ProcessOracle | None = None,
         log_oracle: LogOracle | None = None,
+        docker_mode: bool = False,
     ) -> None:
         self._socket_oracle = socket_oracle or SocketOracle()
-        self._process_oracle = process_oracle or ProcessOracle()
+        self._process_oracle = process_oracle or ProcessOracle(
+            docker_mode=docker_mode
+        )
         self._log_oracle = log_oracle
-        self._log_position: int = 0
+        self._log_position: int = int(time.time()) if docker_mode else 0
 
     def evaluate(
         self,

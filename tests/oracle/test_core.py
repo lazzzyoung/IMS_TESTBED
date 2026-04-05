@@ -129,7 +129,10 @@ class ProcessOracleTests(unittest.TestCase):
 
     def test_alive_when_pgrep_succeeds(self) -> None:
         mock_result = type("R", (), {"returncode": 0, "stdout": b"1234\n"})()
-        with patch("subprocess.run", return_value=mock_result):
+        with patch(
+            "volte_mutation_fuzzer.oracle.core.subprocess.run",
+            return_value=mock_result,
+        ):
             result = self.oracle.check("baresip")
         self.assertTrue(result.alive)
         self.assertEqual(result.pid, 1234)
@@ -137,17 +140,75 @@ class ProcessOracleTests(unittest.TestCase):
 
     def test_dead_when_pgrep_returns_nonzero(self) -> None:
         mock_result = type("R", (), {"returncode": 1, "stdout": b""})()
-        with patch("subprocess.run", return_value=mock_result):
+        with patch(
+            "volte_mutation_fuzzer.oracle.core.subprocess.run",
+            return_value=mock_result,
+        ):
             result = self.oracle.check("baresip")
         self.assertFalse(result.alive)
         self.assertIsNone(result.pid)
 
     def test_error_on_exception(self) -> None:
-        with patch("subprocess.run", side_effect=FileNotFoundError("pgrep not found")):
+        with patch(
+            "volte_mutation_fuzzer.oracle.core.subprocess.run",
+            side_effect=FileNotFoundError("pgrep not found"),
+        ):
             result = self.oracle.check("baresip")
         self.assertFalse(result.alive)
         self.assertIsNotNone(result.error)
         self.assertIn("pgrep not found", result.error)
+
+
+class ProcessOracleDockerTests(unittest.TestCase):
+    def setUp(self) -> None:
+        self.oracle = ProcessOracle(docker_mode=True)
+
+    def test_alive_when_docker_running(self) -> None:
+        mock_result = type(
+            "R", (), {"returncode": 0, "stdout": "running\n1234\n", "stderr": ""}
+        )()
+        with patch(
+            "volte_mutation_fuzzer.oracle.core.subprocess.run",
+            return_value=mock_result,
+        ):
+            result = self.oracle.check("pcscf")
+        self.assertTrue(result.alive)
+        self.assertEqual(result.pid, 1234)
+        self.assertIsNone(result.error)
+
+    def test_dead_when_docker_exited(self) -> None:
+        mock_result = type(
+            "R", (), {"returncode": 0, "stdout": "exited\n0\n", "stderr": ""}
+        )()
+        with patch(
+            "volte_mutation_fuzzer.oracle.core.subprocess.run",
+            return_value=mock_result,
+        ):
+            result = self.oracle.check("pcscf")
+        self.assertFalse(result.alive)
+
+    def test_error_when_docker_not_found(self) -> None:
+        mock_result = type(
+            "R",
+            (),
+            {"returncode": 1, "stdout": "", "stderr": "No such object"},
+        )()
+        with patch(
+            "volte_mutation_fuzzer.oracle.core.subprocess.run",
+            return_value=mock_result,
+        ):
+            result = self.oracle.check("pcscf")
+        self.assertFalse(result.alive)
+        self.assertIn("No such object", result.error or "")
+
+    def test_error_on_exception(self) -> None:
+        with patch(
+            "volte_mutation_fuzzer.oracle.core.subprocess.run",
+            side_effect=FileNotFoundError("docker not found"),
+        ):
+            result = self.oracle.check("pcscf")
+        self.assertFalse(result.alive)
+        self.assertIn("docker not found", result.error or "")
 
 
 class OracleEngineTests(unittest.TestCase):
@@ -164,7 +225,10 @@ class OracleEngineTests(unittest.TestCase):
     def test_normal_socket_alive_process(self) -> None:
         alive_result = type("R", (), {"returncode": 0, "stdout": b"999\n"})()
         result = _make_result("success", status_code=200)
-        with patch("subprocess.run", return_value=alive_result):
+        with patch(
+            "volte_mutation_fuzzer.oracle.core.subprocess.run",
+            return_value=alive_result,
+        ):
             verdict = self.engine.evaluate(result, self.ctx, process_name="baresip")
         self.assertEqual(verdict.verdict, "normal")
         self.assertTrue(verdict.process_alive)
@@ -172,7 +236,10 @@ class OracleEngineTests(unittest.TestCase):
     def test_normal_socket_dead_process_becomes_crash(self) -> None:
         dead_result = type("R", (), {"returncode": 1, "stdout": b""})()
         result = _make_result("success", status_code=200)
-        with patch("subprocess.run", return_value=dead_result):
+        with patch(
+            "volte_mutation_fuzzer.oracle.core.subprocess.run",
+            return_value=dead_result,
+        ):
             verdict = self.engine.evaluate(result, self.ctx, process_name="baresip")
         self.assertEqual(verdict.verdict, "crash")
         self.assertFalse(verdict.process_alive)
@@ -180,7 +247,10 @@ class OracleEngineTests(unittest.TestCase):
     def test_timeout_with_alive_process_stays_timeout(self) -> None:
         alive_result = type("R", (), {"returncode": 0, "stdout": b"999\n"})()
         result = _make_result("timeout")
-        with patch("subprocess.run", return_value=alive_result):
+        with patch(
+            "volte_mutation_fuzzer.oracle.core.subprocess.run",
+            return_value=alive_result,
+        ):
             verdict = self.engine.evaluate(result, self.ctx, process_name="baresip")
         self.assertEqual(verdict.verdict, "timeout")
         self.assertTrue(verdict.process_alive)
@@ -188,7 +258,10 @@ class OracleEngineTests(unittest.TestCase):
     def test_suspicious_with_alive_process_stays_suspicious(self) -> None:
         alive_result = type("R", (), {"returncode": 0, "stdout": b"999\n"})()
         result = _make_result("error", status_code=500)
-        with patch("subprocess.run", return_value=alive_result):
+        with patch(
+            "volte_mutation_fuzzer.oracle.core.subprocess.run",
+            return_value=alive_result,
+        ):
             verdict = self.engine.evaluate(result, self.ctx, process_name="baresip")
         self.assertEqual(verdict.verdict, "suspicious")
         self.assertTrue(verdict.process_alive)
@@ -299,6 +372,73 @@ class LogOracleTests(unittest.TestCase):
             os.unlink(path)
 
 
+class LogOracleDockerTests(unittest.TestCase):
+    def setUp(self) -> None:
+        self.oracle = LogOracle(docker_mode=True)
+
+    def test_sigsegv_in_docker_logs(self) -> None:
+        mock_result = type(
+            "R",
+            (),
+            {"returncode": 0, "stdout": "INFO\nSIGSEGV in worker\n", "stderr": ""},
+        )()
+        with (
+            patch(
+                "volte_mutation_fuzzer.oracle.core.subprocess.run",
+                return_value=mock_result,
+            ),
+            patch("volte_mutation_fuzzer.oracle.core.time.time", return_value=1700000100),
+        ):
+            result, position = self.oracle.check("pcscf", after_position=0)
+        self.assertTrue(result.matched)
+        self.assertEqual(position, 1700000100)
+
+    def test_clean_docker_logs(self) -> None:
+        mock_result = type(
+            "R",
+            (),
+            {"returncode": 0, "stdout": "INFO started\nINFO healthy\n", "stderr": ""},
+        )()
+        with patch(
+            "volte_mutation_fuzzer.oracle.core.subprocess.run",
+            return_value=mock_result,
+        ):
+            result, _ = self.oracle.check("pcscf", after_position=10)
+        self.assertFalse(result.matched)
+
+    def test_docker_logs_command_failure(self) -> None:
+        mock_result = type(
+            "R",
+            (),
+            {"returncode": 1, "stdout": "", "stderr": "No such container"},
+        )()
+        with patch(
+            "volte_mutation_fuzzer.oracle.core.subprocess.run",
+            return_value=mock_result,
+        ):
+            result, _ = self.oracle.check("pcscf", after_position=10)
+        self.assertFalse(result.matched)
+        self.assertIn("No such container", result.error or "")
+
+    def test_timestamp_position_tracking(self) -> None:
+        mock_result = type(
+            "R", (), {"returncode": 0, "stdout": "INFO\n", "stderr": ""}
+        )()
+        with (
+            patch(
+                "volte_mutation_fuzzer.oracle.core.subprocess.run",
+                return_value=mock_result,
+            ) as run_mock,
+            patch("volte_mutation_fuzzer.oracle.core.time.time", return_value=1700000200),
+        ):
+            _, position = self.oracle.check("pcscf", after_position=42)
+        self.assertEqual(
+            run_mock.call_args.args[0],
+            ["docker", "logs", "--since", "42", "pcscf"],
+        )
+        self.assertEqual(position, 1700000200)
+
+
 # ---------------------------------------------------------------------------
 # OracleEngine log integration tests
 # ---------------------------------------------------------------------------
@@ -346,10 +486,86 @@ class OracleEngineLogTests(unittest.TestCase):
         try:
             dead_result = type("R", (), {"returncode": 1, "stdout": b""})()
             result = _make_result("success", status_code=200)
-            with patch("subprocess.run", return_value=dead_result):
+            with patch(
+                "volte_mutation_fuzzer.oracle.core.subprocess.run",
+                return_value=dead_result,
+            ):
                 verdict = self.engine.evaluate(
                     result, self.ctx, process_name="baresip", log_path=path
                 )
             self.assertEqual(verdict.verdict, "stack_failure")
         finally:
             os.unlink(path)
+
+
+class OracleEngineDockerTests(unittest.TestCase):
+    def setUp(self) -> None:
+        self.ctx = OracleContext(method="OPTIONS")
+
+    def test_docker_mode_crashed_container(self) -> None:
+        process_oracle = ProcessOracle(docker_mode=True)
+        engine = OracleEngine(process_oracle=process_oracle, docker_mode=True)
+        mock_result = type(
+            "R", (), {"returncode": 0, "stdout": "exited\n0\n", "stderr": ""}
+        )()
+        result = _make_result("success", status_code=200)
+        with patch(
+            "volte_mutation_fuzzer.oracle.core.subprocess.run",
+            return_value=mock_result,
+        ):
+            verdict = engine.evaluate(result, self.ctx, process_name="pcscf")
+        self.assertEqual(verdict.verdict, "crash")
+        self.assertFalse(verdict.process_alive)
+
+    def test_docker_mode_stack_trace_in_container(self) -> None:
+        log_oracle = LogOracle(docker_mode=True)
+        engine = OracleEngine(log_oracle=log_oracle, docker_mode=True)
+        mock_result = type(
+            "R", (), {"returncode": 0, "stdout": "SIGSEGV\n", "stderr": ""}
+        )()
+        result = _make_result("success", status_code=200)
+        with (
+            patch(
+                "volte_mutation_fuzzer.oracle.core.subprocess.run",
+                return_value=mock_result,
+            ),
+            patch("volte_mutation_fuzzer.oracle.core.time.time", return_value=1700000300),
+        ):
+            verdict = engine.evaluate(result, self.ctx, log_path="pcscf")
+        self.assertEqual(verdict.verdict, "stack_failure")
+
+    def test_docker_mode_healthy(self) -> None:
+        process_oracle = ProcessOracle(docker_mode=True)
+        log_oracle = LogOracle(docker_mode=True)
+        engine = OracleEngine(
+            process_oracle=process_oracle,
+            log_oracle=log_oracle,
+            docker_mode=True,
+        )
+        result = _make_result("success", status_code=200)
+
+        def run_side_effect(*args, **kwargs):
+            command = args[0]
+            if command[:2] == ["docker", "logs"]:
+                return type(
+                    "R", (), {"returncode": 0, "stdout": "INFO clean\n", "stderr": ""}
+                )()
+            return type(
+                "R", (), {"returncode": 0, "stdout": "running\n1234\n", "stderr": ""}
+            )()
+
+        with (
+            patch(
+                "volte_mutation_fuzzer.oracle.core.subprocess.run",
+                side_effect=run_side_effect,
+            ),
+            patch("volte_mutation_fuzzer.oracle.core.time.time", return_value=1700000400),
+        ):
+            verdict = engine.evaluate(
+                result,
+                self.ctx,
+                process_name="pcscf",
+                log_path="pcscf",
+            )
+        self.assertEqual(verdict.verdict, "normal")
+        self.assertTrue(verdict.process_alive)

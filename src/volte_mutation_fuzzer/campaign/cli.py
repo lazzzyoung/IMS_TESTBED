@@ -90,6 +90,8 @@ def run_command(
         if layer
         else ("model", "wire", "byte")
     )
+    if mode == "real-ue-direct" and process_name == "baresip":
+        process_name = "pcscf"
 
     try:
         config = CampaignConfig(
