@@ -5,7 +5,7 @@ from typing import Annotated
 
 import typer
 
-from volte_mutation_fuzzer.campaign.contracts import CampaignConfig
+from volte_mutation_fuzzer.campaign.contracts import CAMPAIGN_PRESETS, CampaignConfig
 from volte_mutation_fuzzer.campaign.core import CampaignExecutor, ResultStore
 
 app = typer.Typer(
@@ -14,16 +14,49 @@ app = typer.Typer(
 )
 
 
+def _parse_methods(raw: str | None) -> tuple[str, ...] | None:
+    if raw is None:
+        return None
+    return tuple(method.strip().upper() for method in raw.split(",") if method.strip())
+
+
+def _parse_response_codes(raw: str | None) -> tuple[int, ...] | None:
+    if raw is None:
+        return None
+    return tuple(int(code.strip()) for code in raw.split(",") if code.strip())
+
+
 @app.command("run")
 def run_command(
     target_host: Annotated[str, typer.Option("--target-host", help="Target SIP host.")],
     target_port: Annotated[
         int, typer.Option("--target-port", help="Target SIP port.")
     ] = 5060,
-    scope: Annotated[
-        str,
-        typer.Option("--scope", help="Tier scope (tier1/tier2/tier3/tier4/tier5/all)."),
-    ] = "tier1",
+    methods: Annotated[
+        str | None,
+        typer.Option("--methods", help="Comma-separated SIP methods to fuzz."),
+    ] = None,
+    response_codes: Annotated[
+        str | None,
+        typer.Option(
+            "--response-codes",
+            help="Comma-separated SIP response codes to fuzz.",
+        ),
+    ] = None,
+    with_dialog: Annotated[
+        bool | None,
+        typer.Option(
+            "--with-dialog/--no-with-dialog",
+            help="Use synthetic dialog context for request generation when needed.",
+        ),
+    ] = None,
+    preset: Annotated[
+        str | None,
+        typer.Option(
+            "--preset",
+            help="Apply a legacy campaign preset (tier1/tier2/tier3/tier4/all).",
+        ),
+    ] = None,
     strategy: Annotated[
         str | None,
         typer.Option(
@@ -68,7 +101,7 @@ def run_command(
     mode: Annotated[
         str,
         typer.Option(
-            "--mode", help="Target mode (softphone/real-ue-direct)."
+            "--mode", help="Target mode (softphone/real-ue-pcscf/real-ue-direct)."
         ),
     ] = "softphone",
     log_path: Annotated[
@@ -90,33 +123,61 @@ def run_command(
         if layer
         else ("model", "wire", "byte")
     )
-    if mode == "real-ue-direct" and process_name == "baresip":
-        process_name = "pcscf"
+
+    payload: dict[str, object] = {
+        "target_host": target_host,
+        "target_port": target_port,
+        "transport": transport,
+        "mode": mode,
+        "strategies": strategies,
+        "layers": layers,
+        "max_cases": max_cases,
+        "timeout_seconds": timeout,
+        "cooldown_seconds": cooldown,
+        "seed_start": seed_start,
+        "output_path": output,
+        "process_name": process_name,
+        "check_process": not no_process_check,
+        "log_path": log_path,
+    }
+
+    if preset is not None:
+        try:
+            payload.update(dict(CAMPAIGN_PRESETS[preset]))
+        except KeyError as exc:
+            typer.echo(f"Configuration error: unknown preset '{preset}'", err=True)
+            raise typer.Exit(code=1) from exc
+
+    parsed_methods = _parse_methods(methods)
+    if parsed_methods is not None:
+        payload["methods"] = parsed_methods
+
+    parsed_response_codes = _parse_response_codes(response_codes)
+    if parsed_response_codes is not None:
+        payload["response_codes"] = parsed_response_codes
+
+    if with_dialog is not None:
+        payload["with_dialog"] = with_dialog
 
     try:
-        config = CampaignConfig(
-            target_host=target_host,
-            target_port=target_port,
-            transport=transport,
-            mode=mode,
-            scope=scope,
-            strategies=strategies,
-            layers=layers,
-            max_cases=max_cases,
-            timeout_seconds=timeout,
-            cooldown_seconds=cooldown,
-            seed_start=seed_start,
-            output_path=output,
-            process_name=process_name,
-            check_process=not no_process_check,
-            log_path=log_path,
-        )
+        config = CampaignConfig(**payload)
     except Exception as exc:
         typer.echo(f"Configuration error: {exc}", err=True)
         raise typer.Exit(code=1)
 
+    methods_label = ",".join(config.methods) if config.methods else "-"
+    response_codes_label = (
+        ",".join(str(code) for code in config.response_codes)
+        if config.response_codes
+        else "-"
+    )
     print(
-        f"[vmf campaign] starting: scope={scope} max_cases={max_cases} target={target_host}:{target_port}",
+        "[vmf campaign] starting: "
+        f"methods={methods_label} "
+        f"response_codes={response_codes_label} "
+        f"with_dialog={config.with_dialog} "
+        f"max_cases={max_cases} "
+        f"target={target_host}:{target_port}",
         file=sys.stderr,
     )
 
@@ -129,8 +190,7 @@ def run_command(
         f" suspicious={result.summary.suspicious}"
         f" timeout={result.summary.timeout}"
         f" crash={result.summary.crash}"
-        f" stack_failure={result.summary.stack_failure}"
-        f" setup_failed={result.summary.setup_failed}",
+        f" stack_failure={result.summary.stack_failure}",
         file=sys.stderr,
     )
     print(f"[vmf campaign] results saved to: {output}", file=sys.stderr)
@@ -207,8 +267,8 @@ def replay_command(
         typer.echo(f"Case ID {case_id} not found in {path}", err=True)
         raise typer.Exit(code=1)
 
-    from volte_mutation_fuzzer.campaign.core import CampaignExecutor
     from volte_mutation_fuzzer.campaign.contracts import CaseSpec
+    from volte_mutation_fuzzer.campaign.core import CampaignExecutor
 
     cfg = header.config
     executor = CampaignExecutor(cfg)
@@ -218,8 +278,7 @@ def replay_command(
         method=case.method,
         layer=case.layer,
         strategy=case.strategy,
-        dialog_scenario=case.dialog_scenario,
-        status_code=case.fuzz_status_code,
+        response_code=case.fuzz_response_code,
         related_method=case.fuzz_related_method,
     )
     result = executor._execute_case(spec)

@@ -20,7 +20,7 @@ def _make_config(host: str = "127.0.0.1", port: int = 5060) -> CampaignConfig:
     return CampaignConfig(
         target_host=host,
         target_port=port,
-        scope="tier1",
+        methods=("OPTIONS", "INVITE", "MESSAGE", "REGISTER"),
         layers=("model",),
         strategies=("default",),
         max_cases=4,
@@ -83,8 +83,8 @@ class CampaignRunCLITests(unittest.TestCase):
                     responder.host,
                     "--target-port",
                     str(responder.port),
-                    "--scope",
-                    "tier1",
+                    "--methods",
+                    "OPTIONS,INVITE,MESSAGE,REGISTER",
                     "--layer",
                     "model",
                     "--strategy",
@@ -177,7 +177,7 @@ class CampaignReplayCLITests(unittest.TestCase):
             config = CampaignConfig(
                 target_host=responder.host,
                 target_port=responder.port,
-                scope="tier1",
+                methods=("OPTIONS", "INVITE", "MESSAGE", "REGISTER"),
                 layers=("model",),
                 strategies=("default",),
                 max_cases=1,

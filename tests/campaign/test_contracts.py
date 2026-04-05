@@ -3,6 +3,8 @@ import unittest
 from pydantic import ValidationError
 
 from volte_mutation_fuzzer.campaign.contracts import (
+    ALL_SIP_METHODS,
+    CAMPAIGN_PRESETS,
     CampaignConfig,
     CampaignResult,
     CampaignSummary,
@@ -15,7 +17,9 @@ class CampaignConfigTests(unittest.TestCase):
     def test_defaults(self) -> None:
         cfg = CampaignConfig(target_host="127.0.0.1")
         self.assertEqual(cfg.target_port, 5060)
-        self.assertEqual(cfg.scope, "tier1")
+        self.assertEqual(cfg.methods, ALL_SIP_METHODS)
+        self.assertEqual(cfg.response_codes, ())
+        self.assertFalse(cfg.with_dialog)
         self.assertEqual(cfg.max_cases, 1000)
         self.assertEqual(cfg.timeout_seconds, 5.0)
         self.assertEqual(cfg.cooldown_seconds, 0.2)
@@ -37,28 +41,38 @@ class CampaignConfigTests(unittest.TestCase):
         with self.assertRaises(ValidationError):
             CampaignConfig(target_host="127.0.0.1", max_cases=0)
 
-    def test_scope_valid_values(self) -> None:
-        valid_scopes = (
-            "tier1",
-            "tier2",
-            "tier3",
-            "tier4",
-            "tier5",
-            "tier6",
-            "tier7",
-            "tier8",
-            "tier9",
-            "tier10",
-            "tier11",
-            "all",
-        )
-        for scope in valid_scopes:
-            cfg = CampaignConfig(target_host="127.0.0.1", scope=scope)
-            self.assertEqual(cfg.scope, scope)
+    def test_legacy_scope_values_migrate_to_presets(self) -> None:
+        for scope, preset in CAMPAIGN_PRESETS.items():
+            cfg = CampaignConfig.model_validate(
+                {
+                    "target_host": "127.0.0.1",
+                    "scope": scope,
+                }
+            )
+            self.assertEqual(cfg.methods, preset["methods"])
+            self.assertEqual(cfg.response_codes, preset["response_codes"])
+            self.assertEqual(cfg.with_dialog, preset["with_dialog"])
+            self.assertEqual(cfg.layers, preset.get("layers", cfg.layers))
+            self.assertEqual(cfg.strategies, preset.get("strategies", cfg.strategies))
 
-    def test_scope_invalid(self) -> None:
+    def test_legacy_scope_invalid(self) -> None:
         with self.assertRaises(ValidationError):
-            CampaignConfig(target_host="127.0.0.1", scope="tier99")
+            CampaignConfig.model_validate(
+                {
+                    "target_host": "127.0.0.1",
+                    "scope": "tier99",
+                }
+            )
+
+    def test_explicit_methods_override_legacy_scope_migration(self) -> None:
+        cfg = CampaignConfig.model_validate(
+            {
+                "target_host": "127.0.0.1",
+                "scope": "tier1",
+                "methods": ("ACK",),
+            }
+        )
+        self.assertEqual(cfg.methods, ("ACK",))
 
     def test_extra_fields_forbidden(self) -> None:
         with self.assertRaises(ValidationError):

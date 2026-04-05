@@ -4,8 +4,6 @@ from volte_mutation_fuzzer.campaign.contracts import (
     CampaignSummary,
     CaseResult,
     CaseSpec,
-    TierDefinition,
-    TierScope,
 )
 
 __all__ = [
@@ -14,6 +12,4 @@ __all__ = [
     "CampaignSummary",
     "CaseResult",
     "CaseSpec",
-    "TierDefinition",
-    "TierScope",
 ]

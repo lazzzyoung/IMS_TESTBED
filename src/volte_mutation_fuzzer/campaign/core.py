@@ -5,7 +5,6 @@ import uuid
 from collections.abc import Iterator
 from datetime import datetime, timezone
 from pathlib import Path
-from typing import ClassVar
 
 from volte_mutation_fuzzer.campaign.contracts import (
     CampaignConfig,
@@ -13,10 +12,7 @@ from volte_mutation_fuzzer.campaign.contracts import (
     CampaignSummary,
     CaseResult,
     CaseSpec,
-    TierDefinition,
 )
-from volte_mutation_fuzzer.dialog.core import DialogOrchestrator
-from volte_mutation_fuzzer.dialog.scenarios import scenario_for_method
 from volte_mutation_fuzzer.generator.contracts import (
     DialogContext,
     GeneratorSettings,
@@ -27,85 +23,21 @@ from volte_mutation_fuzzer.generator.core import SIPGenerator
 from volte_mutation_fuzzer.mutator.contracts import MutationConfig, MutatedCase
 from volte_mutation_fuzzer.mutator.core import SIPMutator
 from volte_mutation_fuzzer.oracle.contracts import OracleContext
-from volte_mutation_fuzzer.oracle.core import LogOracle, OracleEngine, ProcessOracle
+from volte_mutation_fuzzer.oracle.core import LogOracle, OracleEngine
 from volte_mutation_fuzzer.sender.contracts import (
     SendArtifact,
     TargetEndpoint,
 )
 from volte_mutation_fuzzer.sender.core import SIPSenderReactor
 from volte_mutation_fuzzer.sip.catalog import SIP_CATALOG
-from volte_mutation_fuzzer.sip.common import SIPMethod
+from volte_mutation_fuzzer.sip.common import SIPMethod, SIPURI
 
-
-# ---------------------------------------------------------------------------
-# Tier definitions
-# ---------------------------------------------------------------------------
 
 # layer별 지원 전략 매핑 — mutator/core.py _validate_supported_strategy와 동기화
 _SUPPORTED_STRATEGIES: dict[str, frozenset[str]] = {
     "model": frozenset({"default", "state_breaker"}),
     "wire": frozenset({"default"}),
     "byte": frozenset({"default"}),
-}
-
-TIER_DEFINITIONS: dict[str, TierDefinition] = {
-    "tier1": TierDefinition(
-        methods=("OPTIONS", "INVITE", "MESSAGE", "REGISTER"),
-        layers=("model", "wire", "byte"),
-        strategies=("default", "state_breaker"),
-    ),
-    "tier2": TierDefinition(
-        methods=("SUBSCRIBE", "NOTIFY", "PUBLISH", "PRACK"),
-        layers=("model", "wire"),
-        strategies=("default",),
-    ),
-    "tier3": TierDefinition(
-        methods=("CANCEL", "ACK"),
-        layers=("model", "wire"),
-        strategies=("default",),
-    ),
-    "tier4": TierDefinition(
-        methods=("OPTIONS", "INVITE", "MESSAGE"),
-        layers=("wire", "byte"),
-        strategies=("default",),
-    ),
-    "tier5": TierDefinition(
-        methods=("CANCEL", "ACK", "BYE", "UPDATE", "REFER", "INFO", "PRACK"),
-        layers=("model", "wire"),
-        strategies=("default",),
-        requires_dialog=True,
-    ),
-    # Response-plane tiers (Groups F-K)
-    "tier6": TierDefinition(
-        response_codes=(100, 180, 183),
-        layers=("model", "wire"),
-        strategies=("default",),
-    ),
-    "tier7": TierDefinition(
-        response_codes=(200, 202),
-        layers=("model", "wire", "byte"),
-        strategies=("default", "state_breaker"),
-    ),
-    "tier8": TierDefinition(
-        response_codes=(301, 302, 408, 480, 503),
-        layers=("model", "wire"),
-        strategies=("default",),
-    ),
-    "tier9": TierDefinition(
-        response_codes=(401, 407, 494),
-        layers=("model", "wire"),
-        strategies=("default",),
-    ),
-    "tier10": TierDefinition(
-        response_codes=(403, 404, 486, 500),
-        layers=("model", "wire"),
-        strategies=("default",),
-    ),
-    "tier11": TierDefinition(
-        response_codes=(600, 603, 604, 606),
-        layers=("model", "wire"),
-        strategies=("default",),
-    ),
 }
 
 
@@ -115,82 +47,55 @@ TIER_DEFINITIONS: dict[str, TierDefinition] = {
 
 
 class CaseGenerator:
-    """Produces CaseSpec instances based on campaign config and tier scope."""
-
-    TIER_DEFINITIONS: ClassVar[dict[str, TierDefinition]] = TIER_DEFINITIONS
+    """Produces CaseSpec instances from direct method and response selections."""
 
     def __init__(self, config: CampaignConfig) -> None:
         self._config = config
 
     def generate(self) -> Iterator[CaseSpec]:
         config = self._config
-        scope = config.scope
+        seen: set[tuple[str, int | None, str | None, str, str]] = set()
+        combos: list[tuple[str, int | None, str | None, str, str]] = []
 
-        if scope == "all":
-            tiers = list(TIER_DEFINITIONS.values())
-        else:
-            tiers = [TIER_DEFINITIONS[scope]]
-
-        # Collect unique ordered combinations from all relevant tiers.
-        # Key includes dialog_scenario so stateless and stateful variants of the
-        # same method (e.g. CANCEL in tier3 vs tier5) are both generated.
-        # combo: (method, layer, strategy, dialog_scenario, status_code)
-        seen: set[tuple[str, str, str, str | None]] = set()
-        combos: list[tuple[str, str, str, str | None, int | None]] = []
-        for tier in tiers:
-            # Request-plane cases
-            for method in tier.methods:
-                dialog_scenario: str | None = None
-                if tier.requires_dialog:
-                    sc = scenario_for_method(method)
-                    dialog_scenario = sc.scenario_type if sc is not None else None
-                for layer in tier.layers:
-                    if layer not in config.layers:
+        for method in config.methods:
+            for layer in config.layers:
+                for strategy in config.strategies:
+                    if strategy not in _SUPPORTED_STRATEGIES.get(layer, frozenset()):
                         continue
-                    for strategy in tier.strategies:
-                        if strategy not in config.strategies:
-                            continue
+                    key = (method, None, None, layer, strategy)
+                    if key not in seen:
+                        seen.add(key)
+                        combos.append(key)
+
+        for response_code in config.response_codes:
+            response_definition = SIP_CATALOG.get_response(response_code)
+            related_methods = tuple(
+                method.value for method in response_definition.related_methods
+            ) or ("INVITE",)
+            for related_method in related_methods:
+                for layer in config.layers:
+                    for strategy in config.strategies:
                         if strategy not in _SUPPORTED_STRATEGIES.get(
                             layer, frozenset()
                         ):
                             continue
-                        key = (method, layer, strategy, dialog_scenario)
+                        key = (
+                            related_method,
+                            response_code,
+                            related_method,
+                            layer,
+                            strategy,
+                        )
                         if key not in seen:
                             seen.add(key)
-                            combos.append(
-                                (method, layer, strategy, dialog_scenario, None)
-                            )
-
-            # Response-plane cases
-            for code in tier.response_codes:
-                defn = SIP_CATALOG.get_response(code)
-                related_methods = (
-                    [m.value for m in defn.related_methods]
-                    if defn.related_methods
-                    else [tier.related_method]
-                )
-                for related in related_methods:
-                    for layer in tier.layers:
-                        if layer not in config.layers:
-                            continue
-                        for strategy in tier.strategies:
-                            if strategy not in config.strategies:
-                                continue
-                            if strategy not in _SUPPORTED_STRATEGIES.get(
-                                layer, frozenset()
-                            ):
-                                continue
-                            key = (f"R{code}/{related}", layer, strategy, None)
-                            if key not in seen:
-                                seen.add(key)
-                                combos.append((related, layer, strategy, None, code))
+                            combos.append(key)
 
         for case_id, (
             method,
+            response_code,
+            related_method,
             layer,
             strategy,
-            dialog_scenario,
-            status_code,
         ) in enumerate(combos):
             if case_id >= config.max_cases:
                 break
@@ -200,9 +105,8 @@ class CaseGenerator:
                 method=method,
                 layer=layer,
                 strategy=strategy,
-                dialog_scenario=dialog_scenario,
-                status_code=status_code,
-                related_method=method if status_code is not None else None,
+                response_code=response_code,
+                related_method=related_method,
             )
 
 
@@ -288,20 +192,12 @@ class CampaignExecutor:
         self._generator = generator or SIPGenerator(GeneratorSettings())
         self._mutator = mutator or SIPMutator()
         self._sender = sender or SIPSenderReactor()
-        docker_mode = config.mode == "real-ue-direct"
         if oracle is not None:
             self._oracle = oracle
         elif config.log_path is not None:
-            self._oracle = OracleEngine(
-                log_oracle=LogOracle(docker_mode=docker_mode),
-                process_oracle=ProcessOracle(docker_mode=docker_mode),
-                docker_mode=docker_mode,
-            )
+            self._oracle = OracleEngine(log_oracle=LogOracle())
         else:
-            self._oracle = OracleEngine(
-                process_oracle=ProcessOracle(docker_mode=docker_mode),
-                docker_mode=docker_mode,
-            )
+            self._oracle = OracleEngine()
         self._store = store or ResultStore(Path(config.output_path))
         self._target = TargetEndpoint(
             host=config.target_host,
@@ -332,12 +228,14 @@ class CampaignExecutor:
                 self._store.append(case_result)
                 self._update_summary(summary, case_result.verdict)
 
-                target_label = (
-                    f"{spec.status_code}/{spec.related_method}"
-                    if spec.status_code is not None
-                    else spec.method
+                target_label = spec.method
+                if spec.response_code is not None:
+                    related_method = spec.related_method or spec.method
+                    target_label = f"{spec.response_code}/{related_method}"
+                label = (
+                    f"[{spec.case_id + 1}/{config.max_cases}] "
+                    f"{target_label} {spec.layer}/{spec.strategy} seed={spec.seed}"
                 )
-                label = f"[{spec.case_id + 1}/{config.max_cases}] {target_label} {spec.layer}/{spec.strategy} seed={spec.seed}"
                 code_str = (
                     f" ({case_result.response_code},"
                     if case_result.response_code
@@ -360,11 +258,6 @@ class CampaignExecutor:
                     )
                     print(
                         f"  [STACK_FAILURE] reproduction: {case_result.reproduction_cmd}",
-                        file=sys.stderr,
-                    )
-                if case_result.verdict == "setup_failed":
-                    print(
-                        f"  [SETUP_FAILED] {case_result.reason}",
                         file=sys.stderr,
                     )
                 if case_result.verdict == "unknown":
@@ -398,109 +291,12 @@ class CampaignExecutor:
         return campaign
 
     def _execute_case(self, spec: CaseSpec) -> CaseResult:
-        if spec.status_code is not None:
-            return self._execute_response_case(spec)
-        if spec.dialog_scenario is not None:
-            return self._execute_dialog_case(spec)
-        return self._execute_stateless_case(spec)
-
-    def _execute_response_case(self, spec: CaseSpec) -> CaseResult:
-        config = self._config
-        timestamp = time.time()
-        assert spec.status_code is not None
-        related = spec.related_method or "INVITE"
-
-        try:
-            context = DialogContext(
-                call_id=f"fuzz-{uuid.uuid4().hex[:12]}@{config.target_host}",
-                local_tag=uuid.uuid4().hex[:16],
-                remote_tag=uuid.uuid4().hex[:16],
-                local_cseq=1,
-            )
-            packet = self._generator.generate_response(
-                ResponseSpec(
-                    status_code=spec.status_code,
-                    related_method=SIPMethod(related),
-                ),
-                context,
-            )
-            mutated: MutatedCase = self._mutator.mutate(
-                packet,
-                MutationConfig(
-                    seed=spec.seed, strategy=spec.strategy, layer=spec.layer
-                ),
-            )
-            artifact = self._artifact_from_mutated(mutated)
-            send_result = self._sender.send_artifact(artifact, self._target)
-
-            oracle_context = OracleContext(
-                method=related,
-                timeout_threshold_ms=config.timeout_seconds * 1000,
-            )
-            process_name = config.process_name if config.check_process else None
-            verdict = self._oracle.evaluate(
-                send_result,
-                oracle_context,
-                process_name=process_name,
-                log_path=config.log_path,
-            )
-
-            mutation_ops = tuple(
-                f"{r.operator}({r.target.path})" for r in mutated.records
-            )
-            raw_response: str | None = None
-            if (
-                verdict.verdict in ("suspicious", "crash", "stack_failure")
-                and send_result.final_response
-            ):
-                raw_response = send_result.final_response.raw_text or None
-
-            return CaseResult(
-                case_id=spec.case_id,
-                seed=spec.seed,
-                method=related,
-                layer=spec.layer,
-                strategy=spec.strategy,
-                mutation_ops=mutation_ops,
-                verdict=verdict.verdict,
-                reason=verdict.reason,
-                response_code=verdict.response_code,
-                elapsed_ms=verdict.elapsed_ms,
-                process_alive=verdict.process_alive,
-                raw_response=raw_response,
-                reproduction_cmd=self._build_reproduction_cmd(spec),
-                timestamp=timestamp,
-                fuzz_status_code=spec.status_code,
-                fuzz_related_method=related,
-            )
-
-        except Exception as exc:
-            error = str(exc)
-            return CaseResult(
-                case_id=spec.case_id,
-                seed=spec.seed,
-                method=related,
-                layer=spec.layer,
-                strategy=spec.strategy,
-                verdict="unknown",
-                reason=f"response executor error: {error}",
-                elapsed_ms=0.0,
-                reproduction_cmd=self._build_reproduction_cmd(spec),
-                error=error,
-                timestamp=timestamp,
-                fuzz_status_code=spec.status_code,
-                fuzz_related_method=related,
-            )
-
-    def _execute_stateless_case(self, spec: CaseSpec) -> CaseResult:
         config = self._config
         timestamp = time.time()
         error: str | None = None
 
         try:
-            packet = self._generator.generate_request(
-                RequestSpec(method=SIPMethod(spec.method)), None
-            )
+            packet = self._build_packet(spec)
             mutated: MutatedCase = self._mutator.mutate(
                 packet,
                 MutationConfig(
@@ -513,7 +309,7 @@ class CampaignExecutor:
             send_result = self._sender.send_artifact(artifact, self._target)
 
             context = OracleContext(
-                method=spec.method,
+                method=spec.related_method or spec.method,
                 timeout_threshold_ms=config.timeout_seconds * 1000,
             )
             process_name = config.process_name if config.check_process else None
@@ -550,6 +346,8 @@ class CampaignExecutor:
                 reproduction_cmd=self._build_reproduction_cmd(spec),
                 error=error,
                 timestamp=timestamp,
+                fuzz_response_code=spec.response_code,
+                fuzz_related_method=spec.related_method,
             )
 
         except Exception as exc:
@@ -566,128 +364,41 @@ class CampaignExecutor:
                 reproduction_cmd=self._build_reproduction_cmd(spec),
                 error=error,
                 timestamp=timestamp,
+                fuzz_response_code=spec.response_code,
+                fuzz_related_method=spec.related_method,
             )
 
-    def _execute_dialog_case(self, spec: CaseSpec) -> CaseResult:
-        config = self._config
-        timestamp = time.time()
-
-        scenario = scenario_for_method(spec.method)
-        if scenario is None:
-            return CaseResult(
-                case_id=spec.case_id,
-                seed=spec.seed,
-                method=spec.method,
-                layer=spec.layer,
-                strategy=spec.strategy,
-                verdict="unknown",
-                reason=f"no dialog scenario found for method {spec.method}",
-                elapsed_ms=0.0,
-                reproduction_cmd=self._build_reproduction_cmd(spec),
-                error="no scenario",
-                timestamp=timestamp,
-                dialog_scenario=spec.dialog_scenario,
-                setup_succeeded=False,
+    def _build_packet(self, spec: CaseSpec) -> object:
+        if spec.response_code is None:
+            context = (
+                self._synthetic_dialog_context() if self._config.with_dialog else None
+            )
+            return self._generator.generate_request(
+                RequestSpec(method=SIPMethod(spec.method)),
+                context,
             )
 
-        mutation_config = MutationConfig(
-            seed=spec.seed,
-            strategy=spec.strategy,
-            layer=spec.layer,
+        related_method = SIPMethod(spec.related_method or spec.method)
+        return self._generator.generate_response(
+            ResponseSpec(
+                status_code=spec.response_code,
+                related_method=related_method,
+            ),
+            self._synthetic_dialog_context(),
         )
 
-        try:
-            orchestrator = DialogOrchestrator(
-                self._generator, self._mutator, self._target
-            )
-            exchange = orchestrator.execute(scenario, mutation_config)
-        except Exception as exc:
-            return CaseResult(
-                case_id=spec.case_id,
-                seed=spec.seed,
-                method=spec.method,
-                layer=spec.layer,
-                strategy=spec.strategy,
-                verdict="unknown",
-                reason=f"dialog executor error: {exc}",
-                elapsed_ms=0.0,
-                reproduction_cmd=self._build_reproduction_cmd(spec),
-                error=str(exc),
-                timestamp=timestamp,
-                dialog_scenario=spec.dialog_scenario,
-                setup_succeeded=False,
-            )
-
-        if not exchange.setup_succeeded:
-            return CaseResult(
-                case_id=spec.case_id,
-                seed=spec.seed,
-                method=spec.method,
-                layer=spec.layer,
-                strategy=spec.strategy,
-                verdict="setup_failed",
-                reason=exchange.error or "dialog setup failed",
-                elapsed_ms=0.0,
-                reproduction_cmd=self._build_reproduction_cmd(spec),
-                timestamp=timestamp,
-                dialog_scenario=spec.dialog_scenario,
-                setup_succeeded=False,
-            )
-
-        # Evaluate fuzz step result through oracle
-        fuzz_result = exchange.fuzz_result
-        if fuzz_result is None or fuzz_result.send_result is None:
-            return CaseResult(
-                case_id=spec.case_id,
-                seed=spec.seed,
-                method=spec.method,
-                layer=spec.layer,
-                strategy=spec.strategy,
-                verdict="unknown",
-                reason="fuzz step produced no send result",
-                elapsed_ms=0.0,
-                reproduction_cmd=self._build_reproduction_cmd(spec),
-                timestamp=timestamp,
-                dialog_scenario=spec.dialog_scenario,
-                setup_succeeded=True,
-            )
-
-        send_result = fuzz_result.send_result
-        oracle_context = OracleContext(
-            method=spec.method,
-            timeout_threshold_ms=config.timeout_seconds * 1000,
-        )
-        process_name = config.process_name if config.check_process else None
-        verdict = self._oracle.evaluate(
-            send_result,
-            oracle_context,
-            process_name=process_name,
-            log_path=config.log_path,
-        )
-
-        raw_response: str | None = None
-        if (
-            verdict.verdict in ("suspicious", "crash", "stack_failure")
-            and send_result.final_response
-        ):
-            raw_response = send_result.final_response.raw_text or None
-
-        return CaseResult(
-            case_id=spec.case_id,
-            seed=spec.seed,
-            method=spec.method,
-            layer=spec.layer,
-            strategy=spec.strategy,
-            verdict=verdict.verdict,
-            reason=verdict.reason,
-            response_code=verdict.response_code,
-            elapsed_ms=verdict.elapsed_ms,
-            process_alive=verdict.process_alive,
-            raw_response=raw_response,
-            reproduction_cmd=self._build_reproduction_cmd(spec),
-            timestamp=timestamp,
-            dialog_scenario=spec.dialog_scenario,
-            setup_succeeded=True,
+    def _synthetic_dialog_context(self) -> DialogContext:
+        return DialogContext(
+            call_id=f"campaign-{uuid.uuid4().hex}",
+            local_tag="campaign-local",
+            remote_tag="campaign-remote",
+            local_cseq=1,
+            remote_cseq=1,
+            request_uri=SIPURI(
+                user="target",
+                host=self._target.host,
+                port=self._target.port,
+            ),
         )
 
     def _artifact_from_mutated(self, mutated: MutatedCase) -> SendArtifact:
@@ -700,26 +411,21 @@ class CampaignExecutor:
 
     def _build_reproduction_cmd(self, spec: CaseSpec) -> str:
         cfg = self._config
-        send_flags = (
-            f" --target-host {cfg.target_host}"
-            f" --target-port {cfg.target_port}"
-            f" --mode {cfg.mode}"
-            f" --transport {cfg.transport}"
-        )
-        if spec.status_code is not None:
-            related = spec.related_method or "INVITE"
-            ctx_json = (
-                '{"call_id":"fuzz-repro","local_tag":"repro-tag",'
-                '"remote_tag":"repro-rtag","local_cseq":1}'
+        if spec.response_code is not None:
+            context = json.dumps(
+                self._synthetic_dialog_context().model_dump(mode="json"),
+                ensure_ascii=False,
             )
+            related_method = spec.related_method or spec.method
             return (
-                f"uv run fuzzer mutate response {spec.status_code} {related}"
-                f" --context '{ctx_json}'"
+                f"uv run fuzzer mutate response {spec.response_code} {related_method}"
+                f" --context '{context}'"
                 f" --strategy {spec.strategy}"
                 f" --layer {spec.layer}"
                 f" --seed {spec.seed}"
                 f" | uv run fuzzer send packet"
-                f"{send_flags}"
+                f" --target-host {cfg.target_host}"
+                f" --target-port {cfg.target_port}"
             )
         return (
             f"uv run fuzzer mutate request {spec.method}"
@@ -727,7 +433,8 @@ class CampaignExecutor:
             f" --layer {spec.layer}"
             f" --seed {spec.seed}"
             f" | uv run fuzzer send packet"
-            f"{send_flags}"
+            f" --target-host {cfg.target_host}"
+            f" --target-port {cfg.target_port}"
         )
 
     @staticmethod
@@ -744,7 +451,5 @@ class CampaignExecutor:
                 summary.crash += 1
             case "stack_failure":
                 summary.stack_failure += 1
-            case "setup_failed":
-                summary.setup_failed += 1
             case _:
                 summary.unknown += 1

@@ -1,34 +1,54 @@
-from typing import Literal
+from typing import Any, Literal, Self
 
-from pydantic import BaseModel, ConfigDict, Field
+from pydantic import BaseModel, ConfigDict, Field, field_validator, model_validator
 
-TierScope = Literal[
-    "tier1",
-    "tier2",
-    "tier3",
-    "tier4",
-    "tier5",
-    "tier6",
-    "tier7",
-    "tier8",
-    "tier9",
-    "tier10",
-    "tier11",
-    "all",
-]
+from volte_mutation_fuzzer.sip.common import SIPMethod
+
+ALL_SIP_METHODS = tuple(method.value for method in SIPMethod)
 
 
-class TierDefinition(BaseModel):
-    """Defines which methods and layers are included in a tier."""
+def _preset(
+    *,
+    methods: tuple[str, ...],
+    with_dialog: bool = False,
+    layers: tuple[str, ...] | None = None,
+    strategies: tuple[str, ...] | None = None,
+) -> dict[str, Any]:
+    payload: dict[str, Any] = {
+        "methods": methods,
+        "response_codes": (),
+        "with_dialog": with_dialog,
+    }
+    if layers is not None:
+        payload["layers"] = layers
+    if strategies is not None:
+        payload["strategies"] = strategies
+    return payload
 
-    model_config = ConfigDict(extra="forbid")
 
-    methods: tuple[str, ...] = ()
-    response_codes: tuple[int, ...] = ()
-    related_method: str = "INVITE"
-    layers: tuple[str, ...] = ("model", "wire", "byte")
-    strategies: tuple[str, ...] = ("default", "state_breaker")
-    requires_dialog: bool = False
+CAMPAIGN_PRESETS: dict[str, dict[str, Any]] = {
+    "tier1": _preset(
+        methods=("OPTIONS", "INVITE", "MESSAGE", "REGISTER"),
+        layers=("model", "wire", "byte"),
+        strategies=("default", "state_breaker"),
+    ),
+    "tier2": _preset(
+        methods=("PRACK", "UPDATE", "INFO"),
+        layers=("model", "wire"),
+        strategies=("default",),
+    ),
+    "tier3": _preset(
+        methods=("SUBSCRIBE", "NOTIFY", "PUBLISH", "REFER"),
+        layers=("model",),
+        strategies=("default",),
+    ),
+    "tier4": _preset(
+        methods=("OPTIONS", "INVITE", "MESSAGE"),
+        layers=("wire", "byte"),
+        strategies=("default",),
+    ),
+    "all": _preset(methods=ALL_SIP_METHODS),
+}
 
 
 class CampaignConfig(BaseModel):
@@ -40,7 +60,9 @@ class CampaignConfig(BaseModel):
     target_port: int = Field(default=5060, ge=1, le=65535)
     transport: str = "UDP"
     mode: str = "softphone"
-    scope: TierScope = "tier1"
+    methods: tuple[str, ...] = Field(default_factory=tuple)
+    response_codes: tuple[int, ...] = Field(default_factory=tuple)
+    with_dialog: bool = False
     strategies: tuple[str, ...] = ("default", "state_breaker")
     layers: tuple[str, ...] = ("model", "wire", "byte")
     max_cases: int = Field(default=1000, ge=1)
@@ -51,6 +73,58 @@ class CampaignConfig(BaseModel):
     process_name: str = Field(default="baresip", min_length=1)
     check_process: bool = True
     log_path: str | None = None
+
+    @model_validator(mode="before")
+    @classmethod
+    def _migrate_scope(cls, raw: Any) -> Any:
+        if not isinstance(raw, dict):
+            return raw
+
+        payload = dict(raw)
+        scope = payload.pop("scope", None)
+        if scope is None:
+            return payload
+
+        try:
+            preset = CAMPAIGN_PRESETS[scope]
+        except KeyError as exc:
+            raise ValueError(f"unsupported legacy scope: {scope}") from exc
+
+        for field_name, value in preset.items():
+            payload.setdefault(field_name, value)
+
+        return payload
+
+    @field_validator("methods", mode="before")
+    @classmethod
+    def _normalize_methods(cls, value: Any) -> Any:
+        if value is None:
+            return ()
+        if isinstance(value, str):
+            value = value.split(",")
+        return tuple(
+            str(method).strip().upper() for method in value if str(method).strip()
+        )
+
+    @field_validator("response_codes", mode="before")
+    @classmethod
+    def _normalize_response_codes(cls, value: Any) -> Any:
+        if value is None:
+            return ()
+        if isinstance(value, str):
+            value = value.split(",")
+
+        codes = tuple(int(code) for code in value if str(code).strip())
+        for code in codes:
+            if code < 100 or code > 699:
+                raise ValueError("response codes must be between 100 and 699")
+        return codes
+
+    @model_validator(mode="after")
+    def _default_methods(self) -> Self:
+        if not self.methods and not self.response_codes:
+            object.__setattr__(self, "methods", ALL_SIP_METHODS)
+        return self
 
 
 class CaseSpec(BaseModel):
@@ -63,8 +137,7 @@ class CaseSpec(BaseModel):
     method: str = Field(min_length=1)
     layer: str = Field(min_length=1)
     strategy: str = Field(min_length=1)
-    dialog_scenario: str | None = None
-    status_code: int | None = None
+    response_code: int | None = Field(default=None, ge=100, le=699)
     related_method: str | None = None
 
 
@@ -88,9 +161,7 @@ class CaseResult(BaseModel):
     reproduction_cmd: str
     error: str | None = None
     timestamp: float
-    dialog_scenario: str | None = None
-    setup_succeeded: bool | None = None
-    fuzz_status_code: int | None = None
+    fuzz_response_code: int | None = None
     fuzz_related_method: str | None = None
 
 
@@ -105,7 +176,6 @@ class CampaignSummary(BaseModel):
     timeout: int = 0
     crash: int = 0
     stack_failure: int = 0
-    setup_failed: int = 0
     unknown: int = 0
 
 
