@@ -1,3 +1,4 @@
+import logging
 import json
 import sys
 import time
@@ -31,6 +32,8 @@ from volte_mutation_fuzzer.sender.contracts import (
 from volte_mutation_fuzzer.sender.core import SIPSenderReactor
 from volte_mutation_fuzzer.sip.catalog import SIP_CATALOG
 from volte_mutation_fuzzer.sip.common import SIPMethod, SIPURI
+
+logger = logging.getLogger(__name__)
 
 
 # layer별 지원 전략 매핑 — mutator/core.py _validate_supported_strategy와 동기화
@@ -351,6 +354,22 @@ class CampaignExecutor:
                 process_name=process_name,
                 log_path=config.log_path,
             )
+            if verdict.verdict in ("crash", "stack_failure") and config.adb_enabled:
+                try:
+                    from volte_mutation_fuzzer.adb.core import AdbConnector
+
+                    output_dir = str(
+                        Path(config.output_path).parent
+                        / "adb_snapshots"
+                        / f"case_{spec.case_id}"
+                    )
+                    AdbConnector(serial=config.adb_serial).take_snapshot(output_dir)
+                except Exception as exc:
+                    logger.warning(
+                        "failed to capture adb snapshot for case %s: %s",
+                        spec.case_id,
+                        exc,
+                    )
 
             mutation_ops = tuple(
                 f"{r.operator}({r.target.path})" for r in mutated.records

@@ -1,7 +1,5 @@
 import json
-import subprocess
 import time
-from pathlib import Path
 from typing import Annotated
 
 import typer
@@ -109,56 +107,5 @@ def snapshot_command(
         _echo_json(result.model_dump(mode="json"))
         raise typer.Exit(code=1)
 
-    base_dir = Path(output_dir)
-    base_dir.mkdir(parents=True, exist_ok=True)
-    errors: list[str] = []
-    meminfo_path: str | None = None
-    dmesg_path: str | None = None
-    bugreport_path: str | None = None
-
-    def _write_shell_output(filename: str, *args: str, timeout: int) -> str | None:
-        path = base_dir / filename
-        try:
-            result = connector.run_shell(*args, timeout=timeout)
-        except Exception as exc:
-            errors.append(f"{' '.join(args)} failed: {exc}")
-            return None
-
-        if result.returncode != 0:
-            message = result.stderr.strip() or result.stdout.strip() or "unknown error"
-            errors.append(f"{' '.join(args)} failed: {message}")
-            return None
-
-        path.write_text(result.stdout, encoding="utf-8")
-        return str(path)
-
-    meminfo_path = _write_shell_output("meminfo.txt", "dumpsys", "meminfo", timeout=60)
-    dmesg_path = _write_shell_output("dmesg.txt", "dmesg", timeout=60)
-
-    if bugreport:
-        path = base_dir / "bugreport.txt"
-        try:
-            result = subprocess.run(
-                connector._adb_cmd("bugreport"),
-                capture_output=True,
-                text=True,
-                timeout=300,
-            )
-            if result.returncode != 0:
-                message = (
-                    result.stderr.strip() or result.stdout.strip() or "unknown error"
-                )
-                errors.append(f"bugreport failed: {message}")
-            else:
-                path.write_text(result.stdout, encoding="utf-8")
-                bugreport_path = str(path)
-        except Exception as exc:
-            errors.append(f"bugreport failed: {exc}")
-
-    snapshot = AdbSnapshotResult(
-        meminfo_path=meminfo_path,
-        dmesg_path=dmesg_path,
-        bugreport_path=bugreport_path,
-        errors=tuple(errors),
-    )
+    snapshot = connector.take_snapshot(output_dir, bugreport=bugreport)
     _echo_json(snapshot.model_dump(mode="json"))

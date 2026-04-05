@@ -1,4 +1,5 @@
 import unittest
+from pathlib import Path
 from unittest.mock import patch
 
 from volte_mutation_fuzzer.adb.contracts import AdbCollectorConfig
@@ -80,6 +81,83 @@ class AdbConnectorTests(unittest.TestCase):
         self.assertEqual(info.serial, "unknown")
         self.assertEqual(info.state, "not_found")
         self.assertEqual(info.error, "adb not found")
+
+
+def test_take_snapshot_writes_meminfo_and_dmesg(tmp_path: Path) -> None:
+    outputs = {
+        ("adb", "-s", "SER123", "shell", "dumpsys", "meminfo"): "meminfo output\n",
+        ("adb", "-s", "SER123", "shell", "dmesg"): "dmesg output\n",
+    }
+
+    def fake_run(
+        cmd: list[str],
+        capture_output: bool,
+        text: bool,
+        timeout: int,
+    ) -> _DummyCompletedProcess:
+        return _DummyCompletedProcess(stdout=outputs[tuple(cmd)])
+
+    connector = AdbConnector(serial="SER123")
+    output_dir = tmp_path / "nested" / "snapshots"
+    with patch("subprocess.run", side_effect=fake_run):
+        snapshot = connector.take_snapshot(str(output_dir))
+
+    assert output_dir.exists()
+    assert snapshot.errors == ()
+    assert snapshot.meminfo_path is not None
+    assert snapshot.dmesg_path is not None
+    assert Path(snapshot.meminfo_path).read_text(encoding="utf-8") == "meminfo output\n"
+    assert Path(snapshot.dmesg_path).read_text(encoding="utf-8") == "dmesg output\n"
+
+
+def test_take_snapshot_records_shell_failures(tmp_path: Path) -> None:
+    def fake_run(
+        cmd: list[str],
+        capture_output: bool,
+        text: bool,
+        timeout: int,
+    ) -> _DummyCompletedProcess:
+        if cmd[-2:] == ["dumpsys", "meminfo"]:
+            raise RuntimeError("meminfo boom")
+        return _DummyCompletedProcess(stdout="permission denied", returncode=1)
+
+    connector = AdbConnector(serial="SER123")
+    with patch("subprocess.run", side_effect=fake_run):
+        snapshot = connector.take_snapshot(str(tmp_path / "snapshots"))
+
+    assert snapshot.meminfo_path is None
+    assert snapshot.dmesg_path is None
+    assert snapshot.errors == (
+        "dumpsys meminfo failed: meminfo boom",
+        "dmesg failed: permission denied",
+    )
+
+
+def test_take_snapshot_creates_output_dir_for_bugreport(tmp_path: Path) -> None:
+    def fake_run(
+        cmd: list[str],
+        capture_output: bool,
+        text: bool,
+        timeout: int,
+    ) -> _DummyCompletedProcess:
+        outputs = {
+            ("adb", "shell", "dumpsys", "meminfo"): "meminfo output\n",
+            ("adb", "shell", "dmesg"): "dmesg output\n",
+            ("adb", "bugreport"): "bugreport output\n",
+        }
+        return _DummyCompletedProcess(stdout=outputs[tuple(cmd)])
+
+    connector = AdbConnector()
+    output_dir = tmp_path / "new" / "adb"
+    with patch("subprocess.run", side_effect=fake_run):
+        snapshot = connector.take_snapshot(str(output_dir), bugreport=True)
+
+    assert output_dir.exists()
+    assert snapshot.bugreport_path is not None
+    assert (
+        Path(snapshot.bugreport_path).read_text(encoding="utf-8")
+        == "bugreport output\n"
+    )
 
 
 class AdbLogCollectorTests(unittest.TestCase):
