@@ -111,6 +111,16 @@ def run_command(
             help="Path to target process log file for stack trace detection.",
         ),
     ] = None,
+    adb: Annotated[
+        bool, typer.Option("--adb/--no-adb", help="Enable ADB logcat monitoring.")
+    ] = False,
+    adb_serial: Annotated[
+        str | None, typer.Option("--adb-serial", help="ADB device serial.")
+    ] = None,
+    adb_buffers: Annotated[
+        str | None,
+        typer.Option("--adb-buffers", help="Comma-separated logcat buffers."),
+    ] = None,
 ) -> None:
     """Execute a fuzzing campaign against a SIP target."""
     strategies = (
@@ -139,7 +149,15 @@ def run_command(
         "process_name": process_name,
         "check_process": not no_process_check,
         "log_path": log_path,
+        "adb_enabled": adb,
     }
+
+    if adb_serial is not None:
+        payload["adb_serial"] = adb_serial
+    if adb_buffers is not None:
+        payload["adb_buffers"] = tuple(
+            b.strip() for b in adb_buffers.split(",") if b.strip()
+        )
 
     if preset is not None:
         try:

@@ -23,7 +23,7 @@ from volte_mutation_fuzzer.generator.core import SIPGenerator
 from volte_mutation_fuzzer.mutator.contracts import MutationConfig, MutatedCase
 from volte_mutation_fuzzer.mutator.core import SIPMutator
 from volte_mutation_fuzzer.oracle.contracts import OracleContext
-from volte_mutation_fuzzer.oracle.core import LogOracle, OracleEngine
+from volte_mutation_fuzzer.oracle.core import AdbOracle, LogOracle, OracleEngine
 from volte_mutation_fuzzer.sender.contracts import (
     SendArtifact,
     TargetEndpoint,
@@ -192,8 +192,23 @@ class CampaignExecutor:
         self._generator = generator or SIPGenerator(GeneratorSettings())
         self._mutator = mutator or SIPMutator()
         self._sender = sender or SIPSenderReactor()
+        self._adb_collector: object = None
         if oracle is not None:
             self._oracle = oracle
+        elif config.adb_enabled:
+            from volte_mutation_fuzzer.adb.contracts import AdbCollectorConfig
+            from volte_mutation_fuzzer.adb.core import AdbAnomalyDetector, AdbLogCollector
+
+            adb_cfg = AdbCollectorConfig(
+                serial=config.adb_serial,
+                buffers=config.adb_buffers,
+            )
+            _collector = AdbLogCollector(adb_cfg)
+            _detector = AdbAnomalyDetector()
+            _adb_oracle = AdbOracle(_collector, _detector)
+            self._adb_collector = _collector
+            log_oracle = LogOracle() if config.log_path is not None else None
+            self._oracle = OracleEngine(log_oracle=log_oracle, adb_oracle=_adb_oracle)
         elif config.log_path is not None:
             self._oracle = OracleEngine(log_oracle=LogOracle())
         else:
@@ -222,6 +237,8 @@ class CampaignExecutor:
         )
         self._store.write_header(campaign)
 
+        if self._adb_collector is not None:
+            self._adb_collector.start()
         try:
             for spec in CaseGenerator(config).generate():
                 case_result = self._execute_case(spec)
@@ -279,6 +296,9 @@ class CampaignExecutor:
             )
             self._store.write_footer(campaign)
             return campaign
+        finally:
+            if self._adb_collector is not None:
+                self._adb_collector.stop()
 
         campaign = campaign.model_copy(
             update={

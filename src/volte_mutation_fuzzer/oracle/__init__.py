@@ -6,6 +6,7 @@ from volte_mutation_fuzzer.oracle.contracts import (
     Verdict,
 )
 from volte_mutation_fuzzer.oracle.core import (
+    AdbOracle,
     LogOracle,
     OracleEngine,
     ProcessOracle,
@@ -13,6 +14,7 @@ from volte_mutation_fuzzer.oracle.core import (
 )
 
 __all__ = [
+    "AdbOracle",
     "LogCheckResult",
     "LogOracle",
     "OracleContext",

@@ -305,6 +305,35 @@ class LogOracle:
             )
 
 
+class AdbOracle:
+    """Oracle that checks ADB logcat anomaly events for crash/failure indicators."""
+
+    def __init__(self, collector: object, detector: object) -> None:
+        self._collector = collector
+        self._detector = detector
+
+    def check(self) -> LogCheckResult:
+        lines = self._collector.get_lines()
+        self._detector.feed_lines(lines)
+        events = self._detector.drain_events()
+        actionable = [e for e in events if e.severity in ("critical", "warning")]
+        if actionable:
+            critical = [e for e in actionable if e.severity == "critical"]
+            top = (critical or actionable)[0]
+            return LogCheckResult(
+                log_path="adb:logcat",
+                matched=True,
+                matched_pattern=top.matched_pattern,
+                matched_line=top.matched_line,
+                lines_scanned=len(lines),
+            )
+        return LogCheckResult(
+            log_path="adb:logcat",
+            matched=False,
+            lines_scanned=len(lines),
+        )
+
+
 class OracleEngine:
     """Combines SocketOracle + ProcessOracle into a single verdict."""
 
@@ -313,6 +342,7 @@ class OracleEngine:
         socket_oracle: SocketOracle | None = None,
         process_oracle: ProcessOracle | None = None,
         log_oracle: LogOracle | None = None,
+        adb_oracle: AdbOracle | None = None,
         docker_mode: bool = False,
     ) -> None:
         self._socket_oracle = socket_oracle or SocketOracle()
@@ -320,6 +350,7 @@ class OracleEngine:
             docker_mode=docker_mode
         )
         self._log_oracle = log_oracle
+        self._adb_oracle = adb_oracle
         self._log_position: int = int(time.time()) if docker_mode else 0
 
     def evaluate(
@@ -348,6 +379,23 @@ class OracleEngine:
                         "matched_pattern": log_result.matched_pattern,
                         "matched_line": log_result.matched_line,
                         "log_path": log_path,
+                    },
+                )
+
+        if self._adb_oracle is not None:
+            adb_result = self._adb_oracle.check()
+            if adb_result.matched:
+                return OracleVerdict(
+                    verdict="stack_failure",
+                    confidence=0.80,
+                    reason=f"ADB anomaly detected: {adb_result.matched_pattern}",
+                    response_code=verdict.response_code,
+                    elapsed_ms=verdict.elapsed_ms,
+                    details={
+                        "socket_verdict": verdict.verdict,
+                        "matched_pattern": adb_result.matched_pattern,
+                        "matched_line": adb_result.matched_line,
+                        "log_path": "adb:logcat",
                     },
                 )
 

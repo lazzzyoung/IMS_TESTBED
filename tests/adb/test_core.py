@@ -1,0 +1,176 @@
+import unittest
+from unittest.mock import patch
+
+from volte_mutation_fuzzer.adb.contracts import AdbCollectorConfig
+from volte_mutation_fuzzer.adb.core import (
+    AdbAnomalyDetector,
+    AdbConnector,
+    AdbLogCollector,
+)
+
+
+class _DummyCompletedProcess:
+    def __init__(self, stdout: str = "", returncode: int = 0) -> None:
+        self.stdout = stdout
+        self.returncode = returncode
+        self.stderr = ""
+
+
+class _DummyPopen:
+    def __init__(self, lines: list[str] | None = None) -> None:
+        self.stdout = iter(lines or [])
+        self.terminated = False
+        self.killed = False
+
+    def terminate(self) -> None:
+        self.terminated = True
+
+    def wait(self, timeout: int | None = None) -> int:
+        return 0
+
+    def kill(self) -> None:
+        self.killed = True
+
+
+class AdbConnectorTests(unittest.TestCase):
+    def test_adb_cmd_without_serial(self) -> None:
+        connector = AdbConnector()
+        self.assertEqual(connector._adb_cmd("devices"), ["adb", "devices"])
+
+    def test_adb_cmd_with_serial(self) -> None:
+        connector = AdbConnector(serial="SER123")
+        self.assertEqual(
+            connector._adb_cmd("shell", "getprop"),
+            ["adb", "-s", "SER123", "shell", "getprop"],
+        )
+
+    def test_check_device_connected(self) -> None:
+        output = (
+            "List of devices attached\n"
+            "SER123\tdevice product:pixel model:Pixel_8 device:husky\n"
+        )
+        with patch(
+            "subprocess.run", return_value=_DummyCompletedProcess(stdout=output)
+        ):
+            info = AdbConnector().check_device()
+        self.assertEqual(info.serial, "SER123")
+        self.assertEqual(info.state, "device")
+        self.assertEqual(info.model, "Pixel_8")
+
+    def test_check_device_not_found(self) -> None:
+        output = "List of devices attached\n\n"
+        with patch(
+            "subprocess.run", return_value=_DummyCompletedProcess(stdout=output)
+        ):
+            info = AdbConnector(serial="SER123").check_device()
+        self.assertEqual(info.serial, "SER123")
+        self.assertEqual(info.state, "not_found")
+
+    def test_check_device_unauthorized(self) -> None:
+        output = "List of devices attached\nSER123\tunauthorized\n"
+        with patch(
+            "subprocess.run", return_value=_DummyCompletedProcess(stdout=output)
+        ):
+            info = AdbConnector(serial="SER123").check_device()
+        self.assertEqual(info.state, "unauthorized")
+
+    def test_check_device_adb_not_found(self) -> None:
+        with patch("subprocess.run", side_effect=FileNotFoundError("adb missing")):
+            info = AdbConnector().check_device()
+        self.assertEqual(info.serial, "unknown")
+        self.assertEqual(info.state, "not_found")
+        self.assertEqual(info.error, "adb not found")
+
+
+class AdbLogCollectorTests(unittest.TestCase):
+    def test_start_spawns_process_per_buffer_and_clears_logcat(self) -> None:
+        config = AdbCollectorConfig(serial="SER123", buffers=("main", "radio"))
+        collector = AdbLogCollector(config)
+        popen_instances = [_DummyPopen(), _DummyPopen()]
+
+        with (
+            patch("subprocess.run") as run_mock,
+            patch("subprocess.Popen", side_effect=popen_instances) as popen_mock,
+        ):
+            collector.start(clear=True)
+            collector.stop()
+
+        run_mock.assert_called_once_with(
+            ["adb", "-s", "SER123", "logcat", "-c"],
+            capture_output=True,
+            timeout=10,
+        )
+        self.assertEqual(popen_mock.call_count, 2)
+        self.assertEqual(
+            popen_mock.call_args_list[0].args[0][:5],
+            ["adb", "-s", "SER123", "logcat", "-b"],
+        )
+        self.assertEqual(
+            popen_mock.call_args_list[0].args[0][-2:],
+            ["-v", "time"],
+        )
+
+    def test_get_lines_drains_queue(self) -> None:
+        collector = AdbLogCollector()
+        collector._queue.put(("main", "one"))
+        collector._queue.put(("radio", "two"))
+
+        lines = collector.get_lines()
+
+        self.assertEqual(lines, [("main", "one"), ("radio", "two")])
+        self.assertEqual(collector.get_lines(), [])
+
+
+class AdbAnomalyDetectorTests(unittest.TestCase):
+    def test_detects_sigsegv(self) -> None:
+        detector = AdbAnomalyDetector()
+        event = detector.feed_line("crash", "Fatal signal SIGSEGV in system_server")
+        assert event is not None
+        self.assertEqual(event.severity, "critical")
+        self.assertEqual(event.category, "fatal_signal")
+
+    def test_detects_ims_deregistration(self) -> None:
+        detector = AdbAnomalyDetector()
+        event = detector.feed_line("radio", "IMS deregist triggered by network change")
+        assert event is not None
+        self.assertEqual(event.severity, "warning")
+        self.assertEqual(event.category, "ims_anomaly")
+
+    def test_no_match_returns_none(self) -> None:
+        detector = AdbAnomalyDetector()
+        self.assertIsNone(detector.feed_line("main", "regular info log"))
+
+    def test_drain_events_clears_buffer(self) -> None:
+        detector = AdbAnomalyDetector()
+        detector.feed_line("crash", "signal 11")
+        self.assertEqual(len(detector.peek_events()), 1)
+        drained = detector.drain_events()
+        self.assertEqual(len(drained), 1)
+        self.assertEqual(detector.peek_events(), [])
+
+    def test_feed_lines_batches_matches(self) -> None:
+        detector = AdbAnomalyDetector()
+        events = detector.feed_lines(
+            [
+                ("main", "normal log"),
+                ("crash", "signal 11"),
+                ("radio", "IMS deregist reason=unknown"),
+            ]
+        )
+        self.assertEqual(len(events), 2)
+
+    def test_max_events_is_enforced(self) -> None:
+        detector = AdbAnomalyDetector(max_events=2)
+        detector.feed_line("crash", "signal 11")
+        detector.feed_line("crash", "signal 6")
+        detector.feed_line("radio", "IMS deregist reason=unknown")
+        events = detector.peek_events()
+        self.assertEqual(len(events), 2)
+        self.assertEqual(events[0].pattern_name, "SIGABRT")
+        self.assertEqual(events[1].pattern_name, "ims_deregistration")
+
+    def test_total_lines_scanned_tracks_all_inputs(self) -> None:
+        detector = AdbAnomalyDetector()
+        detector.feed_line("main", "one")
+        detector.feed_lines([("main", "two"), ("main", "three")])
+        self.assertEqual(detector.total_lines_scanned, 3)

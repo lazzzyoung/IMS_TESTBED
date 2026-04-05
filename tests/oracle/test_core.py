@@ -4,8 +4,10 @@ import time
 import unittest
 from unittest.mock import patch
 
+from volte_mutation_fuzzer.adb.core import AdbAnomalyDetector
 from volte_mutation_fuzzer.oracle.contracts import OracleContext
 from volte_mutation_fuzzer.oracle.core import (
+    AdbOracle,
     LogOracle,
     OracleEngine,
     ProcessOracle,
@@ -569,3 +571,76 @@ class OracleEngineDockerTests(unittest.TestCase):
             )
         self.assertEqual(verdict.verdict, "normal")
         self.assertTrue(verdict.process_alive)
+
+
+# ---------------------------------------------------------------------------
+# AdbOracle and OracleEngine+AdbOracle tests
+# ---------------------------------------------------------------------------
+
+
+class _CollectorStub:
+    def __init__(self, lines: list[tuple[str, str]]) -> None:
+        self._lines = list(lines)
+
+    def get_lines(self) -> list[tuple[str, str]]:
+        lines = list(self._lines)
+        self._lines.clear()
+        return lines
+
+
+class _AdbOracleStub:
+    def __init__(self, matched: bool, pattern: str | None = None) -> None:
+        self._matched = matched
+        self._pattern = pattern
+
+    def check(self):
+        from volte_mutation_fuzzer.oracle.contracts import LogCheckResult
+
+        return LogCheckResult(
+            log_path="adb:logcat",
+            matched=self._matched,
+            matched_pattern=self._pattern,
+            matched_line="matched line" if self._matched else None,
+            lines_scanned=1 if self._matched else 0,
+        )
+
+
+class AdbOracleTests(unittest.TestCase):
+    def test_no_events_returns_no_match(self) -> None:
+        oracle = AdbOracle(_CollectorStub([]), AdbAnomalyDetector())
+        result = oracle.check()
+        self.assertFalse(result.matched)
+
+    def test_critical_event_returns_match(self) -> None:
+        oracle = AdbOracle(
+            _CollectorStub([("crash", "Fatal signal SIGSEGV in mediaserver")]),
+            AdbAnomalyDetector(),
+        )
+        result = oracle.check()
+        self.assertTrue(result.matched)
+        self.assertIn("SIGSEGV", result.matched_pattern or "")
+
+    def test_info_only_returns_no_match(self) -> None:
+        oracle = AdbOracle(
+            _CollectorStub([("radio", "IMS REGISTERED on LTE")]),
+            AdbAnomalyDetector(),
+        )
+        result = oracle.check()
+        self.assertFalse(result.matched)
+
+
+class OracleEngineWithAdbTests(unittest.TestCase):
+    def setUp(self) -> None:
+        self.ctx = OracleContext(method="OPTIONS")
+
+    def test_adb_oracle_triggers_stack_failure_verdict(self) -> None:
+        engine = OracleEngine(adb_oracle=_AdbOracleStub(True, r"SIGSEGV|signal 11"))
+        verdict = engine.evaluate(_make_result("success", status_code=200), self.ctx)
+        self.assertEqual(verdict.verdict, "stack_failure")
+        self.assertEqual(verdict.confidence, 0.80)
+        self.assertIn("ADB anomaly detected", verdict.reason)
+
+    def test_adb_oracle_no_events_falls_through_to_normal_verdict(self) -> None:
+        engine = OracleEngine(adb_oracle=_AdbOracleStub(False))
+        verdict = engine.evaluate(_make_result("success", status_code=200), self.ctx)
+        self.assertEqual(verdict.verdict, "normal")

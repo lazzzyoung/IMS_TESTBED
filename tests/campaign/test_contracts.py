@@ -164,3 +164,22 @@ class CampaignResultTests(unittest.TestCase):
                 config=self._make_config(),
                 status="invalid",
             )
+
+
+class AdbCampaignConfigTests(unittest.TestCase):
+    def test_adb_defaults(self) -> None:
+        cfg = CampaignConfig(target_host="127.0.0.1")
+        self.assertFalse(cfg.adb_enabled)
+        self.assertIsNone(cfg.adb_serial)
+        self.assertEqual(cfg.adb_buffers, ("main", "system", "radio", "crash"))
+
+    def test_adb_custom_buffers(self) -> None:
+        cfg = CampaignConfig(
+            target_host="127.0.0.1", adb_enabled=True, adb_buffers=("radio", "crash")
+        )
+        self.assertTrue(cfg.adb_enabled)
+        self.assertEqual(cfg.adb_buffers, ("radio", "crash"))
+
+    def test_adb_extra_forbid(self) -> None:
+        with self.assertRaises(Exception):
+            CampaignConfig(target_host="127.0.0.1", unknown_adb_field=True)

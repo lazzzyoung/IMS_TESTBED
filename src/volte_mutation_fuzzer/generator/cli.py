@@ -10,6 +10,7 @@ from volte_mutation_fuzzer.generator.contracts import (
     RequestSpec,
     ResponseSpec,
 )
+from volte_mutation_fuzzer.adb.cli import app as adb_app
 from volte_mutation_fuzzer.infra.cli import app as infra_app
 from volte_mutation_fuzzer.generator.core import SIPGenerator
 from volte_mutation_fuzzer.campaign.cli import app as campaign_app
@@ -27,6 +28,7 @@ app.add_typer(mutator_app, name="mutate")
 app.add_typer(sender_app, name="send")
 app.add_typer(campaign_app, name="campaign")
 app.add_typer(infra_app, name="infra")
+app.add_typer(adb_app, name="adb")
 
 
 def _parse_json_object(raw_value: str | None, *, option_name: str) -> dict[str, Any]:

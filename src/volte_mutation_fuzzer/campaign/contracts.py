@@ -73,6 +73,9 @@ class CampaignConfig(BaseModel):
     process_name: str = Field(default="baresip", min_length=1)
     check_process: bool = True
     log_path: str | None = None
+    adb_enabled: bool = False
+    adb_serial: str | None = None
+    adb_buffers: tuple[str, ...] = ("main", "system", "radio", "crash")
 
     @model_validator(mode="before")
     @classmethod
