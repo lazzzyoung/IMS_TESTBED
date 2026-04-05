@@ -5,7 +5,7 @@ from typing import Annotated
 
 import typer
 
-from volte_mutation_fuzzer.campaign.contracts import CAMPAIGN_PRESETS, CampaignConfig
+from volte_mutation_fuzzer.campaign.contracts import CampaignConfig
 from volte_mutation_fuzzer.campaign.core import CampaignExecutor, ResultStore
 
 app = typer.Typer(
@@ -48,13 +48,6 @@ def run_command(
         typer.Option(
             "--with-dialog/--no-with-dialog",
             help="Use synthetic dialog context for request generation when needed.",
-        ),
-    ] = None,
-    preset: Annotated[
-        str | None,
-        typer.Option(
-            "--preset",
-            help="Apply a legacy campaign preset (tier1/tier2/tier3/tier4/all).",
         ),
     ] = None,
     strategy: Annotated[
@@ -156,13 +149,6 @@ def run_command(
         payload["adb_buffers"] = tuple(
             b.strip() for b in adb_buffers.split(",") if b.strip()
         )
-
-    if preset is not None:
-        try:
-            payload.update(dict(CAMPAIGN_PRESETS[preset]))
-        except KeyError as exc:
-            typer.echo(f"Configuration error: unknown preset '{preset}'", err=True)
-            raise typer.Exit(code=1) from exc
 
     parsed_methods = _parse_methods(methods)
     if parsed_methods is not None:

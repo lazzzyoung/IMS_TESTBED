@@ -7,50 +7,6 @@ from volte_mutation_fuzzer.sip.common import SIPMethod
 ALL_SIP_METHODS = tuple(method.value for method in SIPMethod)
 
 
-def _preset(
-    *,
-    methods: tuple[str, ...],
-    with_dialog: bool = False,
-    layers: tuple[str, ...] | None = None,
-    strategies: tuple[str, ...] | None = None,
-) -> dict[str, Any]:
-    payload: dict[str, Any] = {
-        "methods": methods,
-        "response_codes": (),
-        "with_dialog": with_dialog,
-    }
-    if layers is not None:
-        payload["layers"] = layers
-    if strategies is not None:
-        payload["strategies"] = strategies
-    return payload
-
-
-CAMPAIGN_PRESETS: dict[str, dict[str, Any]] = {
-    "tier1": _preset(
-        methods=("OPTIONS", "INVITE", "MESSAGE", "REGISTER"),
-        layers=("model", "wire", "byte"),
-        strategies=("default", "state_breaker"),
-    ),
-    "tier2": _preset(
-        methods=("PRACK", "UPDATE", "INFO"),
-        layers=("model", "wire"),
-        strategies=("default",),
-    ),
-    "tier3": _preset(
-        methods=("SUBSCRIBE", "NOTIFY", "PUBLISH", "REFER"),
-        layers=("model",),
-        strategies=("default",),
-    ),
-    "tier4": _preset(
-        methods=("OPTIONS", "INVITE", "MESSAGE"),
-        layers=("wire", "byte"),
-        strategies=("default",),
-    ),
-    "all": _preset(methods=ALL_SIP_METHODS),
-}
-
-
 class CampaignConfig(BaseModel):
     """Full configuration for a campaign run."""
 
@@ -76,27 +32,6 @@ class CampaignConfig(BaseModel):
     adb_enabled: bool = False
     adb_serial: str | None = None
     adb_buffers: tuple[str, ...] = ("main", "system", "radio", "crash")
-
-    @model_validator(mode="before")
-    @classmethod
-    def _migrate_scope(cls, raw: Any) -> Any:
-        if not isinstance(raw, dict):
-            return raw
-
-        payload = dict(raw)
-        scope = payload.pop("scope", None)
-        if scope is None:
-            return payload
-
-        try:
-            preset = CAMPAIGN_PRESETS[scope]
-        except KeyError as exc:
-            raise ValueError(f"unsupported legacy scope: {scope}") from exc
-
-        for field_name, value in preset.items():
-            payload.setdefault(field_name, value)
-
-        return payload
 
     @field_validator("methods", mode="before")
     @classmethod

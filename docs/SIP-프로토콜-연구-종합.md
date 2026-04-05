@@ -881,11 +881,11 @@ Content-Length: 131
 
 # Part III. 공격면 분석
 
-## 13. Tier 구조
+## 13. 공격면 분류
 
-퍼징 관점에서 SIP 표면의 우선순위를 4계층으로 분류:
+퍼징 관점에서 SIP 표면의 우선순위를 4영역으로 분류:
 
-### Tier 1 — 핵심 상태 불변식
+### 핵심 상태 불변식
 
 > [!danger] 가장 먼저 흔들어야 할 축
 
@@ -904,7 +904,7 @@ Content-Length: 131
 > [!tip] 단말 스택은 서버보다 방어적이지 않을 수 있다
 > 서버는 불완전한 상관관계를 자주 보므로 방어적으로 작성되지만, 단말 스택은 그 정도로 강건하지 않을 수 있다.
 
-### Tier 2 — 실패 분기 유도 표면
+### 실패 분기 유도 표면
 
 | 필드 그룹 | 유도 가능한 4xx |
 |----------|----------------|
@@ -914,7 +914,7 @@ Content-Length: 131
 | `Security-*` | 494 |
 | 인증 challenge/response | 401, 407 |
 
-### Tier 3 — 상태 의존 확장
+### 상태 의존 확장
 
 | 필드 | 관련 상태 기계 |
 |------|--------------|
@@ -927,7 +927,7 @@ Content-Length: 131
 > [!note] 특성
 > "문자열 형식은 맞지만 상태가 어긋난 메시지"를 만들기 좋은 영역
 
-### Tier 4 — IMS/VoLTE 특화 표면
+### IMS/VoLTE 특화 표면
 
 | 영역 | 헤더 |
 |------|------|
@@ -954,7 +954,7 @@ Content-Length: 131
 
 ## 15. 실험 우선순위 (Softphone-First)
 
-### 15.1 Tier 1 — 즉시 실험
+### 15.1 즉시 실험
 
 | 영역 | 이유 | 필요 타깃 |
 |------|------|----------|
@@ -963,7 +963,7 @@ Content-Length: 131
 | REGISTER 성공 응답 | Contact, Path, Service-Route 반영 | softphone 또는 registrar test double |
 | SUBSCRIBE/NOTIFY/PUBLISH | 상태성 필드 집중 | programmable softphone |
 
-### 15.2 Tier 2 — IMS/확장 상태
+### 15.2 IMS/확장 상태
 
 | 영역 | 이유 |
 |------|------|
@@ -971,7 +971,7 @@ Content-Length: 131
 | INFO, Info-Package | mid-dialog feature negotiation |
 | Security-*, WWW-Authenticate | IMS/AKA + security agreement |
 
-### 15.3 Tier 3 — IMS private / carrier-specific
+### 15.3 IMS private / carrier-specific
 
 | 영역 | 필요 타깃 |
 |------|----------|
@@ -979,7 +979,7 @@ Content-Length: 131
 | Feature-Caps, Resource-Priority | controlled IMS peer |
 | Path, Service-Route | real-ue/pcscf |
 
-### 15.4 Tier 4 — Parser robustness / byte damage
+### 15.4 Parser robustness / byte damage
 
 | 영역 | 이유 |
 |------|------|
@@ -1013,9 +1013,9 @@ Content-Length: 131
 
 | 계층 | 적합한 변조 대상 |
 |------|----------------|
-| **model** | 상태 필드, 의미 필드 (Tier 1~3) |
-| **wire** | 헤더 삭제/중복/순서 변경, Content-Length 불일치 (Tier 4) |
-| **byte** | parser robustness, delimiter damage (Tier 4) |
+| **model** | 상태 필드, 의미 필드 (핵심/확장 표면) |
+| **wire** | 헤더 삭제/중복/순서 변경, Content-Length 불일치 (parser robustness 표면) |
+| **byte** | parser robustness, delimiter damage (byte damage 표면) |
 
 > [!success] 설계 적합성
 > 프로젝트의 `model → wire → byte` 3계층 변조 분리는 SIP 특성상 **필요한 분리**이며, 과도한 설계가 아니다.

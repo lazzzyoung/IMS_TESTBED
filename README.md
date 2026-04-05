@@ -12,7 +12,7 @@ SIP는 VoIP, VoLTE, IMS 기반 메시징 등에서 세션을 설정·변경·종
 - [docs/기획/MUTATOR_PRD.md](docs/기획/MUTATOR_PRD.md): Mutator 상세 설계 문서 (model/wire/byte 변조 + Typer CLI 설계 포함)
 - [docs/기획/PHASE4_PRD.md](docs/기획/PHASE4_PRD.md): Softphone-first Sender/Reactor 상세 설계 문서
 - [docs/결과/GENERATOR-구현-결과.md](docs/결과/GENERATOR-구현-결과.md): Generator 구현 및 CLI 적용 결과
-- [docs/결과/SIP-공격면-우선순위표.md](docs/결과/SIP-공격면-우선순위표.md): Tier 1~4 공격면 우선순위 문서
+- [docs/결과/SIP-공격면-우선순위표.md](docs/결과/SIP-공격면-우선순위표.md): 공격면 우선순위 문서
 - [docs/프로토콜/단말-기준-SIP-메시지-분류.md](docs/프로토콜/단말-기준-SIP-메시지-분류.md): 단말 기준 SIP 메시지 전체 분류
 - [docs/프로토콜/요청-패킷-예시.md](docs/프로토콜/요청-패킷-예시.md): 요청 패킷 예시 문서
 - [docs/프로토콜/응답-패킷-예시.md](docs/프로토콜/응답-패킷-예시.md): 응답 패킷 예시 문서

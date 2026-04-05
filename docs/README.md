@@ -28,7 +28,7 @@
 | [`결과/GENERATOR-구현-결과.md`](결과/GENERATOR-구현-결과.md) | Generator 구현 상태, CLI 엔트리포인트, 검증 결과 |
 | [`결과/PHASE4-SENDER-REACTOR-리서치.md`](결과/PHASE4-SENDER-REACTOR-리서치.md) | Phase 4 Sender/Reactor 구현 경로 비교 리서치 |
 | [`결과/PHASE4-REAL-UE-SOFTPHONE-후속-리서치.md`](결과/PHASE4-REAL-UE-SOFTPHONE-후속-리서치.md) | SDR/USRP vs softphone 경로 비교, Baresip/Linphone/PJSIP 후보 비교 |
-| [`결과/SIP-공격면-우선순위표.md`](결과/SIP-공격면-우선순위표.md) | Tier 1~4 공격면 우선순위 + softphone-first 실행 순서 |
+| [`결과/SIP-공격면-우선순위표.md`](결과/SIP-공격면-우선순위표.md) | 공격면 우선순위 + softphone-first 실행 순서 |
 
 ### `프로토콜/` — SIP 프로토콜 참조 자료
 
