@@ -4,7 +4,11 @@ from typing import Annotated
 
 import typer
 
-from volte_mutation_fuzzer.infra.core import InfraManager, check_ue_route, setup_ue_route
+from volte_mutation_fuzzer.infra.core import (
+    InfraManager,
+    check_ue_route,
+    setup_ue_route,
+)
 
 app = typer.Typer(
     add_completion=False,
@@ -53,12 +57,16 @@ def provision_command(
     amf: Annotated[str | None, typer.Option("--amf")] = None,
 ) -> None:
     manager = InfraManager()
-    explicit = any(v is not None for v in [count, start_imsi, start_msisdn, key, opc, amf])
+    explicit = any(
+        v is not None for v in [count, start_imsi, start_msisdn, key, opc, amf]
+    )
     if not explicit:
         configs = manager.read_ue_configs_from_env()
         if configs:
             provisioned = manager.provision_from_env()
-            typer.echo(json.dumps(provisioned, ensure_ascii=False, indent=2, sort_keys=True))
+            typer.echo(
+                json.dumps(provisioned, ensure_ascii=False, indent=2, sort_keys=True)
+            )
             return
     provisioned = manager.provision_subscribers(
         count=count or 1,

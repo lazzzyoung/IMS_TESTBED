@@ -198,7 +198,10 @@ class CampaignExecutor:
             self._oracle = oracle
         elif config.adb_enabled:
             from volte_mutation_fuzzer.adb.contracts import AdbCollectorConfig
-            from volte_mutation_fuzzer.adb.core import AdbAnomalyDetector, AdbLogCollector
+            from volte_mutation_fuzzer.adb.core import (
+                AdbAnomalyDetector,
+                AdbLogCollector,
+            )
 
             adb_cfg = AdbCollectorConfig(
                 serial=config.adb_serial,

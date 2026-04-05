@@ -100,9 +100,7 @@ def run_command(
     ] = "UDP",
     mode: Annotated[
         str,
-        typer.Option(
-            "--mode", help="Target mode (softphone/real-ue-direct)."
-        ),
+        typer.Option("--mode", help="Target mode (softphone/real-ue-direct)."),
     ] = "softphone",
     log_path: Annotated[
         str | None,

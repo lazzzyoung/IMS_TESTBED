@@ -58,7 +58,9 @@ def setup_ue_route(
                 check=False,
             )
         except FileNotFoundError as exc:
-            return RouteCommandResult(False, f"route setup command not found: {exc.filename}")
+            return RouteCommandResult(
+                False, f"route setup command not found: {exc.filename}"
+            )
         except subprocess.TimeoutExpired:
             return RouteCommandResult(False, "route setup command timed out")
         except OSError as exc:
@@ -123,7 +125,9 @@ class InfraManager:
             if compose_file.is_file():
                 return candidate
 
-        raise FileNotFoundError("could not locate docker-compose.yml for VMF infrastructure")
+        raise FileNotFoundError(
+            "could not locate docker-compose.yml for VMF infrastructure"
+        )
 
     @staticmethod
     def _resolve_compose_dir(path: Path) -> Path:
@@ -396,10 +400,14 @@ if (!imsPresent) {
                     with urllib.request.urlopen(request, timeout=10.0):
                         return
                 except urllib.error.HTTPError as exc:
-                    last_error = exc.read().decode("utf-8", errors="replace") or str(exc)
+                    last_error = exc.read().decode("utf-8", errors="replace") or str(
+                        exc
+                    )
                 except urllib.error.URLError as exc:
                     last_error = str(exc)
-        raise RuntimeError(f"failed to provision PyHSS IMS subscriber {imsi}: {last_error}")
+        raise RuntimeError(
+            f"failed to provision PyHSS IMS subscriber {imsi}: {last_error}"
+        )
 
     def _list_pyhss_subscribers(self) -> list[dict[str, object]]:
         request = urllib.request.Request(
@@ -432,7 +440,9 @@ def _run_route_command(command: list[str]) -> RouteCommandResult:
             check=False,
         )
     except FileNotFoundError as exc:
-        return RouteCommandResult(False, f"route-check command not found: {exc.filename}")
+        return RouteCommandResult(
+            False, f"route-check command not found: {exc.filename}"
+        )
     except subprocess.TimeoutExpired:
         return RouteCommandResult(False, "route-check command timed out")
     except OSError as exc:

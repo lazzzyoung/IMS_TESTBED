@@ -90,33 +90,20 @@ class SocketOracleTests(unittest.TestCase):
         self.assertEqual(verdict.verdict, "normal")
         self.assertEqual(verdict.response_code, 200)
 
-    def test_500_returns_suspicious(self) -> None:
+    def test_500_returns_normal(self) -> None:
         result = _make_result("error", status_code=500)
         verdict = self.oracle.judge(result, self.ctx)
-        self.assertEqual(verdict.verdict, "suspicious")
+        self.assertEqual(verdict.verdict, "normal")
         self.assertEqual(verdict.response_code, 500)
 
-    def test_600_returns_suspicious(self) -> None:
+    def test_600_returns_normal(self) -> None:
         result = _make_result("error", status_code=600)
         verdict = self.oracle.judge(result, self.ctx)
-        self.assertEqual(verdict.verdict, "suspicious")
+        self.assertEqual(verdict.verdict, "normal")
 
     def test_4xx_returns_normal(self) -> None:
         result = _make_result("error", status_code=404)
         verdict = self.oracle.judge(result, self.ctx)
-        self.assertEqual(verdict.verdict, "normal")
-
-    def test_slow_response_returns_suspicious(self) -> None:
-        ctx = OracleContext(method="OPTIONS", slow_threshold_ms=500.0)
-        result = _make_result("success", status_code=200, elapsed_ms=1000.0)
-        verdict = self.oracle.judge(result, ctx)
-        self.assertEqual(verdict.verdict, "suspicious")
-        self.assertIn("slow", verdict.reason)
-
-    def test_elapsed_below_slow_threshold_returns_normal(self) -> None:
-        ctx = OracleContext(method="OPTIONS", slow_threshold_ms=3000.0)
-        result = _make_result("success", status_code=200, elapsed_ms=100.0)
-        verdict = self.oracle.judge(result, ctx)
         self.assertEqual(verdict.verdict, "normal")
 
     def test_elapsed_ms_propagated(self) -> None:
@@ -257,7 +244,7 @@ class OracleEngineTests(unittest.TestCase):
         self.assertEqual(verdict.verdict, "timeout")
         self.assertTrue(verdict.process_alive)
 
-    def test_suspicious_with_alive_process_stays_suspicious(self) -> None:
+    def test_normal_500_with_alive_process_stays_normal(self) -> None:
         alive_result = type("R", (), {"returncode": 0, "stdout": b"999\n"})()
         result = _make_result("error", status_code=500)
         with patch(
@@ -265,7 +252,7 @@ class OracleEngineTests(unittest.TestCase):
             return_value=alive_result,
         ):
             verdict = self.engine.evaluate(result, self.ctx, process_name="baresip")
-        self.assertEqual(verdict.verdict, "suspicious")
+        self.assertEqual(verdict.verdict, "normal")
         self.assertTrue(verdict.process_alive)
 
 
@@ -389,7 +376,9 @@ class LogOracleDockerTests(unittest.TestCase):
                 "volte_mutation_fuzzer.oracle.core.subprocess.run",
                 return_value=mock_result,
             ),
-            patch("volte_mutation_fuzzer.oracle.core.time.time", return_value=1700000100),
+            patch(
+                "volte_mutation_fuzzer.oracle.core.time.time", return_value=1700000100
+            ),
         ):
             result, position = self.oracle.check("pcscf", after_position=0)
         self.assertTrue(result.matched)
@@ -431,7 +420,9 @@ class LogOracleDockerTests(unittest.TestCase):
                 "volte_mutation_fuzzer.oracle.core.subprocess.run",
                 return_value=mock_result,
             ) as run_mock,
-            patch("volte_mutation_fuzzer.oracle.core.time.time", return_value=1700000200),
+            patch(
+                "volte_mutation_fuzzer.oracle.core.time.time", return_value=1700000200
+            ),
         ):
             _, position = self.oracle.check("pcscf", after_position=42)
         self.assertEqual(
@@ -531,7 +522,9 @@ class OracleEngineDockerTests(unittest.TestCase):
                 "volte_mutation_fuzzer.oracle.core.subprocess.run",
                 return_value=mock_result,
             ),
-            patch("volte_mutation_fuzzer.oracle.core.time.time", return_value=1700000300),
+            patch(
+                "volte_mutation_fuzzer.oracle.core.time.time", return_value=1700000300
+            ),
         ):
             verdict = engine.evaluate(result, self.ctx, log_path="pcscf")
         self.assertEqual(verdict.verdict, "stack_failure")
@@ -561,7 +554,9 @@ class OracleEngineDockerTests(unittest.TestCase):
                 "volte_mutation_fuzzer.oracle.core.subprocess.run",
                 side_effect=run_side_effect,
             ),
-            patch("volte_mutation_fuzzer.oracle.core.time.time", return_value=1700000400),
+            patch(
+                "volte_mutation_fuzzer.oracle.core.time.time", return_value=1700000400
+            ),
         ):
             verdict = engine.evaluate(
                 result,

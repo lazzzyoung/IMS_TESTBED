@@ -292,9 +292,7 @@ class SIPSenderReactor:
                 if setup_result.ok:
                     observer_events.append(f"route-setup:ok:{setup_result.detail}")
                 else:
-                    observer_events.append(
-                        f"route-setup:failed:{setup_result.detail}"
-                    )
+                    observer_events.append(f"route-setup:failed:{setup_result.detail}")
                     raise RealUEDirectRouteError(
                         "real-ue-direct route check failed for "
                         f"{resolved.host}: {setup_result.detail}. "

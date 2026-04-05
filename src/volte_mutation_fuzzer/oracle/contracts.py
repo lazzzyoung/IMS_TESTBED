@@ -19,9 +19,7 @@ class OracleContext(BaseModel):
     model_config = ConfigDict(extra="forbid")
 
     method: str = Field(min_length=1)
-    expected_outcome: str = "success"
     timeout_threshold_ms: float = Field(default=5000.0, gt=0.0)
-    slow_threshold_ms: float = Field(default=3000.0, gt=0.0)
 
 
 class ProcessCheckResult(BaseModel):

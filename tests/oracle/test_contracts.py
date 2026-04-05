@@ -13,16 +13,11 @@ class OracleContextTests(unittest.TestCase):
     def test_defaults(self) -> None:
         ctx = OracleContext(method="OPTIONS")
         self.assertEqual(ctx.method, "OPTIONS")
-        self.assertEqual(ctx.expected_outcome, "success")
         self.assertEqual(ctx.timeout_threshold_ms, 5000.0)
-        self.assertEqual(ctx.slow_threshold_ms, 3000.0)
 
     def test_custom_thresholds(self) -> None:
-        ctx = OracleContext(
-            method="INVITE", timeout_threshold_ms=2000.0, slow_threshold_ms=1000.0
-        )
+        ctx = OracleContext(method="INVITE", timeout_threshold_ms=2000.0)
         self.assertEqual(ctx.timeout_threshold_ms, 2000.0)
-        self.assertEqual(ctx.slow_threshold_ms, 1000.0)
 
     def test_method_required(self) -> None:
         with self.assertRaises(ValidationError):
@@ -31,8 +26,6 @@ class OracleContextTests(unittest.TestCase):
     def test_threshold_must_be_positive(self) -> None:
         with self.assertRaises(ValidationError):
             OracleContext(method="OPTIONS", timeout_threshold_ms=0.0)
-        with self.assertRaises(ValidationError):
-            OracleContext(method="OPTIONS", slow_threshold_ms=-1.0)
 
     def test_extra_fields_forbidden(self) -> None:
         with self.assertRaises(ValidationError):
@@ -97,11 +90,11 @@ class OracleVerdictTests(unittest.TestCase):
 
     def test_with_response_code_and_process(self) -> None:
         v = OracleVerdict(
-            verdict="suspicious",
-            reason="5xx",
+            verdict="normal",
+            reason="ok",
             elapsed_ms=100.0,
-            response_code=500,
+            response_code=200,
             process_alive=True,
         )
-        self.assertEqual(v.response_code, 500)
+        self.assertEqual(v.response_code, 200)
         self.assertTrue(v.process_alive)

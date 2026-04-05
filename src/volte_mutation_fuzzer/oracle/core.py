@@ -49,22 +49,6 @@ class SocketOracle:
         response_code = final.status_code if final else None
         classification = final.classification if final else None
 
-        if response_code is not None and response_code >= 500:
-            return OracleVerdict(
-                verdict="suspicious",
-                reason=f"server-side error response: {response_code}",
-                response_code=response_code,
-                elapsed_ms=elapsed,
-            )
-
-        if elapsed > context.slow_threshold_ms and final is not None:
-            return OracleVerdict(
-                verdict="suspicious",
-                reason=f"abnormally slow response: {elapsed:.0f}ms > {context.slow_threshold_ms:.0f}ms threshold",
-                response_code=response_code,
-                elapsed_ms=elapsed,
-            )
-
         return OracleVerdict(
             verdict="normal",
             reason=f"outcome={outcome}, code={response_code}, classification={classification}",
@@ -346,9 +330,7 @@ class OracleEngine:
         docker_mode: bool = False,
     ) -> None:
         self._socket_oracle = socket_oracle or SocketOracle()
-        self._process_oracle = process_oracle or ProcessOracle(
-            docker_mode=docker_mode
-        )
+        self._process_oracle = process_oracle or ProcessOracle(docker_mode=docker_mode)
         self._log_oracle = log_oracle
         self._adb_oracle = adb_oracle
         self._log_position: int = int(time.time()) if docker_mode else 0
