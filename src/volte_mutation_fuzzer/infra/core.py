@@ -75,6 +75,15 @@ def setup_ue_route(
     return RouteCommandResult(False, last_failure)
 
 
+@dataclass(frozen=True)
+class UEConfig:
+    imsi: str
+    key: str
+    opc: str
+    amf: str
+    msisdn: str
+
+
 class InfraManager:
     def __init__(
         self,
@@ -82,12 +91,15 @@ class InfraManager:
         *,
         env: Mapping[str, str] | None = None,
     ) -> None:
-        self._env = dict(os.environ if env is None else env)
+        base_env = dict(os.environ if env is None else env)
         self.infra_dir = (
             self._resolve_compose_dir(Path(infra_dir))
             if infra_dir is not None
-            else self._find_infra_dir(env=self._env)
+            else self._find_infra_dir(env=base_env)
         )
+        dotenv_path = self.infra_dir / ".env"
+        dotenv_vars = _parse_dotenv_file(dotenv_path) if env is None else {}
+        self._env = {**dotenv_vars, **base_env}
         self.compose_file = self.infra_dir / "docker-compose.yml"
         self.pyhss_api = (
             _normalize_optional_text(self._env.get("VMF_INFRA_PYHSS_API"))
@@ -177,6 +189,25 @@ class InfraManager:
     def is_running(self) -> bool:
         result = self._run_compose("ps", "--status", "running", "--services")
         return result.returncode == 0 and bool(result.stdout.strip())
+
+    def read_ue_configs_from_env(self) -> list[UEConfig]:
+        return _read_ue_configs_from_env(self._env)
+
+    def provision_from_env(self) -> list[dict[str, str]]:
+        configs = self.read_ue_configs_from_env()
+        if not configs:
+            raise ValueError(
+                "no UE entries found in .env — add UE1_IMSI, UE1_KI, UE1_OPC, UE1_AMF, UE1_MSISDN"
+            )
+        provisioned: list[dict[str, str]] = []
+        for cfg in configs:
+            self._provision_hss_subscriber(
+                imsi=cfg.imsi, key=cfg.key, opc=cfg.opc, amf=cfg.amf
+            )
+            self._ensure_ims_apn(cfg.imsi)
+            self._provision_pyhss_subscriber(imsi=cfg.imsi, msisdn=cfg.msisdn)
+            provisioned.append({"imsi": cfg.imsi, "msisdn": cfg.msisdn})
+        return provisioned
 
     def provision_subscribers(
         self,
@@ -455,9 +486,48 @@ def _join_output(*parts: str) -> str:
     return "\n".join(part.strip() for part in parts if part.strip())
 
 
+def _parse_dotenv_file(path: Path) -> dict[str, str]:
+    result: dict[str, str] = {}
+    try:
+        lines = path.read_text(encoding="utf-8").splitlines()
+    except OSError:
+        return result
+    for line in lines:
+        stripped = line.strip()
+        if not stripped or stripped.startswith("#"):
+            continue
+        if "=" not in stripped:
+            continue
+        key, _, raw_value = stripped.partition("=")
+        key = key.strip()
+        value = raw_value.strip().strip("\"'")
+        if key:
+            result[key] = value
+    return result
+
+
+def _read_ue_configs_from_env(env: Mapping[str, str]) -> list[UEConfig]:
+    configs: list[UEConfig] = []
+    for i in range(1, 100):
+        imsi = env.get(f"UE{i}_IMSI", "").strip()
+        if not imsi:
+            break
+        configs.append(
+            UEConfig(
+                imsi=imsi,
+                key=env.get(f"UE{i}_KI", _DEFAULT_SUBSCRIBER_KEY).strip(),
+                opc=env.get(f"UE{i}_OPC", _DEFAULT_SUBSCRIBER_OPC).strip(),
+                amf=env.get(f"UE{i}_AMF", _DEFAULT_SUBSCRIBER_AMF).strip(),
+                msisdn=env.get(f"UE{i}_MSISDN", "").strip(),
+            )
+        )
+    return configs
+
+
 __all__ = [
     "InfraManager",
     "RouteCommandResult",
+    "UEConfig",
     "check_ue_route",
     "setup_ue_route",
 ]

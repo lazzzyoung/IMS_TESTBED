@@ -45,20 +45,28 @@ def status_command() -> None:
 
 @app.command("provision")
 def provision_command(
-    count: Annotated[int, typer.Option("--count", min=1)] = 1,
-    start_imsi: Annotated[str, typer.Option("--start-imsi")] = "001010000000001",
-    start_msisdn: Annotated[str, typer.Option("--start-msisdn")] = "222222",
-    key: Annotated[str, typer.Option("--key")] = "00112233445566778899AABBCCDDEEFF",
-    opc: Annotated[str, typer.Option("--opc")] = "00112233445566778899AABBCCDDEEFF",
-    amf: Annotated[str, typer.Option("--amf")] = "8000",
+    count: Annotated[int | None, typer.Option("--count", min=1)] = None,
+    start_imsi: Annotated[str | None, typer.Option("--start-imsi")] = None,
+    start_msisdn: Annotated[str | None, typer.Option("--start-msisdn")] = None,
+    key: Annotated[str | None, typer.Option("--key")] = None,
+    opc: Annotated[str | None, typer.Option("--opc")] = None,
+    amf: Annotated[str | None, typer.Option("--amf")] = None,
 ) -> None:
-    provisioned = InfraManager().provision_subscribers(
-        count=count,
-        start_imsi=start_imsi,
-        start_msisdn=start_msisdn,
-        key=key,
-        opc=opc,
-        amf=amf,
+    manager = InfraManager()
+    explicit = any(v is not None for v in [count, start_imsi, start_msisdn, key, opc, amf])
+    if not explicit:
+        configs = manager.read_ue_configs_from_env()
+        if configs:
+            provisioned = manager.provision_from_env()
+            typer.echo(json.dumps(provisioned, ensure_ascii=False, indent=2, sort_keys=True))
+            return
+    provisioned = manager.provision_subscribers(
+        count=count or 1,
+        start_imsi=start_imsi or "001010000000001",
+        start_msisdn=start_msisdn or "222222",
+        key=key or "00112233445566778899AABBCCDDEEFF",
+        opc=opc or "00112233445566778899AABBCCDDEEFF",
+        amf=amf or "8000",
     )
     typer.echo(json.dumps(provisioned, ensure_ascii=False, indent=2, sort_keys=True))
 
