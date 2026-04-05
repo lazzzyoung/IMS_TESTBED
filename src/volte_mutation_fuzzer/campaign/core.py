@@ -700,6 +700,12 @@ class CampaignExecutor:
 
     def _build_reproduction_cmd(self, spec: CaseSpec) -> str:
         cfg = self._config
+        send_flags = (
+            f" --target-host {cfg.target_host}"
+            f" --target-port {cfg.target_port}"
+            f" --mode {cfg.mode}"
+            f" --transport {cfg.transport}"
+        )
         if spec.status_code is not None:
             related = spec.related_method or "INVITE"
             ctx_json = (
@@ -713,8 +719,7 @@ class CampaignExecutor:
                 f" --layer {spec.layer}"
                 f" --seed {spec.seed}"
                 f" | uv run fuzzer send packet"
-                f" --target-host {cfg.target_host}"
-                f" --target-port {cfg.target_port}"
+                f"{send_flags}"
             )
         return (
             f"uv run fuzzer mutate request {spec.method}"
@@ -722,8 +727,7 @@ class CampaignExecutor:
             f" --layer {spec.layer}"
             f" --seed {spec.seed}"
             f" | uv run fuzzer send packet"
-            f" --target-host {cfg.target_host}"
-            f" --target-port {cfg.target_port}"
+            f"{send_flags}"
         )
 
     @staticmethod
