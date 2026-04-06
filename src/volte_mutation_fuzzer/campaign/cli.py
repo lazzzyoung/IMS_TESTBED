@@ -112,6 +112,21 @@ def run_command(
         str | None,
         typer.Option("--adb-buffers", help="Comma-separated logcat buffers."),
     ] = None,
+    pcap: Annotated[
+        bool,
+        typer.Option(
+            "--pcap/--no-pcap",
+            help="Enable per-case pcap capture via sudo tcpdump.",
+        ),
+    ] = False,
+    pcap_dir: Annotated[
+        str,
+        typer.Option("--pcap-dir", help="Directory to store .pcap files."),
+    ] = "results/pcap",
+    pcap_interface: Annotated[
+        str,
+        typer.Option("--pcap-interface", help="Network interface for tcpdump."),
+    ] = "any",
 ) -> None:
     """Execute a fuzzing campaign against a SIP target."""
     strategies = (
@@ -141,6 +156,9 @@ def run_command(
         "check_process": not no_process_check,
         "log_path": log_path,
         "adb_enabled": adb,
+        "pcap_enabled": pcap,
+        "pcap_dir": pcap_dir,
+        "pcap_interface": pcap_interface,
     }
 
     if adb_serial is not None:

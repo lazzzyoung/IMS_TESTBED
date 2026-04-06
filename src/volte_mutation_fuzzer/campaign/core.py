@@ -14,6 +14,7 @@ from volte_mutation_fuzzer.campaign.contracts import (
     CaseResult,
     CaseSpec,
 )
+from volte_mutation_fuzzer.capture.core import PcapCapture
 from volte_mutation_fuzzer.dialog.core import DialogOrchestrator
 from volte_mutation_fuzzer.dialog.scenarios import scenario_for_method
 from volte_mutation_fuzzer.generator.contracts import (
@@ -329,6 +330,8 @@ class CampaignExecutor:
         config = self._config
         timestamp = time.time()
         error: str | None = None
+        capture: PcapCapture | None = None
+        pcap_path_saved: str | None = None
 
         try:
             # If this method requires a dialog, use DialogOrchestrator
@@ -347,9 +350,19 @@ class CampaignExecutor:
                 ),
             )
             artifact = self._artifact_from_mutated(mutated)
-            send_result = self._sender.send_artifact(
-                artifact, self._target, collect_all_responses=True
-            )
+            if config.pcap_enabled:
+                pcap_dir = Path(config.pcap_dir)
+                pcap_dir.mkdir(parents=True, exist_ok=True)
+                pcap_path = str(pcap_dir / f"case_{spec.case_id:06d}.pcap")
+                capture = PcapCapture(pcap_path, interface=config.pcap_interface)
+                capture.start()
+            try:
+                send_result = self._sender.send_artifact(
+                    artifact, self._target, collect_all_responses=True
+                )
+            finally:
+                if capture is not None:
+                    pcap_path_saved = capture.stop()
 
             context = OracleContext(
                 method=spec.related_method or spec.method,
@@ -407,6 +420,7 @@ class CampaignExecutor:
                 timestamp=timestamp,
                 fuzz_response_code=spec.response_code,
                 fuzz_related_method=spec.related_method,
+                pcap_path=pcap_path_saved,
             )
 
         except Exception as exc:
@@ -425,17 +439,33 @@ class CampaignExecutor:
                 timestamp=timestamp,
                 fuzz_response_code=spec.response_code,
                 fuzz_related_method=spec.related_method,
+                pcap_path=pcap_path_saved,
             )
 
-    def _execute_dialog_case(self, spec: CaseSpec, scenario, timestamp: float) -> CaseResult:
+    def _execute_dialog_case(
+        self, spec: CaseSpec, scenario, timestamp: float
+    ) -> CaseResult:
         orchestrator = DialogOrchestrator(self._generator, self._mutator, self._target)
         mutation_config = MutationConfig(
             seed=spec.seed,
             strategy=spec.strategy,
             layer=spec.layer,
         )
+        config = self._config
+        capture: PcapCapture | None = None
+        pcap_path_saved: str | None = None
         try:
-            exchange = orchestrator.execute(scenario, mutation_config)
+            if config.pcap_enabled:
+                pcap_dir = Path(config.pcap_dir)
+                pcap_dir.mkdir(parents=True, exist_ok=True)
+                pcap_path = str(pcap_dir / f"case_{spec.case_id:06d}.pcap")
+                capture = PcapCapture(pcap_path, interface=config.pcap_interface)
+                capture.start()
+            try:
+                exchange = orchestrator.execute(scenario, mutation_config)
+            finally:
+                if capture is not None:
+                    pcap_path_saved = capture.stop()
         except Exception as exc:
             return CaseResult(
                 case_id=spec.case_id,
@@ -449,6 +479,7 @@ class CampaignExecutor:
                 reproduction_cmd=self._build_reproduction_cmd(spec),
                 error=str(exc),
                 timestamp=timestamp,
+                pcap_path=pcap_path_saved,
             )
 
         if not exchange.setup_succeeded:
@@ -464,9 +495,9 @@ class CampaignExecutor:
                 reproduction_cmd=self._build_reproduction_cmd(spec),
                 error=exchange.error,
                 timestamp=timestamp,
+                pcap_path=pcap_path_saved,
             )
 
-        config = self._config
         fuzz_result = exchange.fuzz_result
         send_result = fuzz_result.send_result if fuzz_result is not None else None
 
@@ -482,6 +513,7 @@ class CampaignExecutor:
                 elapsed_ms=0.0,
                 reproduction_cmd=self._build_reproduction_cmd(spec),
                 timestamp=timestamp,
+                pcap_path=pcap_path_saved,
             )
 
         context = OracleContext(
@@ -518,6 +550,7 @@ class CampaignExecutor:
             raw_response=raw_response,
             reproduction_cmd=self._build_reproduction_cmd(spec),
             timestamp=timestamp,
+            pcap_path=pcap_path_saved,
         )
 
     def _build_packet(self, spec: CaseSpec) -> object:

@@ -32,6 +32,9 @@ class CampaignConfig(BaseModel):
     adb_enabled: bool = False
     adb_serial: str | None = None
     adb_buffers: tuple[str, ...] = ("main", "system", "radio", "crash")
+    pcap_enabled: bool = False
+    pcap_dir: str = "results/pcap"
+    pcap_interface: str = "any"
 
     @field_validator("methods", mode="before")
     @classmethod
@@ -101,6 +104,7 @@ class CaseResult(BaseModel):
     timestamp: float
     fuzz_response_code: int | None = None
     fuzz_related_method: str | None = None
+    pcap_path: str | None = None
 
 
 class CampaignSummary(BaseModel):
