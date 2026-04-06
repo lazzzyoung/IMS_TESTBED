@@ -14,6 +14,8 @@ from volte_mutation_fuzzer.campaign.contracts import (
     CaseResult,
     CaseSpec,
 )
+from volte_mutation_fuzzer.dialog.core import DialogOrchestrator
+from volte_mutation_fuzzer.dialog.scenarios import scenario_for_method
 from volte_mutation_fuzzer.generator.contracts import (
     DialogContext,
     GeneratorSettings,
@@ -329,6 +331,12 @@ class CampaignExecutor:
         error: str | None = None
 
         try:
+            # If this method requires a dialog, use DialogOrchestrator
+            if spec.response_code is None:
+                scenario = scenario_for_method(spec.method)
+                if scenario is not None:
+                    return self._execute_dialog_case(spec, scenario, timestamp)
+
             packet = self._build_packet(spec)
             mutated: MutatedCase = self._mutator.mutate(
                 packet,
@@ -418,6 +426,99 @@ class CampaignExecutor:
                 fuzz_response_code=spec.response_code,
                 fuzz_related_method=spec.related_method,
             )
+
+    def _execute_dialog_case(self, spec: CaseSpec, scenario, timestamp: float) -> CaseResult:
+        orchestrator = DialogOrchestrator(self._generator, self._mutator, self._target)
+        mutation_config = MutationConfig(
+            seed=spec.seed,
+            strategy=spec.strategy,
+            layer=spec.layer,
+        )
+        try:
+            exchange = orchestrator.execute(scenario, mutation_config)
+        except Exception as exc:
+            return CaseResult(
+                case_id=spec.case_id,
+                seed=spec.seed,
+                method=spec.method,
+                layer=spec.layer,
+                strategy=spec.strategy,
+                verdict="unknown",
+                reason=f"dialog executor error: {exc}",
+                elapsed_ms=0.0,
+                reproduction_cmd=self._build_reproduction_cmd(spec),
+                error=str(exc),
+                timestamp=timestamp,
+            )
+
+        if not exchange.setup_succeeded:
+            return CaseResult(
+                case_id=spec.case_id,
+                seed=spec.seed,
+                method=spec.method,
+                layer=spec.layer,
+                strategy=spec.strategy,
+                verdict="unknown",
+                reason=f"dialog setup failed: {exchange.error or 'unknown'}",
+                elapsed_ms=0.0,
+                reproduction_cmd=self._build_reproduction_cmd(spec),
+                error=exchange.error,
+                timestamp=timestamp,
+            )
+
+        config = self._config
+        fuzz_result = exchange.fuzz_result
+        send_result = fuzz_result.send_result if fuzz_result is not None else None
+
+        if send_result is None:
+            return CaseResult(
+                case_id=spec.case_id,
+                seed=spec.seed,
+                method=spec.method,
+                layer=spec.layer,
+                strategy=spec.strategy,
+                verdict="unknown",
+                reason="dialog fuzz step produced no send result",
+                elapsed_ms=0.0,
+                reproduction_cmd=self._build_reproduction_cmd(spec),
+                timestamp=timestamp,
+            )
+
+        context = OracleContext(
+            method=spec.method,
+            timeout_threshold_ms=config.timeout_seconds * 1000,
+        )
+        process_name = config.process_name if config.check_process else None
+        verdict = self._oracle.evaluate(
+            send_result,
+            context,
+            process_name=process_name,
+            log_path=config.log_path,
+        )
+
+        raw_response: str | None = None
+        if (
+            verdict.verdict in ("suspicious", "crash", "stack_failure")
+            and send_result.final_response
+        ):
+            raw_response = send_result.final_response.raw_text or None
+
+        return CaseResult(
+            case_id=spec.case_id,
+            seed=spec.seed,
+            method=spec.method,
+            layer=spec.layer,
+            strategy=spec.strategy,
+            mutation_ops=(),
+            verdict=verdict.verdict,
+            reason=verdict.reason,
+            response_code=verdict.response_code,
+            elapsed_ms=verdict.elapsed_ms,
+            process_alive=verdict.process_alive,
+            raw_response=raw_response,
+            reproduction_cmd=self._build_reproduction_cmd(spec),
+            timestamp=timestamp,
+        )
 
     def _build_packet(self, spec: CaseSpec) -> object:
         if spec.response_code is None:
