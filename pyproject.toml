@@ -88,3 +88,12 @@ args = [{name = "args", positional = true, multiple = true}]
 [tool.poe.tasks.setup-host]
 help = "Setup Ubuntu host: kernel modules, network sysctl, SDR udev, realtime scheduling"
 cmd = "sudo ./setup_host.sh --all"
+
+[tool.poe.tasks.add-ue-routes]
+help = "Add host routes to UE subnets (10.10.10.0/24, 10.20.20.0/24) via UPF — required for real-ue-direct fuzzing"
+shell = """
+sudo ip route replace 10.10.10.0/24 via 172.22.0.8
+sudo ip route replace 10.20.20.0/24 via 172.22.0.8
+echo "Routes added:"
+ip route show | grep -E '10\\.10\\.|10\\.20\\.'
+"""
