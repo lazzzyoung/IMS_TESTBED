@@ -18,6 +18,10 @@ _DEFAULT_REAL_UE_IMS_SUBNET: Final[str] = "10.20.20.0/24"
 _DEFAULT_REAL_UE_UPF_IP: Final[str] = "172.22.0.8"
 _DEFAULT_SCSCF_CONTAINER: Final[str] = "scscf"
 _DEFAULT_PCSCF_CONTAINER: Final[str] = "pcscf"
+_DEFAULT_MYSQL_CONTAINER: Final[str] = "mysql"
+_DEFAULT_SCSCF_DB_USER: Final[str] = "scscf"
+_DEFAULT_SCSCF_DB_PASS: Final[str] = "heslo"
+_DEFAULT_SCSCF_DB_NAME: Final[str] = "scscf"
 _DEFAULT_PCSCF_LOG_TAIL: Final[int] = 500
 _KAMCTL_CONTACT_PATTERN: Final[re.Pattern[str]] = re.compile(
     r"Contact:\s*<sip:[^@]+@([\d.]+):(\d+)"
@@ -91,6 +95,12 @@ class RealUEDirectResolver:
         self.pcscf_container = source.get(
             "VMF_REAL_UE_PCSCF_CONTAINER", _DEFAULT_PCSCF_CONTAINER
         )
+        self.mysql_container = source.get(
+            "VMF_REAL_UE_MYSQL_CONTAINER", _DEFAULT_MYSQL_CONTAINER
+        )
+        self.scscf_db_user = source.get("VMF_REAL_UE_SCSCF_DB_USER", _DEFAULT_SCSCF_DB_USER)
+        self.scscf_db_pass = source.get("VMF_REAL_UE_SCSCF_DB_PASS", _DEFAULT_SCSCF_DB_PASS)
+        self.scscf_db_name = source.get("VMF_REAL_UE_SCSCF_DB_NAME", _DEFAULT_SCSCF_DB_NAME)
         self.pyhss_url = _normalize_optional_text(source.get("VMF_REAL_UE_PYHSS_URL"))
         raw_log_tail = source.get("VMF_REAL_UE_PCSCF_LOG_TAIL")
         try:
@@ -120,6 +130,8 @@ class RealUEDirectResolver:
         contact = self._lookup_via_kamctl(msisdn, container=self.scscf_container)
         if contact is None and self.pcscf_container != self.scscf_container:
             contact = self._lookup_via_kamctl(msisdn, container=self.pcscf_container)
+        if contact is None:
+            contact = self._lookup_via_scscf_mysql(msisdn)
         if contact is None:
             contact = self._lookup_via_pcscf_logs(msisdn)
         if contact is None:
@@ -164,6 +176,51 @@ class RealUEDirectResolver:
                     port=contact.port,
                     source=f"{container}-kamctl",
                 )
+        return None
+
+    def _lookup_via_scscf_mysql(self, msisdn: str) -> UEContact | None:
+        """Query S-CSCF Kamailio location table via docker exec mysql — capstone-style fallback."""
+        if not msisdn.isdigit():
+            return None
+        query = (
+            f"SELECT contact FROM location "
+            f"WHERE username LIKE '%{msisdn}%' "
+            f"ORDER BY expires DESC LIMIT 1;"
+        )
+        try:
+            result = subprocess.run(
+                [
+                    "docker",
+                    "exec",
+                    self.mysql_container,
+                    "mysql",
+                    "-u",
+                    self.scscf_db_user,
+                    f"-p{self.scscf_db_pass}",
+                    self.scscf_db_name,
+                    "-se",
+                    query,
+                ],
+                capture_output=True,
+                text=True,
+                timeout=10.0,
+                check=False,
+            )
+        except (FileNotFoundError, OSError, subprocess.TimeoutExpired):
+            return None
+
+        if result.returncode != 0 or not result.stdout.strip():
+            return None
+
+        contact_uri = result.stdout.strip().splitlines()[-1].strip()
+        match = _KAMCTL_CONTACT_PATTERN.search(contact_uri)
+        if match is not None:
+            return UEContact(
+                msisdn=msisdn,
+                host=match.group(1),
+                port=int(match.group(2)),
+                source="scscf-mysql",
+            )
         return None
 
     def _lookup_via_pcscf_logs(self, msisdn: str) -> UEContact | None:
@@ -232,17 +289,24 @@ class RealUEDirectResolver:
         return None
 
     def _parse_kamctl_output(self, msisdn: str, output: str) -> UEContact | None:
-        direct_match = _KAMCTL_CONTACT_PATTERN.search(output)
-        if direct_match is not None:
-            return UEContact(
-                msisdn=msisdn,
-                host=direct_match.group(1),
-                port=int(direct_match.group(2)),
-                source="kamctl",
-            )
+        lines = output.splitlines()
+        has_aor_sections = any(line.startswith("AOR:") for line in lines)
 
+        if not has_aor_sections:
+            # Single-AOR response (e.g. kamctl ul show sip:111111@*) — safe to grab first match
+            direct_match = _KAMCTL_CONTACT_PATTERN.search(output)
+            if direct_match is not None:
+                return UEContact(
+                    msisdn=msisdn,
+                    host=direct_match.group(1),
+                    port=int(direct_match.group(2)),
+                    source="kamctl",
+                )
+            return None
+
+        # Multi-AOR response (kamctl ul show) — must filter by MSISDN to avoid wrong UE contact
         current_aor_matches = False
-        for line in output.splitlines():
+        for line in lines:
             if line.startswith("AOR:"):
                 current_aor_matches = msisdn in line
                 continue
