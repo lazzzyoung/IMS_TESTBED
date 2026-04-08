@@ -76,8 +76,8 @@ class TargetEndpoint(BaseModel):
                 raise ValueError(
                     "real-ue-direct requires at least one of host or msisdn"
                 )
-            if self.transport != "UDP":
-                raise ValueError("real-ue-direct currently supports UDP only")
+            if self.transport not in ("UDP", "TCP"):
+                raise ValueError("real-ue-direct supports UDP or TCP")
             if self.host is not None:
                 try:
                     parsed = ip_address(self.host)

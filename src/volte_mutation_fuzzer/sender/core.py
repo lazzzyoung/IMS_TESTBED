@@ -310,22 +310,53 @@ class SIPSenderReactor:
                 )
 
         observations: list[SocketObservation] = []
-        with socket.socket(socket.AF_INET, socket.SOCK_DGRAM) as sock:
-            sock.settimeout(target.timeout_seconds)
-            sock.connect((resolved.host, resolved.port))
-            local_host, local_port = sock.getsockname()
-            observer_events.append(f"direct-local:{local_host}:{local_port}")
-            payload, normalization_events = prepare_real_ue_direct_payload(
-                artifact,
-                local_host=local_host,
-                local_port=int(local_port),
-            )
-            observer_events.extend(normalization_events)
-            sock.send(payload)
-            observations = self._read_udp_observations(
-                sock,
-                collect_all_responses=collect_all_responses,
-            )
+        payload = b""
+        if target.transport.upper() == "TCP":
+            with socket.create_connection(
+                (resolved.host, resolved.port), timeout=target.timeout_seconds
+            ) as sock:
+                sock.settimeout(target.timeout_seconds)
+                local_host, local_port = sock.getsockname()
+                observer_events.append(f"direct-local:{local_host}:{local_port}")
+                payload, normalization_events = prepare_real_ue_direct_payload(
+                    artifact,
+                    local_host=local_host,
+                    local_port=int(local_port),
+                )
+                observer_events.extend(normalization_events)
+                sock.sendall(payload)
+                chunks: list[bytes] = []
+                while True:
+                    try:
+                        chunk = sock.recv(_TCP_READ_SIZE)
+                    except TimeoutError:
+                        break
+                    if not chunk:
+                        break
+                    chunks.append(chunk)
+                if chunks:
+                    observations = [
+                        self._parse_response(
+                            b"".join(chunks), (resolved.host, resolved.port)
+                        )
+                    ]
+        else:
+            with socket.socket(socket.AF_INET, socket.SOCK_DGRAM) as sock:
+                sock.settimeout(target.timeout_seconds)
+                sock.connect((resolved.host, resolved.port))
+                local_host, local_port = sock.getsockname()
+                observer_events.append(f"direct-local:{local_host}:{local_port}")
+                payload, normalization_events = prepare_real_ue_direct_payload(
+                    artifact,
+                    local_host=local_host,
+                    local_port=int(local_port),
+                )
+                observer_events.extend(normalization_events)
+                sock.send(payload)
+                observations = self._read_udp_observations(
+                    sock,
+                    collect_all_responses=collect_all_responses,
+                )
 
         return resolved_target, payload, observations, tuple(observer_events)
 
