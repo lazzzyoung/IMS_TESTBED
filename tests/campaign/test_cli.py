@@ -3,12 +3,14 @@ import tempfile
 import time
 import unittest
 from pathlib import Path
+from unittest.mock import Mock, patch
 
 from typer.testing import CliRunner
 
 from volte_mutation_fuzzer.campaign.contracts import (
     CampaignConfig,
     CampaignResult,
+    CampaignSummary,
     CaseResult,
 )
 from volte_mutation_fuzzer.campaign.core import ResultStore
@@ -102,6 +104,63 @@ class CampaignRunCLITests(unittest.TestCase):
             )
             self.assertEqual(result.exit_code, 0, msg=result.output)
             self.assertTrue(Path(out).exists())
+
+    def test_run_command_passes_crash_analysis_flags(self) -> None:
+        captured: dict[str, CampaignConfig] = {}
+
+        def _build_executor(config: CampaignConfig) -> Mock:
+            captured["config"] = config
+            executor = Mock()
+            executor.run.return_value = CampaignResult(
+                campaign_id="cli-crash-analysis",
+                started_at="2026-01-01T00:00:00Z",
+                completed_at="2026-01-01T00:00:01Z",
+                status="completed",
+                config=config,
+                summary=CampaignSummary(total=1),
+            )
+            return executor
+
+        with tempfile.TemporaryDirectory() as tmpdir:
+            out = str(Path(tmpdir) / "out.jsonl")
+            analysis_dir = str(Path(tmpdir) / "crash-analysis")
+            with patch(
+                "volte_mutation_fuzzer.campaign.cli.CampaignExecutor",
+                side_effect=_build_executor,
+            ):
+                result = self.runner.invoke(
+                    app,
+                    [
+                        "campaign",
+                        "run",
+                        "--target-host",
+                        "127.0.0.1",
+                        "--target-port",
+                        "5060",
+                        "--methods",
+                        "OPTIONS",
+                        "--layer",
+                        "model",
+                        "--strategy",
+                        "default",
+                        "--max-cases",
+                        "1",
+                        "--timeout",
+                        "0.1",
+                        "--cooldown",
+                        "0",
+                        "--no-process-check",
+                        "--output",
+                        out,
+                        "--crash-analysis",
+                        "--crash-analysis-output",
+                        analysis_dir,
+                    ],
+                )
+
+        self.assertEqual(result.exit_code, 0, msg=result.output)
+        self.assertTrue(captured["config"].crash_analysis)
+        self.assertEqual(captured["config"].crash_analysis_output, analysis_dir)
 
     def test_run_command_invalid_host_exits_nonzero(self) -> None:
         result = self.runner.invoke(

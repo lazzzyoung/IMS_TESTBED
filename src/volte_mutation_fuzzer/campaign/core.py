@@ -275,7 +275,8 @@ class CampaignExecutor:
         # Initialize crash analyzer
         self._crash_analyzer = CampaignCrashAnalyzer(
             output_dir=config.crash_analysis_output,
-            enabled=config.crash_analysis
+            enabled=config.crash_analysis,
+            source_name=config.output_path,
         )
 
     def run(self) -> CampaignResult:
@@ -301,7 +302,7 @@ class CampaignExecutor:
                 self._store.append(case_result)
 
                 # Real-time crash analysis
-                self._crash_analyzer.analyze_case_immediately(case_result)
+                self._analyze_case_result(case_result)
 
                 self._update_summary(summary, case_result.verdict)
 
@@ -361,7 +362,7 @@ class CampaignExecutor:
                 self._adb_collector.stop()
 
             # Generate final crash analysis report
-            self._crash_analyzer.generate_final_report()
+            self._finalize_crash_analysis()
 
         campaign = campaign.model_copy(
             update={
@@ -932,3 +933,19 @@ class CampaignExecutor:
                 summary.stack_failure += 1
             case _:
                 summary.unknown += 1
+
+    def _analyze_case_result(self, case_result: CaseResult) -> None:
+        try:
+            self._crash_analyzer.analyze_case_immediately(case_result)
+        except Exception as exc:
+            logger.warning(
+                "crash analysis failed for case %s: %s",
+                case_result.case_id,
+                exc,
+            )
+
+    def _finalize_crash_analysis(self) -> None:
+        try:
+            self._crash_analyzer.generate_final_report()
+        except Exception as exc:
+            logger.warning("failed to generate crash analysis report: %s", exc)

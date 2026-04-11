@@ -39,10 +39,6 @@ class CampaignConfig(BaseModel):
     pcap_dir: str = "results/pcap"
     pcap_interface: str = "any"
 
-    # Crash analysis options
-    crash_analysis: bool = False
-    crash_analysis_output: str = "crash_analysis"
-
     # Real-UE MT INVITE template options
     target_msisdn: str | None = None
     impi: str | None = None

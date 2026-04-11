@@ -4,6 +4,7 @@ import time
 import unittest
 from pathlib import Path
 
+from volte_mutation_fuzzer.analysis.crash_analyzer import CampaignCrashAnalyzer
 from volte_mutation_fuzzer.campaign.contracts import (
     CampaignConfig,
     CampaignResult,
@@ -449,3 +450,51 @@ class CampaignExecutorTests(unittest.TestCase):
 
         self.assertIn("[ERROR]", output)
         self.assertIn("test error", output)
+
+    def test_run_invokes_realtime_crash_analysis_and_final_report(self) -> None:
+        with tempfile.TemporaryDirectory() as tmpdir:
+            out_path = str(Path(tmpdir) / "campaign.jsonl")
+            cfg = self._make_config(
+                "127.0.0.1",
+                5060,
+                methods=("OPTIONS",),
+                max_cases=1,
+                output_path=out_path,
+                crash_analysis=True,
+                crash_analysis_output=str(Path(tmpdir) / "crash-analysis"),
+            )
+            analyzer = CampaignCrashAnalyzer(
+                output_dir=cfg.crash_analysis_output,
+                enabled=True,
+                source_name=cfg.output_path,
+            )
+            fake_case = CaseResult(
+                case_id=0,
+                seed=0,
+                method="OPTIONS",
+                layer="model",
+                strategy="default",
+                verdict="normal",
+                reason="ok",
+                elapsed_ms=10.0,
+                reproduction_cmd="uv run fuzzer ...",
+                timestamp=1.0,
+            )
+
+            with unittest.mock.patch.object(
+                analyzer,
+                "analyze_case_immediately",
+                wraps=analyzer.analyze_case_immediately,
+            ) as analyze_mock, unittest.mock.patch.object(
+                analyzer,
+                "generate_final_report",
+                wraps=analyzer.generate_final_report,
+            ) as report_mock:
+                executor = CampaignExecutor(cfg)
+                executor._crash_analyzer = analyzer
+                executor._execute_case = unittest.mock.Mock(return_value=fake_case)
+                executor.run()
+
+            self.assertEqual(analyze_mock.call_count, 1)
+            report_mock.assert_called_once()
+            self.assertTrue(Path(cfg.crash_analysis_output).exists())
