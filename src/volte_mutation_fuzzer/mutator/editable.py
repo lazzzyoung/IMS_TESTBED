@@ -115,6 +115,79 @@ class EditablePacketBytes(BaseModel):
         return self.model_copy(update={"data": self.data[:length]})
 
 
+def parse_editable_from_wire(wire_text: str) -> EditableSIPMessage:
+    """Parse a raw SIP wire-text string into an ``EditableSIPMessage``.
+
+    This is the inverse of ``EditableSIPMessage.render()``.  It preserves every
+    header line verbatim — including 3GPP P-* headers, Record-Route, Accept-Contact,
+    etc. — so that the result can be fed directly into wire/byte mutation paths
+    without needing a packet definition from the SIP catalog.
+
+    Header folding (continuation lines starting with SP or HT) is handled by
+    appending the continuation to the preceding header value.
+    """
+    if not wire_text:
+        return EditableSIPMessage(
+            start_line=EditableStartLine(text=""),
+            headers=(),
+            body="",
+            declared_content_length=None,
+        )
+
+    # Normalise line endings to CRLF then split
+    normalized = wire_text.replace("\r\n", "\n").replace("\r", "\n")
+    if "\n\n" in normalized:
+        header_section, body = normalized.split("\n\n", 1)
+    else:
+        header_section = normalized
+        body = ""
+
+    raw_lines = header_section.split("\n")
+    if not raw_lines:
+        return EditableSIPMessage(
+            start_line=EditableStartLine(text=""),
+            headers=(),
+            body=body,
+            declared_content_length=None,
+        )
+
+    start_line_text = raw_lines[0]
+    headers: list[EditableHeader] = []
+    declared_content_length: int | None = None
+
+    for line in raw_lines[1:]:
+        if not line:
+            continue
+        # Header folding: continuation line starts with SP or HT
+        if line and line[0] in (" ", "\t") and headers:
+            folded = headers[-1]
+            headers[-1] = EditableHeader(
+                name=folded.name,
+                value=folded.value + " " + line.strip(),
+            )
+            continue
+        if ":" not in line:
+            continue
+        name, _, value = line.partition(":")
+        header = EditableHeader(name=name.strip(), value=value.strip())
+        headers.append(header)
+        if name.strip().casefold() == "content-length":
+            try:
+                declared_content_length = int(value.strip())
+            except ValueError:
+                pass
+
+    # Re-normalise body line endings to CRLF for consistency
+    body_crlf = body.replace("\n", _CRLF)
+
+    return EditableSIPMessage(
+        start_line=EditableStartLine(text=start_line_text),
+        headers=tuple(headers),
+        body=body_crlf,
+        declared_content_length=declared_content_length,
+    )
+
+
 def _header_name_key(name: str) -> str:
     return name.strip().casefold()
 
@@ -135,4 +208,5 @@ __all__ = [
     "EditablePacketBytes",
     "EditableSIPMessage",
     "EditableStartLine",
+    "parse_editable_from_wire",
 ]

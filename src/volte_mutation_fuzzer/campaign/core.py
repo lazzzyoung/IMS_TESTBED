@@ -1,5 +1,6 @@
 import logging
 import json
+import os
 import sys
 import time
 import uuid
@@ -24,8 +25,14 @@ from volte_mutation_fuzzer.generator.contracts import (
     ResponseSpec,
 )
 from volte_mutation_fuzzer.generator.core import SIPGenerator
+from volte_mutation_fuzzer.generator.real_ue_mt_template import (
+    build_default_slots,
+    load_mt_invite_template,
+    render_mt_invite,
+)
 from volte_mutation_fuzzer.mutator.contracts import MutationConfig, MutatedCase
 from volte_mutation_fuzzer.mutator.core import SIPMutator
+from volte_mutation_fuzzer.mutator.editable import parse_editable_from_wire
 from volte_mutation_fuzzer.oracle.contracts import OracleContext
 from volte_mutation_fuzzer.oracle.core import AdbOracle, LogOracle, OracleEngine
 from volte_mutation_fuzzer.sender.contracts import (
@@ -33,8 +40,12 @@ from volte_mutation_fuzzer.sender.contracts import (
     TargetEndpoint,
 )
 from volte_mutation_fuzzer.sender.core import SIPSenderReactor
+from volte_mutation_fuzzer.sender.real_ue import RealUEDirectResolver
 from volte_mutation_fuzzer.sip.catalog import SIP_CATALOG
 from volte_mutation_fuzzer.sip.common import SIPMethod, SIPURI
+
+_DEFAULT_PCSCF_IP: str = "172.22.0.21"
+_MT_TEMPLATE_FRAG_LIMIT: int = 1400  # bytes; packets > this risk UDP fragmentation
 
 logger = logging.getLogger(__name__)
 
@@ -42,8 +53,8 @@ logger = logging.getLogger(__name__)
 # layer별 지원 전략 매핑 — mutator/core.py _validate_supported_strategy와 동기화
 _SUPPORTED_STRATEGIES: dict[str, frozenset[str]] = {
     "model": frozenset({"default", "state_breaker"}),
-    "wire": frozenset({"default"}),
-    "byte": frozenset({"default"}),
+    "wire": frozenset({"default", "identity"}),
+    "byte": frozenset({"default", "identity"}),
 }
 
 
@@ -63,8 +74,21 @@ class CaseGenerator:
         seen: set[tuple[str, int | None, str | None, str, str]] = set()
         combos: list[tuple[str, int | None, str | None, str, str]] = []
 
+        # Template mode: inject identity-baseline case as case 0, drop model layer
+        template_active = config.mt_invite_template is not None
+        if template_active:
+            identity_key = ("INVITE", None, None, "wire", "identity")
+            seen.add(identity_key)
+            combos.append(identity_key)
+
+        effective_layers = (
+            tuple(lyr for lyr in config.layers if lyr != "model")
+            if template_active
+            else config.layers
+        )
+
         for method in config.methods:
-            for layer in config.layers:
+            for layer in effective_layers:
                 for strategy in config.strategies:
                     if strategy not in _SUPPORTED_STRATEGIES.get(layer, frozenset()):
                         continue
@@ -236,7 +260,15 @@ class CampaignExecutor:
             transport=config.transport,
             mode=config.mode,
             timeout_seconds=config.timeout_seconds,
+            msisdn=config.target_msisdn,
+            bind_container=config.bind_container,
         )
+        self._mt_template_text: str | None = (
+            load_mt_invite_template(config.mt_invite_template)
+            if config.mt_invite_template is not None
+            else None
+        )
+        self._ue_resolver = RealUEDirectResolver()
 
     def run(self) -> CampaignResult:
         config = self._config
@@ -334,6 +366,14 @@ class CampaignExecutor:
         pcap_path_saved: str | None = None
 
         try:
+            # MT INVITE template path (real-ue-direct with replay template)
+            if (
+                self._mt_template_text is not None
+                and spec.response_code is None
+                and spec.method == "INVITE"
+            ):
+                return self._execute_mt_template_case(spec, timestamp)
+
             # If this method requires a dialog, use DialogOrchestrator
             if spec.response_code is None:
                 scenario = scenario_for_method(spec.method)
@@ -441,6 +481,213 @@ class CampaignExecutor:
                 fuzz_related_method=spec.related_method,
                 pcap_path=pcap_path_saved,
             )
+
+    def _execute_mt_template_case(self, spec: CaseSpec, timestamp: float) -> CaseResult:
+        """Execute one MT INVITE replay-template case against a real UE."""
+        config = self._config
+        assert self._mt_template_text is not None
+        assert config.target_msisdn is not None
+        assert config.impi is not None
+
+        error: str | None = None
+        capture: PcapCapture | None = None
+        pcap_path_saved: str | None = None
+
+        try:
+            # 1. Resolve live port_pc / port_ps
+            port_pc, port_ps = self._ue_resolver.resolve_protected_ports(
+                config.target_msisdn
+            )
+
+            # 2. Build slots
+            pcscf_ip = os.environ.get("VMF_REAL_UE_PCSCF_IP", _DEFAULT_PCSCF_IP)
+            slots = build_default_slots(
+                msisdn=config.target_msisdn,
+                impi=config.impi,
+                pcscf_ip=pcscf_ip,
+                port_pc=port_pc,
+                port_ps=port_ps,
+                mo_contact_host=config.mo_contact_host,
+                mo_contact_port_pc=config.mo_contact_port_pc,
+                mo_contact_port_ps=config.mo_contact_port_ps,
+                seed=spec.seed,
+                from_msisdn=config.from_msisdn,
+                ue_ip=config.target_host,
+            )
+
+            # 3. Render template
+            wire_text = render_mt_invite(self._mt_template_text, slots)
+
+            # 4. Fragmentation guard (plaintext UDP only)
+            if (
+                self._target.transport.upper() == "UDP"
+                and len(wire_text.encode("utf-8")) > _MT_TEMPLATE_FRAG_LIMIT
+            ):
+                return CaseResult(
+                    case_id=spec.case_id,
+                    seed=spec.seed,
+                    method=spec.method,
+                    layer=spec.layer,
+                    strategy=spec.strategy,
+                    verdict="unknown",
+                    reason=(
+                        f"template payload exceeds one-fragment UDP safety threshold "
+                        f"({_MT_TEMPLATE_FRAG_LIMIT} bytes)"
+                    ),
+                    elapsed_ms=0.0,
+                    reproduction_cmd=self._build_mt_template_reproduction_cmd(spec),
+                    error="fragmentation-guard",
+                    timestamp=timestamp,
+                )
+
+            # 5. Parse to EditableSIPMessage
+            editable = parse_editable_from_wire(wire_text)
+
+            # 6. Determine effective layer (model → downgrade to wire)
+            effective_layer = spec.layer
+            if effective_layer == "model":
+                effective_layer = "wire"
+
+            # 7. Mutate
+            mutated_wire = self._mutator.mutate_editable(
+                editable,
+                MutationConfig(
+                    seed=spec.seed,
+                    strategy=spec.strategy,
+                    layer=effective_layer,
+                ),
+            )
+
+            # 8. Build SendArtifact
+            if mutated_wire.final_layer == "wire" and mutated_wire.wire_text is not None:
+                artifact = SendArtifact(
+                    wire_text=mutated_wire.wire_text,
+                    preserve_via=config.preserve_via,
+                    preserve_contact=config.preserve_contact,
+                )
+            else:
+                assert mutated_wire.packet_bytes is not None
+                artifact = SendArtifact(
+                    packet_bytes=mutated_wire.packet_bytes,
+                    preserve_via=config.preserve_via,
+                    preserve_contact=config.preserve_contact,
+                )
+
+            # 9. pcap + send
+            if config.pcap_enabled:
+                pcap_dir = Path(config.pcap_dir)
+                pcap_dir.mkdir(parents=True, exist_ok=True)
+                pcap_path = str(pcap_dir / f"case_{spec.case_id:06d}.pcap")
+                capture = PcapCapture(pcap_path, interface=config.pcap_interface)
+                capture.start()
+            try:
+                send_result = self._sender.send_artifact(
+                    artifact, self._target, collect_all_responses=True
+                )
+            finally:
+                if capture is not None:
+                    pcap_path_saved = capture.stop()
+
+            # 10. Oracle
+            context = OracleContext(
+                method=spec.method,
+                timeout_threshold_ms=config.timeout_seconds * 1000,
+            )
+            process_name = config.process_name if config.check_process else None
+            verdict = self._oracle.evaluate(
+                send_result,
+                context,
+                process_name=process_name,
+                log_path=config.log_path,
+            )
+
+            # 11. ADB snapshot on crash/stack_failure
+            if verdict.verdict in ("crash", "stack_failure") and config.adb_enabled:
+                try:
+                    from volte_mutation_fuzzer.adb.core import AdbConnector
+
+                    output_dir = str(
+                        Path(config.output_path).parent
+                        / "adb_snapshots"
+                        / f"case_{spec.case_id}"
+                    )
+                    AdbConnector(serial=config.adb_serial).take_snapshot(output_dir)
+                except Exception as exc:
+                    logger.warning(
+                        "failed to capture adb snapshot for case %s: %s",
+                        spec.case_id,
+                        exc,
+                    )
+
+            mutation_ops = tuple(
+                f"{r.operator}({r.target.path})" for r in mutated_wire.records
+            )
+            raw_response: str | None = None
+            if (
+                verdict.verdict in ("suspicious", "crash", "stack_failure")
+                and send_result.final_response
+            ):
+                raw_response = send_result.final_response.raw_text or None
+
+            return CaseResult(
+                case_id=spec.case_id,
+                seed=spec.seed,
+                method=spec.method,
+                layer=spec.layer,
+                strategy=spec.strategy,
+                mutation_ops=mutation_ops,
+                verdict=verdict.verdict,
+                reason=verdict.reason,
+                response_code=verdict.response_code,
+                elapsed_ms=verdict.elapsed_ms,
+                process_alive=verdict.process_alive,
+                raw_response=raw_response,
+                reproduction_cmd=self._build_mt_template_reproduction_cmd(spec),
+                error=error,
+                timestamp=timestamp,
+                fuzz_response_code=spec.response_code,
+                fuzz_related_method=spec.related_method,
+                pcap_path=pcap_path_saved,
+            )
+
+        except Exception as exc:
+            error = str(exc)
+            return CaseResult(
+                case_id=spec.case_id,
+                seed=spec.seed,
+                method=spec.method,
+                layer=spec.layer,
+                strategy=spec.strategy,
+                verdict="unknown",
+                reason=f"mt-template executor error: {error}",
+                elapsed_ms=0.0,
+                reproduction_cmd=self._build_mt_template_reproduction_cmd(spec),
+                error=error,
+                timestamp=timestamp,
+                fuzz_response_code=spec.response_code,
+                fuzz_related_method=spec.related_method,
+                pcap_path=pcap_path_saved,
+            )
+
+    def _build_mt_template_reproduction_cmd(self, spec: CaseSpec) -> str:
+        cfg = self._config
+        return (
+            f"uv run fuzzer campaign run"
+            f" --mode real-ue-direct"
+            f" --target-host {cfg.target_host}"
+            f" --target-msisdn {cfg.target_msisdn}"
+            f" --impi {cfg.impi}"
+            f" --mt-invite-template {cfg.mt_invite_template}"
+            f" --bind-container {cfg.bind_container}"
+            f"{' --preserve-via' if cfg.preserve_via else ''}"
+            f"{' --preserve-contact' if cfg.preserve_contact else ''}"
+            f" --methods INVITE"
+            f" --layer {spec.layer}"
+            f" --strategy {spec.strategy}"
+            f" --seed-start {spec.seed}"
+            f" --max-cases 1"
+            # note: port_pc/port_ps are re-queried live; may differ if UE re-registered
+        )
 
     def _execute_dialog_case(
         self, spec: CaseSpec, scenario, timestamp: float

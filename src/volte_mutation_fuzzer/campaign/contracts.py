@@ -36,6 +36,18 @@ class CampaignConfig(BaseModel):
     pcap_dir: str = "results/pcap"
     pcap_interface: str = "any"
 
+    # Real-UE MT INVITE template options
+    target_msisdn: str | None = None
+    impi: str | None = None
+    mt_invite_template: str | None = None
+    bind_container: str | None = None
+    preserve_via: bool = False
+    preserve_contact: bool = False
+    mo_contact_host: str = "10.20.20.9"
+    mo_contact_port_pc: int = Field(default=31800, ge=1, le=65535)
+    mo_contact_port_ps: int = Field(default=31100, ge=1, le=65535)
+    from_msisdn: str = "222222"
+
     @field_validator("methods", mode="before")
     @classmethod
     def _normalize_methods(cls, value: Any) -> Any:
@@ -65,6 +77,19 @@ class CampaignConfig(BaseModel):
     def _default_methods(self) -> Self:
         if not self.methods and not self.response_codes:
             object.__setattr__(self, "methods", ALL_SIP_METHODS)
+        return self
+
+    @model_validator(mode="after")
+    def _validate_mt_invite_template(self) -> Self:
+        if self.mt_invite_template is not None:
+            if self.mode != "real-ue-direct":
+                raise ValueError("mt_invite_template requires mode='real-ue-direct'")
+            if self.target_msisdn is None:
+                raise ValueError("mt_invite_template requires target_msisdn")
+            if self.impi is None:
+                raise ValueError("mt_invite_template requires impi")
+            if self.bind_container is None:
+                raise ValueError("mt_invite_template requires bind_container")
         return self
 
 

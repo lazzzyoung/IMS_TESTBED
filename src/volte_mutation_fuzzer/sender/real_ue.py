@@ -23,6 +23,13 @@ _DEFAULT_SCSCF_DB_USER: Final[str] = "scscf"
 _DEFAULT_SCSCF_DB_PASS: Final[str] = "heslo"
 _DEFAULT_SCSCF_DB_NAME: Final[str] = "scscf"
 _DEFAULT_PCSCF_LOG_TAIL: Final[int] = 500
+_PCSCF_TERM_UE_PORT_PATTERN: Final[re.Pattern[str]] = re.compile(
+    r"Term UE connection information\s*:\s*IP is [\d.]+ and Port is (\d+)"
+)
+_XFRM_DPORT_PATTERN: Final[re.Pattern[str]] = re.compile(
+    r"proto esp\s.*?src\s+\S+\s+dst\s+([\d.]+).*?\n.*?sport\s+(\d+)\s+dport\s+(\d+)",
+    re.DOTALL,
+)
 _KAMCTL_CONTACT_PATTERN: Final[re.Pattern[str]] = re.compile(
     r"Contact:\s*<sip:[^@]+@([\d.]+):(\d+)"
 )
@@ -288,6 +295,17 @@ class RealUEDirectResolver:
                     return imsi.strip()
         return None
 
+    def resolve_protected_ports(self, msisdn: str) -> tuple[int, int]:
+        """Return ``(port_pc, port_ps)`` for the UE identified by *msisdn*.
+
+        Reads live Kamailio logs from the P-CSCF container to find the most
+        recent ``Term UE connection`` line, then derives ``port_ps = port_pc + 1``.
+        Falls back to ``ip xfrm state`` if logs are unavailable.
+        """
+        return resolve_ue_protected_ports(
+            msisdn=msisdn, pcscf_container=self.pcscf_container
+        )
+
     def _parse_kamctl_output(self, msisdn: str, output: str) -> UEContact | None:
         lines = output.splitlines()
         has_aor_sections = any(line.startswith("AOR:") for line in lines)
@@ -321,6 +339,80 @@ class RealUEDirectResolver:
                     source="kamctl",
                 )
         return None
+
+
+def resolve_ue_protected_ports(
+    *,
+    msisdn: str,
+    pcscf_container: str = _DEFAULT_PCSCF_CONTAINER,
+    env: dict[str, str] | None = None,
+) -> tuple[int, int]:
+    """Return ``(port_pc, port_ps)`` for *msisdn* by querying the P-CSCF container.
+
+    Strategy:
+    1. Parse the last ``Term UE connection`` log line from the P-CSCF container.
+    2. Fallback: parse ``ip xfrm state`` output for destination port pairs.
+    3. Raise ``RealUEDirectResolutionError`` if neither succeeds.
+
+    ``port_ps`` is assumed to be ``port_pc + 1`` when derived from logs.
+    """
+    del msisdn  # Not yet filtered by MSISDN — takes most-recent UE connection.
+
+    # Strategy 1: P-CSCF logs
+    try:
+        result = subprocess.run(
+            ["docker", "logs", pcscf_container, "--since", "5m"],
+            capture_output=True,
+            text=True,
+            timeout=15.0,
+            check=False,
+        )
+        combined = (result.stdout or "") + (result.stderr or "")
+        matches = _PCSCF_TERM_UE_PORT_PATTERN.findall(combined)
+        if matches:
+            port_pc = int(matches[-1])
+            return port_pc, port_pc + 1
+    except (FileNotFoundError, OSError, subprocess.TimeoutExpired):
+        pass
+
+    # Strategy 2: ip xfrm state inside container
+    try:
+        result = subprocess.run(
+            ["docker", "exec", pcscf_container, "ip", "xfrm", "state"],
+            capture_output=True,
+            text=True,
+            timeout=10.0,
+            check=False,
+        )
+        if result.returncode == 0 and result.stdout:
+            lines = result.stdout.splitlines()
+            sport: int | None = None
+            dport: int | None = None
+            for line in lines:
+                stripped = line.strip()
+                if stripped.startswith("sport"):
+                    parts = stripped.split()
+                    for idx, part in enumerate(parts):
+                        if part == "sport" and idx + 1 < len(parts):
+                            try:
+                                sport = int(parts[idx + 1])
+                            except ValueError:
+                                pass
+                        if part == "dport" and idx + 1 < len(parts):
+                            try:
+                                dport = int(parts[idx + 1])
+                            except ValueError:
+                                pass
+            if dport is not None and dport > 1024:
+                ps = (sport or (dport + 1))
+                return dport, ps
+    except (FileNotFoundError, OSError, subprocess.TimeoutExpired):
+        pass
+
+    raise RealUEDirectResolutionError(
+        f"could not resolve protected ports for UE via container {pcscf_container!r}. "
+        "Ensure the UE is registered and logs are available."
+    )
 
 
 def check_route_to_target(target_ip: str) -> RouteCheckResult:
@@ -420,6 +512,8 @@ def normalize_direct_wire_text(
     *,
     local_host: str,
     local_port: int,
+    rewrite_via: bool = True,
+    rewrite_contact: bool = True,
 ) -> tuple[bytes, tuple[str, ...]]:
     if not wire_text:
         return b"", ("direct-normalization:wire-skipped:empty",)
@@ -434,31 +528,41 @@ def normalize_direct_wire_text(
     contact_rewritten = False
     for line in lines[1:]:
         if not via_rewritten and line.casefold().startswith("via:"):
-            rewritten_line, changed = _rewrite_via_header_line(
-                line,
-                local_host=local_host,
-                local_port=local_port,
-            )
-            updated_lines.append(rewritten_line)
-            via_rewritten = changed
+            if rewrite_via:
+                rewritten_line, changed = _rewrite_via_header_line(
+                    line,
+                    local_host=local_host,
+                    local_port=local_port,
+                )
+                updated_lines.append(rewritten_line)
+                via_rewritten = changed
+            else:
+                updated_lines.append(line)
             continue
         if not contact_rewritten and line.casefold().startswith("contact:"):
-            rewritten_line, changed = _rewrite_contact_header_line(
-                line,
-                local_host=local_host,
-                local_port=local_port,
-            )
-            updated_lines.append(rewritten_line)
-            contact_rewritten = changed
+            if rewrite_contact:
+                rewritten_line, changed = _rewrite_contact_header_line(
+                    line,
+                    local_host=local_host,
+                    local_port=local_port,
+                )
+                updated_lines.append(rewritten_line)
+                contact_rewritten = changed
+            else:
+                updated_lines.append(line)
             continue
         updated_lines.append(line)
 
     events: list[str] = []
-    if via_rewritten:
+    if not rewrite_via:
+        events.append("direct-normalization:wire-skipped:via:preserve")
+    elif via_rewritten:
         events.append("direct-normalization:wire:via")
     else:
         events.append("direct-normalization:wire-skipped:via")
-    if contact_rewritten:
+    if not rewrite_contact:
+        events.append("direct-normalization:wire-skipped:contact:preserve")
+    elif contact_rewritten:
         events.append("direct-normalization:wire:contact")
 
     rendered = _CRLF.join(updated_lines)
@@ -472,6 +576,8 @@ def prepare_real_ue_direct_payload(
     *,
     local_host: str,
     local_port: int,
+    rewrite_via: bool = True,
+    rewrite_contact: bool = True,
 ) -> tuple[bytes, tuple[str, ...]]:
     if artifact.packet is not None:
         return normalize_direct_packet(
@@ -484,6 +590,8 @@ def prepare_real_ue_direct_payload(
             artifact.wire_text,
             local_host=local_host,
             local_port=local_port,
+            rewrite_via=rewrite_via,
+            rewrite_contact=rewrite_contact,
         )
     assert artifact.packet_bytes is not None
     return artifact.packet_bytes, ("direct-normalization:bytes-unmodified",)
@@ -580,6 +688,8 @@ __all__ = [
     "RouteCheckResult",
     "UEContact",
     "check_route_to_target",
+    "normalize_direct_wire_text",
     "prepare_real_ue_direct_payload",
+    "resolve_ue_protected_ports",
     "setup_route_to_target",
 ]

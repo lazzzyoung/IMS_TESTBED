@@ -127,6 +127,46 @@ def run_command(
         str,
         typer.Option("--pcap-interface", help="Network interface for tcpdump."),
     ] = "any",
+    target_msisdn: Annotated[
+        str | None,
+        typer.Option("--target-msisdn", help="UE MSISDN for real-ue-direct MT INVITE template mode."),
+    ] = None,
+    impi: Annotated[
+        str | None,
+        typer.Option("--impi", help="UE IMPI for MT INVITE Request-URI."),
+    ] = None,
+    mt_invite_template: Annotated[
+        str | None,
+        typer.Option("--mt-invite-template", help="MT INVITE template name (e.g. 'a31') or file path."),
+    ] = None,
+    bind_container: Annotated[
+        str | None,
+        typer.Option("--bind-container", help="Docker container to send from (e.g. 'pcscf')."),
+    ] = None,
+    preserve_via: Annotated[
+        bool,
+        typer.Option("--preserve-via/--no-preserve-via", help="Do not rewrite Via host/port."),
+    ] = False,
+    preserve_contact: Annotated[
+        bool,
+        typer.Option("--preserve-contact/--no-preserve-contact", help="Do not rewrite Contact host/port."),
+    ] = False,
+    mo_contact_host: Annotated[
+        str,
+        typer.Option("--mo-contact-host", help="MO UE IP for MT INVITE Contact header."),
+    ] = "10.20.20.9",
+    mo_contact_port_pc: Annotated[
+        int,
+        typer.Option("--mo-contact-port-pc", help="MO UE protected client port for Contact."),
+    ] = 31800,
+    mo_contact_port_ps: Annotated[
+        int,
+        typer.Option("--mo-contact-port-ps", help="MO UE protected server port for Contact."),
+    ] = 31100,
+    from_msisdn: Annotated[
+        str,
+        typer.Option("--from-msisdn", help="Originating MSISDN for From/Contact in MT INVITE."),
+    ] = "222222",
 ) -> None:
     """Execute a fuzzing campaign against a SIP target."""
     strategies = (
@@ -159,7 +199,21 @@ def run_command(
         "pcap_enabled": pcap,
         "pcap_dir": pcap_dir,
         "pcap_interface": pcap_interface,
+        "preserve_via": preserve_via,
+        "preserve_contact": preserve_contact,
+        "mo_contact_host": mo_contact_host,
+        "mo_contact_port_pc": mo_contact_port_pc,
+        "mo_contact_port_ps": mo_contact_port_ps,
+        "from_msisdn": from_msisdn,
     }
+    if target_msisdn is not None:
+        payload["target_msisdn"] = target_msisdn
+    if impi is not None:
+        payload["impi"] = impi
+    if mt_invite_template is not None:
+        payload["mt_invite_template"] = mt_invite_template
+    if bind_container is not None:
+        payload["bind_container"] = bind_container
 
     if adb_serial is not None:
         payload["adb_serial"] = adb_serial

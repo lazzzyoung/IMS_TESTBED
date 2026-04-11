@@ -107,8 +107,43 @@ class MutatedCase(BaseModel):
         return self
 
 
+class MutatedWireCase(BaseModel):
+    """Mutator result bundle for template-based wire/byte paths (no PacketModel).
+
+    Produced by ``SIPMutator.mutate_editable`` when the input is an already-parsed
+    ``EditableSIPMessage`` without a backing ``PacketModel``.  Suitable for MT INVITE
+    replay templates where the full 3GPP header set is not modelled in the SIP catalog.
+    """
+
+    model_config = ConfigDict(extra="forbid", validate_assignment=True)
+
+    wire_text: str | None = None
+    packet_bytes: bytes | None = None
+    records: tuple[MutationRecord, ...] = Field(default_factory=tuple)
+    seed: int | None = Field(default=None, ge=0)
+    strategy: str = Field(default="default", min_length=1)
+    final_layer: Literal["wire", "byte"]
+
+    @field_validator("strategy", mode="before")
+    @classmethod
+    def _normalize_strategy(cls, value: Any) -> Any:
+        if not isinstance(value, str):
+            return value
+        stripped = value.strip()
+        return stripped or None
+
+    @model_validator(mode="after")
+    def _ensure_layer_artifact_exists(self) -> Self:
+        if self.final_layer == "wire" and self.wire_text is None:
+            raise ValueError("wire results require wire_text")
+        if self.final_layer == "byte" and self.packet_bytes is None:
+            raise ValueError("byte results require packet_bytes")
+        return self
+
+
 __all__ = [
     "MutatedCase",
+    "MutatedWireCase",
     "MutationConfig",
     "MutationRecord",
     "MutationTarget",

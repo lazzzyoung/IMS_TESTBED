@@ -8,6 +8,7 @@ from pydantic import ValidationError
 from volte_mutation_fuzzer.generator import DialogContext
 from volte_mutation_fuzzer.mutator.contracts import (
     MutatedCase,
+    MutatedWireCase,
     MutationConfig,
     MutationRecord,
     MutationTarget,
@@ -253,6 +254,120 @@ class SIPMutator:
             context=context,
             target=target,
         )
+
+    def mutate_editable(
+        self,
+        message: EditableSIPMessage,
+        config: MutationConfig,
+    ) -> MutatedWireCase:
+        """Mutate an already-parsed ``EditableSIPMessage`` without a backing PacketModel.
+
+        Supports ``layer="wire"`` and ``layer="byte"`` only (model layer requires a
+        PacketModel and is rejected).  Supports ``strategy="identity"`` for a
+        zero-operation pass-through that returns the message unchanged.
+
+        Use this entry point when fuzzing MT INVITE replay templates where the full
+        3GPP header set is not modelled in the SIP catalog.
+        """
+        effective_layer = config.layer if config.layer != "auto" else "wire"
+        if effective_layer == "model":
+            raise ValueError(
+                "mutate_editable does not support the model layer; use wire or byte"
+            )
+        self._validate_supported_strategy(config.strategy, effective_layer)
+
+        if config.strategy == "identity":
+            if effective_layer == "wire":
+                return MutatedWireCase(
+                    wire_text=self._finalize_wire_message(message),
+                    records=(),
+                    seed=config.seed,
+                    strategy="identity",
+                    final_layer="wire",
+                )
+            editable_bytes = self._to_packet_bytes(message)
+            return MutatedWireCase(
+                packet_bytes=self._finalize_packet_bytes(editable_bytes),
+                records=(),
+                seed=config.seed,
+                strategy="identity",
+                final_layer="byte",
+            )
+
+        if effective_layer == "wire":
+            mutated_msg, records = self._apply_wire_operations(message, config)
+            return MutatedWireCase(
+                wire_text=self._finalize_wire_message(mutated_msg),
+                records=tuple(records),
+                seed=config.seed,
+                strategy=config.strategy,
+                final_layer="wire",
+            )
+
+        # byte layer
+        editable_bytes = self._to_packet_bytes(message)
+        mutated_bytes, records = self._apply_byte_operations(editable_bytes, config)
+        return MutatedWireCase(
+            packet_bytes=self._finalize_packet_bytes(mutated_bytes),
+            records=tuple(records),
+            seed=config.seed,
+            strategy=config.strategy,
+            final_layer="byte",
+        )
+
+    def _apply_wire_operations(
+        self,
+        message: EditableSIPMessage,
+        config: MutationConfig,
+    ) -> tuple[EditableSIPMessage, list[MutationRecord]]:
+        """Core wire mutation loop; no packet/definition dependency."""
+        rng = self._rng_from_seed(config.seed)
+        current_message = message
+        records: list[MutationRecord] = []
+        used_paths: set[str] = set()
+        for _ in range(config.max_operations):
+            available_targets = tuple(
+                candidate
+                for candidate in self._collect_wire_targets(current_message)
+                if candidate.path not in used_paths
+            )
+            if not available_targets:
+                break
+            selected_target = available_targets[rng.randrange(len(available_targets))]
+            operator = self._resolve_wire_operator(selected_target, current_message, rng)
+            current_message, record = self._apply_wire_operator(
+                current_message, selected_target, operator, rng
+            )
+            used_paths.add(selected_target.path)
+            records.append(record)
+        return current_message, records
+
+    def _apply_byte_operations(
+        self,
+        editable_bytes: EditablePacketBytes,
+        config: MutationConfig,
+    ) -> tuple[EditablePacketBytes, list[MutationRecord]]:
+        """Core byte mutation loop; no packet/context dependency."""
+        rng = self._rng_from_seed(config.seed)
+        current_bytes = editable_bytes
+        records: list[MutationRecord] = []
+        used_paths: set[str] = set()
+        for _ in range(config.max_operations):
+            available_targets = tuple(
+                candidate
+                for candidate in self._collect_byte_targets(current_bytes)
+                if candidate.path not in used_paths
+            )
+            if not available_targets:
+                break
+            selected_target = available_targets[rng.randrange(len(available_targets))]
+            operator = self._resolve_byte_operator(selected_target, rng)
+            current_bytes, record = self._apply_byte_operator(
+                current_bytes, selected_target, operator, rng
+            )
+            used_paths.add(selected_target.path)
+            records.append(record)
+        return current_bytes, records
 
     def _resolve_packet_definition(self, packet: PacketModel) -> PacketDefinition:
         if isinstance(packet, SIPRequest):
@@ -614,11 +729,11 @@ class SIPMutator:
                 raise ValueError(f"unsupported mutation strategy: {strategy}")
             return
         if layer == "wire":
-            if strategy != "default":
+            if strategy not in {"default", "identity"}:
                 raise ValueError(f"unsupported wire mutation strategy: {strategy}")
             return
         if layer == "byte":
-            if strategy != "default":
+            if strategy not in {"default", "identity"}:
                 raise ValueError(f"unsupported byte mutation strategy: {strategy}")
             return
         raise ValueError(f"unsupported mutation layer: {layer}")
@@ -849,7 +964,7 @@ class SIPMutator:
     def _collect_wire_targets(
         self,
         editable_message: EditableSIPMessage,
-        definition: PacketDefinition,
+        definition: PacketDefinition | None = None,
     ) -> tuple[MutationTarget, ...]:
         del definition
         targets: list[MutationTarget] = [
@@ -1664,4 +1779,4 @@ class SIPMutator:
         return (0, first_crlf)
 
 
-__all__ = ["PacketDefinition", "SIPMutator"]
+__all__ = ["PacketDefinition", "SIPMutator", "MutatedWireCase"]

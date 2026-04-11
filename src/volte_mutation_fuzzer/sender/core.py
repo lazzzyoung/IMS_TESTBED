@@ -5,6 +5,7 @@ import time
 from collections.abc import Sequence
 from typing import Final
 
+from volte_mutation_fuzzer.sender.container_exec import send_via_container
 from volte_mutation_fuzzer.sender.contracts import (
     CorrelationKey,
     DeliveryOutcome,
@@ -23,6 +24,8 @@ from volte_mutation_fuzzer.sender.real_ue import (
     setup_route_to_target,
 )
 from volte_mutation_fuzzer.sip.render import PacketModel, render_packet_bytes
+
+_DEFAULT_PCSCF_IP: Final[str] = "172.22.0.21"
 
 _STATUS_LINE_PATTERN: Final[re.Pattern[str]] = re.compile(
     r"^SIP/2\.0\s+(\d{3})\s*(.*)$"
@@ -280,9 +283,21 @@ class SIPSenderReactor:
             },
             deep=True,
         )
+        observer_events = [*resolved.observer_events]
+
+        # bind_container path: delegate send to container network namespace
+        if target.bind_container is not None:
+            return self._send_via_container(
+                artifact=artifact,
+                target=target,
+                resolved_target=resolved_target,
+                resolved_host=resolved.host,
+                resolved_port=resolved.port,
+                observer_events=observer_events,
+                collect_all_responses=collect_all_responses,
+            )
 
         route_result = check_route_to_target(resolved.host)
-        observer_events = [*resolved.observer_events]
         if route_result.ok:
             observer_events.append(f"route-check:ok:{route_result.detail}")
         else:
@@ -364,6 +379,51 @@ class SIPSenderReactor:
                     collect_all_responses=collect_all_responses,
                 )
 
+        return resolved_target, payload, observations, tuple(observer_events)
+
+    def _send_via_container(
+        self,
+        *,
+        artifact: SendArtifact,
+        target: TargetEndpoint,
+        resolved_target: TargetEndpoint,
+        resolved_host: str,
+        resolved_port: int,
+        observer_events: list[str],
+        collect_all_responses: bool,
+    ) -> tuple[TargetEndpoint, bytes, list[SocketObservation], tuple[str, ...]]:
+        """Send artifact from inside a Docker container network namespace."""
+        assert target.bind_container is not None
+        container = target.bind_container
+        bind_host = self._env.get("VMF_REAL_UE_PCSCF_IP", _DEFAULT_PCSCF_IP)
+
+        observer_events.append(f"route-check:bypassed:bind-container:{container}")
+
+        payload, normalization_events = prepare_real_ue_direct_payload(
+            artifact,
+            local_host=bind_host,
+            local_port=0,
+            rewrite_via=not artifact.preserve_via,
+            rewrite_contact=not artifact.preserve_contact,
+        )
+        observer_events.extend(normalization_events)
+
+        container_result = send_via_container(
+            container=container,
+            bind_host=bind_host,
+            remote_host=resolved_host,
+            remote_port=resolved_port,
+            transport=target.transport,
+            payload=payload,
+            timeout_seconds=target.timeout_seconds,
+            collect_all_responses=collect_all_responses,
+        )
+        observer_events.extend(container_result.observer_events)
+
+        observations: list[SocketObservation] = [
+            self._parse_response(raw, addr)
+            for raw, addr in container_result.raw_responses
+        ]
         return resolved_target, payload, observations, tuple(observer_events)
 
     def _send_udp(

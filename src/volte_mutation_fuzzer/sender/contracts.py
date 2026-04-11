@@ -53,8 +53,9 @@ class TargetEndpoint(BaseModel):
     transport: TransportProtocol = "UDP"
     timeout_seconds: float = Field(default=2.0, gt=0.0, le=60.0)
     label: str | None = None
+    bind_container: str | None = Field(default=None, min_length=1)
 
-    @field_validator("host", "label", "msisdn", mode="before")
+    @field_validator("host", "label", "msisdn", "bind_container", mode="before")
     @classmethod
     def _normalize_text(cls, value: object) -> object:
         if not isinstance(value, str):
@@ -95,6 +96,8 @@ class TargetEndpoint(BaseModel):
 
         if self.msisdn is not None:
             raise ValueError("msisdn is only supported in real-ue-direct mode")
+        if self.bind_container is not None:
+            raise ValueError("bind_container is only supported in real-ue-direct mode")
         if self.host is None:
             raise ValueError("host must be set")
         if self.port is None:
@@ -110,18 +113,32 @@ class SendArtifact(BaseModel):
     packet: PacketModel | None = None
     wire_text: str | None = None
     packet_bytes: bytes | None = None
+    preserve_via: bool = False
+    preserve_contact: bool = False
 
     @classmethod
     def from_packet(cls, packet: PacketModel) -> Self:
         return cls(packet=packet)
 
     @classmethod
-    def from_wire_text(cls, wire_text: str) -> Self:
-        return cls(wire_text=wire_text)
+    def from_wire_text(
+        cls,
+        wire_text: str,
+        *,
+        preserve_via: bool = False,
+        preserve_contact: bool = False,
+    ) -> Self:
+        return cls(wire_text=wire_text, preserve_via=preserve_via, preserve_contact=preserve_contact)
 
     @classmethod
-    def from_packet_bytes(cls, packet_bytes: bytes) -> Self:
-        return cls(packet_bytes=packet_bytes)
+    def from_packet_bytes(
+        cls,
+        packet_bytes: bytes,
+        *,
+        preserve_via: bool = False,
+        preserve_contact: bool = False,
+    ) -> Self:
+        return cls(packet_bytes=packet_bytes, preserve_via=preserve_via, preserve_contact=preserve_contact)
 
     @computed_field
     @property
