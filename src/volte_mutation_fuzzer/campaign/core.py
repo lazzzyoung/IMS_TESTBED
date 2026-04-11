@@ -43,6 +43,7 @@ from volte_mutation_fuzzer.sender.core import SIPSenderReactor
 from volte_mutation_fuzzer.sender.real_ue import RealUEDirectResolver
 from volte_mutation_fuzzer.sip.catalog import SIP_CATALOG
 from volte_mutation_fuzzer.sip.common import SIPMethod, SIPURI
+from volte_mutation_fuzzer.analysis.crash_analyzer import CampaignCrashAnalyzer
 
 _DEFAULT_PCSCF_IP: str = "172.22.0.21"
 _MT_TEMPLATE_FRAG_LIMIT: int = 1400  # bytes; packets > this risk UDP fragmentation
@@ -271,6 +272,12 @@ class CampaignExecutor:
         )
         self._ue_resolver = RealUEDirectResolver()
 
+        # Initialize crash analyzer
+        self._crash_analyzer = CampaignCrashAnalyzer(
+            output_dir=config.crash_analysis_output,
+            enabled=config.crash_analysis
+        )
+
     def run(self) -> CampaignResult:
         config = self._config
         campaign_id = uuid.uuid4().hex[:12]
@@ -292,6 +299,10 @@ class CampaignExecutor:
             for spec in CaseGenerator(config).generate():
                 case_result = self._execute_case(spec)
                 self._store.append(case_result)
+
+                # Real-time crash analysis
+                self._crash_analyzer.analyze_case_immediately(case_result)
+
                 self._update_summary(summary, case_result.verdict)
 
                 target_label = spec.method
@@ -348,6 +359,9 @@ class CampaignExecutor:
         finally:
             if self._adb_collector is not None:
                 self._adb_collector.stop()
+
+            # Generate final crash analysis report
+            self._crash_analyzer.generate_final_report()
 
         campaign = campaign.model_copy(
             update={

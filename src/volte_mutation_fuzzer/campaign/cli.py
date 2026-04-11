@@ -179,6 +179,17 @@ def run_command(
             help="Fixed local UDP/TCP port for MT INVITE sends. Must match Via sent-by so responses come back to the same socket and keep the high-port xfrm bypass.",
         ),
     ] = 15100,
+    crash_analysis: Annotated[
+        bool,
+        typer.Option(
+            "--crash-analysis/--no-crash-analysis",
+            help="Enable real-time crash analysis and reporting.",
+        ),
+    ] = False,
+    crash_analysis_output: Annotated[
+        str,
+        typer.Option("--crash-analysis-output", help="Output directory for crash analysis results."),
+    ] = "crash_analysis",
 ) -> None:
     """Execute a fuzzing campaign against a SIP target."""
     strategies = (
@@ -218,6 +229,8 @@ def run_command(
         "mo_contact_port_ps": mo_contact_port_ps,
         "from_msisdn": from_msisdn,
         "mt_local_port": mt_local_port,
+        "crash_analysis": crash_analysis,
+        "crash_analysis_output": crash_analysis_output,
     }
     if ipsec_mode is not None:
         payload["ipsec_mode"] = ipsec_mode
@@ -267,13 +280,15 @@ def run_command(
         if config.response_codes
         else "-"
     )
+    crash_analysis_label = " crash_analysis=enabled" if config.crash_analysis else ""
     print(
         "[vmf campaign] starting: "
         f"methods={methods_label} "
         f"response_codes={response_codes_label} "
         f"with_dialog={config.with_dialog} "
         f"max_cases={max_cases} "
-        f"target={target_host}:{target_port}",
+        f"target={target_host}:{target_port}"
+        f"{crash_analysis_label}",
         file=sys.stderr,
     )
 

@@ -27,6 +27,8 @@ class CampaignConfig(BaseModel):
     cooldown_seconds: float = Field(default=0.2, ge=0.0, le=10.0)
     seed_start: int = Field(default=0, ge=0)
     output_path: str = Field(default="results/campaign.jsonl", min_length=1)
+    crash_analysis: bool = False
+    crash_analysis_output: str = Field(default="crash_analysis", min_length=1)
     process_name: str = Field(default="baresip", min_length=1)
     check_process: bool = True
     log_path: str | None = None
@@ -36,6 +38,10 @@ class CampaignConfig(BaseModel):
     pcap_enabled: bool = False
     pcap_dir: str = "results/pcap"
     pcap_interface: str = "any"
+
+    # Crash analysis options
+    crash_analysis: bool = False
+    crash_analysis_output: str = "crash_analysis"
 
     # Real-UE MT INVITE template options
     target_msisdn: str | None = None
@@ -49,6 +55,10 @@ class CampaignConfig(BaseModel):
     mo_contact_port_ps: int = Field(default=31100, ge=1, le=65535)
     from_msisdn: str = "222222"
     mt_local_port: int = Field(default=15100, ge=1024, le=65535)
+
+    # Internal fields derived from ipsec_mode (set by model_validator)
+    source_ip: str | None = None
+    bind_container: str | None = None
 
     @field_validator("methods", mode="before")
     @classmethod
@@ -106,6 +116,17 @@ class CampaignConfig(BaseModel):
                 raise ValueError("mt_invite_template requires impi")
             if self.ipsec_mode is None:
                 object.__setattr__(self, "ipsec_mode", "null")
+
+        # Convert ipsec_mode to internal fields for TargetEndpoint
+        if self.ipsec_mode == "null":
+            # null encryption mode: host spoofing
+            object.__setattr__(self, "source_ip", "172.22.0.21")  # P-CSCF IP
+            object.__setattr__(self, "bind_container", None)
+        elif self.ipsec_mode == "bypass":
+            # xfrm bypass mode: docker exec
+            object.__setattr__(self, "source_ip", None)
+            object.__setattr__(self, "bind_container", "pcscf")
+
         return self
 
 
