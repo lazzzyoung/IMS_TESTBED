@@ -46,7 +46,7 @@ from volte_mutation_fuzzer.sip.common import SIPMethod, SIPURI
 from volte_mutation_fuzzer.analysis.crash_analyzer import CampaignCrashAnalyzer
 
 _DEFAULT_PCSCF_IP: str = "172.22.0.21"
-_MT_TEMPLATE_FRAG_LIMIT: int = 1400  # bytes; packets > this risk UDP fragmentation
+_MT_TEMPLATE_FRAG_LIMIT: int = 65535  # bytes; raised — Docker bridge IP reassembly works fine in practice
 
 logger = logging.getLogger(__name__)
 
@@ -784,12 +784,8 @@ class CampaignExecutor:
                 "port": port_pc,
                 "bind_port": config.mt_local_port,
             }
-            if config.ipsec_mode == "null":
-                # null encryption: 호스트에서 직접 source IP spoofing
-                target_update["source_ip"] = pcscf_ip
-                target_update["bind_container"] = None
-            elif config.ipsec_mode == "bypass":
-                # xfrm bypass: docker exec으로 컨테이너 netns 진입
+            if config.ipsec_mode in ("null", "bypass"):
+                # Both modes: send from pcscf container netns
                 target_update["source_ip"] = None
                 target_update["bind_container"] = "pcscf"
 

@@ -117,9 +117,9 @@ class CampaignConfig(BaseModel):
 
         # Convert ipsec_mode to internal fields for TargetEndpoint
         if self.ipsec_mode == "null":
-            # null encryption mode: host spoofing
-            object.__setattr__(self, "source_ip", "172.22.0.21")  # P-CSCF IP
-            object.__setattr__(self, "bind_container", None)
+            # null encryption mode: send from pcscf container netns as plaintext UDP
+            object.__setattr__(self, "source_ip", None)
+            object.__setattr__(self, "bind_container", "pcscf")
         elif self.ipsec_mode == "bypass":
             # xfrm bypass mode: docker exec
             object.__setattr__(self, "source_ip", None)
