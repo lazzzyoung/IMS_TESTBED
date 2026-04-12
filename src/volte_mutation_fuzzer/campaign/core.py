@@ -319,6 +319,9 @@ class CampaignExecutor:
         )
         self._ue_resolver = RealUEDirectResolver()
 
+        # Port cache for MT template path — avoids docker logs per case
+        self._cached_ports: tuple[int, int] | None = None
+
         # Initialize crash analyzer
         self._crash_analyzer = CampaignCrashAnalyzer(
             output_dir=config.crash_analysis_output,
@@ -392,6 +395,8 @@ class CampaignExecutor:
                 # Circuit breaker: abort on consecutive timeout/unknown streaks
                 if case_result.verdict in ("timeout", "unknown"):
                     consecutive_failures += 1
+                    # Invalidate port cache — UE may have re-registered
+                    self._cached_ports = None
                 else:
                     consecutive_failures = 0
 
@@ -536,6 +541,7 @@ class CampaignExecutor:
                 context,
                 process_name=process_name,
                 log_path=config.log_path,
+                process_check_interval=10,
             )
             if verdict.verdict in ("crash", "stack_failure") and config.adb_enabled:
                 try:
@@ -604,8 +610,16 @@ class CampaignExecutor:
                 pcap_path=pcap_path_saved,
             )
 
+    def _resolve_ports_cached(self, msisdn: str) -> tuple[int, int]:
+        """Return cached (port_pc, port_ps) or resolve and cache them."""
+        if self._cached_ports is not None:
+            return self._cached_ports
+        ports = self._ue_resolver.resolve_protected_ports(msisdn)
+        self._cached_ports = ports
+        return ports
+
     def _execute_mt_template_case(self, spec: CaseSpec, timestamp: float) -> CaseResult:
-        """Execute one MT INVITE replay-template case against a real UE."""
+        """Execute one MT INVOKE replay-template case against a real UE."""
         config = self._config
         assert self._mt_template_text is not None
         assert config.target_msisdn is not None
@@ -616,10 +630,8 @@ class CampaignExecutor:
         pcap_path_saved: str | None = None
 
         try:
-            # 1. Resolve live port_pc / port_ps
-            port_pc, port_ps = self._ue_resolver.resolve_protected_ports(
-                config.target_msisdn
-            )
+            # 1. Resolve live port_pc / port_ps (cached)
+            port_pc, port_ps = self._resolve_ports_cached(config.target_msisdn)
 
             # 2. Build slots
             # mt_local_port는 반드시 Via sent-by와 실제 bind 포트 양쪽에 동일하게
@@ -746,6 +758,7 @@ class CampaignExecutor:
                 context,
                 process_name=process_name,
                 log_path=config.log_path,
+                process_check_interval=10,
             )
 
             # 11. ADB snapshot on crash/stack_failure
@@ -921,6 +934,7 @@ class CampaignExecutor:
             context,
             process_name=process_name,
             log_path=config.log_path,
+            process_check_interval=10,
         )
 
         raw_response: str | None = None

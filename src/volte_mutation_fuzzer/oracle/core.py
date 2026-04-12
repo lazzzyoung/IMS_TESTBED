@@ -168,6 +168,8 @@ class LogOracle:
         raw = patterns or self.DEFAULT_PATTERNS
         self._docker_mode = docker_mode
         self._compiled = re.compile("|".join(f"({p})" for p in raw), re.IGNORECASE)
+        # Cache: container_name → host log file path (resolved once via docker inspect)
+        self._docker_log_paths: dict[str, str | None] = {}
 
     def check(
         self, log_path: str, after_position: int = 0
@@ -230,9 +232,124 @@ class LogOracle:
                 error=str(exc),
             ), after_position
 
+    def _resolve_docker_log_path(self, container_name: str) -> str | None:
+        """Resolve the host-side log file path for a Docker container (cached)."""
+        if container_name in self._docker_log_paths:
+            return self._docker_log_paths[container_name]
+        try:
+            result = subprocess.run(
+                [
+                    "docker",
+                    "inspect",
+                    "--format={{.LogPath}}",
+                    container_name,
+                ],
+                capture_output=True,
+                text=True,
+                timeout=5,
+                check=False,
+            )
+            if result.returncode == 0 and result.stdout.strip():
+                log_path = result.stdout.strip()
+                if Path(log_path).is_file():
+                    self._docker_log_paths[container_name] = log_path
+                    return log_path
+        except (FileNotFoundError, OSError, subprocess.TimeoutExpired):
+            pass
+        self._docker_log_paths[container_name] = None
+        return None
+
     def _check_docker(
         self, container_name: str, after_position: int = 0
     ) -> tuple[LogCheckResult, int]:
+        # Try direct file read first (avoids docker logs subprocess per call)
+        host_log_path = self._resolve_docker_log_path(container_name)
+        if host_log_path is not None:
+            return self._check_docker_logfile(
+                container_name, host_log_path, after_position
+            )
+
+        # Fallback: docker logs (e.g. if docker inspect failed)
+        return self._check_docker_logs_fallback(container_name, after_position)
+
+    def _check_docker_logfile(
+        self,
+        container_name: str,
+        host_log_path: str,
+        after_position: int = 0,
+    ) -> tuple[LogCheckResult, int]:
+        """Read the Docker JSON log file directly, skipping docker daemon overhead."""
+        import json as _json
+
+        path = Path(host_log_path)
+        if not path.is_file():
+            # Log file disappeared — invalidate cache and fall back with timestamp reset
+            self._docker_log_paths.pop(container_name, None)
+            return self._check_docker_logs_fallback(container_name, int(time.time()))
+
+        try:
+            size = path.stat().st_size
+
+            # First call in docker_mode passes a Unix timestamp as after_position.
+            # If after_position >= file size, start from current EOF so we
+            # only scan newly appended content on subsequent calls.
+            if size <= after_position:
+                return LogCheckResult(
+                    log_path=container_name,
+                    matched=False,
+                    lines_scanned=0,
+                ), size
+
+            with path.open("r", errors="replace") as f:
+                f.seek(after_position)
+                new_content = f.read()
+                new_position = f.tell()
+
+            # Docker JSON log format: {"log":"...\n","stream":"...","time":"..."}
+            lines_scanned = 0
+            for raw_line in new_content.splitlines():
+                if not raw_line.strip():
+                    continue
+                lines_scanned += 1
+                try:
+                    entry = _json.loads(raw_line)
+                    log_text = entry.get("log", "")
+                except (ValueError, TypeError):
+                    log_text = raw_line
+                m = self._compiled.search(log_text)
+                if m:
+                    return LogCheckResult(
+                        log_path=container_name,
+                        matched=True,
+                        matched_pattern=m.group(0),
+                        matched_line=log_text[:500],
+                        lines_scanned=lines_scanned,
+                    ), new_position
+
+            return LogCheckResult(
+                log_path=container_name,
+                matched=False,
+                lines_scanned=lines_scanned,
+            ), new_position
+
+        except PermissionError:
+            # No permission to read Docker log file — fall back with timestamp reset
+            self._docker_log_paths.pop(container_name, None)
+            return self._check_docker_logs_fallback(container_name, int(time.time()))
+        except Exception as exc:
+            return (
+                LogCheckResult(
+                    log_path=container_name,
+                    matched=False,
+                    error=str(exc),
+                ),
+                after_position,
+            )
+
+    def _check_docker_logs_fallback(
+        self, container_name: str, after_position: int = 0
+    ) -> tuple[LogCheckResult, int]:
+        """Original docker logs subprocess fallback."""
         new_position = int(time.time())
         try:
             result = subprocess.run(
@@ -334,6 +451,7 @@ class OracleEngine:
         self._log_oracle = log_oracle
         self._adb_oracle = adb_oracle
         self._log_position: int = int(time.time()) if docker_mode else 0
+        self._evaluate_call_count: int = 0
 
     def evaluate(
         self,
@@ -342,6 +460,7 @@ class OracleEngine:
         *,
         process_name: str | None = None,
         log_path: str | None = None,
+        process_check_interval: int = 0,
     ) -> OracleVerdict:
         verdict = self._socket_oracle.judge(send_result, context)
 
@@ -381,8 +500,17 @@ class OracleEngine:
                     },
                 )
 
+        self._evaluate_call_count += 1
+
         if process_name is None:
             return verdict
+
+        # Optimization: skip process check on most cases to avoid docker
+        # inspect subprocess overhead. Always check on timeout (likely crash),
+        # and periodically on non-timeout for delayed crash detection.
+        if process_check_interval > 0 and verdict.verdict != "timeout":
+            if self._evaluate_call_count % process_check_interval != 0:
+                return verdict
 
         proc = self._process_oracle.check(process_name)
 
