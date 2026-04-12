@@ -52,6 +52,7 @@ class CampaignConfig(BaseModel):
     from_msisdn: str = "222222"
     mt_local_port: int = Field(default=15100, ge=1024, le=65535)
     resume: bool = False
+    circuit_breaker_threshold: int = Field(default=10, ge=0)
 
     # Internal fields derived from ipsec_mode (set by model_validator)
     source_ip: str | None = None

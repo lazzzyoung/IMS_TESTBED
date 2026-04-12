@@ -377,6 +377,8 @@ class CampaignExecutor:
 
         if self._adb_collector is not None:
             self._adb_collector.start()
+        consecutive_failures = 0
+        cb_threshold = config.circuit_breaker_threshold
         try:
             for spec in CaseGenerator(config).generate(skip_before=skip_before):
                 case_result = self._execute_case(spec)
@@ -386,6 +388,12 @@ class CampaignExecutor:
                 self._analyze_case_result(case_result)
 
                 self._update_summary(summary, case_result.verdict)
+
+                # Circuit breaker: abort on consecutive timeout/unknown streaks
+                if case_result.verdict in ("timeout", "unknown"):
+                    consecutive_failures += 1
+                else:
+                    consecutive_failures = 0
 
                 target_label = spec.method
                 if spec.response_code is not None:
@@ -425,6 +433,18 @@ class CampaignExecutor:
                         file=sys.stderr,
                     )
 
+                if cb_threshold > 0 and consecutive_failures >= cb_threshold:
+                    print(
+                        f"[vmf campaign] CIRCUIT BREAKER: {consecutive_failures} consecutive"
+                        f" timeout/unknown verdicts — aborting campaign",
+                        file=sys.stderr,
+                    )
+                    logger.error(
+                        "circuit breaker tripped after %d consecutive failures",
+                        consecutive_failures,
+                    )
+                    break
+
                 if config.cooldown_seconds > 0:
                     time.sleep(config.cooldown_seconds)
 
@@ -445,9 +465,14 @@ class CampaignExecutor:
             # Generate final crash analysis report
             self._finalize_crash_analysis()
 
+        final_status = (
+            "aborted"
+            if cb_threshold > 0 and consecutive_failures >= cb_threshold
+            else "completed"
+        )
         campaign = campaign.model_copy(
             update={
-                "status": "completed",
+                "status": final_status,
                 "completed_at": datetime.now(timezone.utc).isoformat(),
                 "summary": summary,
             }

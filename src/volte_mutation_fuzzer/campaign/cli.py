@@ -194,6 +194,10 @@ def run_command(
         bool,
         typer.Option("--resume/--no-resume", help="Resume campaign from last checkpoint in output file."),
     ] = False,
+    circuit_breaker: Annotated[
+        int,
+        typer.Option("--circuit-breaker", help="Abort after N consecutive timeout/unknown verdicts. 0 to disable."),
+    ] = 10,
 ) -> None:
     """Execute a fuzzing campaign against a SIP target."""
     strategies = (
@@ -236,6 +240,7 @@ def run_command(
         "crash_analysis": crash_analysis,
         "crash_analysis_output": crash_analysis_output,
         "resume": resume,
+        "circuit_breaker_threshold": circuit_breaker,
     }
     if ipsec_mode is not None:
         payload["ipsec_mode"] = ipsec_mode
