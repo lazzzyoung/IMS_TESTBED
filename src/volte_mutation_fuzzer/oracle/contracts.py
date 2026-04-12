@@ -9,6 +9,7 @@ Verdict = Literal[
     "crash",
     "stack_failure",
     "setup_failed",
+    "infra_failure",
     "unknown",
 ]
 

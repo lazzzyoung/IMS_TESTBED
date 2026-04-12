@@ -466,6 +466,54 @@ def resolve_ue_protected_ports(
     )
 
 
+@dataclass(frozen=True)
+class IPsecSAStatus:
+    """Result of checking whether IPsec Security Associations are alive."""
+
+    alive: bool
+    sa_count: int = 0
+    detail: str = ""
+
+
+def check_ipsec_sa_alive(
+    *,
+    pcscf_container: str = _DEFAULT_PCSCF_CONTAINER,
+) -> IPsecSAStatus:
+    """Check whether IPsec SAs exist in the P-CSCF container.
+
+    Queries ``ip xfrm state`` inside the container and counts SAs whose
+    source is a UE IP (10.20.20.x).  Returns ``alive=True`` only when at
+    least one such SA is present.
+    """
+    try:
+        result = subprocess.run(
+            ["docker", "exec", pcscf_container, "ip", "xfrm", "state"],
+            capture_output=True,
+            text=True,
+            timeout=10.0,
+            check=False,
+        )
+    except (FileNotFoundError, OSError, subprocess.TimeoutExpired) as exc:
+        return IPsecSAStatus(alive=False, detail=f"xfrm query failed: {exc}")
+
+    if result.returncode != 0:
+        error = result.stderr.strip() or result.stdout.strip() or "unknown error"
+        return IPsecSAStatus(alive=False, detail=f"xfrm query error: {error}")
+
+    # Count SAs whose src is a UE IP (10.20.20.x)
+    sa_count = 0
+    for line in result.stdout.splitlines():
+        stripped = line.strip()
+        if stripped.startswith("src ") and " dst " in stripped:
+            parts = stripped.split()
+            if len(parts) >= 2 and parts[1].startswith("10.20.20."):
+                sa_count += 1
+
+    if sa_count > 0:
+        return IPsecSAStatus(alive=True, sa_count=sa_count, detail=f"{sa_count} UE SAs found")
+    return IPsecSAStatus(alive=False, sa_count=0, detail="no UE SAs found in xfrm state")
+
+
 def check_route_to_target(target_ip: str) -> RouteCheckResult:
     system_name = platform.system()
     command = ["route", "-n", "get", target_ip]

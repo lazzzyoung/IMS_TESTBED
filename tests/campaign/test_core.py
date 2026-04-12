@@ -2,6 +2,7 @@ import json
 import tempfile
 import time
 import unittest
+import unittest.mock
 from pathlib import Path
 
 from volte_mutation_fuzzer.analysis.crash_analyzer import CampaignCrashAnalyzer
@@ -498,3 +499,87 @@ class CampaignExecutorTests(unittest.TestCase):
             self.assertEqual(analyze_mock.call_count, 1)
             report_mock.assert_called_once()
             self.assertTrue(Path(cfg.crash_analysis_output).exists())
+
+
+class UpdateSummaryTests(unittest.TestCase):
+    """Tests for CampaignExecutor._update_summary."""
+
+    def test_infra_failure_increments_counter(self) -> None:
+        from volte_mutation_fuzzer.campaign.contracts import CampaignSummary
+
+        summary = CampaignSummary()
+        CampaignExecutor._update_summary(summary, "infra_failure")
+        self.assertEqual(summary.infra_failure, 1)
+        self.assertEqual(summary.total, 1)
+        self.assertEqual(summary.timeout, 0)
+
+    def test_timeout_does_not_increment_infra(self) -> None:
+        from volte_mutation_fuzzer.campaign.contracts import CampaignSummary
+
+        summary = CampaignSummary()
+        CampaignExecutor._update_summary(summary, "timeout")
+        self.assertEqual(summary.timeout, 1)
+        self.assertEqual(summary.infra_failure, 0)
+
+
+class SACircuitBreakerTests(unittest.TestCase):
+    """Tests for SA-triggered circuit breaker in the campaign run loop."""
+
+    def _make_timeout_case(self, case_id: int) -> CaseResult:
+        return CaseResult(
+            case_id=case_id,
+            seed=case_id,
+            method="INVITE",
+            layer="wire",
+            strategy="identity",
+            verdict="timeout",
+            reason="no response received within timeout",
+            elapsed_ms=5000.0,
+            reproduction_cmd="uv run fuzzer ...",
+            timestamp=time.time(),
+        )
+
+    def test_sa_expiry_reclassifies_to_infra_failure(self) -> None:
+        """When SA is dead, consecutive timeouts should trigger infra_failure."""
+        with tempfile.TemporaryDirectory() as tmpdir:
+            out_path = str(Path(tmpdir) / "campaign.jsonl")
+            cfg = CampaignConfig(
+                target_host="10.20.20.8",
+                target_msisdn="111111",
+                impi="001010000123511",
+                mode="real-ue-direct",
+                ipsec_mode="null",
+                mt_invite_template="a31",
+                methods=("INVITE",),
+                layers=("wire", "byte"),
+                strategies=("identity", "default"),
+                max_cases=10,
+                timeout_seconds=0.2,
+                cooldown_seconds=0.0,
+                check_process=False,
+                circuit_breaker_threshold=6,
+                output_path=out_path,
+            )
+            executor = CampaignExecutor(cfg)
+
+            # Mock _execute_case to always return timeout
+            call_count = [0]
+            def fake_execute(spec):
+                call_count[0] += 1
+                return self._make_timeout_case(spec.case_id)
+
+            executor._execute_case = fake_execute
+
+            # Mock SA check to return dead
+            from volte_mutation_fuzzer.sender.real_ue import IPsecSAStatus
+
+            with unittest.mock.patch(
+                "volte_mutation_fuzzer.campaign.core.check_ipsec_sa_alive",
+                return_value=IPsecSAStatus(alive=False, sa_count=0, detail="no UE SAs found"),
+            ):
+                result = executor.run()
+
+            # Should abort due to SA expiry
+            self.assertEqual(result.status, "aborted")
+            # At least one case should be reclassified as infra_failure
+            self.assertGreater(result.summary.infra_failure, 0)

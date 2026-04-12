@@ -40,7 +40,7 @@ from volte_mutation_fuzzer.sender.contracts import (
     TargetEndpoint,
 )
 from volte_mutation_fuzzer.sender.core import SIPSenderReactor
-from volte_mutation_fuzzer.sender.real_ue import RealUEDirectResolver
+from volte_mutation_fuzzer.sender.real_ue import RealUEDirectResolver, check_ipsec_sa_alive
 from volte_mutation_fuzzer.sip.catalog import SIP_CATALOG
 from volte_mutation_fuzzer.sip.common import SIPMethod, SIPURI
 from volte_mutation_fuzzer.analysis.crash_analyzer import CampaignCrashAnalyzer
@@ -194,6 +194,7 @@ class ResultStore:
             "timeout": 0,
             "crash": 0,
             "stack_failure": 0,
+            "infra_failure": 0,
             "unknown": 0,
         }
         for c in cases:
@@ -382,23 +383,55 @@ class CampaignExecutor:
             self._adb_collector.start()
         consecutive_failures = 0
         cb_threshold = config.circuit_breaker_threshold
+        # SA probe triggers at half the circuit breaker threshold (min 3)
+        sa_probe_threshold = max(3, cb_threshold // 2) if cb_threshold > 0 else 0
+        sa_checked_dead = False
+        sa_probed_this_streak = False
         try:
             for spec in CaseGenerator(config).generate(skip_before=skip_before):
                 case_result = self._execute_case(spec)
-                self._store.append(case_result)
-
-                # Real-time crash analysis
-                self._analyze_case_result(case_result)
-
-                self._update_summary(summary, case_result.verdict)
 
                 # Circuit breaker: abort on consecutive timeout/unknown streaks
                 if case_result.verdict in ("timeout", "unknown"):
                     consecutive_failures += 1
                     # Invalidate port cache — UE may have re-registered
                     self._cached_ports = None
+
+                    # SA health probe: on sustained timeouts in real-ue-direct mode,
+                    # check if IPsec SAs have expired.  If so, reclassify as
+                    # infra_failure so the user knows this is not a real fuzz result.
+                    # Only probe once per failure streak to avoid repeated docker exec.
+                    if (
+                        not sa_checked_dead
+                        and not sa_probed_this_streak
+                        and sa_probe_threshold > 0
+                        and consecutive_failures >= sa_probe_threshold
+                        and config.mode == "real-ue-direct"
+                        and config.ipsec_mode is not None
+                    ):
+                        sa_probed_this_streak = True
+                        sa_status = check_ipsec_sa_alive()
+                        if not sa_status.alive:
+                            sa_checked_dead = True
+                            # Reclassify current verdict
+                            case_result = case_result.model_copy(
+                                update={
+                                    "verdict": "infra_failure",
+                                    "reason": f"IPsec SA expired ({sa_status.detail}); "
+                                    f"original verdict: {case_result.verdict}",
+                                }
+                            )
                 else:
                     consecutive_failures = 0
+                    sa_checked_dead = False
+                    sa_probed_this_streak = False
+
+                self._store.append(case_result)
+
+                # Real-time crash analysis
+                self._analyze_case_result(case_result)
+
+                self._update_summary(summary, case_result.verdict)
 
                 target_label = spec.method
                 if spec.response_code is not None:
@@ -437,6 +470,11 @@ class CampaignExecutor:
                         f"  [ERROR] {case_result.reason}",
                         file=sys.stderr,
                     )
+                if case_result.verdict == "infra_failure":
+                    print(
+                        f"  [INFRA FAILURE] {case_result.reason}",
+                        file=sys.stderr,
+                    )
 
                 # Warn if ADB collector has lost connection
                 if (
@@ -450,6 +488,16 @@ class CampaignExecutor:
                             f"  [ADB WARNING] collector unhealthy — dead buffers: {','.join(sorted(dead))}",
                             file=sys.stderr,
                         )
+
+                # SA expiry → immediate abort
+                if sa_checked_dead:
+                    print(
+                        "[vmf campaign] CIRCUIT BREAKER: IPsec SA expired — "
+                        "aborting campaign. Re-register the UE and restart.",
+                        file=sys.stderr,
+                    )
+                    logger.error("circuit breaker tripped: IPsec SA expired")
+                    break
 
                 if cb_threshold > 0 and consecutive_failures >= cb_threshold:
                     print(
@@ -485,7 +533,7 @@ class CampaignExecutor:
 
         final_status = (
             "aborted"
-            if cb_threshold > 0 and consecutive_failures >= cb_threshold
+            if sa_checked_dead or (cb_threshold > 0 and consecutive_failures >= cb_threshold)
             else "completed"
         )
         campaign = campaign.model_copy(
@@ -1064,6 +1112,8 @@ class CampaignExecutor:
                 summary.crash += 1
             case "stack_failure":
                 summary.stack_failure += 1
+            case "infra_failure":
+                summary.infra_failure += 1
             case _:
                 summary.unknown += 1
 

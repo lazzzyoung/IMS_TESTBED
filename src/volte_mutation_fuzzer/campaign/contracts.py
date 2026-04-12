@@ -178,6 +178,7 @@ class CampaignSummary(BaseModel):
     timeout: int = 0
     crash: int = 0
     stack_failure: int = 0
+    infra_failure: int = 0
     unknown: int = 0
 
 

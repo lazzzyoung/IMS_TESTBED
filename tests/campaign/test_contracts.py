@@ -132,6 +132,12 @@ class CampaignSummaryTests(unittest.TestCase):
         s.crash += 1
         self.assertEqual(s.total, 3)
 
+    def test_infra_failure_counter(self) -> None:
+        s = CampaignSummary()
+        self.assertEqual(s.infra_failure, 0)
+        s.infra_failure += 1
+        self.assertEqual(s.infra_failure, 1)
+
 
 class CampaignResultTests(unittest.TestCase):
     def _make_config(self) -> CampaignConfig:

@@ -4,8 +4,10 @@ from unittest.mock import patch
 
 from volte_mutation_fuzzer.sender.contracts import SendArtifact, TargetEndpoint
 from volte_mutation_fuzzer.sender.real_ue import (
+    IPsecSAStatus,
     RealUEDirectResolver,
     RouteCheckResult,
+    check_ipsec_sa_alive,
     check_route_to_target,
     prepare_real_ue_direct_payload,
 )
@@ -105,6 +107,79 @@ class RealUEDirectHelperTests(unittest.TestCase):
 
         self.assertEqual(payload, original)
         self.assertEqual(events, ("direct-normalization:bytes-unmodified",))
+
+
+class IPsecSACheckTests(unittest.TestCase):
+    """Tests for check_ipsec_sa_alive()."""
+
+    _XFRM_OUTPUT_WITH_UE_SA = (
+        "src 10.20.20.8 dst 172.22.0.21\n"
+        "\tproto esp spi 0xc3a2b100 reqid 1 mode transport\n"
+        "\tsel src 10.20.20.8/32 dst 172.22.0.21/32 sport 5100 dport 5060\n"
+        "src 172.22.0.21 dst 10.20.20.8\n"
+        "\tproto esp spi 0xd4b3c200 reqid 2 mode transport\n"
+        "\tsel src 172.22.0.21/32 dst 10.20.20.8/32 sport 5060 dport 5100\n"
+    )
+
+    _XFRM_OUTPUT_NO_UE_SA = (
+        "src 172.22.0.21 dst 172.22.0.1\n"
+        "\tproto esp spi 0xaabb reqid 1 mode transport\n"
+        "\tsel src 172.22.0.21/32 dst 172.22.0.1/32\n"
+    )
+
+    def test_alive_when_ue_sa_exists(self) -> None:
+        with patch(
+            "volte_mutation_fuzzer.sender.real_ue.subprocess.run",
+            return_value=subprocess.CompletedProcess(
+                args=["docker"], returncode=0,
+                stdout=self._XFRM_OUTPUT_WITH_UE_SA, stderr="",
+            ),
+        ):
+            status = check_ipsec_sa_alive()
+        self.assertTrue(status.alive)
+        self.assertGreaterEqual(status.sa_count, 1)
+
+    def test_not_alive_when_no_ue_sa(self) -> None:
+        with patch(
+            "volte_mutation_fuzzer.sender.real_ue.subprocess.run",
+            return_value=subprocess.CompletedProcess(
+                args=["docker"], returncode=0,
+                stdout=self._XFRM_OUTPUT_NO_UE_SA, stderr="",
+            ),
+        ):
+            status = check_ipsec_sa_alive()
+        self.assertFalse(status.alive)
+        self.assertEqual(status.sa_count, 0)
+
+    def test_not_alive_when_empty_output(self) -> None:
+        with patch(
+            "volte_mutation_fuzzer.sender.real_ue.subprocess.run",
+            return_value=subprocess.CompletedProcess(
+                args=["docker"], returncode=0, stdout="", stderr="",
+            ),
+        ):
+            status = check_ipsec_sa_alive()
+        self.assertFalse(status.alive)
+
+    def test_not_alive_on_command_failure(self) -> None:
+        with patch(
+            "volte_mutation_fuzzer.sender.real_ue.subprocess.run",
+            return_value=subprocess.CompletedProcess(
+                args=["docker"], returncode=1, stdout="", stderr="not found",
+            ),
+        ):
+            status = check_ipsec_sa_alive()
+        self.assertFalse(status.alive)
+        self.assertIn("not found", status.detail)
+
+    def test_not_alive_on_exception(self) -> None:
+        with patch(
+            "volte_mutation_fuzzer.sender.real_ue.subprocess.run",
+            side_effect=FileNotFoundError("docker not found"),
+        ):
+            status = check_ipsec_sa_alive()
+        self.assertFalse(status.alive)
+        self.assertIn("docker not found", status.detail)
 
 
 if __name__ == "__main__":
