@@ -268,13 +268,9 @@ def request_command(
 ) -> None:
     """Generate a baseline request and immediately send it."""
 
-    # MT-INVITE template path
-    if mt and method == SIPMethod.INVITE and mode == "real-ue-direct":
-        from volte_mutation_fuzzer.generator.real_ue_mt_template import (
-            build_default_slots,
-            load_mt_invite_template,
-            render_mt_invite,
-        )
+    # 3GPP MT packet path (all methods)
+    if mt and mode == "real-ue-direct":
+        from volte_mutation_fuzzer.generator.mt_packet import build_mt_packet
         from volte_mutation_fuzzer.sender.real_ue import RealUEDirectResolver
 
         resolver = RealUEDirectResolver()
@@ -288,27 +284,22 @@ def request_command(
             label=label,
         )
         resolved = resolver.resolve(tmp_target, impi=impi)
-
         port_pc, port_ps = resolver.resolve_protected_ports(target_msisdn or "")
 
         resolved_impi = impi or resolved.impi or os.environ.get("VMF_IMPI")
         if not resolved_impi:
             raise typer.BadParameter("IMPI could not be resolved. Provide --impi or set VMF_IMPI.")
 
-        template_text = load_mt_invite_template("a31")
-        slots = build_default_slots(
-            msisdn=target_msisdn or "",
+        wire_text = build_mt_packet(
+            method=method.value,
             impi=resolved_impi,
-            pcscf_ip=os.environ.get("VMF_REAL_UE_PCSCF_IP", "172.22.0.21"),
+            msisdn=target_msisdn or "",
+            ue_ip=resolved.host,
             port_pc=port_pc,
             port_ps=port_ps,
-            mo_contact_host="10.20.20.9",
-            mo_contact_port_pc=31800,
-            mo_contact_port_ps=31100,
             seed=0,
             local_port=mt_local_port,
         )
-        wire_text = render_mt_invite(template_text, slots)
         artifact = SendArtifact.from_wire_text(wire_text)
         artifact = artifact.model_copy(update={
             "preserve_via": True,
