@@ -96,6 +96,22 @@ _WIRE_TARGET_ALIASES = {
     "content_length": "content_length",
 }
 
+# Headers whose wire/byte representation must not be mutated in "safe" strategy
+# because changing them prevents packet delivery or response receipt.
+_SAFE_PROTECTED_HEADER_NAMES: frozenset[str] = frozenset(
+    {
+        "via",
+        "call-id",
+        "cseq",
+    }
+)
+# Wire target paths protected by "safe" strategy
+_SAFE_PROTECTED_WIRE_PATHS: frozenset[str] = frozenset(
+    {
+        "start_line",  # Contains Request-URI
+    }
+)
+
 _BYTE_TARGET_ALIASES = {
     "delimiter:crlf": "delimiter:CRLF",
     "segment:start-line": "segment:start_line",
@@ -736,11 +752,11 @@ class SIPMutator:
                 raise ValueError(f"unsupported mutation strategy: {strategy}")
             return
         if layer == "wire":
-            if strategy not in {"default", "identity"}:
+            if strategy not in {"default", "identity", "safe"}:
                 raise ValueError(f"unsupported wire mutation strategy: {strategy}")
             return
         if layer == "byte":
-            if strategy not in {"default", "identity"}:
+            if strategy not in {"default", "identity", "safe", "header_targeted"}:
                 raise ValueError(f"unsupported byte mutation strategy: {strategy}")
             return
         raise ValueError(f"unsupported mutation layer: {layer}")
@@ -1101,6 +1117,7 @@ class SIPMutator:
             records.append(record)
         else:
             used_paths: set[str] = set()
+            is_safe = config.strategy == "safe"
             for _ in range(config.max_operations):
                 available_targets = tuple(
                     candidate
@@ -1108,6 +1125,7 @@ class SIPMutator:
                         current_message, self._resolve_packet_definition(packet)
                     )
                     if candidate.path not in used_paths
+                    and (not is_safe or not self._is_wire_target_protected(candidate))
                 )
                 if not available_targets:
                     break
@@ -1272,13 +1290,43 @@ class SIPMutator:
                 rng,
             )
             records.append(record)
+        elif config.strategy == "header_targeted":
+            # Target bytes within a specific non-protected header region
+            header_ranges = self._collect_header_byte_ranges(current_bytes.data)
+            if header_ranges:
+                header_name, start, end = header_ranges[
+                    rng.randrange(len(header_ranges))
+                ]
+                # Pick a byte within this header's value range
+                if start < end:
+                    byte_idx = rng.randrange(start, end)
+                    byte_target = MutationTarget(
+                        layer="byte", path=f"byte[{byte_idx}]"
+                    )
+                    operator = "flip_byte"
+                    current_bytes, record = self._apply_byte_operator(
+                        current_bytes, byte_target, operator, rng
+                    )
+                    records.append(record)
         else:
             used_paths: set[str] = set()
+            is_safe = config.strategy == "safe"
+            protected_ranges = (
+                self._collect_protected_byte_ranges(current_bytes.data)
+                if is_safe
+                else ()
+            )
             for _ in range(config.max_operations):
                 available_targets = tuple(
                     candidate
                     for candidate in self._collect_byte_targets(current_bytes)
                     if candidate.path not in used_paths
+                    and (
+                        not is_safe
+                        or not self._is_byte_target_protected(
+                            candidate, protected_ranges
+                        )
+                    )
                 )
                 if not available_targets:
                     break
@@ -1307,6 +1355,106 @@ class SIPMutator:
 
     def _finalize_packet_bytes(self, editable_bytes: EditablePacketBytes) -> bytes:
         return editable_bytes.data
+
+    # ------------------------------------------------------------------
+    # Safe strategy helpers
+    # ------------------------------------------------------------------
+
+    @staticmethod
+    def _is_wire_target_protected(target: MutationTarget) -> bool:
+        """Return True if *target* must not be mutated in safe strategy."""
+        path = target.path
+        if path in _SAFE_PROTECTED_WIRE_PATHS:
+            return True
+        # header:Via, header:Call-ID, header:CSeq, header[N] for those
+        if path.startswith("header:"):
+            header_name = path[len("header:"):]
+            if header_name.lower() in _SAFE_PROTECTED_HEADER_NAMES:
+                return True
+        if path.startswith("header["):
+            # Cannot determine header name from index alone at this level,
+            # so we don't block indexed targets — the named header filter
+            # already covers the common case.
+            pass
+        return False
+
+    @staticmethod
+    def _collect_protected_byte_ranges(
+        data: bytes,
+    ) -> tuple[tuple[int, int], ...]:
+        """Return byte offset ranges of routing-critical headers + start line."""
+        ranges: list[tuple[int, int]] = []
+        text = data.decode("utf-8", errors="replace")
+        lines = text.split("\r\n")
+        offset = 0
+        for i, line in enumerate(lines):
+            line_start = offset
+            line_end = offset + len(line.encode("utf-8"))
+            if i == 0:
+                # Start line (contains Request-URI)
+                ranges.append((line_start, line_end))
+            elif ":" in line:
+                header_name = line.split(":", 1)[0].strip().lower()
+                if header_name in _SAFE_PROTECTED_HEADER_NAMES:
+                    ranges.append((line_start, line_end))
+            if line == "":
+                break  # End of headers
+            offset = line_end + 2  # +2 for \r\n
+        return tuple(ranges)
+
+    @staticmethod
+    def _is_byte_target_protected(
+        target: MutationTarget,
+        protected_ranges: tuple[tuple[int, int], ...],
+    ) -> bool:
+        """Return True if byte target falls within a protected range."""
+        path = target.path
+        match = _BYTE_INDEX_PATTERN.match(path)
+        if match:
+            idx = int(match.group(1))
+            return any(start <= idx < end for start, end in protected_ranges)
+        match = _BYTE_RANGE_PATTERN.match(path)
+        if match:
+            rng_start = int(match.group(1))
+            rng_end = int(match.group(2))
+            return any(
+                rng_start < end and rng_end > start
+                for start, end in protected_ranges
+            )
+        if path == "segment:start_line":
+            return True  # Start line contains Request-URI
+        return False
+
+    @staticmethod
+    def _collect_header_byte_ranges(
+        data: bytes,
+    ) -> list[tuple[str, int, int]]:
+        """Return (header_name, value_start, value_end) for non-protected headers."""
+        results: list[tuple[str, int, int]] = []
+        text = data.decode("utf-8", errors="replace")
+        lines = text.split("\r\n")
+        offset = 0
+        for i, line in enumerate(lines):
+            line_bytes = line.encode("utf-8")
+            line_start = offset
+            if i > 0 and ":" in line:
+                header_name = line.split(":", 1)[0].strip()
+                if header_name.lower() not in _SAFE_PROTECTED_HEADER_NAMES:
+                    # Value starts after "Header-Name: "
+                    colon_pos = line.index(":")
+                    value_offset = line_start + len(
+                        line[: colon_pos + 1].encode("utf-8")
+                    )
+                    # Skip space after colon
+                    if colon_pos + 1 < len(line) and line[colon_pos + 1] == " ":
+                        value_offset += 1
+                    value_end = line_start + len(line_bytes)
+                    if value_offset < value_end:
+                        results.append((header_name, value_offset, value_end))
+            if line == "":
+                break
+            offset = line_start + len(line_bytes) + 2  # +2 for \r\n
+        return results
 
     def _build_canonical_wire_target(
         self,
