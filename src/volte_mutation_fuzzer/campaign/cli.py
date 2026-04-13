@@ -133,9 +133,13 @@ def run_command(
         str | None,
         typer.Option("--impi", help="UE IMPI for MT INVITE Request-URI."),
     ] = None,
+    mt: Annotated[
+        bool,
+        typer.Option("--mt/--no-mt", help="Use 3GPP standard MT-INVITE format for all packets."),
+    ] = False,
     mt_invite_template: Annotated[
         str | None,
-        typer.Option("--mt-invite-template", help="MT INVITE template name (e.g. 'a31') or file path."),
+        typer.Option("--mt-invite-template", help="MT INVITE template name (e.g. 'a31') or file path. --mt uses default template."),
     ] = None,
     ipsec_mode: Annotated[
         str | None,
@@ -244,6 +248,8 @@ def run_command(
         payload["target_msisdn"] = target_msisdn
     if impi is not None:
         payload["impi"] = impi
+    if mt:
+        payload["mt"] = True
     if mt_invite_template is not None:
         payload["mt_invite_template"] = mt_invite_template
 

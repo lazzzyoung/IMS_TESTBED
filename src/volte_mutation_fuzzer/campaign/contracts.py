@@ -42,6 +42,7 @@ class CampaignConfig(BaseModel):
     # Real-UE MT INVITE template options
     target_msisdn: str | None = None
     impi: str | None = None
+    mt: bool = False
     mt_invite_template: str | None = None
     ipsec_mode: Literal["null", "bypass"] | None = None
     preserve_via: bool = False
@@ -128,6 +129,10 @@ class CampaignConfig(BaseModel):
             env_impi = os.environ.get("VMF_IMPI")
             if env_impi:
                 object.__setattr__(self, "impi", env_impi)
+
+        # --mt flag: auto-set mt_invite_template to default 3GPP template
+        if self.mt and self.mt_invite_template is None:
+            object.__setattr__(self, "mt_invite_template", "a31")
 
         if self.mt_invite_template is not None:
             if self.mode != "real-ue-direct":
