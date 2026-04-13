@@ -316,7 +316,7 @@ def request_command(
         })
 
         target = _build_target(
-            host=resolved.host,
+            host=None,
             port=port_pc,
             msisdn=target_msisdn,
             transport=transport,
