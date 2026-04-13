@@ -1,4 +1,5 @@
 import json
+import os
 import sys
 from typing import Annotated, Any, cast
 
@@ -240,8 +241,91 @@ def request_command(
     collect_all_responses: Annotated[
         bool, typer.Option("--collect-all-responses")
     ] = False,
+    mt: Annotated[
+        bool,
+        typer.Option("--mt/--no-mt", help="Use 3GPP standard MT-INVITE format."),
+    ] = False,
+    ipsec_mode: Annotated[
+        str | None,
+        typer.Option("--ipsec-mode", help="IPsec bypass strategy: 'null' or 'bypass'."),
+    ] = None,
+    impi: Annotated[
+        str | None,
+        typer.Option("--impi", help="UE IMPI for MT INVITE Request-URI."),
+    ] = None,
+    mt_local_port: Annotated[
+        int,
+        typer.Option("--mt-local-port", help="Local port for MT INVITE (xfrm bypass)."),
+    ] = 15100,
+    preserve_via: Annotated[
+        bool,
+        typer.Option("--preserve-via/--no-preserve-via", help="Do not rewrite Via."),
+    ] = False,
+    preserve_contact: Annotated[
+        bool,
+        typer.Option("--preserve-contact/--no-preserve-contact", help="Do not rewrite Contact."),
+    ] = False,
 ) -> None:
     """Generate a baseline request and immediately send it."""
+
+    # MT-INVITE template path
+    if mt and method == SIPMethod.INVITE and mode == "real-ue-direct":
+        from volte_mutation_fuzzer.generator.real_ue_mt_template import (
+            build_default_slots,
+            load_mt_invite_template,
+            render_mt_invite,
+        )
+        from volte_mutation_fuzzer.sender.real_ue import RealUEDirectResolver
+
+        resolver = RealUEDirectResolver()
+        resolved = resolver.resolve(target_msisdn or "", target_host, target_port)
+
+        port_pc, port_ps = resolver.resolve_protected_ports(target_msisdn or "")
+
+        env_impi = impi or os.environ.get("VMF_IMPI")
+        if not env_impi:
+            raise typer.BadParameter("--mt requires --impi or VMF_IMPI env var")
+
+        template_text = load_mt_invite_template("a31")
+        slots = build_default_slots(
+            msisdn=target_msisdn or "",
+            impi=env_impi,
+            pcscf_ip=os.environ.get("VMF_REAL_UE_PCSCF_IP", "172.22.0.21"),
+            port_pc=port_pc,
+            port_ps=port_ps,
+            mo_contact_host="10.20.20.9",
+            mo_contact_port_pc=31800,
+            mo_contact_port_ps=31100,
+            seed=0,
+            local_port=mt_local_port,
+        )
+        wire_text = render_mt_invite(template_text, slots)
+        artifact = SendArtifact.from_wire_text(wire_text)
+        artifact = artifact.model_copy(update={
+            "preserve_via": preserve_via,
+            "preserve_contact": preserve_contact,
+        })
+
+        target = _build_target(
+            host=resolved.host,
+            port=port_pc,
+            msisdn=target_msisdn,
+            transport=transport,
+            mode=mode,
+            timeout_seconds=timeout,
+            label=label,
+        )
+        if ipsec_mode in ("null", "bypass"):
+            target = target.model_copy(update={"bind_container": "pcscf"})
+
+        result = SIPSenderReactor().send_artifact(
+            artifact,
+            target,
+            collect_all_responses=collect_all_responses,
+        )
+        typer.echo(_render_result(result))
+        return
+
     generator = SIPGenerator(GeneratorSettings.from_env(prefix=env_prefix))
     spec = RequestSpec(
         method=method,
@@ -264,6 +348,9 @@ def request_command(
         timeout_seconds=timeout,
         label=label,
     )
+    if ipsec_mode in ("null", "bypass"):
+        target = target.model_copy(update={"bind_container": "pcscf"})
+
     result = SIPSenderReactor().send_packet(
         packet,
         target,
