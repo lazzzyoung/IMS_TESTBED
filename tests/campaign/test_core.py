@@ -18,6 +18,7 @@ from volte_mutation_fuzzer.campaign.core import (
     ResultStore,
     _SUPPORTED_STRATEGIES,
 )
+from volte_mutation_fuzzer.sender.contracts import TargetEndpoint
 from volte_mutation_fuzzer.sip.catalog import SIP_CATALOG
 from tests.sender._server import UDPResponder
 
@@ -587,3 +588,180 @@ class SACircuitBreakerTests(unittest.TestCase):
             self.assertEqual(result.status, "aborted")
             # At least one case should be reclassified as infra_failure
             self.assertGreater(result.summary.infra_failure, 0)
+
+
+# ---------------------------------------------------------------------------
+# INVITE teardown tests
+# ---------------------------------------------------------------------------
+
+
+class InviteTeardownTests(unittest.TestCase):
+    """Tests for _teardown_invite reliable CANCEL logic."""
+
+    def _make_executor(self) -> CampaignExecutor:
+        tmpdir = tempfile.TemporaryDirectory()
+        self.addCleanup(tmpdir.cleanup)
+        cfg = CampaignConfig(
+            target_host="10.20.20.8",
+            target_port=5060,
+            target_msisdn="111111",
+            impi="001010000123511",
+            mode="real-ue-direct",
+            ipsec_mode="null",
+            mt_invite_template="a31",
+            methods=("INVITE",),
+            layers=("wire",),
+            strategies=("identity",),
+            max_cases=1,
+            timeout_seconds=1.0,
+            cooldown_seconds=0.0,
+            check_process=False,
+            adb_enabled=False,
+            pcap_enabled=False,
+            results_dir=tmpdir.name, output_name="test",
+        )
+        return CampaignExecutor(cfg)
+
+    @staticmethod
+    def _make_target() -> TargetEndpoint:
+        return TargetEndpoint(
+            host="10.20.20.8",
+            port=5060,
+            mode="real-ue-direct",
+        )
+
+    @staticmethod
+    def _make_send_result(status_codes: list[int]) -> "SendReceiveResult":
+        from volte_mutation_fuzzer.sender.contracts import (
+            SendReceiveResult,
+            SocketObservation,
+        )
+
+        def _classify(code: int) -> str:
+            if 100 <= code < 200:
+                return "provisional"
+            if 200 <= code < 300:
+                return "success"
+            if 400 <= code < 500:
+                return "client_error"
+            if 500 <= code < 600:
+                return "server_error"
+            return "invalid"
+
+        responses = tuple(
+            SocketObservation(
+                status_code=code,
+                reason_phrase="OK",
+                classification=_classify(code),
+            )
+            for code in status_codes
+        )
+        return SendReceiveResult(
+            target=TargetEndpoint(host="10.20.20.8", port=5060, mode="real-ue-direct"),
+            artifact_kind="wire",
+            bytes_sent=100,
+            outcome="success",
+            responses=responses,
+            send_started_at=time.time(),
+            send_completed_at=time.time(),
+        )
+
+    def test_skips_cancel_when_no_response(self) -> None:
+        """No responses (timeout) → CANCEL skipped."""
+        executor = self._make_executor()
+        send_result = self._make_send_result([])
+        events = executor._teardown_invite(
+            "INVITE sip:foo\r\nCSeq: 1 INVITE\r\n\r\n",
+            self._make_target(),
+            send_result,
+            executor._config,
+        )
+        self.assertEqual(events, ["teardown:skipped:no-response"])
+
+    def test_skips_cancel_when_final_only(self) -> None:
+        """Got 486 Busy without provisional → CANCEL skipped."""
+        executor = self._make_executor()
+        send_result = self._make_send_result([486])
+        events = executor._teardown_invite(
+            "INVITE sip:foo\r\nCSeq: 1 INVITE\r\n\r\n",
+            self._make_target(),
+            send_result,
+            executor._config,
+        )
+        self.assertEqual(events, ["teardown:skipped:final-only"])
+
+    def test_sends_cancel_on_provisional_and_succeeds(self) -> None:
+        """Got 100+180 → sends CANCEL, gets 200 OK → teardown ok."""
+        executor = self._make_executor()
+        send_result = self._make_send_result([100, 180])
+
+        cancel_200 = self._make_send_result([200])
+
+        executor._sender = unittest.mock.Mock()
+        executor._sender.send_artifact.return_value = cancel_200
+
+        events = executor._teardown_invite(
+            "INVITE sip:foo\r\nCSeq: 1 INVITE\r\n\r\n",
+            self._make_target(),
+            send_result,
+            executor._config,
+        )
+        self.assertEqual(len(events), 1)
+        self.assertIn("teardown:cancel-ok:attempt=1", events[0])
+        executor._sender.send_artifact.assert_called_once()
+
+    def test_retries_cancel_on_timeout(self) -> None:
+        """CANCEL gets no useful response → retries up to max."""
+        executor = self._make_executor()
+        send_result = self._make_send_result([100, 180])
+
+        # All CANCEL attempts return empty responses (timeout)
+        empty_result = self._make_send_result([])
+        executor._sender = unittest.mock.Mock()
+        executor._sender.send_artifact.return_value = empty_result
+
+        events = executor._teardown_invite(
+            "INVITE sip:foo\r\nCSeq: 1 INVITE\r\n\r\n",
+            self._make_target(),
+            send_result,
+            executor._config,
+        )
+        self.assertTrue(any("cancel-failed" in e for e in events))
+        from volte_mutation_fuzzer.campaign.core import _CANCEL_MAX_RETRIES
+        self.assertEqual(executor._sender.send_artifact.call_count, _CANCEL_MAX_RETRIES)
+
+    def test_retries_cancel_on_exception(self) -> None:
+        """CANCEL send raises exception → retries, then fails."""
+        executor = self._make_executor()
+        send_result = self._make_send_result([100, 180])
+
+        executor._sender = unittest.mock.Mock()
+        executor._sender.send_artifact.side_effect = OSError("network error")
+
+        events = executor._teardown_invite(
+            "INVITE sip:foo\r\nCSeq: 1 INVITE\r\n\r\n",
+            self._make_target(),
+            send_result,
+            executor._config,
+        )
+        self.assertTrue(any("cancel-error" in e for e in events))
+        self.assertTrue(any("cancel-failed" in e for e in events))
+
+    def test_cancel_succeeds_on_487(self) -> None:
+        """CANCEL gets 487 Request Terminated → teardown ok."""
+        executor = self._make_executor()
+        send_result = self._make_send_result([100, 180])
+
+        cancel_487 = self._make_send_result([487])
+        executor._sender = unittest.mock.Mock()
+        executor._sender.send_artifact.return_value = cancel_487
+
+        events = executor._teardown_invite(
+            "INVITE sip:foo\r\nCSeq: 1 INVITE\r\n\r\n",
+            self._make_target(),
+            send_result,
+            executor._config,
+        )
+        self.assertEqual(len(events), 1)
+        self.assertIn("teardown:cancel-ok:attempt=1", events[0])
+        self.assertIn("code=487", events[0])

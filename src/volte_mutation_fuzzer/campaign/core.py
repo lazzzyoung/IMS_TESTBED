@@ -37,6 +37,7 @@ from volte_mutation_fuzzer.oracle.contracts import OracleContext
 from volte_mutation_fuzzer.oracle.core import AdbOracle, LogOracle, OracleEngine
 from volte_mutation_fuzzer.sender.contracts import (
     SendArtifact,
+    SendReceiveResult,
     TargetEndpoint,
 )
 from volte_mutation_fuzzer.sender.core import SIPSenderReactor
@@ -50,6 +51,11 @@ from volte_mutation_fuzzer.campaign.report import HtmlReportGenerator
 
 _DEFAULT_PCSCF_IP: str = "172.22.0.21"
 _MT_TEMPLATE_FRAG_LIMIT: int = 65535  # bytes; raised — Docker bridge IP reassembly works fine in practice
+
+# INVITE teardown constants
+_CANCEL_MAX_RETRIES: int = 3
+_CANCEL_RETRY_INTERVAL: float = 0.5  # seconds between retries
+_CANCEL_TEARDOWN_TIMEOUT: float = 2.0  # extra cooldown when teardown fails
 
 logger = logging.getLogger(__name__)
 
@@ -706,6 +712,97 @@ class CampaignExecutor:
         self._cached_ports = ports
         return ports
 
+    def _teardown_invite(
+        self,
+        wire_text: str,
+        mt_target: TargetEndpoint,
+        send_result: SendReceiveResult,
+        config: CampaignConfig,
+    ) -> list[str]:
+        """Send CANCEL to tear down an INVITE session with retry on failure.
+
+        RFC 3261 §9.1: CANCEL should only be sent after receiving a
+        provisional response.  We check whether any 1xx was received and
+        skip CANCEL entirely if none (the server never created transaction
+        state, so there is nothing to cancel).
+
+        Returns a list of observer events describing teardown outcome.
+        """
+        events: list[str] = []
+
+        # Check if we received at least one provisional response (1xx).
+        has_provisional = any(
+            obs.status_code is not None and 100 <= obs.status_code < 200
+            for obs in send_result.responses
+        )
+        has_final = any(
+            obs.status_code is not None and obs.status_code >= 200
+            for obs in send_result.responses
+        )
+
+        if not has_provisional and not has_final:
+            # No response at all (timeout) — server never saw the INVITE or
+            # didn't create transaction state.  CANCEL would be meaningless.
+            events.append("teardown:skipped:no-response")
+            return events
+
+        if has_final and not has_provisional:
+            # Got a final response without provisional (e.g. 486 Busy).
+            # Transaction is already terminated — no CANCEL needed.
+            events.append("teardown:skipped:final-only")
+            return events
+
+        # Build CANCEL from original (unmutated) INVITE wire text.
+        cancel_text = wire_text.replace(
+            "INVITE sip:", "CANCEL sip:"
+        ).replace(
+            "CSeq: 1 INVITE", "CSeq: 1 CANCEL"
+        )
+        cancel_artifact = SendArtifact(
+            wire_text=cancel_text,
+            preserve_via=config.preserve_via,
+            preserve_contact=config.preserve_contact,
+        )
+
+        teardown_ok = False
+        for attempt in range(_CANCEL_MAX_RETRIES):
+            try:
+                cancel_result = self._sender.send_artifact(
+                    cancel_artifact, mt_target, collect_all_responses=True
+                )
+                # 200 OK to CANCEL or 487 Request Terminated means success.
+                for obs in cancel_result.responses:
+                    if obs.status_code in (200, 487):
+                        teardown_ok = True
+                        break
+                if teardown_ok:
+                    events.append(
+                        f"teardown:cancel-ok:attempt={attempt + 1}"
+                        f":code={obs.status_code}"
+                    )
+                    break
+                # Got a response but not 200/487 — retry.
+                events.append(
+                    f"teardown:cancel-unexpected:attempt={attempt + 1}"
+                    f":codes={[o.status_code for o in cancel_result.responses]}"
+                )
+            except Exception as exc:
+                events.append(
+                    f"teardown:cancel-error:attempt={attempt + 1}:{exc}"
+                )
+
+            if attempt < _CANCEL_MAX_RETRIES - 1:
+                time.sleep(_CANCEL_RETRY_INTERVAL)
+
+        if not teardown_ok:
+            events.append(
+                f"teardown:cancel-failed:after={_CANCEL_MAX_RETRIES}-attempts"
+            )
+            # Extra cooldown to let the device's own timer expire the session.
+            time.sleep(_CANCEL_TEARDOWN_TIMEOUT)
+
+        return events
+
     def _execute_mt_template_case(self, spec: CaseSpec, timestamp: float) -> CaseResult:
         """Execute one MT INVOKE replay-template case against a real UE."""
         config = self._config
@@ -846,23 +943,12 @@ class CampaignExecutor:
                 if capture is not None:
                     pcap_path_saved = capture.stop()
 
-            # 9b. Send CANCEL to tear down the INVITE session
-            try:
-                cancel_text = wire_text.replace(
-                    "INVITE sip:", "CANCEL sip:"
-                ).replace(
-                    "CSeq: 1 INVITE", "CSeq: 1 CANCEL"
-                )
-                cancel_artifact = SendArtifact(
-                    wire_text=cancel_text,
-                    preserve_via=config.preserve_via,
-                    preserve_contact=config.preserve_contact,
-                )
-                self._sender.send_artifact(
-                    cancel_artifact, mt_target, collect_all_responses=False
-                )
-            except Exception:
-                pass  # best-effort CANCEL
+            # 9b. Reliable CANCEL teardown
+            teardown_events = self._teardown_invite(
+                wire_text, mt_target, send_result, config
+            )
+            for te in teardown_events:
+                logger.info("case %s: %s", spec.case_id, te)
 
             # 10. Oracle
             context = OracleContext(
