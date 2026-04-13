@@ -648,7 +648,7 @@ class CampaignExecutor:
                 process_check_interval=10,
             )
             adb_snapshot_dir: str | None = None
-            if verdict.verdict in ("crash", "stack_failure") and config.adb_enabled:
+            if config.adb_enabled:
                 try:
                     from volte_mutation_fuzzer.adb.core import AdbConnector
 
@@ -1003,9 +1003,9 @@ class CampaignExecutor:
                 process_check_interval=10,
             )
 
-            # 11. ADB snapshot on crash/stack_failure
+            # 11. ADB snapshot (every case)
             adb_snapshot_dir: str | None = None
-            if verdict.verdict in ("crash", "stack_failure") and config.adb_enabled:
+            if config.adb_enabled:
                 try:
                     from volte_mutation_fuzzer.adb.core import AdbConnector
 
