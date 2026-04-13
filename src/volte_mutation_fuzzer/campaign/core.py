@@ -974,6 +974,7 @@ class CampaignExecutor:
                     filter_expr=pcap_filter,
                 )
                 capture.start()
+            is_invite = spec.method == "INVITE"
             try:
                 send_result = self._sender.send_artifact(
                     artifact, mt_target, collect_all_responses=is_invite
