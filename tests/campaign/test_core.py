@@ -35,7 +35,7 @@ class CaseGeneratorTests(unittest.TestCase):
         return CampaignConfig(**defaults)
 
     def test_methods_generate_direct_combinations(self) -> None:
-        cfg = self._config(methods=("OPTIONS", "INVITE"), max_cases=10000)
+        cfg = self._config(methods=("OPTIONS", "INVITE"), max_cases=8)
         cases = list(CaseGenerator(cfg).generate())
         self.assertEqual(len(cases), 8)
 
@@ -58,7 +58,7 @@ class CaseGeneratorTests(unittest.TestCase):
 
     def test_layer_filter_from_config(self) -> None:
         cfg = self._config(
-            methods=("OPTIONS", "INVITE"), layers=("model",), max_cases=10000
+            methods=("OPTIONS", "INVITE"), layers=("model",), max_cases=100
         )
         cases = list(CaseGenerator(cfg).generate())
         for case in cases:
@@ -66,20 +66,20 @@ class CaseGeneratorTests(unittest.TestCase):
 
     def test_strategy_filter_from_config(self) -> None:
         cfg = self._config(
-            methods=("OPTIONS", "INVITE"), strategies=("default",), max_cases=10000
+            methods=("OPTIONS", "INVITE"), strategies=("default",), max_cases=100
         )
         cases = list(CaseGenerator(cfg).generate())
         for case in cases:
             self.assertEqual(case.strategy, "default")
 
     def test_methods_come_from_config(self) -> None:
-        cfg = self._config(methods=("OPTIONS", "INVITE"), max_cases=10000)
+        cfg = self._config(methods=("OPTIONS", "INVITE"), max_cases=100)
         cases = list(CaseGenerator(cfg).generate())
         methods_seen = {c.method for c in cases if c.response_code is None}
         self.assertEqual(methods_seen, {"OPTIONS", "INVITE"})
 
     def test_no_invalid_layer_strategy_combinations(self) -> None:
-        cfg = self._config(methods=("OPTIONS", "INVITE"), max_cases=10000)
+        cfg = self._config(methods=("OPTIONS", "INVITE"), max_cases=100)
         cases = list(CaseGenerator(cfg).generate())
         for case in cases:
             supported = _SUPPORTED_STRATEGIES.get(case.layer, frozenset())
@@ -91,25 +91,79 @@ class CaseGeneratorTests(unittest.TestCase):
 
     def test_wire_layer_only_generates_default_strategy(self) -> None:
         cfg = self._config(
-            methods=("OPTIONS", "INVITE"), layers=("wire",), max_cases=10000
+            methods=("OPTIONS", "INVITE"), layers=("wire",), max_cases=100
         )
         cases = list(CaseGenerator(cfg).generate())
         for case in cases:
             self.assertEqual(case.strategy, "default")
 
+    def test_round_cycling_repeats_combos_with_new_seeds(self) -> None:
+        """After exhausting unique combos, generator cycles with new seeds."""
+        cfg = self._config(
+            methods=("OPTIONS",),
+            layers=("wire",),
+            strategies=("default",),
+            max_cases=10,
+        )
+        cases = list(CaseGenerator(cfg).generate())
+        self.assertEqual(len(cases), 10)
+        # All should be OPTIONS/wire/default
+        for c in cases:
+            self.assertEqual(c.method, "OPTIONS")
+            self.assertEqual(c.layer, "wire")
+            self.assertEqual(c.strategy, "default")
+        # Seeds should all be unique and sequential
+        seeds = [c.seed for c in cases]
+        self.assertEqual(seeds, list(range(10)))
+
+    def test_round_cycling_identity_only_in_first_round(self) -> None:
+        """Identity baseline appears only in round 0 for template mode."""
+        cfg = self._config(
+            methods=("INVITE",),
+            layers=("wire",),
+            strategies=("identity", "default"),
+            mt_invite_template="a31",
+            mode="real-ue-direct",
+            target_msisdn="111111",
+            impi="001010000123511",
+            ipsec_mode="null",
+            max_cases=10,
+        )
+        cases = list(CaseGenerator(cfg).generate())
+        self.assertEqual(len(cases), 10)
+        # First case is identity
+        self.assertEqual(cases[0].strategy, "identity")
+        # Remaining are default (identity not repeated)
+        for c in cases[1:]:
+            self.assertEqual(c.strategy, "default")
+
+    def test_unlimited_mode_generates_many_cases(self) -> None:
+        """max_cases=0 generates indefinitely (we just check it yields > combos)."""
+        cfg = self._config(
+            methods=("OPTIONS",),
+            layers=("wire",),
+            strategies=("default",),
+            max_cases=0,
+        )
+        gen = CaseGenerator(cfg).generate()
+        cases = [next(gen) for _ in range(50)]
+        self.assertEqual(len(cases), 50)
+        self.assertEqual(cases[49].case_id, 49)
+
     def test_response_codes_generate_related_method_cases(self) -> None:
+        expected_related_methods = tuple(
+            method.value for method in SIP_CATALOG.get_response(200).related_methods
+        )
+        n_combos = len(expected_related_methods)
         cfg = self._config(
             methods=(),
             response_codes=(200,),
             layers=("model",),
             strategies=("default",),
-            max_cases=10000,
+            max_cases=n_combos,
         )
         cases = list(CaseGenerator(cfg).generate())
-        expected_related_methods = tuple(
-            method.value for method in SIP_CATALOG.get_response(200).related_methods
-        )
-        self.assertEqual(len(cases), len(expected_related_methods))
+        self.assertEqual(len(cases), n_combos)
         self.assertTrue(all(case.response_code == 200 for case in cases))
         self.assertEqual(
             {case.related_method for case in cases},

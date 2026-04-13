@@ -23,7 +23,7 @@ class CampaignConfig(BaseModel):
     with_dialog: bool = False
     strategies: tuple[str, ...] = ("default", "state_breaker")
     layers: tuple[str, ...] = ("model", "wire", "byte")
-    max_cases: int = Field(default=1000, ge=1)
+    max_cases: int = Field(default=1000, ge=0)
     timeout_seconds: float = Field(default=5.0, gt=0.0, le=60.0)
     cooldown_seconds: float = Field(default=0.2, ge=0.0, le=10.0)
     seed_start: int = Field(default=0, ge=0)

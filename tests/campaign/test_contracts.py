@@ -39,9 +39,13 @@ class CampaignConfigTests(unittest.TestCase):
         with self.assertRaises(ValidationError):
             CampaignConfig(target_host="127.0.0.1", target_port=65536)
 
-    def test_max_cases_must_be_positive(self) -> None:
+    def test_max_cases_rejects_negative(self) -> None:
         with self.assertRaises(ValidationError):
-            CampaignConfig(target_host="127.0.0.1", max_cases=0)
+            CampaignConfig(target_host="127.0.0.1", max_cases=-1)
+
+    def test_max_cases_zero_is_unlimited(self) -> None:
+        cfg = CampaignConfig(target_host="127.0.0.1", max_cases=0)
+        self.assertEqual(cfg.max_cases, 0)
 
     def test_extra_fields_forbidden(self) -> None:
         with self.assertRaises(ValidationError):

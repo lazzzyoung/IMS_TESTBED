@@ -130,26 +130,42 @@ class CaseGenerator:
                             seen.add(key)
                             combos.append(key)
 
-        for case_id, (
-            method,
-            response_code,
-            related_method,
-            layer,
-            strategy,
-        ) in enumerate(combos):
-            if case_id >= config.max_cases:
-                break
-            if case_id <= skip_before:
-                continue
-            yield CaseSpec(
-                case_id=case_id,
-                seed=config.seed_start + case_id,
-                method=method,
-                layer=layer,
-                strategy=strategy,
-                response_code=response_code,
-                related_method=related_method,
-            )
+        # Build the recurring combo list (excludes identity baseline).
+        # Round 0 uses full combos (including identity if template_active),
+        # subsequent rounds use only recurring_combos.
+        recurring_combos = [c for c in combos if c != ("INVITE", None, None, "wire", "identity")]
+
+        unlimited = config.max_cases == 0
+        case_id = 0
+        round_num = 0
+        while True:
+            round_combos = combos if round_num == 0 else recurring_combos
+            for (
+                method,
+                response_code,
+                related_method,
+                layer,
+                strategy,
+            ) in round_combos:
+                if not unlimited and case_id >= config.max_cases:
+                    return
+                if case_id <= skip_before:
+                    case_id += 1
+                    continue
+                yield CaseSpec(
+                    case_id=case_id,
+                    seed=config.seed_start + case_id,
+                    method=method,
+                    layer=layer,
+                    strategy=strategy,
+                    response_code=response_code,
+                    related_method=related_method,
+                )
+                case_id += 1
+            round_num += 1
+            # Guard: if no recurring combos, stop after round 0
+            if not recurring_combos:
+                return
 
 
 # ---------------------------------------------------------------------------
