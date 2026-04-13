@@ -106,6 +106,49 @@ class AdbConnector:
             path.write_text(result.stdout, encoding="utf-8")
             return str(path)
 
+        # --- IMS/telephony specific ---
+        telephony_path = _write_shell_output(
+            "telephony.txt", "dumpsys", "telephony.registry", timeout=30
+        )
+        ims_path = _write_shell_output(
+            "ims.txt", "dumpsys", "ims", timeout=30
+        )
+        netstat_path = _write_shell_output(
+            "netstat.txt", "netstat", "-tlnup", timeout=10
+        )
+
+        # --- Logcat: per-buffer + combined ---
+        logcat_path: str | None = None
+        logcat_buffers = ("main", "system", "radio", "crash")
+        for buf in logcat_buffers:
+            try:
+                buf_file = base_dir / f"logcat_{buf}.txt"
+                result = subprocess.run(
+                    self._adb_cmd("logcat", "-d", "-b", buf),
+                    capture_output=True,
+                    text=True,
+                    timeout=30,
+                )
+                if result.returncode == 0 and result.stdout:
+                    buf_file.write_text(result.stdout, encoding="utf-8")
+            except Exception as exc:
+                errors.append(f"logcat -b {buf} failed: {exc}")
+
+        try:
+            logcat_file = base_dir / "logcat_all.txt"
+            result = subprocess.run(
+                self._adb_cmd("logcat", "-d", "-b", ",".join(logcat_buffers)),
+                capture_output=True,
+                text=True,
+                timeout=30,
+            )
+            if result.returncode == 0 and result.stdout:
+                logcat_file.write_text(result.stdout, encoding="utf-8")
+                logcat_path = str(logcat_file)
+        except Exception as exc:
+            errors.append(f"logcat dump failed: {exc}")
+
+        # --- General system ---
         meminfo_path = _write_shell_output(
             "meminfo.txt", "dumpsys", "meminfo", timeout=60
         )
@@ -137,6 +180,10 @@ class AdbConnector:
             meminfo_path=meminfo_path,
             dmesg_path=dmesg_path,
             bugreport_path=bugreport_path,
+            logcat_path=logcat_path,
+            telephony_path=telephony_path,
+            ims_path=ims_path,
+            netstat_path=netstat_path,
             errors=tuple(errors),
         )
 

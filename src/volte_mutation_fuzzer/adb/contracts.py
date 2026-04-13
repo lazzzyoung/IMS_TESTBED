@@ -43,4 +43,8 @@ class AdbSnapshotResult(BaseModel):
     meminfo_path: str | None = None
     dmesg_path: str | None = None
     bugreport_path: str | None = None
+    logcat_path: str | None = None
+    telephony_path: str | None = None
+    ims_path: str | None = None
+    netstat_path: str | None = None
     errors: tuple[str, ...] = ()
