@@ -262,11 +262,11 @@ class CampaignExecutorTests(unittest.TestCase):
         self.addCleanup(responder.close)
 
         with tempfile.TemporaryDirectory() as tmpdir:
-            out_path = str(Path(tmpdir) / "campaign.jsonl")
+            out_dir = tmpdir
             cfg = self._make_config(
                 responder.host,
                 responder.port,
-                output_path=out_path,
+                results_dir=out_dir, output_name="test",
             )
             executor = CampaignExecutor(cfg)
             result = executor.run()
@@ -288,11 +288,11 @@ class CampaignExecutorTests(unittest.TestCase):
         self.addCleanup(responder.close)
 
         with tempfile.TemporaryDirectory() as tmpdir:
-            out_path = str(Path(tmpdir) / "campaign.jsonl")
+            out_dir = tmpdir
             cfg = self._make_config(
                 responder.host,
                 responder.port,
-                output_path=out_path,
+                results_dir=out_dir, output_name="test",
             )
             executor = CampaignExecutor(cfg)
             result = executor.run()
@@ -301,13 +301,13 @@ class CampaignExecutorTests(unittest.TestCase):
 
     def test_run_returns_timeout_verdict_for_silent_target(self) -> None:
         with tempfile.TemporaryDirectory() as tmpdir:
-            out_path = str(Path(tmpdir) / "campaign.jsonl")
+            out_dir = tmpdir
             cfg = self._make_config(
                 "127.0.0.1",
                 19999,
                 methods=("OPTIONS", "INVITE"),
                 max_cases=2,
-                output_path=out_path,
+                results_dir=out_dir, output_name="test",
                 timeout_seconds=0.2,
             )
             executor = CampaignExecutor(cfg)
@@ -329,18 +329,18 @@ class CampaignExecutorTests(unittest.TestCase):
         self.addCleanup(responder.close)
 
         with tempfile.TemporaryDirectory() as tmpdir:
-            out_path = str(Path(tmpdir) / "campaign.jsonl")
+            out_dir = tmpdir
             cfg = self._make_config(
                 responder.host,
                 responder.port,
                 methods=("OPTIONS", "INVITE", "MESSAGE"),
                 max_cases=3,
-                output_path=out_path,
+                results_dir=out_dir, output_name="test",
             )
             executor = CampaignExecutor(cfg)
             executor.run()
 
-            store = ResultStore(Path(out_path))
+            store = ResultStore(Path(out_dir) / "test" / "campaign.jsonl")
             _, cases = store.read_all()
 
         self.assertEqual(len(cases), 3)
@@ -358,18 +358,18 @@ class CampaignExecutorTests(unittest.TestCase):
         self.addCleanup(responder.close)
 
         with tempfile.TemporaryDirectory() as tmpdir:
-            out_path = str(Path(tmpdir) / "campaign.jsonl")
+            out_dir = tmpdir
             cfg = self._make_config(
                 responder.host,
                 responder.port,
                 methods=("OPTIONS",),
-                output_path=out_path,
+                results_dir=out_dir, output_name="test",
                 max_cases=1,
             )
             executor = CampaignExecutor(cfg)
             executor.run()
 
-            store = ResultStore(Path(out_path))
+            store = ResultStore(Path(out_dir) / "test" / "campaign.jsonl")
             _, cases = store.read_all()
 
         cmd = cases[0].reproduction_cmd
@@ -429,13 +429,13 @@ class CampaignExecutorTests(unittest.TestCase):
         from unittest.mock import patch as mock_patch
 
         with tempfile.TemporaryDirectory() as tmpdir:
-            out_path = str(Path(tmpdir) / "campaign.jsonl")
+            out_dir = tmpdir
             cfg = self._make_config(
                 "127.0.0.1",
                 19998,
                 methods=("OPTIONS",),
                 max_cases=1,
-                output_path=out_path,
+                results_dir=out_dir, output_name="test",
                 timeout_seconds=0.1,
                 layers=("model",),
                 strategies=("default",),
@@ -456,20 +456,20 @@ class CampaignExecutorTests(unittest.TestCase):
 
     def test_run_invokes_realtime_crash_analysis_and_final_report(self) -> None:
         with tempfile.TemporaryDirectory() as tmpdir:
-            out_path = str(Path(tmpdir) / "campaign.jsonl")
+            out_dir = tmpdir
             cfg = self._make_config(
                 "127.0.0.1",
                 5060,
                 methods=("OPTIONS",),
                 max_cases=1,
-                output_path=out_path,
+                results_dir=out_dir, output_name="test",
                 crash_analysis=True,
-                crash_analysis_output=str(Path(tmpdir) / "crash-analysis"),
             )
+            crash_analysis_dir = str(Path(out_dir) / "test" / "crash_analysis")
             analyzer = CampaignCrashAnalyzer(
-                output_dir=cfg.crash_analysis_output,
+                output_dir=crash_analysis_dir,
                 enabled=True,
-                source_name=cfg.output_path,
+                source_name=str(Path(out_dir) / "test" / "campaign.jsonl"),
             )
             fake_case = CaseResult(
                 case_id=0,
@@ -500,7 +500,7 @@ class CampaignExecutorTests(unittest.TestCase):
 
             self.assertEqual(analyze_mock.call_count, 1)
             report_mock.assert_called_once()
-            self.assertTrue(Path(cfg.crash_analysis_output).exists())
+            self.assertTrue(Path(crash_analysis_dir).exists())
 
 
 class UpdateSummaryTests(unittest.TestCase):
@@ -544,7 +544,7 @@ class SACircuitBreakerTests(unittest.TestCase):
     def test_sa_expiry_reclassifies_to_infra_failure(self) -> None:
         """When SA is dead, consecutive timeouts should trigger infra_failure."""
         with tempfile.TemporaryDirectory() as tmpdir:
-            out_path = str(Path(tmpdir) / "campaign.jsonl")
+            out_dir = tmpdir
             cfg = CampaignConfig(
                 target_host="10.20.20.8",
                 target_msisdn="111111",
@@ -562,7 +562,7 @@ class SACircuitBreakerTests(unittest.TestCase):
                 adb_enabled=False,
                 pcap_enabled=False,
                 circuit_breaker_threshold=6,
-                output_path=out_path,
+                results_dir=out_dir, output_name="test",
             )
             executor = CampaignExecutor(cfg)
 

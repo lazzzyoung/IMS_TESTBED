@@ -27,7 +27,7 @@ class CampaignDialogIntegrationTests(unittest.TestCase):
             timeout_seconds=1.0,
             cooldown_seconds=0.0,
             check_process=False,
-            output_path=str(Path(tmpdir.name) / "campaign.jsonl"),
+            results_dir=tmpdir.name, output_name="test",
         )
         defaults.update(kwargs)
         return CampaignConfig(**defaults)

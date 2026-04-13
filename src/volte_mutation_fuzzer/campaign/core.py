@@ -259,17 +259,39 @@ class CampaignExecutor:
         sender: SIPSenderReactor | None = None,
         oracle: OracleEngine | None = None,
         store: ResultStore | None = None,
+        campaign_dir: Path | None = None,
     ) -> None:
-        # Resume: restore original config from JSONL before initializing anything else.
-        # Only output_path and resume flag are kept from the new invocation.
-        if config.resume and store is None:
-            _tmp_store = ResultStore(Path(config.output_path))
+        # Resolve campaign directory — all output goes here
+        if campaign_dir is not None:
+            self._campaign_dir = campaign_dir
+        elif config.resume and config.output_name is not None:
+            # Resume: reuse existing campaign dir
+            self._campaign_dir = Path(config.results_dir) / config.output_name
+        else:
+            # Generate new campaign dir name
+            dir_name = config.output_name or self._generate_dir_name()
+            self._campaign_dir = Path(config.results_dir) / dir_name
+        self._campaign_dir.mkdir(parents=True, exist_ok=True)
+
+        # Derived paths
+        self._jsonl_path = self._campaign_dir / "campaign.jsonl"
+        self._pcap_dir = self._campaign_dir / "pcap"
+        self._crash_analysis_dir = self._campaign_dir / "crash_analysis"
+
+        # Resume: restore original config from JSONL
+        if config.resume and store is None and self._jsonl_path.exists():
+            _tmp_store = ResultStore(self._jsonl_path)
             _checkpoint = _tmp_store.find_checkpoint()
             if _checkpoint is not None:
                 _, _, _, _, _original_config = _checkpoint
                 config = _original_config.model_copy(
-                    update={"resume": True, "output_path": config.output_path}
+                    update={
+                        "resume": True,
+                        "results_dir": config.results_dir,
+                        "output_name": config.output_name,
+                    }
                 )
+
         self._config = config
         self._generator = generator or SIPGenerator(GeneratorSettings())
         self._mutator = mutator or SIPMutator()
@@ -305,7 +327,7 @@ class CampaignExecutor:
             )
         else:
             self._oracle = OracleEngine(docker_mode=_docker_mode)
-        self._store = store or ResultStore(Path(config.output_path))
+        self._store = store or ResultStore(self._jsonl_path)
         self._target = TargetEndpoint(
             host=config.target_host,
             port=config.target_port,
@@ -328,15 +350,23 @@ class CampaignExecutor:
 
         # Initialize crash analyzer
         self._crash_analyzer = CampaignCrashAnalyzer(
-            output_dir=config.crash_analysis_output,
+            output_dir=str(self._crash_analysis_dir),
             enabled=config.crash_analysis,
-            source_name=config.output_path,
+            source_name=str(self._jsonl_path),
         )
 
         # Initialize evidence collector
         self._evidence = EvidenceCollector(
-            base_dir=Path(config.output_path).parent,
+            base_dir=self._campaign_dir,
         )
+
+    @staticmethod
+    def _generate_dir_name() -> str:
+        return f"{datetime.now(timezone.utc).strftime('%Y%m%d_%H%M%S')}_{uuid.uuid4().hex[:8]}"
+
+    @property
+    def campaign_dir(self) -> Path:
+        return self._campaign_dir
 
     def run(self) -> CampaignResult:
         config = self._config
@@ -497,7 +527,7 @@ class CampaignExecutor:
             self._store.write_footer(campaign)
             reporter.finalize(summary, "aborted")
             try:
-                HtmlReportGenerator(Path(config.output_path)).generate()
+                HtmlReportGenerator(self._jsonl_path).generate()
             except Exception:
                 pass
             return campaign
@@ -525,7 +555,7 @@ class CampaignExecutor:
 
         # Generate HTML report
         try:
-            report_path = HtmlReportGenerator(Path(config.output_path)).generate()
+            report_path = HtmlReportGenerator(self._jsonl_path).generate()
             print(f"[vmf campaign] report: {report_path}", file=sys.stderr)
         except Exception as exc:
             logger.warning("failed to generate HTML report: %s", exc)
@@ -566,7 +596,7 @@ class CampaignExecutor:
             artifact = self._artifact_from_mutated(mutated)
             sent_payload: str | bytes | None = artifact.wire_text or artifact.packet_bytes
             if config.pcap_enabled:
-                pcap_dir = Path(config.pcap_dir)
+                pcap_dir = self._pcap_dir
                 pcap_dir.mkdir(parents=True, exist_ok=True)
                 pcap_path = str(pcap_dir / f"case_{spec.case_id:06d}.pcap")
                 capture = PcapCapture(pcap_path, interface=config.pcap_interface)
@@ -597,7 +627,7 @@ class CampaignExecutor:
                     from volte_mutation_fuzzer.adb.core import AdbConnector
 
                     adb_snapshot_dir = str(
-                        Path(config.output_path).parent
+                        self._campaign_dir
                         / "adb_snapshots"
                         / f"case_{spec.case_id}"
                     )
@@ -803,7 +833,7 @@ class CampaignExecutor:
 
             mt_target = self._target.model_copy(update=target_update)
             if config.pcap_enabled:
-                pcap_dir = Path(config.pcap_dir)
+                pcap_dir = self._pcap_dir
                 pcap_dir.mkdir(parents=True, exist_ok=True)
                 pcap_path = str(pcap_dir / f"case_{spec.case_id:06d}.pcap")
                 capture = PcapCapture(pcap_path, interface=config.pcap_interface)
@@ -855,7 +885,7 @@ class CampaignExecutor:
                     from volte_mutation_fuzzer.adb.core import AdbConnector
 
                     adb_snapshot_dir = str(
-                        Path(config.output_path).parent
+                        self._campaign_dir
                         / "adb_snapshots"
                         / f"case_{spec.case_id}"
                     )
@@ -961,7 +991,7 @@ class CampaignExecutor:
         pcap_path_saved: str | None = None
         try:
             if config.pcap_enabled:
-                pcap_dir = Path(config.pcap_dir)
+                pcap_dir = self._pcap_dir
                 pcap_dir.mkdir(parents=True, exist_ok=True)
                 pcap_path = str(pcap_dir / f"case_{spec.case_id:06d}.pcap")
                 capture = PcapCapture(pcap_path, interface=config.pcap_interface)

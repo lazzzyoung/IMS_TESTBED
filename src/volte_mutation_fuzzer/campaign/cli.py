@@ -79,8 +79,8 @@ def run_command(
         int, typer.Option("--seed-start", help="Starting seed value.")
     ] = 0,
     output: Annotated[
-        str, typer.Option("--output", help="Output JSONL file path.")
-    ] = "results/campaign.jsonl",
+        str | None, typer.Option("--output", help="Campaign directory name under results/ (auto-generated if omitted).")
+    ] = None,
     process_name: Annotated[
         str,
         typer.Option(
@@ -121,10 +121,6 @@ def run_command(
             help="Enable per-case pcap capture via sudo tcpdump. Auto-enabled for real-ue-direct mode.",
         ),
     ] = None,
-    pcap_dir: Annotated[
-        str,
-        typer.Option("--pcap-dir", help="Directory to store .pcap files."),
-    ] = "results/pcap",
     pcap_interface: Annotated[
         str,
         typer.Option("--pcap-interface", help="Network interface for tcpdump."),
@@ -186,10 +182,6 @@ def run_command(
             help="Enable real-time crash analysis and reporting.",
         ),
     ] = False,
-    crash_analysis_output: Annotated[
-        str,
-        typer.Option("--crash-analysis-output", help="Output directory for crash analysis results."),
-    ] = "crash_analysis",
     resume: Annotated[
         bool,
         typer.Option("--resume/--no-resume", help="Resume campaign from last checkpoint in output file."),
@@ -222,10 +214,8 @@ def run_command(
         "timeout_seconds": timeout,
         "cooldown_seconds": cooldown,
         "seed_start": seed_start,
-        "output_path": output,
         "process_name": process_name,
         "log_path": log_path,
-        "pcap_dir": pcap_dir,
         "pcap_interface": pcap_interface,
         "preserve_via": preserve_via,
         "preserve_contact": preserve_contact,
@@ -235,10 +225,11 @@ def run_command(
         "from_msisdn": from_msisdn,
         "mt_local_port": mt_local_port,
         "crash_analysis": crash_analysis,
-        "crash_analysis_output": crash_analysis_output,
         "resume": resume,
         "circuit_breaker_threshold": circuit_breaker,
     }
+    if output is not None:
+        payload["output_name"] = output
     # Only set these when explicitly specified by user (None = auto-decide in model_validator)
     if adb is not None:
         payload["adb_enabled"] = adb
@@ -308,6 +299,7 @@ def run_command(
     )
 
     executor = CampaignExecutor(config)
+    print(f"[vmf campaign] output: {executor.campaign_dir}", file=sys.stderr)
     result = executor.run()
 
     print(
@@ -319,7 +311,7 @@ def run_command(
         f" stack_failure={result.summary.stack_failure}",
         file=sys.stderr,
     )
-    print(f"[vmf campaign] results saved to: {output}", file=sys.stderr)
+    print(f"[vmf campaign] results saved to: {executor.campaign_dir}", file=sys.stderr)
 
 
 @app.command("report")
@@ -412,7 +404,7 @@ def replay_command(
     from volte_mutation_fuzzer.campaign.core import CampaignExecutor
 
     cfg = header.config
-    executor = CampaignExecutor(cfg)
+    executor = CampaignExecutor(cfg, campaign_dir=Path(path).parent)
     spec = CaseSpec(
         case_id=case.case_id,
         seed=case.seed,

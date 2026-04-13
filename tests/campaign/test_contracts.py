@@ -24,7 +24,8 @@ class CampaignConfigTests(unittest.TestCase):
         self.assertEqual(cfg.cooldown_seconds, 0.2)
         self.assertEqual(cfg.seed_start, 0)
         self.assertFalse(cfg.crash_analysis)
-        self.assertEqual(cfg.crash_analysis_output, "crash_analysis")
+        self.assertEqual(cfg.results_dir, "results")
+        self.assertIsNone(cfg.output_name)
         self.assertEqual(cfg.process_name, "baresip")
         self.assertTrue(cfg.check_process)
 

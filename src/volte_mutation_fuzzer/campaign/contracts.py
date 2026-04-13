@@ -27,9 +27,9 @@ class CampaignConfig(BaseModel):
     timeout_seconds: float = Field(default=5.0, gt=0.0, le=60.0)
     cooldown_seconds: float = Field(default=0.2, ge=0.0, le=10.0)
     seed_start: int = Field(default=0, ge=0)
-    output_path: str = Field(default="results/campaign.jsonl", min_length=1)
+    results_dir: str = Field(default="results", min_length=1)
+    output_name: str | None = Field(default=None)
     crash_analysis: bool = False
-    crash_analysis_output: str = Field(default="crash_analysis", min_length=1)
     process_name: str = Field(default="baresip", min_length=1)
     check_process: bool | None = None
     log_path: str | None = None
@@ -37,7 +37,6 @@ class CampaignConfig(BaseModel):
     adb_serial: str | None = None
     adb_buffers: tuple[str, ...] = ("main", "system", "radio", "crash")
     pcap_enabled: bool | None = None
-    pcap_dir: str = "results/pcap"
     pcap_interface: str = "any"
 
     # Real-UE MT INVITE template options

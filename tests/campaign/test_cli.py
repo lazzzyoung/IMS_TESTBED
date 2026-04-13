@@ -75,7 +75,9 @@ class CampaignRunCLITests(unittest.TestCase):
         self.addCleanup(responder.close)
 
         with tempfile.TemporaryDirectory() as tmpdir:
-            out = str(Path(tmpdir) / "out.jsonl")
+            # Use tmpdir as results_dir, with output name "test_run"
+            import os
+            os.environ["_VMF_TEST_RESULTS_DIR"] = tmpdir
             result = self.runner.invoke(
                 app,
                 [
@@ -99,11 +101,16 @@ class CampaignRunCLITests(unittest.TestCase):
                     "0",
                     "--no-process-check",
                     "--output",
-                    out,
+                    "test_run",
                 ],
             )
             self.assertEqual(result.exit_code, 0, msg=result.output)
-            self.assertTrue(Path(out).exists())
+            # campaign.jsonl should exist under results/test_run/
+            campaign_dir = Path("results") / "test_run"
+            self.assertTrue((campaign_dir / "campaign.jsonl").exists())
+            # cleanup
+            import shutil
+            shutil.rmtree("results/test_run", ignore_errors=True)
 
     def test_run_command_passes_crash_analysis_flags(self) -> None:
         captured: dict[str, CampaignConfig] = {}
@@ -151,16 +158,13 @@ class CampaignRunCLITests(unittest.TestCase):
                         "0",
                         "--no-process-check",
                         "--output",
-                        out,
+                        "test_run",
                         "--crash-analysis",
-                        "--crash-analysis-output",
-                        analysis_dir,
                     ],
                 )
 
         self.assertEqual(result.exit_code, 0, msg=result.output)
         self.assertTrue(captured["config"].crash_analysis)
-        self.assertEqual(captured["config"].crash_analysis_output, analysis_dir)
 
     def test_run_command_invalid_host_exits_nonzero(self) -> None:
         result = self.runner.invoke(
