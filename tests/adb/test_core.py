@@ -203,14 +203,13 @@ def test_take_snapshot_runs_dumps_concurrently(tmp_path: Path) -> None:
         connector.take_snapshot(str(tmp_path / "snapshots"))
         elapsed = time.perf_counter() - t0
 
-    # The anchor `get_device_time()` plus nine dumps (telephony, ims, netstat,
-    # meminfo, dmesg, and the four per-buffer logcat calls) gives 10 subprocess
-    # calls.  ``logcat_all.txt`` is concatenated locally from the per-buffer
-    # files and does not spawn an extra adb call.  Serial execution would take
-    # ~10 * delay = 1.0s; parallel pool should stay under ~0.55s comfortably.
-    assert call_count >= 10
+    # The anchor `get_device_time()` plus ten dumps (telephony, ims, netstat,
+    # meminfo, dmesg, four per-buffer logcats, and the merged logcat_all call)
+    # gives 11 subprocess calls.  Serial execution would take ~11 * delay =
+    # 1.1s; parallel pool should stay under ~0.6s comfortably.
+    assert call_count >= 11
     assert max_concurrent >= 2, "dump calls did not overlap in time"
-    assert elapsed < delay * 10 * 0.75, (
+    assert elapsed < delay * 11 * 0.75, (
         f"wall clock {elapsed:.3f}s looks serial for delay={delay}s"
     )
 

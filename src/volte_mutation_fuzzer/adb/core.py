@@ -188,38 +188,41 @@ class AdbConnector:
             except Exception as exc:
                 _record_error(f"logcat -b {buf} failed: {exc}")
 
-        def _concat_logcat_combined() -> str | None:
-            # Some OEM adbd builds (e.g. Samsung A31) reject the
-            # comma-separated `-b main,system,radio,crash` form and exit
-            # non-zero, so build the combined view locally from the per-buffer
-            # files that ``_dump_logcat_buffer`` already wrote.
-            logcat_file = base_dir / "logcat_all.txt"
-            parts: list[str] = []
-            for buf in logcat_buffers:
-                buf_file = base_dir / f"logcat_{buf}.txt"
-                if not buf_file.exists():
-                    continue
-                try:
-                    parts.append(f"=== {buf} ===\n")
-                    parts.append(buf_file.read_text(encoding="utf-8", errors="replace"))
-                    if not parts[-1].endswith("\n"):
-                        parts.append("\n")
-                except OSError as exc:
-                    _record_error(f"logcat concat read {buf} failed: {exc}")
-            if not parts:
-                return None
+        def _dump_logcat_combined() -> str | None:
+            # A single logcat call with repeated ``-b`` flags merges every
+            # buffer time-ordered on the device side.  The comma-separated form
+            # (``-b main,system,radio,crash``) was rejected by some OEM adbd
+            # builds — the repeated-flag form is supported by logcat since
+            # Android 5 and keeps chronological ordering that a local concat of
+            # per-buffer files cannot reproduce.
             try:
-                logcat_file.write_text("".join(parts), encoding="utf-8")
-            except OSError as exc:
-                _record_error(f"logcat_all.txt write failed: {exc}")
-                return None
-            return str(logcat_file)
+                logcat_file = base_dir / "logcat_all.txt"
+                buffer_args: list[str] = []
+                for buf in logcat_buffers:
+                    buffer_args.extend(("-b", buf))
+                result = subprocess.run(
+                    self._adb_cmd("logcat", "-d", *buffer_args, *since_args),
+                    capture_output=True,
+                    text=True,
+                    timeout=30,
+                )
+                if result.returncode == 0 and result.stdout:
+                    logcat_file.write_text(result.stdout, encoding="utf-8")
+                    return str(logcat_file)
+                if result.returncode != 0:
+                    stderr_snippet = (result.stderr or "").strip()[:200]
+                    _record_error(
+                        f"logcat_all.txt skipped rc={result.returncode} "
+                        f"stderr={stderr_snippet!r}"
+                    )
+            except Exception as exc:
+                _record_error(f"logcat_all.txt failed: {exc}")
+            return None
 
         # --- Phase 2: logcat + general system (after anchor) ---
         # All independent read-only queries against adbd run concurrently,
         # so the snapshot converges on the slowest single call (typically
-        # ``dumpsys meminfo``) rather than their sum.  ``logcat_all.txt`` is
-        # produced *after* the per-buffer dumps by concatenating their files.
+        # ``dumpsys meminfo``) rather than their sum.
         with ThreadPoolExecutor(max_workers=_SNAPSHOT_MAX_WORKERS) as pool:
             fut_meminfo = pool.submit(
                 _write_shell_output, "meminfo.txt", ("dumpsys", "meminfo"), 60,
@@ -230,12 +233,13 @@ class AdbConnector:
             fut_buffers = [
                 pool.submit(_dump_logcat_buffer, buf) for buf in logcat_buffers
             ]
+            fut_combined = pool.submit(_dump_logcat_combined)
 
             meminfo_path = fut_meminfo.result()
             dmesg_path = fut_dmesg.result()
             for fut in fut_buffers:
                 fut.result()
-            logcat_path = _concat_logcat_combined()
+            logcat_path = fut_combined.result()
 
         if bugreport:
             path = base_dir / "bugreport.txt"
