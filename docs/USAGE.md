@@ -6,6 +6,7 @@
 ```bash
 git clone <repository>
 cd volte-mutation-fuzzer
+poe install   # Ubuntu system dependencies (softphone excluded)
 uv sync
 ```
 

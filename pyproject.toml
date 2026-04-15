@@ -28,6 +28,7 @@ dev = [
 ]
 
 [tool.poe.tasks]
+install = {cmd = "bash scripts/install_system_deps.sh", help = "Install Ubuntu system dependencies for real-device workflows (softphone excluded)"}
 format = "ruff format ."
 lint = "ruff check ."
 lint-fix = "ruff check . --fix"

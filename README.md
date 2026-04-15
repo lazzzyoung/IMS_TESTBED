@@ -48,6 +48,12 @@ Generator의 현재 CLI 엔트리포인트는 `project.scripts` 기준으로 **`
 uv sync --dev
 ```
 
+Ubuntu에서 실기기/IMS 외부 의존성 설치(softphone 제외):
+
+```bash
+poe install
+```
+
 기본 request 생성:
 
 ```bash
