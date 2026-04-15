@@ -34,7 +34,12 @@ from volte_mutation_fuzzer.mutator.contracts import MutationConfig, MutatedCase
 from volte_mutation_fuzzer.mutator.core import SIPMutator
 from volte_mutation_fuzzer.mutator.editable import parse_editable_from_wire
 from volte_mutation_fuzzer.oracle.contracts import OracleContext
-from volte_mutation_fuzzer.oracle.core import AdbOracle, LogOracle, OracleEngine
+from volte_mutation_fuzzer.oracle.core import (
+    AdbOracle,
+    IosOracle,
+    LogOracle,
+    OracleEngine,
+)
 from volte_mutation_fuzzer.sender.contracts import (
     SendArtifact,
     SendReceiveResult,
@@ -315,36 +320,55 @@ class CampaignExecutor:
         self._mutator = mutator or SIPMutator()
         self._sender = sender or SIPSenderReactor()
         self._adb_collector: object = None
+        self._ios_collector: object = None
+        self._ios_detector: object = None
         _docker_mode = config.mode == "real-ue-direct"
         if oracle is not None:
             self._oracle = oracle
-        elif config.adb_enabled:
-            from volte_mutation_fuzzer.adb.contracts import AdbCollectorConfig
-            from volte_mutation_fuzzer.adb.core import (
-                AdbAnomalyDetector,
-                AdbLogCollector,
-            )
-
-            adb_cfg = AdbCollectorConfig(
-                serial=config.adb_serial,
-                buffers=config.adb_buffers,
-            )
-            _collector = AdbLogCollector(adb_cfg)
-            _detector = AdbAnomalyDetector()
-            _adb_oracle = AdbOracle(_collector, _detector)
-            self._adb_collector = _collector
+        else:
             log_oracle = LogOracle() if config.log_path is not None else None
+
+            adb_oracle_obj: AdbOracle | None = None
+            if config.adb_enabled:
+                from volte_mutation_fuzzer.adb.contracts import AdbCollectorConfig
+                from volte_mutation_fuzzer.adb.core import (
+                    AdbAnomalyDetector,
+                    AdbLogCollector,
+                )
+
+                adb_cfg = AdbCollectorConfig(
+                    serial=config.adb_serial,
+                    buffers=config.adb_buffers,
+                )
+                _collector = AdbLogCollector(adb_cfg)
+                _detector = AdbAnomalyDetector()
+                adb_oracle_obj = AdbOracle(_collector, _detector)
+                self._adb_collector = _collector
+
+            ios_oracle_obj: IosOracle | None = None
+            if config.ios_enabled:
+                from volte_mutation_fuzzer.ios.contracts import IosCollectorConfig
+                from volte_mutation_fuzzer.ios.core import (
+                    IosAnomalyDetector,
+                    IosSyslogCollector,
+                )
+
+                ios_cfg = IosCollectorConfig(
+                    udid=config.ios_udid,
+                    filter_processes=config.ios_filter_processes,
+                )
+                _ios_collector = IosSyslogCollector(ios_cfg)
+                _ios_detector = IosAnomalyDetector()
+                ios_oracle_obj = IosOracle(_ios_collector, _ios_detector)
+                self._ios_collector = _ios_collector
+                self._ios_detector = _ios_detector
+
             self._oracle = OracleEngine(
                 log_oracle=log_oracle,
-                adb_oracle=_adb_oracle,
+                adb_oracle=adb_oracle_obj,
+                ios_oracle=ios_oracle_obj,
                 docker_mode=_docker_mode,
             )
-        elif config.log_path is not None:
-            self._oracle = OracleEngine(
-                log_oracle=LogOracle(), docker_mode=_docker_mode
-            )
-        else:
-            self._oracle = OracleEngine(docker_mode=_docker_mode)
         self._store = store or ResultStore(self._jsonl_path)
         self._target = TargetEndpoint(
             host=config.target_host,
@@ -471,6 +495,24 @@ class CampaignExecutor:
             except Exception as exc:
                 logger.warning("failed to capture initial logcat anchor: %s", exc)
 
+        if self._ios_collector is not None:
+            try:
+                self._ios_collector.start()
+            except Exception as exc:
+                logger.warning("failed to start ios syslog collector: %s", exc)
+            try:
+                from volte_mutation_fuzzer.ios.core import IosConnector
+
+                baseline_dir = self._campaign_dir / "ios_baseline"
+                baseline_dir.mkdir(parents=True, exist_ok=True)
+                info = IosConnector(udid=config.ios_udid).check_device()
+                (baseline_dir / "device_info.json").write_text(
+                    info.model_dump_json(indent=2),
+                    encoding="utf-8",
+                )
+            except Exception as exc:
+                logger.warning("failed to capture ios baseline: %s", exc)
+
         consecutive_failures = 0
         cb_threshold = config.circuit_breaker_threshold
         # SA probe triggers at half the circuit breaker threshold (min 3)
@@ -578,6 +620,11 @@ class CampaignExecutor:
         finally:
             if self._adb_collector is not None:
                 self._adb_collector.stop()
+            if self._ios_collector is not None:
+                try:
+                    self._ios_collector.stop()
+                except Exception as exc:
+                    logger.warning("failed to stop ios syslog collector: %s", exc)
 
             # Generate final crash analysis report
             self._finalize_crash_analysis()
@@ -682,6 +729,35 @@ class CampaignExecutor:
                 except Exception as exc:
                     logger.warning(
                         "failed to capture adb snapshot for case %s: %s",
+                        spec.case_id,
+                        exc,
+                    )
+
+            if config.ios_enabled and self._ios_collector is not None:
+                try:
+                    from volte_mutation_fuzzer.ios.core import (
+                        IosAnomalyDetector,
+                        IosConnector,
+                    )
+
+                    ios_snapshot_dir = str(
+                        self._campaign_dir
+                        / "ios_snapshots"
+                        / f"case_{spec.case_id}"
+                    )
+                    # Use a throwaway detector so snapshot cannot pollute the
+                    # long-lived oracle detector queue across cases.
+                    IosConnector(udid=config.ios_udid).take_snapshot(
+                        ios_snapshot_dir,
+                        collector=self._ios_collector,
+                        syslog_since=timestamp,
+                        syslog_until=time.time(),
+                        detector=IosAnomalyDetector(),
+                        run_diagnostics=config.ios_run_diagnostics,
+                    )
+                except Exception as exc:
+                    logger.warning(
+                        "failed to capture ios snapshot for case %s: %s",
                         spec.case_id,
                         exc,
                     )
@@ -1051,6 +1127,35 @@ class CampaignExecutor:
                 except Exception as exc:
                     logger.warning(
                         "failed to capture adb snapshot for case %s: %s",
+                        spec.case_id,
+                        exc,
+                    )
+
+            if config.ios_enabled and self._ios_collector is not None:
+                try:
+                    from volte_mutation_fuzzer.ios.core import (
+                        IosAnomalyDetector,
+                        IosConnector,
+                    )
+
+                    ios_snapshot_dir = str(
+                        self._campaign_dir
+                        / "ios_snapshots"
+                        / f"case_{spec.case_id}"
+                    )
+                    # Use a throwaway detector so snapshot cannot pollute the
+                    # long-lived oracle detector queue across cases.
+                    IosConnector(udid=config.ios_udid).take_snapshot(
+                        ios_snapshot_dir,
+                        collector=self._ios_collector,
+                        syslog_since=timestamp,
+                        syslog_until=time.time(),
+                        detector=IosAnomalyDetector(),
+                        run_diagnostics=config.ios_run_diagnostics,
+                    )
+                except Exception as exc:
+                    logger.warning(
+                        "failed to capture ios snapshot for case %s: %s",
                         spec.case_id,
                         exc,
                     )

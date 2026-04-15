@@ -369,6 +369,17 @@ class IosSyslogCollectorHealthTests(unittest.TestCase):
         self.assertEqual(len(lines), 1)
         self.assertEqual(lines[0].process, "CommCenter")
 
+    def test_start_marks_dead_when_popen_fails(self) -> None:
+        collector = IosSyslogCollector()
+        with patch(
+            "volte_mutation_fuzzer.ios.core.subprocess.Popen",
+            side_effect=FileNotFoundError("idevicesyslog"),
+        ):
+            with self.assertRaises(FileNotFoundError):
+                collector.start()
+        self.assertFalse(collector.is_running)
+        self.assertFalse(collector.is_healthy)
+
     def test_reader_loop_marks_dead_after_max_retries(self) -> None:
         collector = IosSyslogCollector(
             max_reconnect_attempts=1,

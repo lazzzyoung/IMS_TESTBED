@@ -446,6 +446,44 @@ class AdbOracle:
         )
 
 
+class IosOracle:
+    """Oracle that checks iOS syslog anomaly events for crash/failure indicators."""
+
+    def __init__(self, collector: object, detector: object) -> None:
+        self._collector = collector
+        self._detector = detector
+        self._last_check_ts: float = time.time()
+
+    def check(self) -> LogCheckResult:
+        error: str | None = None
+        if hasattr(self._collector, "is_healthy") and not self._collector.is_healthy:
+            error = "ios syslog collector disconnected"
+
+        now = time.time()
+        lines = self._collector.slice(self._last_check_ts, now)
+        self._last_check_ts = now
+        self._detector.feed_lines(lines)
+        events = self._detector.drain_events()
+        actionable = [e for e in events if e.severity in ("critical", "warning")]
+        if actionable:
+            critical = [e for e in actionable if e.severity == "critical"]
+            top = (critical or actionable)[0]
+            return LogCheckResult(
+                log_path="ios:syslog",
+                matched=True,
+                matched_pattern=top.matched_pattern,
+                matched_line=top.matched_line,
+                lines_scanned=len(lines),
+                error=error,
+            )
+        return LogCheckResult(
+            log_path="ios:syslog",
+            matched=False,
+            lines_scanned=len(lines),
+            error=error,
+        )
+
+
 class OracleEngine:
     """Combines SocketOracle + ProcessOracle into a single verdict."""
 
@@ -455,12 +493,14 @@ class OracleEngine:
         process_oracle: ProcessOracle | None = None,
         log_oracle: LogOracle | None = None,
         adb_oracle: AdbOracle | None = None,
+        ios_oracle: IosOracle | None = None,
         docker_mode: bool = False,
     ) -> None:
         self._socket_oracle = socket_oracle or SocketOracle()
         self._process_oracle = process_oracle or ProcessOracle(docker_mode=docker_mode)
         self._log_oracle = log_oracle
         self._adb_oracle = adb_oracle
+        self._ios_oracle = ios_oracle
         self._log_position: int = int(time.time()) if docker_mode else 0
         self._evaluate_call_count: int = 0
 
@@ -508,6 +548,23 @@ class OracleEngine:
                         "matched_pattern": adb_result.matched_pattern,
                         "matched_line": adb_result.matched_line,
                         "log_path": "adb:logcat",
+                    },
+                )
+
+        if self._ios_oracle is not None:
+            ios_result = self._ios_oracle.check()
+            if ios_result.matched:
+                return OracleVerdict(
+                    verdict="stack_failure",
+                    confidence=0.80,
+                    reason=f"iOS anomaly detected: {ios_result.matched_pattern}",
+                    response_code=verdict.response_code,
+                    elapsed_ms=verdict.elapsed_ms,
+                    details={
+                        "socket_verdict": verdict.verdict,
+                        "matched_pattern": ios_result.matched_pattern,
+                        "matched_line": ios_result.matched_line,
+                        "log_path": "ios:syslog",
                     },
                 )
 

@@ -185,3 +185,32 @@ class AdbCampaignConfigTests(unittest.TestCase):
     def test_adb_extra_forbid(self) -> None:
         with self.assertRaises(Exception):
             CampaignConfig(target_host="127.0.0.1", unknown_adb_field=True)
+
+
+class IosCampaignConfigTests(unittest.TestCase):
+    def test_ios_defaults(self) -> None:
+        cfg = CampaignConfig(target_host="127.0.0.1")
+        self.assertFalse(cfg.ios_enabled)
+        self.assertIsNone(cfg.ios_udid)
+        self.assertIn("CommCenter", cfg.ios_filter_processes)
+        self.assertFalse(cfg.ios_run_diagnostics)
+
+    def test_ios_enabled_with_udid(self) -> None:
+        cfg = CampaignConfig(
+            target_host="127.0.0.1",
+            ios_enabled=True,
+            ios_udid="ABC-123",
+            ios_filter_processes=("CommCenter",),
+            ios_run_diagnostics=True,
+        )
+        self.assertTrue(cfg.ios_enabled)
+        self.assertEqual(cfg.ios_udid, "ABC-123")
+        self.assertEqual(cfg.ios_filter_processes, ("CommCenter",))
+        self.assertTrue(cfg.ios_run_diagnostics)
+
+    def test_ios_not_auto_enabled_in_real_ue_direct(self) -> None:
+        cfg = CampaignConfig(
+            target_host="127.0.0.1",
+            mode="real-ue-direct",
+        )
+        self.assertFalse(cfg.ios_enabled)

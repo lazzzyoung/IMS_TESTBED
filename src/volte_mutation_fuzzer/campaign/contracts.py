@@ -36,6 +36,17 @@ class CampaignConfig(BaseModel):
     adb_enabled: bool | None = None
     adb_serial: str | None = None
     adb_buffers: tuple[str, ...] = ("main", "system", "radio", "crash")
+    ios_enabled: bool = False
+    ios_udid: str | None = None
+    ios_filter_processes: tuple[str, ...] = (
+        "CommCenter",
+        "SpringBoard",
+        "identityservicesd",
+        "imagent",
+        "ReportCrash",
+        "launchd",
+    )
+    ios_run_diagnostics: bool = False
     pcap_enabled: bool | None = None
     pcap_interface: str = "any"
 

@@ -262,13 +262,20 @@ class IosSyslogCollector:
 
     def start(self) -> None:
         self.stop()
+        try:
+            proc = subprocess.Popen(
+                self._cmd(),
+                stdout=subprocess.PIPE,
+                stderr=subprocess.DEVNULL,
+                text=True,
+            )
+        except Exception:
+            # Popen failed (e.g. idevicesyslog missing) — leave _running
+            # cleared and flag the collector dead so is_healthy reports False.
+            with self._lock:
+                self._dead = True
+            raise
         self._running.set()
-        proc = subprocess.Popen(
-            self._cmd(),
-            stdout=subprocess.PIPE,
-            stderr=subprocess.DEVNULL,
-            text=True,
-        )
         self._proc = proc
         thread = threading.Thread(target=self._reader_loop, args=(proc,), daemon=True)
         self._thread = thread

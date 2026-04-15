@@ -5,9 +5,12 @@ import unittest
 from unittest.mock import patch
 
 from volte_mutation_fuzzer.adb.core import AdbAnomalyDetector
+from volte_mutation_fuzzer.ios.contracts import IosSyslogLine
+from volte_mutation_fuzzer.ios.core import IosAnomalyDetector, IosSyslogCollector
 from volte_mutation_fuzzer.oracle.contracts import OracleContext
 from volte_mutation_fuzzer.oracle.core import (
     AdbOracle,
+    IosOracle,
     LogOracle,
     OracleEngine,
     ProcessOracle,
@@ -676,5 +679,122 @@ class OracleEngineWithAdbTests(unittest.TestCase):
 
     def test_adb_oracle_no_events_falls_through_to_normal_verdict(self) -> None:
         engine = OracleEngine(adb_oracle=_AdbOracleStub(False))
+        verdict = engine.evaluate(_make_result("success", status_code=200), self.ctx)
+        self.assertEqual(verdict.verdict, "normal")
+
+
+class _IosOracleStub:
+    def __init__(self, matched: bool, pattern: str | None = None) -> None:
+        self._matched = matched
+        self._pattern = pattern
+
+    def check(self):
+        from volte_mutation_fuzzer.oracle.contracts import LogCheckResult
+
+        return LogCheckResult(
+            log_path="ios:syslog",
+            matched=self._matched,
+            matched_pattern=self._pattern,
+            matched_line="matched line" if self._matched else None,
+            lines_scanned=1 if self._matched else 0,
+        )
+
+
+class IosOracleTests(unittest.TestCase):
+    def _push(self, collector: IosSyslogCollector, text: str, ts: float) -> None:
+        collector.push_for_test(
+            IosSyslogLine(host_ts=ts, process="CommCenter", line=text)
+        )
+
+    def test_critical_event_returns_match(self) -> None:
+        collector = IosSyslogCollector()
+        oracle = IosOracle(collector, IosAnomalyDetector())
+        # Backdate last_check so the line we push falls inside [since, now].
+        oracle._last_check_ts = 0.0
+        self._push(collector, "CommCenter: EXC_BAD_ACCESS at 0x0", time.time())
+        result = oracle.check()
+        self.assertTrue(result.matched)
+        self.assertIn("EXC_BAD_ACCESS", result.matched_pattern or "")
+
+    def test_info_only_returns_no_match(self) -> None:
+        collector = IosSyslogCollector()
+        oracle = IosOracle(collector, IosAnomalyDetector())
+        oracle._last_check_ts = 0.0
+        self._push(collector, "[IMS] registered on LTE", time.time())
+        result = oracle.check()
+        self.assertFalse(result.matched)
+
+    def test_no_lines_returns_no_match(self) -> None:
+        collector = IosSyslogCollector()
+        oracle = IosOracle(collector, IosAnomalyDetector())
+        result = oracle.check()
+        self.assertFalse(result.matched)
+        self.assertEqual(result.lines_scanned, 0)
+
+
+class IosOracleDetectorIsolationTests(unittest.TestCase):
+    """Regression: snapshot detector must not pollute the oracle detector queue.
+
+    Before fix, sharing a single detector between IosOracle and take_snapshot()
+    caused snapshot.feed_lines() to re-populate the detector queue; the next
+    oracle.check() would then drain those events and return matched=True even
+    with no new log lines.
+    """
+
+    def test_snapshot_with_separate_detector_leaves_oracle_clean(self) -> None:
+        import tempfile
+
+        from volte_mutation_fuzzer.ios.core import IosConnector
+
+        collector = IosSyslogCollector()
+        oracle_detector = IosAnomalyDetector()
+        oracle = IosOracle(collector, oracle_detector)
+        oracle._last_check_ts = 0.0
+        collector.push_for_test(
+            IosSyslogLine(
+                host_ts=time.time(),
+                process="CommCenter",
+                line="CommCenter: EXC_BAD_ACCESS at 0x0",
+            )
+        )
+
+        first = oracle.check()
+        self.assertTrue(first.matched)
+
+        with tempfile.TemporaryDirectory() as tmpdir:
+            with patch("subprocess.run") as run_mock:
+                run_mock.return_value = type(
+                    "P",
+                    (),
+                    {"stdout": "ok", "stderr": "", "returncode": 0},
+                )()
+                # Snapshot uses its OWN throwaway detector (not oracle_detector).
+                IosConnector().take_snapshot(
+                    tmpdir,
+                    collector=collector,
+                    syslog_since=0.0,
+                    syslog_until=time.time(),
+                    detector=IosAnomalyDetector(),
+                )
+
+        # After snapshot, no new log lines arrived → oracle must be clean.
+        oracle._last_check_ts = time.time() + 1.0
+        second = oracle.check()
+        self.assertFalse(second.matched)
+
+
+class OracleEngineWithIosTests(unittest.TestCase):
+    def setUp(self) -> None:
+        self.ctx = OracleContext(method="OPTIONS")
+
+    def test_ios_oracle_triggers_stack_failure_verdict(self) -> None:
+        engine = OracleEngine(ios_oracle=_IosOracleStub(True, r"EXC_BAD_ACCESS"))
+        verdict = engine.evaluate(_make_result("success", status_code=200), self.ctx)
+        self.assertEqual(verdict.verdict, "stack_failure")
+        self.assertEqual(verdict.confidence, 0.80)
+        self.assertIn("iOS anomaly detected", verdict.reason)
+
+    def test_ios_oracle_no_events_falls_through_to_normal_verdict(self) -> None:
+        engine = OracleEngine(ios_oracle=_IosOracleStub(False))
         verdict = engine.evaluate(_make_result("success", status_code=200), self.ctx)
         self.assertEqual(verdict.verdict, "normal")

@@ -114,6 +114,31 @@ def run_command(
         str | None,
         typer.Option("--adb-buffers", help="Comma-separated logcat buffers."),
     ] = None,
+    ios: Annotated[
+        bool,
+        typer.Option(
+            "--ios/--no-ios",
+            help="Enable iPhone (libimobiledevice) log collection.",
+        ),
+    ] = False,
+    ios_udid: Annotated[
+        str | None,
+        typer.Option("--ios-udid", help="Target iPhone UDID (auto if omitted)."),
+    ] = None,
+    ios_filter_processes: Annotated[
+        str | None,
+        typer.Option(
+            "--ios-filter-processes",
+            help="Comma-separated process names for idevicesyslog -p filter.",
+        ),
+    ] = None,
+    ios_diagnostics: Annotated[
+        bool,
+        typer.Option(
+            "--ios-diagnostics/--no-ios-diagnostics",
+            help="Run idevicediagnostics per case (slower).",
+        ),
+    ] = False,
     pcap: Annotated[
         bool | None,
         typer.Option(
@@ -259,6 +284,15 @@ def run_command(
         payload["adb_buffers"] = tuple(
             b.strip() for b in adb_buffers.split(",") if b.strip()
         )
+
+    payload["ios_enabled"] = ios
+    if ios_udid is not None:
+        payload["ios_udid"] = ios_udid
+    if ios_filter_processes is not None:
+        payload["ios_filter_processes"] = tuple(
+            p.strip() for p in ios_filter_processes.split(",") if p.strip()
+        )
+    payload["ios_run_diagnostics"] = ios_diagnostics
 
     parsed_methods = _parse_methods(methods)
     if parsed_methods is not None:
