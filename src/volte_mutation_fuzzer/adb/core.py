@@ -86,8 +86,15 @@ class AdbConnector:
 
     def get_device_time(self) -> str | None:
         """Return device wall clock as 'MM-DD HH:MM:SS.mmm' (logcat -T format)."""
+        # ``adb shell`` concatenates argv with spaces before handing it to the
+        # device-side ``sh``, which then word-splits the result.  Passing the
+        # format string as a separate argv entry therefore makes ``date`` only
+        # receive ``+%m-%d`` and truncates the timestamp.  Embed the quotes so
+        # the remote shell re-assembles the full format spec as one token.
         try:
-            result = self.run_shell("date", "+%m-%d %H:%M:%S.%3N", timeout=5)
+            result = self.run_shell(
+                'date "+%m-%d %H:%M:%S.%3N"', timeout=5
+            )
         except Exception:
             return None
         if result.returncode != 0:
@@ -181,28 +188,38 @@ class AdbConnector:
             except Exception as exc:
                 _record_error(f"logcat -b {buf} failed: {exc}")
 
-        def _dump_logcat_combined() -> str | None:
+        def _concat_logcat_combined() -> str | None:
+            # Some OEM adbd builds (e.g. Samsung A31) reject the
+            # comma-separated `-b main,system,radio,crash` form and exit
+            # non-zero, so build the combined view locally from the per-buffer
+            # files that ``_dump_logcat_buffer`` already wrote.
+            logcat_file = base_dir / "logcat_all.txt"
+            parts: list[str] = []
+            for buf in logcat_buffers:
+                buf_file = base_dir / f"logcat_{buf}.txt"
+                if not buf_file.exists():
+                    continue
+                try:
+                    parts.append(f"=== {buf} ===\n")
+                    parts.append(buf_file.read_text(encoding="utf-8", errors="replace"))
+                    if not parts[-1].endswith("\n"):
+                        parts.append("\n")
+                except OSError as exc:
+                    _record_error(f"logcat concat read {buf} failed: {exc}")
+            if not parts:
+                return None
             try:
-                logcat_file = base_dir / "logcat_all.txt"
-                result = subprocess.run(
-                    self._adb_cmd(
-                        "logcat", "-d", "-b", ",".join(logcat_buffers), *since_args
-                    ),
-                    capture_output=True,
-                    text=True,
-                    timeout=30,
-                )
-                if result.returncode == 0 and result.stdout:
-                    logcat_file.write_text(result.stdout, encoding="utf-8")
-                    return str(logcat_file)
-            except Exception as exc:
-                _record_error(f"logcat dump failed: {exc}")
-            return None
+                logcat_file.write_text("".join(parts), encoding="utf-8")
+            except OSError as exc:
+                _record_error(f"logcat_all.txt write failed: {exc}")
+                return None
+            return str(logcat_file)
 
         # --- Phase 2: logcat + general system (after anchor) ---
-        # All seven calls are independent read-only queries against adbd,
+        # All independent read-only queries against adbd run concurrently,
         # so the snapshot converges on the slowest single call (typically
-        # ``dumpsys meminfo``) rather than their sum.
+        # ``dumpsys meminfo``) rather than their sum.  ``logcat_all.txt`` is
+        # produced *after* the per-buffer dumps by concatenating their files.
         with ThreadPoolExecutor(max_workers=_SNAPSHOT_MAX_WORKERS) as pool:
             fut_meminfo = pool.submit(
                 _write_shell_output, "meminfo.txt", ("dumpsys", "meminfo"), 60,
@@ -213,13 +230,12 @@ class AdbConnector:
             fut_buffers = [
                 pool.submit(_dump_logcat_buffer, buf) for buf in logcat_buffers
             ]
-            fut_combined = pool.submit(_dump_logcat_combined)
 
             meminfo_path = fut_meminfo.result()
             dmesg_path = fut_dmesg.result()
             for fut in fut_buffers:
                 fut.result()
-            logcat_path = fut_combined.result()
+            logcat_path = _concat_logcat_combined()
 
         if bugreport:
             path = base_dir / "bugreport.txt"
