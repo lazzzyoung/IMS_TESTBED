@@ -23,6 +23,17 @@ import os
 import random
 from typing import Final
 
+from volte_mutation_fuzzer.sip.bodies import (
+    DtmfRelayBody,
+    PIdfBody,
+    PIdfTuple,
+    SDPBody,
+    SDPConnection,
+    SDPMediaDescription,
+    SDPOrigin,
+    SipfragBody,
+)
+
 _CRLF: Final[str] = "\r\n"
 
 # INVITE-specific SDP template (AMR-WB with preconditions)
@@ -61,6 +72,92 @@ _INVITE_SDP_TEMPLATE: Final[str] = (
     "a=maxptime:240\r\n"
 )
 
+_MESSAGE_BODY_ALPHABET: Final[str] = (
+    "abcdefghijklmnopqrstuvwxyz"
+    "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
+    "0123456789"
+    "._-/:"
+)
+
+
+def _build_default_message_body(seed: int) -> str:
+    """Build a deterministic seed-specific MESSAGE payload.
+
+    Keep the body plain-text and stable for reproduction while avoiding the
+    previous fixed `"test"` payload that eliminated seed-driven variation for
+    MESSAGE packets.
+    """
+    rng = random.Random(seed ^ 0x4D5347)
+    token_length = rng.randint(24, 64)
+    token = "".join(rng.choice(_MESSAGE_BODY_ALPHABET) for _ in range(token_length))
+    return f"VMF MESSAGE seed={seed} payload={token}"
+
+
+def _normalize_optional_token(value: str | None) -> str | None:
+    if value is None:
+        return None
+    stripped = value.strip()
+    return stripped or None
+
+
+def _build_pidf_body(
+    *,
+    impi: str,
+    ims_domain: str,
+    ue_ip: str,
+    port_pc: int,
+    seed: int,
+) -> str:
+    pidf = PIdfBody.default_instance(
+        entity=f"sip:{impi}@{ims_domain}",
+        tuples=(
+            PIdfTuple(
+                id=f"vmf-{seed:08x}",
+                contact_uri=f"sip:{impi}@{ue_ip}:{port_pc}",
+            ),
+        ),
+    )
+    return pidf.render()
+
+
+def _build_update_sdp_body(
+    *,
+    seed: int,
+    sdp_owner_ip: str,
+    sdp_audio_port: int,
+) -> str:
+    sdp = SDPBody.default_instance(
+        origin=SDPOrigin(
+            username="rue",
+            sess_id=seed,
+            sess_version=seed,
+            address=sdp_owner_ip,
+        ),
+        connection=SDPConnection(address=sdp_owner_ip),
+        media_descriptions=(
+            SDPMediaDescription(
+                port=sdp_audio_port,
+                formats=(107, 106, 105, 104, 101, 102),
+                attributes=(
+                    "rtpmap:107 AMR-WB/16000",
+                    "fmtp:107 mode-change-capability=2;max-red=0",
+                    "rtpmap:106 AMR-WB/16000",
+                    "fmtp:106 octet-align=1;mode-change-capability=2;max-red=0",
+                    "rtpmap:105 AMR/8000",
+                    "fmtp:105 mode-change-capability=2;max-red=0",
+                    "rtpmap:104 AMR/8000",
+                    "fmtp:104 octet-align=1;mode-change-capability=2;max-red=0",
+                    "rtpmap:101 telephone-event/16000",
+                    "fmtp:101 0-15",
+                    "rtpmap:102 telephone-event/8000",
+                    "fmtp:102 0-15",
+                    "sendrecv",
+                ),
+            ),
+        ),
+    )
+    return sdp.render()
+
 
 def _build_body(
     method: str,
@@ -69,6 +166,12 @@ def _build_body(
     body: str | None,
     sdp_owner_ip: str,
     sdp_audio_port: int,
+    impi: str,
+    ims_domain: str,
+    ue_ip: str,
+    port_pc: int,
+    event_package: str | None,
+    info_package: str | None,
 ) -> tuple[str, str]:
     """Return (content_type, body_text) for the given method."""
     method = method.upper()
@@ -87,7 +190,40 @@ def _build_body(
         return "application/sdp", sdp
 
     if method == "MESSAGE":
-        return "text/plain", "test"
+        return "text/plain", _build_default_message_body(seed)
+
+    if method == "INFO" and info_package == "dtmf":
+        body_model = DtmfRelayBody.default_instance(signal=str(seed % 10))
+        return body_model.content_type, body_model.render()
+
+    if method == "PUBLISH":
+        return "application/pidf+xml", _build_pidf_body(
+            impi=impi,
+            ims_domain=ims_domain,
+            ue_ip=ue_ip,
+            port_pc=port_pc,
+            seed=seed,
+        )
+
+    if method == "NOTIFY":
+        if event_package == "refer":
+            body_model = SipfragBody.default_instance()
+            return body_model.content_type, body_model.render()
+        if event_package == "presence":
+            return "application/pidf+xml", _build_pidf_body(
+                impi=impi,
+                ims_domain=ims_domain,
+                ue_ip=ue_ip,
+                port_pc=port_pc,
+                seed=seed,
+            )
+
+    if method == "UPDATE":
+        return "application/sdp", _build_update_sdp_body(
+            seed=seed,
+            sdp_owner_ip=sdp_owner_ip,
+            sdp_audio_port=sdp_audio_port,
+        )
 
     # OPTIONS, BYE, CANCEL, etc. — no body
     return "", ""
@@ -105,6 +241,8 @@ def build_mt_packet(
     local_port: int = 15100,
     body: str | None = None,
     from_msisdn: str | None = None,
+    event_package: str | None = None,
+    info_package: str | None = None,
     env: dict[str, str] | None = None,
 ) -> str:
     """Build a 3GPP-compliant MT SIP packet for any method.
@@ -130,6 +268,12 @@ def build_mt_packet(
     mo_contact_host = source.get("VMF_MO_CONTACT_HOST", "10.20.20.9")
     mo_contact_port_pc = source.get("VMF_MO_CONTACT_PORT_PC", "31800")
     mo_contact_port_ps = source.get("VMF_MO_CONTACT_PORT_PS", "31100")
+    resolved_event_package = _normalize_optional_token(event_package)
+    resolved_info_package = _normalize_optional_token(info_package)
+    if method in ("SUBSCRIBE", "PUBLISH", "NOTIFY") and resolved_event_package is None:
+        resolved_event_package = "presence"
+    if method == "INFO" and resolved_info_package is None:
+        resolved_info_package = "dtmf"
 
     # Per-call deterministic identifiers
     rng = random.Random(seed)
@@ -145,6 +289,12 @@ def build_mt_packet(
         body=body,
         sdp_owner_ip=sdp_owner_ip,
         sdp_audio_port=sdp_audio_port,
+        impi=impi,
+        ims_domain=ims_domain,
+        ue_ip=ue_ip,
+        port_pc=port_pc,
+        event_package=resolved_event_package,
+        info_package=resolved_info_package,
     )
     body_bytes = body_text.encode("utf-8") if body_text else b""
     content_length = len(body_bytes)
@@ -213,8 +363,23 @@ def build_mt_packet(
     elif method == "OPTIONS":
         lines.append("Accept: application/sdp")
     elif method == "SUBSCRIBE":
-        lines.append("Event: presence")
+        if resolved_event_package is not None:
+            lines.append(f"Event: {resolved_event_package}")
         lines.append("Expires: 3600")
+    elif method == "INFO":
+        if resolved_info_package is not None:
+            lines.append(f"Info-Package: {resolved_info_package}")
+    elif method == "PUBLISH":
+        if resolved_event_package is not None:
+            lines.append(f"Event: {resolved_event_package}")
+        lines.append("Expires: 3600")
+    elif method == "NOTIFY":
+        if resolved_event_package is not None:
+            lines.append(f"Event: {resolved_event_package}")
+        lines.append("Subscription-State: active;expires=3600")
+    elif method == "UPDATE":
+        lines.append("Session-Expires: 1800")
+        lines.append("Min-SE: 90")
 
     lines.append("User-Agent: IM-client/OMA1.0 HW-Rto/V1.0")
 
