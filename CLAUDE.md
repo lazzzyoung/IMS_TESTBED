@@ -19,6 +19,16 @@ uv run fuzzer campaign run \
   --max-cases 10
 ```
 
+### iPhone 로그 수집과 함께 (libimobiledevice)
+USB로 iPhone 1대만 연결되어 있으면 UDID 자동 선택:
+```bash
+uv run fuzzer campaign run \
+  --target-host 127.0.0.1 --target-port 5060 \
+  --methods OPTIONS --max-cases 10 \
+  --ios
+```
+상세는 [iOS_LOG_COLLECTION.md](docs/iOS_LOG_COLLECTION.md) 참조.
+
 ### 소프트폰 퍼징  
 ```bash
 uv run fuzzer campaign run \
@@ -37,6 +47,7 @@ src/volte_mutation_fuzzer/
 ├── campaign/          # 캠페인 실행 (config, core)
 ├── capture/           # pcap 캡처
 ├── adb/               # Android 디버그 브릿지 연동
+├── ios/               # iPhone 로그 수집 (libimobiledevice 기반)
 └── infra/             # 인프라 설정 (라우팅 등)
 ```
 
@@ -49,6 +60,7 @@ src/volte_mutation_fuzzer/
 
 ### 📱 실기기 퍼징
 - **[A31 Real-UE 가이드](docs/A31_REAL_UE_GUIDE.md)** - Samsung A31 실기기 퍼징 완벽 가이드
+- **[iOS 로그 수집 가이드](docs/iOS_LOG_COLLECTION.md)** - iPhone(libimobiledevice) 수집 설계·구현 문서
 - **[서버 환경 설정](docs/SERVER_SETUP.md)** - IMS 서버 환경 구성 방법
 
 ### 🔬 기술 분석  
@@ -61,6 +73,7 @@ src/volte_mutation_fuzzer/
 - Samsung Galaxy A31 (MSISDN: 111111) 검증 완료
 - 실제 수신 벨 울림 + 180 Ringing 응답 확인
 - pcap 캡처 + adb 자동 스냅샷
+- **iPhone**: USB로 1대 연결되어 있으면 `--ios` 한 줄로 자동 활성 (UDID auto-resolve, syslog 스트림 + crash report pull)
 
 ### 2. **다중 변이 레이어**
 - **model**: SIP 구조 인식 변이 
@@ -144,9 +157,16 @@ export VMF_REAL_UE_PCSCF_IP=172.22.0.21
 | **suspicious** | 4xx/5xx 에러, 비정상 응답 |  
 | **timeout** | 응답 없음 (timeout 초과) |
 | **crash** | 프로세스 종료 감지 |
-| **stack_failure** | adb logcat에서 stack trace 감지 |
+| **stack_failure** | adb logcat 또는 iOS syslog/`.ips` 크래시 리포트에서 anomaly 감지 |
 
 ## 📝 최근 업데이트
+
+**2026-04-15**:
+- iOS(iPhone) 로그 수집 모듈 추가 (`src/volte_mutation_fuzzer/ios/`)
+- `--ios` / `--ios-udid` / `--ios-filter-processes` / `--ios-diagnostics` CLI 플래그
+- `IosOracle` 통합으로 syslog/`.ips` 기반 stack_failure verdict 자동 판정
+- 캠페인 결과에 `ios_baseline/` + 케이스별 `ios_snapshots/case_N/` 생성
+- USB 1대 연결 시 UDID auto-resolve (옵션 생략 가능)
 
 **2026-04-11**: 
 - A31 실기기 퍼징 성공 (5가지 조건 모두 만족)

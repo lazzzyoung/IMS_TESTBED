@@ -57,6 +57,8 @@ uv run fuzzer campaign run \
 | "pcap 뜨면서" | `--pcap --pcap-dir results/pcap` |
 | "pcap 브릿지에서" | `--pcap --pcap-interface br-volte` |
 | "adb 연결해서" | `--adb --adb-serial <serial>` |
+| "iPhone 연결해서", "ios 로그까지" | `--ios` (UDID는 자동 resolve, 1대 연결 전제) |
+| "iPhone 진단까지" | `--ios --ios-diagnostics` (느려지므로 디버깅 시에만) |
 | "wire만" | `--layer wire` |
 | "byte만" | `--layer byte` |
 | "identity만", "baseline" | `--strategy identity --layer wire` |
@@ -93,7 +95,7 @@ uv run fuzzer campaign run \
 실행이 시작되면:
 1. stderr 출력을 통해 진행 상황 확인 (각 케이스 verdict)
 2. CIRCUIT BREAKER 트리거 여부 확인
-3. ADB WARNING 여부 확인
+3. ADB WARNING 여부 확인 (iOS인 경우 ios collector dead 경고 확인)
 4. INFRA FAILURE 여부 확인
 
 ## 실행 완료 후

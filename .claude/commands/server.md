@@ -52,6 +52,9 @@ ssh <SSH_TARGET> "docker logs pcscf --since 5m 2>&1 | grep 'Term UE connection' 
 # 4. ADB 디바이스 (있다면)
 ssh <SSH_TARGET> 'adb devices -l 2>/dev/null || echo "adb not available"'
 
+# 4-1. iOS 디바이스 (있다면, libimobiledevice 기준)
+ssh <SSH_TARGET> 'idevice_id -l 2>/dev/null || echo "libimobiledevice not available"'
+
 # 5. 결과 파일 목록
 ssh <SSH_TARGET> 'ls -lt <FUZZER_DIR>/results/*.jsonl 2>/dev/null | head -5'
 ```

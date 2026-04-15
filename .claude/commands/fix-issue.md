@@ -88,6 +88,13 @@ pre-existing failure 2개는 무시:
 - `_running.is_set()` 체크 후 Popen — shutdown race 방지
 - `stop()` 에서 `_lock` 안에서 `_procs` 스냅샷 → 밖에서 terminate
 
+### ios/core.py 수정 시
+- `IosSyslogCollector.start()`: `Popen` 성공 후에만 `_running.set()`, 실패 시 `_dead=True` 후 raise
+- `IosSyslogCollector._reader_loop`: process 필터링은 `_accepts_process()`로 일관 적용 (deque 오염 방지)
+- `IosConnector.take_snapshot()`: 호출자가 넘기는 `detector` 인스턴스를 공유하지 말 것 (oracle detector와 분리 — `CampaignExecutor`는 throwaway 사용)
+- `IosOracle.check()`: `slice(_last_check_ts, now)` → detector → drain. drain 후 `_last_check_ts` 갱신
+- libimobiledevice CLI는 `subprocess.run`에 반드시 `timeout` 설정, `FileNotFoundError`는 graceful 처리
+
 ## IPsec / IMS 도메인 참고
 
 - SA = Security Association (IPsec 암호화 세션)
