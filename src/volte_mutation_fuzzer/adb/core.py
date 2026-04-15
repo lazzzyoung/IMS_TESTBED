@@ -77,8 +77,23 @@ class AdbConnector:
         cmd = self._adb_cmd("shell", *args)
         return subprocess.run(cmd, capture_output=True, text=True, timeout=timeout)
 
+    def get_device_time(self) -> str | None:
+        """Return device wall clock as 'MM-DD HH:MM:SS.mmm' (logcat -T format)."""
+        try:
+            result = self.run_shell("date", "+%m-%d %H:%M:%S.%3N", timeout=5)
+        except Exception:
+            return None
+        if result.returncode != 0:
+            return None
+        value = result.stdout.strip()
+        return value or None
+
     def take_snapshot(
-        self, output_dir: str, *, bugreport: bool = False
+        self,
+        output_dir: str,
+        *,
+        bugreport: bool = False,
+        logcat_since: str | None = None,
     ) -> AdbSnapshotResult:
         """Capture meminfo + dmesg (and optionally bugreport) to output_dir."""
         base_dir = Path(output_dir)
@@ -118,13 +133,26 @@ class AdbConnector:
         )
 
         # --- Logcat: per-buffer + combined ---
+        # When logcat_since is provided, limit the dump to lines since that
+        # device-side timestamp via `-T`.  This avoids each per-case snapshot
+        # re-dumping the full ring buffer (which would otherwise overlap
+        # heavily across cases).
+        #
+        # Capture the next anchor *before* the dump so logs arriving during
+        # the dump→anchor-read window aren't lost.  Result: a small (sub-
+        # second) overlap between consecutive snapshots — the trade-off we
+        # accept to guarantee no gaps.
+        logcat_next_since = self.get_device_time()
         logcat_path: str | None = None
         logcat_buffers = ("main", "system", "radio", "crash")
+        since_args: tuple[str, ...] = (
+            ("-T", logcat_since) if logcat_since else ()
+        )
         for buf in logcat_buffers:
             try:
                 buf_file = base_dir / f"logcat_{buf}.txt"
                 result = subprocess.run(
-                    self._adb_cmd("logcat", "-d", "-b", buf),
+                    self._adb_cmd("logcat", "-d", "-b", buf, *since_args),
                     capture_output=True,
                     text=True,
                     timeout=30,
@@ -137,7 +165,9 @@ class AdbConnector:
         try:
             logcat_file = base_dir / "logcat_all.txt"
             result = subprocess.run(
-                self._adb_cmd("logcat", "-d", "-b", ",".join(logcat_buffers)),
+                self._adb_cmd(
+                    "logcat", "-d", "-b", ",".join(logcat_buffers), *since_args
+                ),
                 capture_output=True,
                 text=True,
                 timeout=30,
@@ -181,6 +211,7 @@ class AdbConnector:
             dmesg_path=dmesg_path,
             bugreport_path=bugreport_path,
             logcat_path=logcat_path,
+            logcat_next_since=logcat_next_since,
             telephony_path=telephony_path,
             ims_path=ims_path,
             netstat_path=netstat_path,

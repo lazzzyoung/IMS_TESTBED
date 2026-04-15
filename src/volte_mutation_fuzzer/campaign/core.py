@@ -366,6 +366,10 @@ class CampaignExecutor:
         # Port cache for MT template path — avoids docker logs per case
         self._cached_ports: tuple[int, int] | None = None
 
+        # Logcat time-window anchor — device-side timestamp used as `-T` for
+        # the next `take_snapshot()` call so per-case logs don't overlap.
+        self._logcat_since: str | None = None
+
         # Initialize crash analyzer
         self._crash_analyzer = CampaignCrashAnalyzer(
             output_dir=str(self._crash_analysis_dir),
@@ -454,6 +458,19 @@ class CampaignExecutor:
 
         if self._adb_collector is not None:
             self._adb_collector.start()
+
+        # Capture initial logcat anchor once so case_0's snapshot is also
+        # bounded (skipping only logs from before the campaign started).
+        if config.adb_enabled and self._logcat_since is None:
+            try:
+                from volte_mutation_fuzzer.adb.core import AdbConnector
+
+                self._logcat_since = AdbConnector(
+                    serial=config.adb_serial
+                ).get_device_time()
+            except Exception as exc:
+                logger.warning("failed to capture initial logcat anchor: %s", exc)
+
         consecutive_failures = 0
         cb_threshold = config.circuit_breaker_threshold
         # SA probe triggers at half the circuit breaker threshold (min 3)
@@ -657,7 +674,11 @@ class CampaignExecutor:
                         / "adb_snapshots"
                         / f"case_{spec.case_id}"
                     )
-                    AdbConnector(serial=config.adb_serial).take_snapshot(adb_snapshot_dir)
+                    _snap = AdbConnector(serial=config.adb_serial).take_snapshot(
+                        adb_snapshot_dir, logcat_since=self._logcat_since
+                    )
+                    if _snap.logcat_next_since:
+                        self._logcat_since = _snap.logcat_next_since
                 except Exception as exc:
                     logger.warning(
                         "failed to capture adb snapshot for case %s: %s",
@@ -1022,7 +1043,11 @@ class CampaignExecutor:
                         / "adb_snapshots"
                         / f"case_{spec.case_id}"
                     )
-                    AdbConnector(serial=config.adb_serial).take_snapshot(adb_snapshot_dir)
+                    _snap = AdbConnector(serial=config.adb_serial).take_snapshot(
+                        adb_snapshot_dir, logcat_since=self._logcat_since
+                    )
+                    if _snap.logcat_next_since:
+                        self._logcat_since = _snap.logcat_next_since
                 except Exception as exc:
                     logger.warning(
                         "failed to capture adb snapshot for case %s: %s",
