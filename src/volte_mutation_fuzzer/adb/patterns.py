@@ -161,8 +161,12 @@ ANOMALY_PATTERNS: tuple[AnomalyPattern, ...] = (
         "ims_anomaly",
     ),
     AnomalyPattern(
+        # NOTE: 401 Unauthorized and 403 Forbidden are normal IMS
+        # authentication-challenge responses, not failure indicators.
+        # Only flag explicit registration-failure log markers.
         "ims_reg_failure",
-        r"IMS.*(?:registration.*fail|reg.*fail|REGISTER_FAILURE)|SIP.*403|401 Unauthorized",
+        r"IMS.*(?:registration.*fail|reg.*fail|REGISTER_FAILURE|RegistrationFailed)"
+        r"|REGISTRATION.*(?:ABORTED|TERMINATED)",
         "warning",
         "ims_anomaly",
     ),
@@ -191,8 +195,11 @@ ANOMALY_PATTERNS: tuple[AnomalyPattern, ...] = (
         "ims_anomaly",
     ),
     AnomalyPattern(
+        # 500/503/504 from the network indicate real infrastructure trouble;
+        # 502 Bad Gateway is also common during fuzz-storm load.  5xx is
+        # meaningful but not a device crash — keep at warning.
         "sip_server_error",
-        r"SIP/2\.0\s+5\d\d|5\d\d\s+Server Internal Error",
+        r"SIP/2\.0\s+5(?:00|02|03|04|05)\b|5\d\d\s+Server Internal Error",
         "warning",
         "ims_anomaly",
     ),
