@@ -43,9 +43,11 @@ def test_build_mt_packet_message_body_is_seeded_and_deterministic() -> None:
     assert packet_a != packet_c
 
     headers, body = _split_packet(packet_a)
-    assert "Content-Type: text/plain" in headers
-    assert body != "test"
-    assert "seed=7" in body
+    assert "Content-Type: application/vnd.3gpp.sms" in headers
+    assert body
+    assert all(ch in "0123456789ABCDEF" for ch in body)
+    decoded = bytes.fromhex(body)
+    assert b"VMF seed=7" in decoded
     assert f"Content-Length: {len(body.encode('utf-8'))}" in headers
 
 

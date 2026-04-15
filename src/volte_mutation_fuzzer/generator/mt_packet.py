@@ -32,6 +32,7 @@ from volte_mutation_fuzzer.sip.bodies import (
     SDPMediaDescription,
     SDPOrigin,
     SipfragBody,
+    SmsBody,
 )
 
 _CRLF: Final[str] = "\r\n"
@@ -72,25 +73,57 @@ _INVITE_SDP_TEMPLATE: Final[str] = (
     "a=maxptime:240\r\n"
 )
 
-_MESSAGE_BODY_ALPHABET: Final[str] = (
+_SMS_TEXT_ALPHABET: Final[str] = (
     "abcdefghijklmnopqrstuvwxyz"
     "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
-    "0123456789"
-    "._-/:"
+    "0123456789 ."
 )
+_SMS_DEFAULT_SMSC: Final[str] = "821000000000"
+_SMS_DEFAULT_SCTS_HEX: Final[str] = "62403151423300"
 
 
-def _build_default_message_body(seed: int) -> str:
-    """Build a deterministic seed-specific MESSAGE payload.
+def _encode_tbcd(digits: str) -> str:
+    """Encode decimal digits as TBCD (nibble-swapped, F-padded to even length)."""
+    padded = digits + ("F" if len(digits) % 2 else "")
+    return "".join(padded[i + 1] + padded[i] for i in range(0, len(padded), 2))
 
-    Keep the body plain-text and stable for reproduction while avoiding the
-    previous fixed `"test"` payload that eliminated seed-driven variation for
-    MESSAGE packets.
+
+def _build_default_sms_body(seed: int, from_msisdn: str) -> str:
+    """Build deterministic RP-DATA + SMS-DELIVER TPDU as uppercase hex.
+
+    Follows 3GPP TS 24.011 (RP-DATA, network → MS) wrapping TS 23.040
+    SMS-DELIVER with 8-bit DCS so the payload stays ASCII-only on the wire.
     """
-    rng = random.Random(seed ^ 0x4D5347)
-    token_length = rng.randint(24, 64)
-    token = "".join(rng.choice(_MESSAGE_BODY_ALPHABET) for _ in range(token_length))
-    return f"VMF MESSAGE seed={seed} payload={token}"
+    rng = random.Random(seed ^ 0x534D53)
+    token_length = rng.randint(16, 40)
+    text = f"VMF seed={seed} " + "".join(
+        rng.choice(_SMS_TEXT_ALPHABET) for _ in range(token_length)
+    )
+    ud_bytes = text.encode("ascii")
+
+    tp_oa = f"{len(from_msisdn):02X}91{_encode_tbcd(from_msisdn)}"
+    tpdu_hex = (
+        "04"                   # first octet: MTI=DELIVER, MMS=1
+        + tp_oa                # TP-Originating-Address
+        + "00"                 # TP-PID
+        + "04"                 # TP-DCS: 8-bit data
+        + _SMS_DEFAULT_SCTS_HEX
+        + f"{len(ud_bytes):02X}"
+        + ud_bytes.hex()
+    )
+    tpdu_len = len(bytes.fromhex(tpdu_hex))
+
+    rp_oa_body = f"91{_encode_tbcd(_SMS_DEFAULT_SMSC)}"
+    rp_oa_len = len(bytes.fromhex(rp_oa_body))
+
+    rp_data = (
+        "00"                                  # RP-MTI = RP-DATA (n→ms)
+        + f"{seed & 0xFF:02X}"                # RP-Message-Reference
+        + f"{rp_oa_len:02X}{rp_oa_body}"      # RP-Originator-Address (SMSC)
+        + "00"                                # RP-Destination-Address (empty)
+        + f"{tpdu_len:02X}{tpdu_hex}"         # RP-User-Data (TPDU)
+    )
+    return rp_data.upper()
 
 
 def _normalize_optional_token(value: str | None) -> str | None:
@@ -170,6 +203,7 @@ def _build_body(
     ims_domain: str,
     ue_ip: str,
     port_pc: int,
+    from_msisdn: str,
     event_package: str | None,
     info_package: str | None,
 ) -> tuple[str, str]:
@@ -190,7 +224,8 @@ def _build_body(
         return "application/sdp", sdp
 
     if method == "MESSAGE":
-        return "text/plain", _build_default_message_body(seed)
+        sms = SmsBody(payload=_build_default_sms_body(seed, from_msisdn))
+        return sms.content_type, sms.render()
 
     if method == "INFO" and info_package == "dtmf":
         body_model = DtmfRelayBody.default_instance(signal=str(seed % 10))
@@ -293,6 +328,7 @@ def build_mt_packet(
         ims_domain=ims_domain,
         ue_ip=ue_ip,
         port_pc=port_pc,
+        from_msisdn=effective_from,
         event_package=resolved_event_package,
         info_package=resolved_info_package,
     )
