@@ -8,6 +8,7 @@
 | [`구현-문서.md`](구현-문서.md) | 모듈별 설계 배경, 동작 방식, 코드 구조 상세 |
 | [`Fuzzer.md`](Fuzzer.md) | 퍼저 이론, SIP 프로토콜 퍼저 고려사항, 공격면 분류 (그룹 A~K) |
 | [`발전-로드맵.md`](발전-로드맵.md) | Phase 완료 현황, 미해결 의사결정, 단기/장기 로드맵 |
+| [`REAL_SIM_ATTACH_CHECKLIST.md`](REAL_SIM_ATTACH_CHECKLIST.md) | 실제 SIM 값 반영, USIM 프로그래밍, eNB/EPC/IMS attach, baseline INVITE 검증 체크리스트 |
 
 ## 디렉터리별 문서
 
