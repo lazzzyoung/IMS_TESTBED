@@ -12,7 +12,7 @@ from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any
 
-from sms_parser import parse_3gpp_sms_payload
+from sms_parser import build_mt_3gpp_sms_payload, parse_3gpp_sms_payload
 
 CRLF = "\r\n"
 HOST = "0.0.0.0"
@@ -201,6 +201,26 @@ def persist_forward_result(event: dict[str, object]) -> None:
     )
 
 
+def _extract_service_center(
+    sms_parse: dict[str, object],
+) -> tuple[str, int]:
+    candidates = sms_parse.get("address_candidates")
+    if isinstance(candidates, list) and candidates:
+        first = candidates[0]
+        if isinstance(first, dict):
+            digits = first.get("digits")
+            ton_npi = first.get("ton_npi")
+            if isinstance(digits, str) and digits:
+                ton_npi_value = 0x81
+                if isinstance(ton_npi, str) and ton_npi.startswith("0x"):
+                    try:
+                        ton_npi_value = int(ton_npi, 16)
+                    except ValueError:
+                        ton_npi_value = 0x81
+                return digits, ton_npi_value
+    return "00155", 0x81
+
+
 def build_forward_message(
     *,
     destination_msisdn: str,
@@ -262,6 +282,18 @@ def _resolve_pending_forward(msg: SIPMessage, transport: str, peer: tuple[str, i
 def forward_to_ims(msg: SIPMessage, sms_parse: dict[str, object] | None) -> None:
     if msg.method != "MESSAGE" or sms_parse is None:
         return
+    rp_message_type = sms_parse.get("rp_message_type")
+    if rp_message_type != "0x00":
+        persist_forward_result(
+            {
+                "status": "skipped",
+                "reason": "non-mo-rp-message",
+                "rp_message_type": rp_message_type,
+                "sms_parse": sms_parse,
+                "call_id": msg.first_header("Call-ID"),
+            }
+        )
+        return
     destination = sms_parse.get("best_effort_destination")
     if not isinstance(destination, str) or not destination:
         persist_forward_result(
@@ -276,21 +308,37 @@ def forward_to_ims(msg: SIPMessage, sms_parse: dict[str, object] | None) -> None
 
     originating = _extract_digits(msg.first_header("From")) or "unknown"
     content_type = msg.first_header("Content-Type") or "application/octet-stream"
+    service_center_msisdn, service_center_ton_npi = _extract_service_center(sms_parse)
+    rp_message_reference = sms_parse.get("rp_message_reference")
+    if not isinstance(rp_message_reference, int):
+        rp_message_reference = 0
+    relay_text = f"VMF relay from {originating}"
+    mt_body_bytes = build_mt_3gpp_sms_payload(
+        originating_msisdn=originating,
+        service_center_msisdn=service_center_msisdn,
+        text=relay_text,
+        rp_message_reference=rp_message_reference,
+        service_center_ton_npi=service_center_ton_npi,
+    )
     forward_call_id, payload = build_forward_message(
         destination_msisdn=destination,
         originating_msisdn=originating,
-        body_bytes=msg.body_bytes,
+        body_bytes=mt_body_bytes,
         content_type=content_type,
     )
     event: dict[str, object] = {
         "status": "attempt",
         "destination_msisdn": destination,
         "originating_msisdn": originating,
+        "service_center_msisdn": service_center_msisdn,
         "scscf_host": SCSCF_HOST,
         "scscf_port": SCSCF_PORT,
         "call_id": msg.first_header("Call-ID"),
         "forward_call_id": forward_call_id,
         "content_type": content_type,
+        "source_rp_message_type": rp_message_type,
+        "relay_text": relay_text,
+        "relay_body_hex": mt_body_bytes.hex().upper(),
         "payload_hex_prefix": payload[:160].hex().upper(),
     }
     waiter = _register_pending_forward(forward_call_id, event)
