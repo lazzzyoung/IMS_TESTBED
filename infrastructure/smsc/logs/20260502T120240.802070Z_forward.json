@@ -1,0 +1,11 @@
+{
+  "status": "skipped",
+  "reason": "destination-not-found",
+  "sms_parse": {
+    "payload_len": 4,
+    "payload_hex": "0506015F",
+    "rp_message_type": "0x05",
+    "rp_message_reference": 6
+  },
+  "call_id": "AarutqWCHaFPWs9mlhOveQ..@10.20.20.13"
+}

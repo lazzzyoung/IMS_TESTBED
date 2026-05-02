@@ -1,0 +1,17 @@
+{
+  "status": "response",
+  "destination_msisdn": "111111",
+  "originating_msisdn": "222222",
+  "scscf_host": "172.22.0.20",
+  "scscf_port": 6060,
+  "call_id": "rrmcbOjUW@10.20.20.11",
+  "forward_call_id": "8a802b9d2e902def@smsc.ims.mnc001.mcc001.3gppnetwork.org",
+  "content_type": "application/vnd.3gpp.sms",
+  "payload_hex_prefix": "4D455353414745207369703A31313131313140696D732E6D6E633030312E6D63633030312E336770706E6574776F726B2E6F7267205349502F322E300D0A5669613A205349502F322E302F55445020736D73632E696D732E6D6E633030312E6D63633030312E336770706E6574776F726B2E6F72673A353036303B6272616E63683D7A39684734624B2D376335393531633030316631663564330D0A4D61782D",
+  "response_transport": "UDP",
+  "response_from": "172.22.0.20:6060",
+  "response_start_line": "SIP/2.0 408 Request Timeout",
+  "response_status_code": 408,
+  "response_reason": "Request Timeout",
+  "response_text": "SIP/2.0 408 Request Timeout"
+}

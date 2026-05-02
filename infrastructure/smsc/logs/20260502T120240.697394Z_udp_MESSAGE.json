@@ -1,0 +1,43 @@
+{
+  "timestamp": "20260502T120240.697394Z",
+  "transport": "UDP",
+  "peer_host": "172.22.0.20",
+  "peer_port": 6060,
+  "start_line": "MESSAGE tel:0015555;phone-context=ims.mnc001.mcc001.3gppnetwork.org SIP/2.0",
+  "is_response": false,
+  "method": "MESSAGE",
+  "uri": "tel:0015555;phone-context=ims.mnc001.mcc001.3gppnetwork.org",
+  "version": "SIP/2.0",
+  "status_code": null,
+  "reason": null,
+  "from": "<sip:222222@ims.mnc001.mcc001.3gppnetwork.org>;tag=ssmcbOj",
+  "to": "<tel:0015555;phone-context=ims.mnc001.mcc001.3gppnetwork.org>",
+  "call_id": "rrmcbOjUW@10.20.20.11",
+  "cseq": "1 MESSAGE",
+  "content_type": "application/vnd.3gpp.sms",
+  "content_length": "26",
+  "body": "\u0000\u0006\u0000\u0005�\u0000QU�\u0010\u0001\u0006\u0006�\u0011\u0011\u0011\u0000\u0000\u0006�{yN�\u0001",
+  "body_hex": "0006000581005155F51001060681111111000006D47B794EAF01",
+  "sms_parse": {
+    "payload_len": 26,
+    "payload_hex": "0006000581005155F51001060681111111000006D47B794EAF01",
+    "rp_message_type": "0x00",
+    "rp_message_reference": 6,
+    "address_candidates": [
+      {
+        "offset": 3,
+        "digits_len": 5,
+        "ton_npi": "0x81",
+        "digits": "00155"
+      },
+      {
+        "offset": 12,
+        "digits_len": 6,
+        "ton_npi": "0x81",
+        "digits": "111111"
+      }
+    ],
+    "best_effort_destination": "111111",
+    "best_effort_originating": "00155"
+  }
+}

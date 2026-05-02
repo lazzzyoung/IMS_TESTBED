@@ -1,0 +1,15 @@
+{
+  "timestamp": "20260502T102909.038315Z",
+  "transport": "UDP",
+  "peer_host": "172.22.0.20",
+  "peer_port": 6060,
+  "method": "MESSAGE",
+  "uri": "tel:0015555;phone-context=ims.mnc001.mcc001.3gppnetwork.org",
+  "from": "<sip:222222@ims.mnc001.mcc001.3gppnetwork.org>;tag=IMkcbOt",
+  "to": "<tel:0015555;phone-context=ims.mnc001.mcc001.3gppnetwork.org>",
+  "call_id": "HLkcbOtyN@10.20.20.4",
+  "cseq": "1 MESSAGE",
+  "content_type": "application/vnd.3gpp.sms",
+  "content_length": "25",
+  "body": "\u0000\u0002\u0000\u0005�\u0000QU�\u000f\u0001\u0001\u0006�\u0011\u0011\u0011\u0000\u0000\u0005��.\u0003"
+}

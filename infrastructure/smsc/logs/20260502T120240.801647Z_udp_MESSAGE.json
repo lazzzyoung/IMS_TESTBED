@@ -1,0 +1,27 @@
+{
+  "timestamp": "20260502T120240.801647Z",
+  "transport": "UDP",
+  "peer_host": "172.22.0.20",
+  "peer_port": 6060,
+  "start_line": "MESSAGE sip:222222@ims.mnc001.mcc001.3gppnetwork.org SIP/2.0",
+  "is_response": false,
+  "method": "MESSAGE",
+  "uri": "sip:222222@ims.mnc001.mcc001.3gppnetwork.org",
+  "version": "SIP/2.0",
+  "status_code": null,
+  "reason": null,
+  "from": "<sip:111111@ims.mnc001.mcc001.3gppnetwork.org>;tag=5e99001c",
+  "to": "<sip:222222@ims.mnc001.mcc001.3gppnetwork.org>",
+  "call_id": "AarutqWCHaFPWs9mlhOveQ..@10.20.20.13",
+  "cseq": "1 MESSAGE",
+  "content_type": "application/vnd.3gpp.sms",
+  "content_length": "4",
+  "body": "\u0005\u0006\u0001_",
+  "body_hex": "0506015F",
+  "sms_parse": {
+    "payload_len": 4,
+    "payload_hex": "0506015F",
+    "rp_message_type": "0x05",
+    "rp_message_reference": 6
+  }
+}
