@@ -108,6 +108,8 @@ ls -1 infrastructure/smsc/logs
 - cseq
 - content_type
 - body
+- body_hex
+- sms_parse (best-effort 주소 후보 파싱)
 
 ## 성공 판단 기준
 

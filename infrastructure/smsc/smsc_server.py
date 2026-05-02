@@ -8,6 +8,8 @@ from dataclasses import dataclass
 from datetime import datetime, timezone
 from pathlib import Path
 
+from sms_parser import parse_3gpp_sms_payload
+
 CRLF = "\r\n"
 HOST = "0.0.0.0"
 PORT = 5060
@@ -22,6 +24,7 @@ class SIPRequest:
     version: str
     headers: list[tuple[str, str]]
     body: str
+    body_bytes: bytes
 
     def header_values(self, name: str) -> list[str]:
         needle = name.casefold()
@@ -58,8 +61,10 @@ def _read_tcp_message(rfile) -> bytes:
 
 def parse_sip_request(data: bytes) -> SIPRequest | None:
     try:
-        text = data.decode("utf-8", errors="replace")
-        header_text, _, body = text.partition(f"{CRLF}{CRLF}")
+        separator = b"\r\n\r\n"
+        header_bytes, _, body_bytes = data.partition(separator)
+        header_text = header_bytes.decode("utf-8", errors="replace")
+        body = body_bytes.decode("utf-8", errors="replace")
         lines = [line for line in header_text.split(CRLF) if line]
         if not lines:
             return None
@@ -80,6 +85,7 @@ def parse_sip_request(data: bytes) -> SIPRequest | None:
             version=version.strip(),
             headers=headers,
             body=body,
+            body_bytes=body_bytes,
         )
     except Exception:
         return None
@@ -101,6 +107,10 @@ def build_response(req: SIPRequest, code: int, reason: str) -> bytes:
 def persist_request(req: SIPRequest, transport: str, peer: tuple[str, int]) -> None:
     LOG_DIR.mkdir(parents=True, exist_ok=True)
     ts = datetime.now(timezone.utc).strftime("%Y%m%dT%H%M%S.%fZ")
+    sms_parse = None
+    content_type = req.first_header("Content-Type")
+    if content_type == "application/vnd.3gpp.sms":
+        sms_parse = parse_3gpp_sms_payload(req.body_bytes)
     payload = {
         "timestamp": ts,
         "transport": transport,
@@ -112,9 +122,11 @@ def persist_request(req: SIPRequest, transport: str, peer: tuple[str, int]) -> N
         "to": req.first_header("To"),
         "call_id": req.first_header("Call-ID"),
         "cseq": req.first_header("CSeq"),
-        "content_type": req.first_header("Content-Type"),
+        "content_type": content_type,
         "content_length": req.first_header("Content-Length"),
         "body": req.body,
+        "body_hex": req.body_bytes.hex().upper(),
+        "sms_parse": sms_parse,
     }
     (LOG_DIR / f"{ts}_{transport.lower()}_{req.method}.json").write_text(
         json.dumps(payload, ensure_ascii=False, indent=2),
