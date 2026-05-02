@@ -328,6 +328,25 @@ services:
       default:
         ipv4_address: ${SCSCF_IP}
 
+  smsc:
+    build: ./infrastructure/smsc
+    image: docker_smsc
+    container_name: smsc
+    dns: ${DNS_IP}
+    env_file:
+      - .env
+    volumes:
+      - ./infrastructure/smsc:/mnt/smsc
+      - ./infrastructure/smsc/logs:/var/log/smsc
+    depends_on:
+      - dns
+    expose:
+      - "5060/udp"
+      - "5060/tcp"
+    networks:
+      default:
+        ipv4_address: ${SMSC_IP}
+
   # ========================================
   # P-CSCF (퍼징 포인트) ⭐
   # ========================================

@@ -9,6 +9,7 @@
 | [`Fuzzer.md`](Fuzzer.md) | 퍼저 이론, SIP 프로토콜 퍼저 고려사항, 공격면 분류 (그룹 A~K) |
 | [`발전-로드맵.md`](발전-로드맵.md) | Phase 완료 현황, 미해결 의사결정, 단기/장기 로드맵 |
 | [`REAL_SIM_ATTACH_CHECKLIST.md`](REAL_SIM_ATTACH_CHECKLIST.md) | 실제 SIM 값 반영, USIM 프로그래밍, eNB/EPC/IMS attach, baseline INVITE 검증 체크리스트 |
+| [`EPC_ENB_ATTACH_RUNBOOK.md`](EPC_ENB_ATTACH_RUNBOOK.md) | 기존 Docker 컨테이너 정리부터 EPC/IMS/eNB 재기동, UE attach/IMS REGISTER 확인까지의 실행 런북 |
 
 ## 디렉터리별 문서
 
