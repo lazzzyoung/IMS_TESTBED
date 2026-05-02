@@ -27,6 +27,7 @@ SMSC_FQDN = f"smsc.{IMS_DOMAIN}"
 USER_RE = re.compile(r"(?:sip:|tel:)?([0-9]+)")
 SAFE_NAME_RE = re.compile(r"[^A-Za-z0-9._-]+")
 PENDING_FORWARDS: dict[str, dict[str, Any]] = {}
+PENDING_FORWARDS_BY_RP_REF: dict[int, list[dict[str, Any]]] = {}
 PENDING_FORWARDS_LOCK = threading.Lock()
 
 
@@ -227,10 +228,19 @@ def build_forward_message(
     return call_id, CRLF.join(lines).encode("utf-8") + body_bytes
 
 
-def _register_pending_forward(call_id: str, event: dict[str, object]) -> threading.Event:
+def _register_pending_forward(
+    call_id: str,
+    event: dict[str, object],
+    *,
+    rp_message_reference: int | None,
+) -> threading.Event:
     waiter = threading.Event()
     with PENDING_FORWARDS_LOCK:
-        PENDING_FORWARDS[call_id] = {"waiter": waiter, "event": event}
+        pending = {"waiter": waiter, "event": event, "rp_message_reference": rp_message_reference}
+        PENDING_FORWARDS[call_id] = pending
+        if rp_message_reference is not None:
+            bucket = PENDING_FORWARDS_BY_RP_REF.setdefault(rp_message_reference, [])
+            bucket.append(pending)
     return waiter
 
 
@@ -257,6 +267,34 @@ def _resolve_pending_forward(msg: SIPMessage, transport: str, peer: tuple[str, i
         else msg.start_line
     )
     pending["waiter"].set()
+
+
+def _annotate_control_signal(
+    msg: SIPMessage,
+    sms_parse: dict[str, object] | None,
+    transport: str,
+    peer: tuple[str, int],
+) -> None:
+    if sms_parse is None:
+        return
+    rp_message_type = sms_parse.get("rp_message_type")
+    rp_message_reference = sms_parse.get("rp_message_reference")
+    if rp_message_type != "0x05" or not isinstance(rp_message_reference, int):
+        return
+    with PENDING_FORWARDS_LOCK:
+        pendings = list(PENDING_FORWARDS_BY_RP_REF.get(rp_message_reference, []))
+    for pending in pendings:
+        event = pending["event"]
+        event["control_signal_seen"] = True
+        event["control_signal_call_id"] = msg.first_header("Call-ID")
+        event["control_signal_transport"] = transport
+        event["control_signal_from"] = f"{peer[0]}:{peer[1]}"
+        event["control_signal_rp_message_type"] = rp_message_type
+        event["control_signal_rp_message_reference"] = rp_message_reference
+        event["control_signal_from_header"] = msg.first_header("From")
+        event["control_signal_to_header"] = msg.first_header("To")
+        event["control_signal_body_hex"] = msg.body_bytes.hex().upper()
+        event["control_signal_start_line"] = msg.start_line
 
 
 def forward_to_ims(msg: SIPMessage, sms_parse: dict[str, object] | None) -> None:
@@ -317,7 +355,11 @@ def forward_to_ims(msg: SIPMessage, sms_parse: dict[str, object] | None) -> None
         "relay_body_hex": mt_body_bytes.hex().upper(),
         "payload_hex_prefix": payload[:160].hex().upper(),
     }
-    waiter = _register_pending_forward(forward_call_id, event)
+    waiter = _register_pending_forward(
+        forward_call_id,
+        event,
+        rp_message_reference=rp_message_reference,
+    )
     try:
         with socket.socket(socket.AF_INET, socket.SOCK_DGRAM) as sock:
             sock.sendto(payload, (SCSCF_HOST, SCSCF_PORT))
@@ -328,7 +370,16 @@ def forward_to_ims(msg: SIPMessage, sms_parse: dict[str, object] | None) -> None
         event["error"] = str(exc)
     finally:
         with PENDING_FORWARDS_LOCK:
-            PENDING_FORWARDS.pop(forward_call_id, None)
+            pending = PENDING_FORWARDS.pop(forward_call_id, None)
+            if pending is not None:
+                ref = pending.get("rp_message_reference")
+                if isinstance(ref, int):
+                    bucket = PENDING_FORWARDS_BY_RP_REF.get(ref, [])
+                    bucket = [item for item in bucket if item is not pending]
+                    if bucket:
+                        PENDING_FORWARDS_BY_RP_REF[ref] = bucket
+                    else:
+                        PENDING_FORWARDS_BY_RP_REF.pop(ref, None)
     persist_forward_result(event)
 
 
@@ -345,6 +396,7 @@ def handle_request_bytes(data: bytes, transport: str, peer: tuple[str, int]) -> 
     if msg.first_header("Content-Type") == "application/vnd.3gpp.sms":
         sms_parse = parse_3gpp_sms_payload(msg.body_bytes)
     persist_message(msg, transport, peer)
+    _annotate_control_signal(msg, sms_parse, transport, peer)
     _resolve_pending_forward(msg, transport, peer)
     if msg.is_response:
         return None
