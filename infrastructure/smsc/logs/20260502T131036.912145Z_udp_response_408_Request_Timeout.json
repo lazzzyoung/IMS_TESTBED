@@ -1,0 +1,22 @@
+{
+  "timestamp": "20260502T131036.912145Z",
+  "transport": "UDP",
+  "peer_host": "172.22.0.20",
+  "peer_port": 6060,
+  "start_line": "SIP/2.0 408 Request Timeout",
+  "is_response": true,
+  "method": "SIP/2.0",
+  "uri": null,
+  "version": "SIP/2.0",
+  "status_code": 408,
+  "reason": "Request Timeout",
+  "from": "<sip:222222@ims.mnc001.mcc001.3gppnetwork.org>;tag=359a1a73",
+  "to": "<sip:111111@ims.mnc001.mcc001.3gppnetwork.org>;tag=5fb97de55168ec7ab0ef548dfaf210d4-f09e9209",
+  "call_id": "67bfaf8fa7b17735@smsc.ims.mnc001.mcc001.3gppnetwork.org",
+  "cseq": "1 MESSAGE",
+  "content_type": null,
+  "content_length": "0",
+  "body": "",
+  "body_hex": "",
+  "sms_parse": null
+}
