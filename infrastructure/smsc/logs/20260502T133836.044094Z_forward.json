@@ -1,0 +1,12 @@
+{
+  "status": "skipped",
+  "reason": "non-mo-rp-message",
+  "rp_message_type": "0x05",
+  "sms_parse": {
+    "payload_len": 4,
+    "payload_hex": "050D015F",
+    "rp_message_type": "0x05",
+    "rp_message_reference": 13
+  },
+  "call_id": "PxjjRFH1SpYLsqQihU5lOw..@10.20.20.21"
+}
