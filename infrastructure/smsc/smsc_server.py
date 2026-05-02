@@ -2,6 +2,9 @@ from __future__ import annotations
 
 import json
 import os
+import re
+import secrets
+import socket
 import socketserver
 import threading
 from dataclasses import dataclass
@@ -14,6 +17,13 @@ CRLF = "\r\n"
 HOST = "0.0.0.0"
 PORT = 5060
 LOG_DIR = Path(os.environ.get("SMSC_LOG_DIR", "/var/log/smsc"))
+MCC = os.environ.get("MCC", "001")
+MNC = os.environ.get("MNC", "01").zfill(3)
+IMS_DOMAIN = f"ims.mnc{MNC}.mcc{MCC}.3gppnetwork.org"
+SCSCF_HOST = os.environ.get("SCSCF_IP", "172.22.0.20")
+SCSCF_PORT = int(os.environ.get("SMSC_FORWARD_PORT", "6060"))
+SMSC_FQDN = f"smsc.{IMS_DOMAIN}"
+USER_RE = re.compile(r"(?:sip:|tel:)?([0-9]+)")
 
 
 @dataclass
@@ -33,6 +43,15 @@ class SIPRequest:
     def first_header(self, name: str) -> str | None:
         values = self.header_values(name)
         return values[0] if values else None
+
+
+def _extract_digits(value: str | None) -> str | None:
+    if not value:
+        return None
+    match = USER_RE.search(value)
+    if match:
+        return match.group(1)
+    return None
 
 
 def _read_tcp_message(rfile) -> bytes:
@@ -134,6 +153,90 @@ def persist_request(req: SIPRequest, transport: str, peer: tuple[str, int]) -> N
     )
 
 
+def persist_forward_result(event: dict[str, object]) -> None:
+    LOG_DIR.mkdir(parents=True, exist_ok=True)
+    ts = datetime.now(timezone.utc).strftime("%Y%m%dT%H%M%S.%fZ")
+    (LOG_DIR / f"{ts}_forward.json").write_text(
+        json.dumps(event, ensure_ascii=False, indent=2),
+        encoding="utf-8",
+    )
+
+
+def build_forward_message(
+    *,
+    destination_msisdn: str,
+    originating_msisdn: str,
+    body_bytes: bytes,
+    content_type: str,
+) -> bytes:
+    call_id = f"{secrets.token_hex(8)}@{SMSC_FQDN}"
+    lines = [
+        f"MESSAGE sip:{destination_msisdn}@{IMS_DOMAIN} SIP/2.0",
+        f"Via: SIP/2.0/UDP {SMSC_FQDN}:5060;branch=z9hG4bK-{secrets.token_hex(8)}",
+        "Max-Forwards: 70",
+        f"From: <sip:{originating_msisdn}@{IMS_DOMAIN}>;tag={secrets.token_hex(4)}",
+        f"To: <sip:{destination_msisdn}@{IMS_DOMAIN}>",
+        f"Call-ID: {call_id}",
+        "CSeq: 1 MESSAGE",
+        f"Contact: <sip:smsc@{SMSC_FQDN}:5060>",
+        "Server: vmf-smsc/0.1",
+        f"Content-Type: {content_type}",
+        f"Content-Length: {len(body_bytes)}",
+        "",
+        "",
+    ]
+    return CRLF.join(lines).encode("utf-8") + body_bytes
+
+
+def forward_to_ims(req: SIPRequest, sms_parse: dict[str, object] | None) -> None:
+    if req.method != "MESSAGE" or sms_parse is None:
+        return
+    destination = sms_parse.get("best_effort_destination")
+    if not isinstance(destination, str) or not destination:
+        persist_forward_result(
+            {
+                "status": "skipped",
+                "reason": "destination-not-found",
+                "sms_parse": sms_parse,
+                "call_id": req.first_header("Call-ID"),
+            }
+        )
+        return
+
+    originating = _extract_digits(req.first_header("From")) or "unknown"
+    content_type = req.first_header("Content-Type") or "application/octet-stream"
+    payload = build_forward_message(
+        destination_msisdn=destination,
+        originating_msisdn=originating,
+        body_bytes=req.body_bytes,
+        content_type=content_type,
+    )
+    event: dict[str, object] = {
+        "status": "attempt",
+        "destination_msisdn": destination,
+        "originating_msisdn": originating,
+        "scscf_host": SCSCF_HOST,
+        "scscf_port": SCSCF_PORT,
+        "call_id": req.first_header("Call-ID"),
+        "content_type": content_type,
+        "payload_hex_prefix": payload[:160].hex().upper(),
+    }
+    try:
+        with socket.socket(socket.AF_INET, socket.SOCK_DGRAM) as sock:
+            sock.settimeout(5.0)
+            sock.sendto(payload, (SCSCF_HOST, SCSCF_PORT))
+            data, addr = sock.recvfrom(65535)
+            event["status"] = "response"
+            event["response_from"] = f"{addr[0]}:{addr[1]}"
+            event["response_text"] = data.decode("utf-8", errors="replace")
+    except TimeoutError:
+        event["status"] = "timeout"
+    except OSError as exc:
+        event["status"] = "error"
+        event["error"] = str(exc)
+    persist_forward_result(event)
+
+
 def handle_request_bytes(data: bytes, transport: str, peer: tuple[str, int]) -> bytes | None:
     req = parse_sip_request(data)
     if req is None:
@@ -143,7 +246,16 @@ def handle_request_bytes(data: bytes, transport: str, peer: tuple[str, int]) -> 
         f"call-id={req.first_header('Call-ID')}",
         flush=True,
     )
+    sms_parse = None
+    if req.first_header("Content-Type") == "application/vnd.3gpp.sms":
+        sms_parse = parse_3gpp_sms_payload(req.body_bytes)
     persist_request(req, transport, peer)
+    if req.method == "MESSAGE":
+        threading.Thread(
+            target=forward_to_ims,
+            args=(req, sms_parse),
+            daemon=True,
+        ).start()
     if req.method == "MESSAGE":
         return build_response(req, 202, "Accepted")
     if req.method == "OPTIONS":
