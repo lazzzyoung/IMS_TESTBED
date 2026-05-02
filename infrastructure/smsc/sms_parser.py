@@ -1,7 +1,9 @@
 from __future__ import annotations
 
-from datetime import datetime, timezone
 from math import ceil
+
+_SMS_DEFAULT_SMSC = "821000000000"
+_SMS_DEFAULT_SCTS_HEX = "62403151423300"
 
 
 def _decode_tbcd(raw: bytes, digits_len: int) -> str:
@@ -61,21 +63,16 @@ def _encode_tbcd(digits: str) -> str:
     return "".join(padded[i + 1] + padded[i] for i in range(0, len(padded), 2))
 
 
-def _encode_scts(dt: datetime | None = None) -> str:
-    stamp = dt or datetime.now(timezone.utc)
-    digits = stamp.strftime("%y%m%d%H%M%S") + "00"
-    return "".join(digits[i + 1] + digits[i] for i in range(0, len(digits), 2))
-
-
 def build_mt_3gpp_sms_payload(
     *,
     originating_msisdn: str,
-    service_center_msisdn: str,
     text: str,
     rp_message_reference: int,
-    service_center_ton_npi: int = 0x81,
-    originating_ton_npi: int = 0x81,
-    rp_message_type: int = 0x01,
+    service_center_msisdn: str = _SMS_DEFAULT_SMSC,
+    service_center_ton_npi: int = 0x91,
+    originating_ton_npi: int = 0x91,
+    rp_message_type: int = 0x00,
+    scts_hex: str = _SMS_DEFAULT_SCTS_HEX,
 ) -> bytes:
     ud_bytes = text.encode("ascii", errors="replace")
     tp_oa = (
@@ -88,7 +85,7 @@ def build_mt_3gpp_sms_payload(
         + tp_oa
         + "00"  # TP-PID
         + "04"  # TP-DCS: 8-bit data
-        + _encode_scts()
+        + scts_hex
         + f"{len(ud_bytes):02X}"
         + ud_bytes.hex().upper()
     )

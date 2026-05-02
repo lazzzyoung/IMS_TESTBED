@@ -201,26 +201,6 @@ def persist_forward_result(event: dict[str, object]) -> None:
     )
 
 
-def _extract_service_center(
-    sms_parse: dict[str, object],
-) -> tuple[str, int]:
-    candidates = sms_parse.get("address_candidates")
-    if isinstance(candidates, list) and candidates:
-        first = candidates[0]
-        if isinstance(first, dict):
-            digits = first.get("digits")
-            ton_npi = first.get("ton_npi")
-            if isinstance(digits, str) and digits:
-                ton_npi_value = 0x81
-                if isinstance(ton_npi, str) and ton_npi.startswith("0x"):
-                    try:
-                        ton_npi_value = int(ton_npi, 16)
-                    except ValueError:
-                        ton_npi_value = 0x81
-                return digits, ton_npi_value
-    return "00155", 0x81
-
-
 def build_forward_message(
     *,
     destination_msisdn: str,
@@ -308,17 +288,14 @@ def forward_to_ims(msg: SIPMessage, sms_parse: dict[str, object] | None) -> None
 
     originating = _extract_digits(msg.first_header("From")) or "unknown"
     content_type = msg.first_header("Content-Type") or "application/octet-stream"
-    service_center_msisdn, service_center_ton_npi = _extract_service_center(sms_parse)
     rp_message_reference = sms_parse.get("rp_message_reference")
     if not isinstance(rp_message_reference, int):
         rp_message_reference = 0
     relay_text = f"VMF relay from {originating}"
     mt_body_bytes = build_mt_3gpp_sms_payload(
         originating_msisdn=originating,
-        service_center_msisdn=service_center_msisdn,
         text=relay_text,
         rp_message_reference=rp_message_reference,
-        service_center_ton_npi=service_center_ton_npi,
     )
     forward_call_id, payload = build_forward_message(
         destination_msisdn=destination,
@@ -330,7 +307,6 @@ def forward_to_ims(msg: SIPMessage, sms_parse: dict[str, object] | None) -> None
         "status": "attempt",
         "destination_msisdn": destination,
         "originating_msisdn": originating,
-        "service_center_msisdn": service_center_msisdn,
         "scscf_host": SCSCF_HOST,
         "scscf_port": SCSCF_PORT,
         "call_id": msg.first_header("Call-ID"),

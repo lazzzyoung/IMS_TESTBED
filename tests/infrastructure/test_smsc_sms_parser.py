@@ -12,15 +12,14 @@ from sms_parser import build_mt_3gpp_sms_payload, parse_3gpp_sms_payload
 def test_build_mt_sms_payload_uses_network_to_ms_rp_data() -> None:
     payload = build_mt_3gpp_sms_payload(
         originating_msisdn="222222",
-        service_center_msisdn="00155",
         text="VMF relay from 222222",
         rp_message_reference=6,
     )
 
     parsed = parse_3gpp_sms_payload(payload)
 
-    assert payload[0] == 0x01
-    assert parsed["rp_message_type"] == "0x01"
+    assert payload[0] == 0x00
+    assert parsed["rp_message_type"] == "0x00"
     assert parsed["rp_message_reference"] == 6
     assert parsed["payload_len"] > 20
     assert b"VMF relay from 222222" in payload
