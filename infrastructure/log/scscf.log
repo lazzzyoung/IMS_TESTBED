@@ -1,0 +1,850 @@
+[0;39;49m[0;39;49m33(67) DEBUG: ims_dialog [dlg_handlers.c:2066]: print_all_dlgs(): ********************[0;39;49m[0;39;49m33(67) DEBUG: ims_dialog [dlg_handlers.c:2067]: print_all_dlgs(): printing 4096 dialogs
+[0;39;49m[0;39;49m33(67) DEBUG: ims_dialog [dlg_handlers.c:2077]: print_all_dlgs(): ********************[0;39;49m[0;39;49m33(67) DEBUG: ims_auth [authorize.c:283]: reg_await_timer(): Looking for expired/useless at 119268836
+[0;39;49m[0;39;49m33(67) DEBUG: ims_auth [authorize.c:288]: reg_await_timer(): Slot  333 <001010000123528@ims.mnc001.mcc001.3gppnetwork.org>
+[0;39;49m[0;39;49m33(67) DEBUG: ims_auth [authorize.c:293]: reg_await_timer(): .. AV    0 - 3 Exp 119270558  0x763d8952e4e0
+[0;39;49m[0;39;49m33(67) DEBUG: ims_auth [authorize.c:288]: reg_await_timer(): Slot  454 <001010000123542@ims.mnc001.mcc001.3gppnetwork.org>
+[0;39;49m[0;39;49m33(67) DEBUG: ims_auth [authorize.c:293]: reg_await_timer(): .. AV    0 - 3 Exp 119270523  0x763d8952ef30
+[0;39;49m[0;39;49m33(67) DEBUG: ims_auth [authorize.c:337]: reg_await_timer(): [DONE] Looking for expired/useless at 119268836
+[0;39;49m[0;39;49m33(67) DEBUG: ims_dialog [dlg_handlers.c:2066]: print_all_dlgs(): ********************[0;39;49m[0;39;49m33(67) DEBUG: ims_dialog [dlg_handlers.c:2067]: print_all_dlgs(): printing 4096 dialogs
+[0;39;49m[0;39;49m33(67) DEBUG: ims_dialog [dlg_handlers.c:2077]: print_all_dlgs(): ********************[0;39;49m[0;39;49m33(67) DEBUG: ims_auth [authorize.c:283]: reg_await_timer(): Looking for expired/useless at 119268846
+[0;39;49m[0;39;49m33(67) DEBUG: ims_auth [authorize.c:288]: reg_await_timer(): Slot  333 <001010000123528@ims.mnc001.mcc001.3gppnetwork.org>
+[0;39;49m[0;39;49m33(67) DEBUG: ims_auth [authorize.c:293]: reg_await_timer(): .. AV    0 - 3 Exp 119270558  0x763d8952e4e0
+[0;39;49m[0;39;49m33(67) DEBUG: ims_auth [authorize.c:288]: reg_await_timer(): Slot  454 <001010000123542@ims.mnc001.mcc001.3gppnetwork.org>
+[0;39;49m[0;39;49m33(67) DEBUG: ims_auth [authorize.c:293]: reg_await_timer(): .. AV    0 - 3 Exp 119270523  0x763d8952ef30
+[0;39;49m[0;39;49m33(67) DEBUG: ims_auth [authorize.c:337]: reg_await_timer(): [DONE] Looking for expired/useless at 119268846
+[0;39;49m[0;39;49m33(67) DEBUG: ims_dialog [dlg_handlers.c:2066]: print_all_dlgs(): ********************[0;39;49m[0;39;49m33(67) DEBUG: ims_dialog [dlg_handlers.c:2067]: print_all_dlgs(): printing 4096 dialogs
+[0;39;49m[0;39;49m33(67) DEBUG: ims_dialog [dlg_handlers.c:2077]: print_all_dlgs(): ********************[0;39;49m[0;39;49m33(67) DEBUG: ims_auth [authorize.c:283]: reg_await_timer(): Looking for expired/useless at 119268856
+[0;39;49m[0;39;49m33(67) DEBUG: ims_auth [authorize.c:288]: reg_await_timer(): Slot  333 <001010000123528@ims.mnc001.mcc001.3gppnetwork.org>
+[0;39;49m[0;39;49m33(67) DEBUG: ims_auth [authorize.c:293]: reg_await_timer(): .. AV    0 - 3 Exp 119270558  0x763d8952e4e0
+[0;39;49m[0;39;49m33(67) DEBUG: ims_auth [authorize.c:288]: reg_await_timer(): Slot  454 <001010000123542@ims.mnc001.mcc001.3gppnetwork.org>
+[0;39;49m[0;39;49m33(67) DEBUG: ims_auth [authorize.c:293]: reg_await_timer(): .. AV    0 - 3 Exp 119270523  0x763d8952ef30
+[0;39;49m[0;39;49m33(67) DEBUG: ims_auth [authorize.c:337]: reg_await_timer(): [DONE] Looking for expired/useless at 119268856
+[0;39;49m[0;39;49m33(67) DEBUG: ims_dialog [dlg_handlers.c:2066]: print_all_dlgs(): ********************[0;39;49m[0;39;49m33(67) DEBUG: ims_dialog [dlg_handlers.c:2067]: print_all_dlgs(): printing 4096 dialogs
+[0;39;49m[0;39;49m33(67) DEBUG: ims_dialog [dlg_handlers.c:2077]: print_all_dlgs(): ********************[0;39;49m[0;39;49m33(67) DEBUG: ims_auth [authorize.c:283]: reg_await_timer(): Looking for expired/useless at 119268866
+[0;39;49m[0;39;49m33(67) DEBUG: ims_auth [authorize.c:288]: reg_await_timer(): Slot  333 <001010000123528@ims.mnc001.mcc001.3gppnetwork.org>
+[0;39;49m[0;39;49m33(67) DEBUG: ims_auth [authorize.c:293]: reg_await_timer(): .. AV    0 - 3 Exp 119270558  0x763d8952e4e0
+[0;39;49m[0;39;49m33(67) DEBUG: ims_auth [authorize.c:288]: reg_await_timer(): Slot  454 <001010000123542@ims.mnc001.mcc001.3gppnetwork.org>
+[0;39;49m[0;39;49m33(67) DEBUG: ims_auth [authorize.c:293]: reg_await_timer(): .. AV    0 - 3 Exp 119270523  0x763d8952ef30
+[0;39;49m[0;39;49m33(67) DEBUG: ims_auth [authorize.c:337]: reg_await_timer(): [DONE] Looking for expired/useless at 119268866
+[0;39;49m[0;39;49m33(67) DEBUG: ims_usrloc_scscf [ims_usrloc_scscf_mod.c:500]: timer(): Syncing cache
+[0;39;49m[0;39;49m33(67) DEBUG: ims_usrloc_scscf [udomain.c:312]: mem_timer_udomain(): *** mem_timer_udomain - checking contacts - START ***
+[0;39;49m[0;39;49m33(67) DEBUG: ims_usrloc_scscf [udomain.c:323]: mem_timer_udomain(): We have a [3gpp=1] contact in the new contact list in slot 110 = [sip:001010000123528@ims.mnc001.mcc001.3gppnetwork.org] (sip:001010000123528@10.20.20.18:9400;alias=10.20.20.18~9401~1) which expires in 1681.000000 seconds and has a ref count of 3 (state: Contact valid)
+[0;39;49m[0;39;49m33(67) DEBUG: ims_usrloc_scscf [udomain.c:323]: mem_timer_udomain(): We have a [3gpp=1] contact in the new contact list in slot 374 = [sip:001010000123542@ims.mnc001.mcc001.3gppnetwork.org] (sip:001010000123542@10.20.20.17:31800;alias=10.20.20.17~31100~1) which expires in 1647.000000 seconds and has a ref count of 3 (state: Contact valid)
+[0;39;49m[0;39;49m33(67) DEBUG: ims_usrloc_scscf [udomain.c:418]: mem_timer_udomain(): *** mem_timer_udomain - checking contacts - FINISHED ***
+[0;39;49m[0;39;49m33(67) DEBUG: ims_usrloc_scscf [udomain.c:424]: mem_timer_udomain(): *** mem_timer_udomain - checking IMPUs - START ***
+[0;39;49m[0;39;49m33(67) DEBUG: ims_usrloc_scscf [impurecord.c:402]: process_impurecord(): 	Public Identity sip:111111@ims.mnc001.mcc001.3gppnetwork.org, Barred: [0], State: [registered], contacts [1], 3gppcontacts [1]
+[0;39;49m[0;39;49m33(67) DEBUG: ims_usrloc_scscf [impurecord.c:452]: process_impurecord(): 		Contact #0 - sip:001010000123528@10.20.20.18:9400;alias=10.20.20.18~9401~1, Ref [3] (expires in 1681 seconds) (State: 0)
+[0;39;49m[0;39;49m33(67) DEBUG: ims_usrloc_scscf [impurecord.c:484]: process_impurecord(): Checking validity of IMPU: <sip:111111@ims.mnc001.mcc001.3gppnetwork.org> registration subscriptions
+[0;39;49m[0;39;49m33(67) DEBUG: ims_usrloc_scscf [impurecord.c:402]: process_impurecord(): 	Public Identity tel:222222, Barred: [0], State: [registered], contacts [1], 3gppcontacts [1]
+[0;39;49m[0;39;49m33(67) DEBUG: ims_usrloc_scscf [impurecord.c:452]: process_impurecord(): 		Contact #0 - sip:001010000123542@10.20.20.17:31800;alias=10.20.20.17~31100~1, Ref [3] (expires in 1647 seconds) (State: 0)
+[0;39;49m[0;39;49m33(67) DEBUG: ims_usrloc_scscf [impurecord.c:484]: process_impurecord(): Checking validity of IMPU: <tel:222222> registration subscriptions
+[0;39;49m[0;39;49m33(67) DEBUG: ims_usrloc_scscf [impurecord.c:402]: process_impurecord(): 	Public Identity sip:222222@ims.mnc001.mcc001.3gppnetwork.org, Barred: [0], State: [registered], contacts [1], 3gppcontacts [1]
+[0;39;49m[0;39;49m33(67) DEBUG: ims_usrloc_scscf [impurecord.c:452]: process_impurecord(): 		Contact #0 - sip:001010000123542@10.20.20.17:31800;alias=10.20.20.17~31100~1, Ref [3] (expires in 1647 seconds) (State: 0)
+[0;39;49m[0;39;49m33(67) DEBUG: ims_usrloc_scscf [impurecord.c:484]: process_impurecord(): Checking validity of IMPU: <sip:222222@ims.mnc001.mcc001.3gppnetwork.org> registration subscriptions
+[0;39;49m[0;39;49m33(67) DEBUG: ims_usrloc_scscf [impurecord.c:499]: process_impurecord(): DBG:registrar_timer: Subscriber with watcher_contact <sip:222222@10.20.20.15:31800> and presentity uri <sip:222222@ims.mnc001.mcc001.3gppnetwork.org> is valid and expires in 1175 seconds.
+[0;39;49m[0;39;49m33(67) DEBUG: ims_usrloc_scscf [impurecord.c:506]: process_impurecord(): Hash size: <512>
+[0;39;49m[0;39;49m33(67) DEBUG: ims_usrloc_scscf [impurecord.c:507]: process_impurecord(): Searching sub dialog hash info with call_id: <cgncbynME@10.20.20.15> and ttag <4d2b7af309c0e63b4f73900cc6bd5790-7686794f> ftag <dhncbyn> and hash code <79>
+[0;39;49m[0;39;49m33(67) DEBUG: ims_usrloc_scscf [impurecord.c:519]: process_impurecord(): DBG:registrar_timer: Subscription has dialog record in hash table with presentity uri <sip:222222@ims.mnc001.mcc001.3gppnetwork.org>
+[0;39;49m[0;39;49m33(67) DEBUG: ims_usrloc_scscf [impurecord.c:499]: process_impurecord(): DBG:registrar_timer: Subscriber with watcher_contact <sip:222222@10.20.20.17:31800> and presentity uri <sip:222222@ims.mnc001.mcc001.3gppnetwork.org> is valid and expires in 1647 seconds.
+[0;39;49m[0;39;49m33(67) DEBUG: ims_usrloc_scscf [impurecord.c:506]: process_impurecord(): Hash size: <512>
+[0;39;49m[0;39;49m33(67) DEBUG: ims_usrloc_scscf [impurecord.c:507]: process_impurecord(): Searching sub dialog hash info with call_id: <Y6ncbyAoc@10.20.20.17> and ttag <4d2b7af309c0e63b4f73900cc6bd5790-dbfad418> ftag <Z7ncbyA> and hash code <305>
+[0;39;49m[0;39;49m33(67) DEBUG: ims_usrloc_scscf [impurecord.c:519]: process_impurecord(): DBG:registrar_timer: Subscription has dialog record in hash table with presentity uri <sip:222222@ims.mnc001.mcc001.3gppnetwork.org>
+[0;39;49m[0;39;49m33(67) DEBUG: ims_usrloc_scscf [impurecord.c:402]: process_impurecord(): 	Public Identity sip:001010000123528@ims.mnc001.mcc001.3gppnetwork.org, Barred: [0], State: [registered], contacts [1], 3gppcontacts [1]
+[0;39;49m[0;39;49m33(67) DEBUG: ims_usrloc_scscf [impurecord.c:452]: process_impurecord(): 		Contact #0 - sip:001010000123528@10.20.20.18:9400;alias=10.20.20.18~9401~1, Ref [3] (expires in 1681 seconds) (State: 0)
+[0;39;49m[0;39;49m33(67) DEBUG: ims_usrloc_scscf [impurecord.c:484]: process_impurecord(): Checking validity of IMPU: <sip:001010000123528@ims.mnc001.mcc001.3gppnetwork.org> registration subscriptions
+[0;39;49m[0;39;49m33(67) DEBUG: ims_usrloc_scscf [impurecord.c:402]: process_impurecord(): 	Public Identity tel:111111, Barred: [0], State: [registered], contacts [1], 3gppcontacts [1]
+[0;39;49m[0;39;49m33(67) DEBUG: ims_usrloc_scscf [impurecord.c:452]: process_impurecord(): 		Contact #0 - sip:001010000123528@10.20.20.18:9400;alias=10.20.20.18~9401~1, Ref [3] (expires in 1681 seconds) (State: 0)
+[0;39;49m[0;39;49m33(67) DEBUG: ims_usrloc_scscf [impurecord.c:484]: process_impurecord(): Checking validity of IMPU: <tel:111111> registration subscriptions
+[0;39;49m[0;39;49m33(67) DEBUG: ims_usrloc_scscf [impurecord.c:402]: process_impurecord(): 	Public Identity sip:001010000123542@ims.mnc001.mcc001.3gppnetwork.org, Barred: [0], State: [registered], contacts [1], 3gppcontacts [1]
+[0;39;49m[0;39;49m33(67) DEBUG: ims_usrloc_scscf [impurecord.c:452]: process_impurecord(): 		Contact #0 - sip:001010000123542@10.20.20.17:31800;alias=10.20.20.17~31100~1, Ref [3] (expires in 1647 seconds) (State: 0)
+[0;39;49m[0;39;49m33(67) DEBUG: ims_usrloc_scscf [impurecord.c:484]: process_impurecord(): Checking validity of IMPU: <sip:001010000123542@ims.mnc001.mcc001.3gppnetwork.org> registration subscriptions
+[0;39;49m[0;39;49m33(67) DEBUG: ims_usrloc_scscf [udomain.c:449]: mem_timer_udomain(): *** mem_timer_udomain - checking IMPUs - FINISHED ***
+[0;39;49m[0;39;49m33(67) DEBUG: ims_dialog [dlg_handlers.c:2066]: print_all_dlgs(): ********************[0;39;49m[0;39;49m33(67) DEBUG: ims_dialog [dlg_handlers.c:2067]: print_all_dlgs(): printing 4096 dialogs
+[0;39;49m[0;39;49m33(67) DEBUG: ims_dialog [dlg_handlers.c:2077]: print_all_dlgs(): ********************[0;39;49m[0;39;49m33(67) DEBUG: ims_auth [authorize.c:283]: reg_await_timer(): Looking for expired/useless at 119268876
+[0;39;49m[0;39;49m33(67) DEBUG: ims_auth [authorize.c:288]: reg_await_timer(): Slot  333 <001010000123528@ims.mnc001.mcc001.3gppnetwork.org>
+[0;39;49m[0;39;49m33(67) DEBUG: ims_auth [authorize.c:293]: reg_await_timer(): .. AV    0 - 3 Exp 119270558  0x763d8952e4e0
+[0;39;49m[0;39;49m33(67) DEBUG: ims_auth [authorize.c:288]: reg_await_timer(): Slot  454 <001010000123542@ims.mnc001.mcc001.3gppnetwork.org>
+[0;39;49m[0;39;49m33(67) DEBUG: ims_auth [authorize.c:293]: reg_await_timer(): .. AV    0 - 3 Exp 119270523  0x763d8952ef30
+[0;39;49m[0;39;49m33(67) DEBUG: ims_auth [authorize.c:337]: reg_await_timer(): [DONE] Looking for expired/useless at 119268876
+[0;39;49m[0;32;49m77(111) NOTICE: {1 1 INVITE ttpcbOUBX@10.20.20.17 DEFAULT_ROUTE} <script>: SCSCF: INVITE tel:111111;phone-context=ims.mnc001.mcc001.3gppnetwork.org (sip:222222@ims.mnc001.mcc001.3gppnetwork.org (172.22.0.21:6107) to tel:111111;phone-context=ims.mnc001.mcc001.3gppnetwork.org, ttpcbOUBX@10.20.20.17)
+[0;39;49m[0;39;49m77(111) DEBUG: {1 1 INVITE ttpcbOUBX@10.20.20.17 REQINIT} <script>: Mem: Total 67108864, Free 63073008 [1% used]
+[0;39;49m[0;39;49m77(111) DEBUG: {1 1 INVITE ttpcbOUBX@10.20.20.17 DEFAULT_ROUTE} ims_dialog [dlg_handlers.c:893]: dlg_onroute(): No to tag header found --- ignoring... MESSAGE [INVITE
+[0;39;49m[0;31;49m77(111) ERROR: {1 1 INVITE ttpcbOUBX@10.20.20.17 DEFAULT_ROUTE} <script>: Orig[0;39;49m[0;39;49m77(111) DEBUG: {1 1 INVITE ttpcbOUBX@10.20.20.17 orig} <script>: Enter orig route
+[0;39;49m[0;39;49m77(111) DEBUG: {1 1 INVITE ttpcbOUBX@10.20.20.17 orig} ims_dialog [dlg_hash.c:969]: internal_get_dlg(): no dialog callid='ttpcbOUBX@10.20.20.17' found
+[0;39;49m[0;39;49m77(111) DEBUG: {1 1 INVITE ttpcbOUBX@10.20.20.17 orig} ims_dialog [dlg_hash.c:1000]: get_dlg(): no dialog callid='ttpcbOUBX@10.20.20.17' found
+[0;39;49m[0;39;49m77(111) DEBUG: {1 1 INVITE ttpcbOUBX@10.20.20.17 orig} ims_dialog [dlg_handlers.c:2104]: dlg_get_msg_dialog(): dlg with callid 'ttpcbOUBX@10.20.20.17' not found
+[0;39;49m[0;39;49m77(111) DEBUG: {1 1 INVITE ttpcbOUBX@10.20.20.17 orig} ims_dialog [dlg_handlers.c:839]: dlg_onreq(): dialog creation on config flag
+[0;39;49m[0;39;49m77(111) DEBUG: {1 1 INVITE ttpcbOUBX@10.20.20.17 orig} ims_dialog [dlg_handlers.c:1670]: dlg_new_dialog(): starting dlg_new_dialog and method is [INVITE]
+[0;39;49m[0;39;49m77(111) DEBUG: {1 1 INVITE ttpcbOUBX@10.20.20.17 orig} ims_dialog [dlg_hash.c:969]: internal_get_dlg(): no dialog callid='ttpcbOUBX@10.20.20.17' found
+[0;39;49m[0;39;49m77(111) DEBUG: {1 1 INVITE ttpcbOUBX@10.20.20.17 orig} ims_dialog [dlg_hash.c:1861]: search_dlg(): dialog with callid='ttpcbOUBX@10.20.20.17' not found
+[0;39;49m[0;39;49m77(111) DEBUG: {1 1 INVITE ttpcbOUBX@10.20.20.17 orig} ims_dialog [dlg_handlers.c:1735]: dlg_new_dialog(): Building new Dialog for call-id ttpcbOUBX@10.20.20.17
+[0;39;49m[0;39;49m77(111) DEBUG: {1 1 INVITE ttpcbOUBX@10.20.20.17 orig} ims_dialog [dlg_handlers.c:1736]: dlg_new_dialog(): SIP Method: INVITE  
+[0;39;49m[0;39;49m77(111) DEBUG: {1 1 INVITE ttpcbOUBX@10.20.20.17 orig} ims_dialog [dlg_hash.c:343]: build_new_dlg(): new dialog on hash 1329
+[0;39;49m[0;39;49m77(111) DEBUG: {1 1 INVITE ttpcbOUBX@10.20.20.17 orig} ims_dialog [dlg_handlers.c:286]: populate_leg_info(): route_set <sip:mo@172.22.0.21:6107;lr=on;ftag=qupcbiB;rm=8;did=135.6d6>, contact sip:222222@10.20.20.17:31800;alias=10.20.20.17~31100~1, cseq 1 and bind_addr tcp:172.22.0.20:6060 [0x763d90dbafe0]
+[0;39;49m[0;39;49m77(111) DEBUG: {1 1 INVITE ttpcbOUBX@10.20.20.17 orig} ims_dialog [dlg_hash.c:1057]: link_dlg(): linking dialog [1329:11699]
+[0;39;49m[0;39;49m77(111) DEBUG: {1 1 INVITE ttpcbOUBX@10.20.20.17 orig} ims_dialog [dlg_hash.c:1066]: link_dlg(): ref dlg 0x763d8952cbe0 with 1 -> 1
+[0;39;49m[0;39;49m77(111) DEBUG: {1 1 INVITE ttpcbOUBX@10.20.20.17 orig} ims_dialog [dlg_cb.c:233]: run_create_callbacks(): Running DLG_CREATED callbacks
+[0;39;49m[0;39;49m77(111) DEBUG: {1 1 INVITE ttpcbOUBX@10.20.20.17 orig} ims_dialog [dlg_cb.c:248]: run_create_callbacks(): dialog=0x763d8952cbe0
+[0;39;49m[0;39;49m77(111) DEBUG: {1 1 INVITE ttpcbOUBX@10.20.20.17 orig} ims_usrloc_scscf [contact_dlg_handlers.c:44]: contact_dlg_create_handler(): Successfully registered contact dialog handler
+[0;39;49m[0;39;49m77(111) DEBUG: {1 1 INVITE ttpcbOUBX@10.20.20.17 orig} ims_dialog [dlg_handlers.c:563]: get_dlg_timeout(): invalid AVP value, using default timeout
+[0;39;49m[0;39;49m77(111) DEBUG: {1 1 INVITE ttpcbOUBX@10.20.20.17 orig} ims_dialog [dlg_profile.c:423]: set_current_dialog(): setting current dialog [1329:11699]
+[0;39;49m[0;39;49m77(111) DEBUG: {1 1 INVITE ttpcbOUBX@10.20.20.17 orig} ims_dialog [dlg_handlers.c:1797]: dlg_new_dialog(): New dialog created
+[0;39;49m[0;39;49m77(111) DEBUG: {1 1 INVITE ttpcbOUBX@10.20.20.17 orig} ims_dialog [dlg_hash.c:921]: lookup_dlg(): ref dlg 0x763d8952cbe0 with 1 -> 2
+[0;39;49m[0;39;49m77(111) DEBUG: {1 1 INVITE ttpcbOUBX@10.20.20.17 orig} ims_dialog [dlg_hash.c:923]: lookup_dlg(): dialog id=11699 found on entry 1329
+[0;39;49m[0;39;49m77(111) DEBUG: {1 1 INVITE ttpcbOUBX@10.20.20.17 orig} ims_dialog [dlg_handlers.c:849]: dlg_onreq(): dialog [0x763d8952cbe0] added to tm callbacks
+[0;39;49m[0;39;49m77(111) DEBUG: {1 1 INVITE ttpcbOUBX@10.20.20.17 orig} ims_dialog [dlg_hash.c:1109]: unref_dlg(): unref dlg 0x763d8952cbe0 with 1 -> 1
+[0;39;49m[0;36;49m77(111) INFO: {1 1 INVITE ttpcbOUBX@10.20.20.17 orig} ims_isc [ims_isc_mod.c:254]: isc_match_filter(): Checking triggers
+[0;39;49m[0;39;49m77(111) DEBUG: {1 1 INVITE ttpcbOUBX@10.20.20.17 orig} ims_isc [mark.c:95]: isc_mark_get_from_msg(): isc_mark_get_from_msg: Trying to get the mark from the message 
+[0;39;49m[0;39;49m77(111) DEBUG: {1 1 INVITE ttpcbOUBX@10.20.20.17 orig} ims_isc [ims_isc_mod.c:281]: isc_match_filter(): Starting triggering
+[0;39;49m[0;39;49m77(111) DEBUG: {1 1 INVITE ttpcbOUBX@10.20.20.17 orig} ims_isc [ims_isc_mod.c:355]: isc_match_filter(): Checking if ISC is for originating user
+[0;39;49m[0;39;49m77(111) DEBUG: {1 1 INVITE ttpcbOUBX@10.20.20.17 orig} ims_isc [ims_isc_mod.c:359]: isc_match_filter(): ISC is for Orig user
+[0;39;49m[0;39;49m77(111) DEBUG: {1 1 INVITE ttpcbOUBX@10.20.20.17 orig} ims_isc [ims_isc_mod.c:361]: isc_match_filter(): Orig user is [sip:222222@ims.mnc001.mcc001.3gppnetwork.org]
+[0;39;49m[0;39;49m77(111) DEBUG: {1 1 INVITE ttpcbOUBX@10.20.20.17 orig} ims_isc [checker.c:655]: isc_is_registered(): Searching in usrloc
+[0;39;49m[0;39;49m77(111) DEBUG: {1 1 INVITE ttpcbOUBX@10.20.20.17 orig} ims_isc [checker.c:663]: isc_is_registered(): Finished searching usrloc
+[0;39;49m[0;39;49m77(111) DEBUG: {1 1 INVITE ttpcbOUBX@10.20.20.17 orig} ims_isc [ims_isc_mod.c:368]: isc_match_filter(): Orig User <sip:222222@ims.mnc001.mcc001.3gppnetwork.org> [1]
+[0;39;49m[0;39;49m77(111) DEBUG: {1 1 INVITE ttpcbOUBX@10.20.20.17 orig} ims_isc [ims_isc_mod.c:371]: isc_match_filter(): Checking if RURI has changed...comparing: <> and <sip:222222@ims.mnc001.mcc001.3gppnetwork.org>
+[0;39;49m[0;39;49m77(111) DEBUG: {1 1 INVITE ttpcbOUBX@10.20.20.17 orig} ims_isc [checker.c:655]: isc_is_registered(): Searching in usrloc
+[0;39;49m[0;39;49m77(111) DEBUG: {1 1 INVITE ttpcbOUBX@10.20.20.17 orig} ims_isc [checker.c:663]: isc_is_registered(): Finished searching usrloc
+[0;39;49m[0;39;49m77(111) DEBUG: {1 1 INVITE ttpcbOUBX@10.20.20.17 orig} ims_isc [checker.c:486]: isc_checker_find(): isc_checker_find: starting search
+[0;39;49m[0;39;49m77(111) DEBUG: {1 1 INVITE ttpcbOUBX@10.20.20.17 orig} ims_isc [checker.c:510]: isc_checker_find(): isc_checker_find(): got a r_public for the user sip:222222@ims.mnc001.mcc001.3gppnetwork.org
+[0;39;49m[0;39;49m77(111) DEBUG: {1 1 INVITE ttpcbOUBX@10.20.20.17 orig} ims_isc [checker.c:526]: isc_checker_find(): About to try p->s->service_profiles_cnt!! #profiles is 1
+[0;39;49m[0;39;49m77(111) DEBUG: {1 1 INVITE ttpcbOUBX@10.20.20.17 orig} ims_isc [checker.c:529]: isc_checker_find(): About to try p->s->service_profiles[a].filter_criteria_cnt
+[0;39;49m[0;39;49m77(111) DEBUG: {1 1 INVITE ttpcbOUBX@10.20.20.17 orig} ims_isc [checker.c:540]: isc_checker_find(): DEBUG ISC: SECOND TIME About to try p->s->service_profiles_cnt!!
+[0;39;49m[0;39;49m77(111) DEBUG: {1 1 INVITE ttpcbOUBX@10.20.20.17 orig} ims_isc [checker.c:545]: isc_checker_find(): DEBUG ISC : About to try p->s->service_profiles
+[0;39;49m[0;39;49m77(111) DEBUG: {1 1 INVITE ttpcbOUBX@10.20.20.17 orig} ims_isc [checker.c:548]: isc_checker_find(): DEBUG ISC : About to try public identities
+[0;39;49m[0;39;49m77(111) DEBUG: {1 1 INVITE ttpcbOUBX@10.20.20.17 orig} ims_isc [checker.c:551]: isc_checker_find(): DEBUG ISC : About to try WPSI
+[0;39;49m[0;39;49m77(111) DEBUG: {1 1 INVITE ttpcbOUBX@10.20.20.17 orig} ims_isc [checker.c:370]: isc_check_filter_criteria(): ifc_checker_trigger: Starting expression check: 
+[0;39;49m[0;39;49m77(111) DEBUG: {1 1 INVITE ttpcbOUBX@10.20.20.17 orig} ims_isc [checker.c:277]: isc_check_spt(): ifc_check_spt:             SPT type 2 -> Method == MESSAGE ?
+[0;39;49m[0;39;49m77(111) DEBUG: {1 1 INVITE ttpcbOUBX@10.20.20.17 orig} ims_isc [checker.c:280]: isc_check_spt(): ifc_check_spt:               Found method INVITE 
+[0;39;49m[0;39;49m77(111) DEBUG: {1 1 INVITE ttpcbOUBX@10.20.20.17 orig} ims_isc [checker.c:377]: isc_check_filter_criteria(): ifc_checker_trigger: Total compromised, aborting...
+[0;39;49m[0;39;49m77(111) DEBUG: {1 1 INVITE ttpcbOUBX@10.20.20.17 orig} ims_isc [mark.c:95]: isc_mark_get_from_msg(): isc_mark_get_from_msg: Trying to get the mark from the message 
+[0;39;49m[0;39;49m77(111) DEBUG: {1 1 INVITE ttpcbOUBX@10.20.20.17 FINAL_ORIG} ims_dialog [dlg_handlers.c:1252]: dlg_onreply(): ONREPLY CALL_BACK from TM received and type is [256] = [TMCB_REQUEST_OUT]
+[0;39;49m[0;39;49m77(111) DEBUG: {1 1 INVITE ttpcbOUBX@10.20.20.17 FINAL_ORIG} ims_dialog [dlg_hash.c:921]: lookup_dlg(): ref dlg 0x763d8952cbe0 with 1 -> 2
+[0;39;49m[0;39;49m77(111) DEBUG: {1 1 INVITE ttpcbOUBX@10.20.20.17 FINAL_ORIG} ims_dialog [dlg_hash.c:923]: lookup_dlg(): dialog id=11699 found on entry 1329
+[0;39;49m[0;39;49m77(111) DEBUG: {1 1 INVITE ttpcbOUBX@10.20.20.17 FINAL_ORIG} ims_dialog [dlg_handlers.c:1269]: dlg_onreply(): DLG dialogid is entry:id [1329:11699]
+[0;39;49m[0;39;49m77(111) DEBUG: {1 1 INVITE ttpcbOUBX@10.20.20.17 FINAL_ORIG} ims_dialog [dlg_handlers.c:1277]: dlg_onreply(): Received Request out for request [INVITE sip:111111@ims.mnc001.mcc001.3gppnetwork.org;user=phone SIP/2.0
+Record-Route: <sip:mo@172.22.0.20:6060;r2=on;lr=on;ftag=qupcbiB;did=135.3bd2>
+Record-Route: <sip:mo@172.22.0.20:6060;transport=tcp;r2=on;lr=on;ftag=qupcbiB;did=135.3bd2>
+Record-Route: <sip:mo@172.22.0.21:6107;lr=on;ftag=qupcbiB;rm=8;did=135.6d6>
+From: <sip:222222@ims.mnc001.mcc001.3gppnetwork.org>;tag=qupcbiB
+To: "111111"<tel:111111;phone-context=ims.mnc001.mcc001.3gppnetwork.org>
+Contact: <sip:222222@10.20.20.17:31800;alias=10.20.20.17~31100~1>;+sip.instance="<urn:gsma:imei:86838903-875492-0>";+g.3gpp.icsi-ref="urn%3Aurn-7%3A3gpp-service.ims.icsi.mmtel";audio;video;+g.3gpp.mid-call;+g.3gpp.srvcc-alerting;+g.3gpp.ps2cs-srvcc-orig-pre-alerting
+Accept-Contact: *;+g.3gpp.icsi-ref="urn%3Aurn-7%3A3gpp-service.ims.icsi.mmtel"
+P-Access-Network-Info: 3GPP-E-UTRAN-FDD;utran-cell-id-3gpp=0010100010019B01
+P-Preferred-Service: urn:urn-7:3gpp-service.ims.icsi.mmtel
+P-Early-Media: supported
+Supported: 100rel,histinfo,join,norefersub,precondition,replaces,timer,sec-agree
+Allow: INVITE,ACK,OPTIONS,BYE,CANCEL,UPDATE,INFO,PRACK,NOTIFY,MESSAGE,REFER
+Accept: application/sdp,application/3gpp-ims+xml
+Session-Expires: 1800
+Min-SE: 90
+Call-ID: ttpcbOUBX@10.20.20.17
+CSeq: 1 INVITE
+Max-Forwards: 68
+Via: SIP/2.0/UDP 172.22.0.20:6060;branch=z9hG4bK8651.7c3b8e20916e68999b2029328764109b.0;i=5
+Via: SIP/2.0/TCP 172.22.0.21:6107;branch=z9hG4bK8651.87478b48f6b118b05d6029639fc3077b.0
+Via: SIP/2.0/UDP 10.20.20.17:31800;received=10.20.20.17;branch=z9hG4bKrvpcbiBBUqULe28aaaT5;rport=31100
+User-Agent: IM-client/OMA1.0 HW-Rto/V1.0
+Content-Type: application/sdp
+Content-Length: 776
+P-Charging-Vector: icid-value=495653AC16001572000000AA01000000;icid-generated-at=172.22.0.21
+P-Visited-Network-ID: ims.mnc001.mcc001.3gppnetwork.org
+P-Asserted-Identity: <sip:222222@ims.mnc001.mcc001.3gppnetwork.org>
+
+v=0
+o=rue 3223 3223 IN IP4 172.22.0.16
+s=-
+b=AS:41
+b=RR:1537
+b=RS:512
+t=0 0
+m=audio 49580 RTP/AVP 107 106 105 104 101 102
+c=IN IP4 172.22.0.16
+b=AS:41
+b=RR:1537
+b=RS:512
+a=rtpmap:107 AMR-WB/16000
+a=fmtp:107 mode-change-capability=2;max-red=0
+a=rtpmap:106 AMR-WB/16000
+a=fmtp:106 octet-align=1;mode-change-capability=2;max-red=0
+a=rtpmap:105 AMR/8000
+a=fmtp:105 mode-change-capability=2;max-red=0
+a=rtpmap:104 AMR/8000
+a=fmtp:104 octet-align=1;mode-change-capability=2;max-red=0
+a=rtpmap:101 telephone-event/16000
+a=fmtp:101 0-15
+a=rtpmap:102 telephone-event/8000
+a=fmtp:102 0-15
+a=curr:qos local none
+a=curr:qos remote none
+a=des:qos mandatory local sendrecv
+a=des:qos optional remote sendrecv
+a=sendrecv
+a=rtcp:49581
+a=ptime:20
+a=maxptime:240
+]
+[0;39;49m[0;39;49m77(111) DEBUG: {1 1 INVITE ttpcbOUBX@10.20.20.17 FINAL_ORIG} ims_dialog [dlg_handlers.c:1285]: dlg_onreply(): Ignoring request out as it's not a CANCEL
+[0;39;49m[0;39;49m77(111) DEBUG: {1 1 INVITE ttpcbOUBX@10.20.20.17 FINAL_ORIG} ims_dialog [dlg_hash.c:1109]: unref_dlg(): unref dlg 0x763d8952cbe0 with 1 -> 1
+[0;39;49m[0;39;49m 4(38) DEBUG: {2 1 INVITE ttpcbOUBX@10.20.20.17 <null>} ims_dialog [dlg_handlers.c:1252]: dlg_onreply(): ONREPLY CALL_BACK from TM received and type is [2] = [TMCB_RESPONSE_IN]
+[0;39;49m[0;39;49m 4(38) DEBUG: {2 1 INVITE ttpcbOUBX@10.20.20.17 <null>} ims_dialog [dlg_hash.c:921]: lookup_dlg(): ref dlg 0x763d8952cbe0 with 1 -> 2
+[0;39;49m[0;39;49m 4(38) DEBUG: {2 1 INVITE ttpcbOUBX@10.20.20.17 <null>} ims_dialog [dlg_hash.c:923]: lookup_dlg(): dialog id=11699 found on entry 1329
+[0;39;49m[0;39;49m 4(38) DEBUG: {2 1 INVITE ttpcbOUBX@10.20.20.17 <null>} ims_dialog [dlg_handlers.c:1269]: dlg_onreply(): DLG dialogid is entry:id [1329:11699]
+[0;39;49m[0;39;49m 4(38) DEBUG: {2 1 INVITE ttpcbOUBX@10.20.20.17 <null>} ims_dialog [dlg_profile.c:423]: set_current_dialog(): setting current dialog [1329:11699]
+[0;39;49m[0;39;49m 4(38) DEBUG: {2 1 INVITE ttpcbOUBX@10.20.20.17 <null>} ims_dialog [dlg_hash.c:1109]: unref_dlg(): unref dlg 0x763d8952cbe0 with 1 -> 1
+[0;39;49m[0;39;49m 4(38) DEBUG: {2 1 INVITE ttpcbOUBX@10.20.20.17 orig_reply} <script>: Orig reply
+[0;39;49m[0;32;49m 7(41) NOTICE: {1 1 INVITE ttpcbOUBX@10.20.20.17 DEFAULT_ROUTE} <script>: SCSCF: INVITE sip:111111@ims.mnc001.mcc001.3gppnetwork.org;user=phone (sip:222222@ims.mnc001.mcc001.3gppnetwork.org (172.22.0.19:4060) to tel:111111;phone-context=ims.mnc001.mcc001.3gppnetwork.org, ttpcbOUBX@10.20.20.17)
+[0;39;49m[0;39;49m 7(41) DEBUG: {1 1 INVITE ttpcbOUBX@10.20.20.17 REQINIT} <script>: Mem: Total 67108864, Free 63046720 [1% used]
+[0;39;49m[0;39;49m 7(41) DEBUG: {1 1 INVITE ttpcbOUBX@10.20.20.17 DEFAULT_ROUTE} ims_isc [mark.c:95]: isc_mark_get_from_msg(): isc_mark_get_from_msg: Trying to get the mark from the message 
+[0;39;49m[0;39;49m 7(41) DEBUG: {1 1 INVITE ttpcbOUBX@10.20.20.17 DEFAULT_ROUTE} ims_isc [mark.c:95]: isc_mark_get_from_msg(): isc_mark_get_from_msg: Trying to get the mark from the message 
+[0;39;49m[0;39;49m 7(41) DEBUG: {1 1 INVITE ttpcbOUBX@10.20.20.17 DEFAULT_ROUTE} ims_dialog [dlg_profile.c:604]: is_dlg_in_profile(): Getting current dialog[0;39;49m[0;39;49m 7(41) DEBUG: {1 1 INVITE ttpcbOUBX@10.20.20.17 DEFAULT_ROUTE} ims_dialog [dlg_hash.h:437]: match_dialog(): No dlg outs yet...
+[0;39;49m[0;39;49m 7(41) DEBUG: {1 1 INVITE ttpcbOUBX@10.20.20.17 DEFAULT_ROUTE} ims_dialog [dlg_hash.c:959]: internal_get_dlg(): ref dlg 0x763d8952cbe0 with 1 -> 2
+[0;39;49m[0;39;49m 7(41) DEBUG: {1 1 INVITE ttpcbOUBX@10.20.20.17 DEFAULT_ROUTE} ims_dialog [dlg_hash.c:961]: internal_get_dlg(): dialog callid='ttpcbOUBX@10.20.20.17' found on entry 1329, dir=1
+[0;39;49m[0;39;49m 7(41) DEBUG: {1 1 INVITE ttpcbOUBX@10.20.20.17 DEFAULT_ROUTE} ims_dialog [dlg_profile.c:613]: is_dlg_in_profile(): Current dlg found[0;39;49m[0;39;49m 7(41) DEBUG: {1 1 INVITE ttpcbOUBX@10.20.20.17 DEFAULT_ROUTE} ims_dialog [dlg_profile.c:620]: is_dlg_in_profile(): Running through linkers[0;39;49m[0;39;49m 7(41) DEBUG: {1 1 INVITE ttpcbOUBX@10.20.20.17 DEFAULT_ROUTE} ims_dialog [dlg_profile.c:622]: is_dlg_in_profile(): Profile matches[0;39;49m[0;39;49m 7(41) DEBUG: {1 1 INVITE ttpcbOUBX@10.20.20.17 DEFAULT_ROUTE} ims_dialog [dlg_profile.c:624]: is_dlg_in_profile(): Profile has value is zero returning true[0;39;49m[0;39;49m 7(41) DEBUG: {1 1 INVITE ttpcbOUBX@10.20.20.17 DEFAULT_ROUTE} ims_dialog [dlg_hash.c:1109]: unref_dlg(): unref dlg 0x763d8952cbe0 with 1 -> 1
+[0;39;49m[0;39;49m 7(41) DEBUG: {1 1 INVITE ttpcbOUBX@10.20.20.17 DEFAULT_ROUTE} ims_dialog [dlg_profile.c:604]: is_dlg_in_profile(): Getting current dialog[0;39;49m[0;39;49m 7(41) DEBUG: {1 1 INVITE ttpcbOUBX@10.20.20.17 DEFAULT_ROUTE} ims_dialog [dlg_hash.h:437]: match_dialog(): No dlg outs yet...
+[0;39;49m[0;39;49m 7(41) DEBUG: {1 1 INVITE ttpcbOUBX@10.20.20.17 DEFAULT_ROUTE} ims_dialog [dlg_hash.c:959]: internal_get_dlg(): ref dlg 0x763d8952cbe0 with 1 -> 2
+[0;39;49m[0;39;49m 7(41) DEBUG: {1 1 INVITE ttpcbOUBX@10.20.20.17 DEFAULT_ROUTE} ims_dialog [dlg_hash.c:961]: internal_get_dlg(): dialog callid='ttpcbOUBX@10.20.20.17' found on entry 1329, dir=1
+[0;39;49m[0;39;49m 7(41) DEBUG: {1 1 INVITE ttpcbOUBX@10.20.20.17 DEFAULT_ROUTE} ims_dialog [dlg_profile.c:613]: is_dlg_in_profile(): Current dlg found[0;39;49m[0;39;49m 7(41) DEBUG: {1 1 INVITE ttpcbOUBX@10.20.20.17 DEFAULT_ROUTE} ims_dialog [dlg_profile.c:620]: is_dlg_in_profile(): Running through linkers[0;39;49m[0;39;49m 7(41) DEBUG: {1 1 INVITE ttpcbOUBX@10.20.20.17 DEFAULT_ROUTE} ims_dialog [dlg_hash.c:1109]: unref_dlg(): unref dlg 0x763d8952cbe0 with 1 -> 1
+[0;39;49m[0;39;49m 7(41) DEBUG: {1 1 INVITE ttpcbOUBX@10.20.20.17 term} <script>: Term
+[0;39;49m[0;39;49m 7(41) DEBUG: {1 1 INVITE ttpcbOUBX@10.20.20.17 term} ims_dialog [dlg_hash.h:437]: match_dialog(): No dlg outs yet...
+[0;39;49m[0;39;49m 7(41) DEBUG: {1 1 INVITE ttpcbOUBX@10.20.20.17 term} ims_dialog [dlg_hash.c:959]: internal_get_dlg(): ref dlg 0x763d8952cbe0 with 1 -> 2
+[0;39;49m[0;39;49m 7(41) DEBUG: {1 1 INVITE ttpcbOUBX@10.20.20.17 term} ims_dialog [dlg_hash.c:961]: internal_get_dlg(): dialog callid='ttpcbOUBX@10.20.20.17' found on entry 1329, dir=1
+[0;39;49m[0;39;49m 7(41) DEBUG: {1 1 INVITE ttpcbOUBX@10.20.20.17 term} ims_dialog [dlg_hash.c:1109]: unref_dlg(): unref dlg 0x763d8952cbe0 with 1 -> 1
+[0;39;49m[0;36;49m 7(41) INFO: {1 1 INVITE ttpcbOUBX@10.20.20.17 term} ims_isc [ims_isc_mod.c:254]: isc_match_filter(): Checking triggers
+[0;39;49m[0;39;49m 7(41) DEBUG: {1 1 INVITE ttpcbOUBX@10.20.20.17 term} ims_isc [mark.c:95]: isc_mark_get_from_msg(): isc_mark_get_from_msg: Trying to get the mark from the message 
+[0;39;49m[0;39;49m 7(41) DEBUG: {1 1 INVITE ttpcbOUBX@10.20.20.17 term} ims_isc [ims_isc_mod.c:281]: isc_match_filter(): Starting triggering
+[0;39;49m[0;39;49m 7(41) DEBUG: {1 1 INVITE ttpcbOUBX@10.20.20.17 term} ims_isc [ims_isc_mod.c:355]: isc_match_filter(): Checking if ISC is for originating user
+[0;39;49m[0;39;49m 7(41) DEBUG: {1 1 INVITE ttpcbOUBX@10.20.20.17 term} ims_isc [ims_isc_mod.c:395]: isc_match_filter(): Checking if ISC is for terminating user
+[0;39;49m[0;39;49m 7(41) DEBUG: {1 1 INVITE ttpcbOUBX@10.20.20.17 term} ims_isc [ims_isc_mod.c:401]: isc_match_filter(): ISC is for Term user
+[0;39;49m[0;39;49m 7(41) DEBUG: {1 1 INVITE ttpcbOUBX@10.20.20.17 term} ims_isc [checker.c:655]: isc_is_registered(): Searching in usrloc
+[0;39;49m[0;39;49m 7(41) DEBUG: {1 1 INVITE ttpcbOUBX@10.20.20.17 term} ims_isc [checker.c:663]: isc_is_registered(): Finished searching usrloc
+[0;39;49m[0;39;49m 7(41) DEBUG: {1 1 INVITE ttpcbOUBX@10.20.20.17 term} ims_isc [ims_isc_mod.c:409]: isc_match_filter(): Term User <tel:111111> [1]
+[0;39;49m[0;39;49m 7(41) DEBUG: {1 1 INVITE ttpcbOUBX@10.20.20.17 term} ims_isc [ims_isc_mod.c:412]: isc_match_filter(): Checking if RURI has changed...comparing: <> and <tel:111111>
+[0;39;49m[0;39;49m 7(41) DEBUG: {1 1 INVITE ttpcbOUBX@10.20.20.17 term} ims_isc [ims_isc_mod.c:421]: isc_match_filter(): Resuming triggering
+[0;39;49m[0;39;49m 7(41) DEBUG: {1 1 INVITE ttpcbOUBX@10.20.20.17 term} ims_isc [checker.c:655]: isc_is_registered(): Searching in usrloc
+[0;39;49m[0;39;49m 7(41) DEBUG: {1 1 INVITE ttpcbOUBX@10.20.20.17 term} ims_isc [checker.c:663]: isc_is_registered(): Finished searching usrloc
+[0;39;49m[0;39;49m 7(41) DEBUG: {1 1 INVITE ttpcbOUBX@10.20.20.17 term} ims_isc [checker.c:486]: isc_checker_find(): isc_checker_find: starting search
+[0;39;49m[0;39;49m 7(41) DEBUG: {1 1 INVITE ttpcbOUBX@10.20.20.17 term} ims_isc [checker.c:510]: isc_checker_find(): isc_checker_find(): got a r_public for the user tel:111111
+[0;39;49m[0;39;49m 7(41) DEBUG: {1 1 INVITE ttpcbOUBX@10.20.20.17 term} ims_isc [checker.c:526]: isc_checker_find(): About to try p->s->service_profiles_cnt!! #profiles is 1
+[0;39;49m[0;39;49m 7(41) DEBUG: {1 1 INVITE ttpcbOUBX@10.20.20.17 term} ims_isc [checker.c:529]: isc_checker_find(): About to try p->s->service_profiles[a].filter_criteria_cnt
+[0;39;49m[0;39;49m 7(41) DEBUG: {1 1 INVITE ttpcbOUBX@10.20.20.17 term} ims_isc [checker.c:540]: isc_checker_find(): DEBUG ISC: SECOND TIME About to try p->s->service_profiles_cnt!!
+[0;39;49m[0;39;49m 7(41) DEBUG: {1 1 INVITE ttpcbOUBX@10.20.20.17 term} ims_isc [checker.c:545]: isc_checker_find(): DEBUG ISC : About to try p->s->service_profiles
+[0;39;49m[0;39;49m 7(41) DEBUG: {1 1 INVITE ttpcbOUBX@10.20.20.17 term} ims_isc [checker.c:548]: isc_checker_find(): DEBUG ISC : About to try public identities
+[0;39;49m[0;39;49m 7(41) DEBUG: {1 1 INVITE ttpcbOUBX@10.20.20.17 term} ims_isc [checker.c:551]: isc_checker_find(): DEBUG ISC : About to try WPSI
+[0;39;49m[0;39;49m 7(41) DEBUG: {1 1 INVITE ttpcbOUBX@10.20.20.17 term} ims_isc [checker.c:551]: isc_checker_find(): DEBUG ISC : About to try WPSI
+[0;39;49m[0;39;49m 7(41) DEBUG: {1 1 INVITE ttpcbOUBX@10.20.20.17 term} ims_isc [checker.c:370]: isc_check_filter_criteria(): ifc_checker_trigger: Starting expression check: 
+[0;39;49m[0;39;49m 7(41) DEBUG: {1 1 INVITE ttpcbOUBX@10.20.20.17 term} ims_isc [checker.c:277]: isc_check_spt(): ifc_check_spt:             SPT type 2 -> Method == MESSAGE ?
+[0;39;49m[0;39;49m 7(41) DEBUG: {1 1 INVITE ttpcbOUBX@10.20.20.17 term} ims_isc [checker.c:280]: isc_check_spt(): ifc_check_spt:               Found method INVITE 
+[0;39;49m[0;39;49m 7(41) DEBUG: {1 1 INVITE ttpcbOUBX@10.20.20.17 term} ims_isc [checker.c:377]: isc_check_filter_criteria(): ifc_checker_trigger: Total compromised, aborting...
+[0;39;49m[0;39;49m 7(41) DEBUG: {1 1 INVITE ttpcbOUBX@10.20.20.17 FINAL_TERM} ims_registrar_scscf [lookup.c:92]: lookup(): looking for any type of terminal
+[0;39;49m[0;39;49m 7(41) DEBUG: {1 1 INVITE ttpcbOUBX@10.20.20.17 FINAL_TERM} ims_registrar_scscf [lookup.c:127]: lookup(): Looking for <sip:111111@ims.mnc001.mcc001.3gppnetwork.org>
+[0;39;49m[0;39;49m 7(41) DEBUG: {1 1 INVITE ttpcbOUBX@10.20.20.17 FINAL_TERM} ims_registrar_scscf [lookup.c:145]: lookup(): Found a valid contact [sip:001010000123528@10.20.20.18:9400;alias=10.20.20.18~9401~1]
+[0;39;49m[0;39;49m 7(41) DEBUG: {1 1 INVITE ttpcbOUBX@10.20.20.17 FINAL_TERM} ims_dialog [dlg_handlers.c:839]: dlg_onreq(): dialog creation on config flag
+[0;39;49m[0;39;49m 7(41) DEBUG: {1 1 INVITE ttpcbOUBX@10.20.20.17 FINAL_TERM} ims_dialog [dlg_handlers.c:1670]: dlg_new_dialog(): starting dlg_new_dialog and method is [INVITE]
+[0;39;49m[0;39;49m 7(41) DEBUG: {1 1 INVITE ttpcbOUBX@10.20.20.17 FINAL_TERM} ims_dialog [dlg_hash.h:437]: match_dialog(): No dlg outs yet...
+[0;39;49m[0;39;49m 7(41) DEBUG: {1 1 INVITE ttpcbOUBX@10.20.20.17 FINAL_TERM} ims_dialog [dlg_hash.c:959]: internal_get_dlg(): ref dlg 0x763d8952cbe0 with 1 -> 2
+[0;39;49m[0;39;49m 7(41) DEBUG: {1 1 INVITE ttpcbOUBX@10.20.20.17 FINAL_TERM} ims_dialog [dlg_hash.c:961]: internal_get_dlg(): dialog callid='ttpcbOUBX@10.20.20.17' found on entry 1329, dir=1
+[0;39;49m[0;39;49m 7(41) DEBUG: {1 1 INVITE ttpcbOUBX@10.20.20.17 FINAL_TERM} ims_dialog [dlg_hash.c:1109]: unref_dlg(): unref dlg 0x763d8952cbe0 with 1 -> 1
+[0;39;49m[0;39;49m 7(41) DEBUG: {1 1 INVITE ttpcbOUBX@10.20.20.17 FINAL_TERM} ims_dialog [dlg_handlers.c:1735]: dlg_new_dialog(): Building new Dialog for call-id ttpcbOUBX@10.20.20.17
+[0;39;49m[0;39;49m 7(41) DEBUG: {1 1 INVITE ttpcbOUBX@10.20.20.17 FINAL_TERM} ims_dialog [dlg_handlers.c:1736]: dlg_new_dialog(): SIP Method: INVITE  
+[0;39;49m[0;39;49m 7(41) DEBUG: {1 1 INVITE ttpcbOUBX@10.20.20.17 FINAL_TERM} ims_dialog [dlg_hash.c:343]: build_new_dlg(): new dialog on hash 1329
+[0;39;49m[0;39;49m 7(41) DEBUG: {1 1 INVITE ttpcbOUBX@10.20.20.17 FINAL_TERM} ims_dialog [dlg_handlers.c:286]: populate_leg_info(): route_set <sip:mo@172.22.0.20:6060;r2=on;lr=on;ftag=qupcbiB;did=135.3bd2>,<sip:mo@172.22.0.20:6060;transport=tcp;r2=on;lr=on;ftag=qupcbiB;did=135.3bd2>,<sip:mo@172.22.0.21:6107;lr=on;ftag=qupcbiB;rm=8;did=135.6d6>, contact sip:222222@10.20.20.17:31800;alias=10.20.20.17~31100~1, cseq 1 and bind_addr udp:172.22.0.20:6060 [0x763d90dba7e0]
+[0;39;49m[0;39;49m 7(41) DEBUG: {1 1 INVITE ttpcbOUBX@10.20.20.17 FINAL_TERM} ims_dialog [dlg_hash.c:1057]: link_dlg(): linking dialog [1329:11700]
+[0;39;49m[0;39;49m 7(41) DEBUG: {1 1 INVITE ttpcbOUBX@10.20.20.17 FINAL_TERM} ims_dialog [dlg_hash.c:1066]: link_dlg(): ref dlg 0x763d89533fb0 with 1 -> 1
+[0;39;49m[0;39;49m 7(41) DEBUG: {1 1 INVITE ttpcbOUBX@10.20.20.17 FINAL_TERM} ims_dialog [dlg_cb.c:233]: run_create_callbacks(): Running DLG_CREATED callbacks
+[0;39;49m[0;39;49m 7(41) DEBUG: {1 1 INVITE ttpcbOUBX@10.20.20.17 FINAL_TERM} ims_dialog [dlg_cb.c:248]: run_create_callbacks(): dialog=0x763d89533fb0
+[0;39;49m[0;39;49m 7(41) DEBUG: {1 1 INVITE ttpcbOUBX@10.20.20.17 FINAL_TERM} ims_usrloc_scscf [contact_dlg_handlers.c:44]: contact_dlg_create_handler(): Successfully registered contact dialog handler
+[0;39;49m[0;39;49m 7(41) DEBUG: {1 1 INVITE ttpcbOUBX@10.20.20.17 FINAL_TERM} ims_dialog [dlg_handlers.c:563]: get_dlg_timeout(): invalid AVP value, using default timeout
+[0;39;49m[0;39;49m 7(41) DEBUG: {1 1 INVITE ttpcbOUBX@10.20.20.17 FINAL_TERM} ims_dialog [dlg_profile.c:423]: set_current_dialog(): setting current dialog [1329:11700]
+[0;39;49m[0;39;49m 7(41) DEBUG: {1 1 INVITE ttpcbOUBX@10.20.20.17 FINAL_TERM} ims_dialog [dlg_handlers.c:1797]: dlg_new_dialog(): New dialog created
+[0;39;49m[0;39;49m 7(41) DEBUG: {1 1 INVITE ttpcbOUBX@10.20.20.17 FINAL_TERM} ims_dialog [dlg_hash.c:921]: lookup_dlg(): ref dlg 0x763d89533fb0 with 1 -> 2
+[0;39;49m[0;39;49m 7(41) DEBUG: {1 1 INVITE ttpcbOUBX@10.20.20.17 FINAL_TERM} ims_dialog [dlg_hash.c:923]: lookup_dlg(): dialog id=11700 found on entry 1329
+[0;39;49m[0;39;49m 7(41) DEBUG: {1 1 INVITE ttpcbOUBX@10.20.20.17 FINAL_TERM} ims_dialog [dlg_handlers.c:849]: dlg_onreq(): dialog [0x763d89533fb0] added to tm callbacks
+[0;39;49m[0;39;49m 7(41) DEBUG: {1 1 INVITE ttpcbOUBX@10.20.20.17 FINAL_TERM} ims_dialog [dlg_hash.c:1109]: unref_dlg(): unref dlg 0x763d89533fb0 with 1 -> 1
+[0;39;49m[0;39;49m 7(41) DEBUG: {1 1 INVITE ttpcbOUBX@10.20.20.17 FINAL_TERM} ims_dialog [dlg_handlers.c:1252]: dlg_onreply(): ONREPLY CALL_BACK from TM received and type is [256] = [TMCB_REQUEST_OUT]
+[0;39;49m[0;39;49m 7(41) DEBUG: {1 1 INVITE ttpcbOUBX@10.20.20.17 FINAL_TERM} ims_dialog [dlg_hash.c:921]: lookup_dlg(): ref dlg 0x763d89533fb0 with 1 -> 2
+[0;39;49m[0;39;49m 7(41) DEBUG: {1 1 INVITE ttpcbOUBX@10.20.20.17 FINAL_TERM} ims_dialog [dlg_hash.c:923]: lookup_dlg(): dialog id=11700 found on entry 1329
+[0;39;49m[0;39;49m 7(41) DEBUG: {1 1 INVITE ttpcbOUBX@10.20.20.17 FINAL_TERM} ims_dialog [dlg_handlers.c:1269]: dlg_onreply(): DLG dialogid is entry:id [1329:11700]
+[0;39;49m[0;39;49m 7(41) DEBUG: {1 1 INVITE ttpcbOUBX@10.20.20.17 FINAL_TERM} ims_dialog [dlg_handlers.c:1277]: dlg_onreply(): Received Request out for request [INVITE sip:001010000123528@10.20.20.18:9400;alias=10.20.20.18~9401~1 SIP/2.0
+Record-Route: <sip:mt@172.22.0.20:6060;lr=on;ftag=qupcbiB;did=135.4bd2>
+Route: <sip:term@pcscf.ims.mnc001.mcc001.3gppnetwork.org;lr>
+Record-Route: <sip:mo@172.22.0.20:6060;r2=on;lr=on;ftag=qupcbiB;did=135.3bd2>
+Record-Route: <sip:mo@172.22.0.20:6060;transport=tcp;r2=on;lr=on;ftag=qupcbiB;did=135.3bd2>
+Record-Route: <sip:mo@172.22.0.21:6107;lr=on;ftag=qupcbiB;rm=8;did=135.6d6>
+From: <sip:222222@ims.mnc001.mcc001.3gppnetwork.org>;tag=qupcbiB
+To: "111111"<tel:111111;phone-context=ims.mnc001.mcc001.3gppnetwork.org>
+Contact: <sip:222222@10.20.20.17:31800;alias=10.20.20.17~31100~1>;+sip.instance="<urn:gsma:imei:86838903-875492-0>";+g.3gpp.icsi-ref="urn%3Aurn-7%3A3gpp-service.ims.icsi.mmtel";audio;video;+g.3gpp.mid-call;+g.3gpp.srvcc-alerting;+g.3gpp.ps2cs-srvcc-orig-pre-alerting
+Accept-Contact: *;+g.3gpp.icsi-ref="urn%3Aurn-7%3A3gpp-service.ims.icsi.mmtel"
+P-Access-Network-Info: 3GPP-E-UTRAN-FDD;utran-cell-id-3gpp=0010100010019B01
+P-Preferred-Service: urn:urn-7:3gpp-service.ims.icsi.mmtel
+P-Early-Media: supported
+Supported: 100rel,histinfo,join,norefersub,precondition,replaces,timer,sec-agree
+Allow: INVITE,ACK,OPTIONS,BYE,CANCEL,UPDATE,INFO,PRACK,NOTIFY,MESSAGE,REFER
+Accept: application/sdp,application/3gpp-ims+xml
+Session-Expires: 1800
+Min-SE: 90
+Call-ID: ttpcbOUBX@10.20.20.17
+CSeq: 1 INVITE
+Max-Forwards: 66
+Via: SIP/2.0/UDP 172.22.0.20:6060;branch=z9hG4bK8651.531e1ef800c6810c3d348d986b79af7e.0
+Via: SIP/2.0/UDP 172.22.0.19:4060;branch=z9hG4bK8651.e3fa82e51bc0984c3e669b2e92b34a24.1
+Via: SIP/2.0/UDP 172.22.0.20:6060;branch=z9hG4bK8651.7c3b8e20916e68999b2029328764109b.0;i=5
+Via: SIP/2.0/TCP 172.22.0.21:6107;branch=z9hG4bK8651.87478b48f6b118b05d6029639fc3077b.0
+Via: SIP/2.0/UDP 10.20.20.17:31800;received=10.20.20.17;branch=z9hG4bKrvpcbiBBUqULe28aaaT5;rport=31100
+User-Agent: IM-client/OMA1.0 HW-Rto/V1.0
+Content-Type: application/sdp
+Content-Length: 776
+P-Charging-Vector: icid-value=495653AC16001572000000AA01000000;icid-generated-at=172.22.0.21
+P-Visited-Network-ID: ims.mnc001.mcc001.3gppnetwork.org
+P-Asserted-Identity: <sip:222222@ims.mnc001.mcc001.3gppnetwork.org>
+
+v=0
+o=rue 3223 3223 IN IP4 172.22.0.16
+s=-
+b=AS:41
+b=RR:1537
+b=RS:512
+t=0 0
+m=audio 49580 RTP/AVP 107 106 105 104 101 102
+c=IN IP4 172.22.0.16
+b=AS:41
+b=RR:1537
+b=RS:512
+a=rtpmap:107 AMR-WB/16000
+a=fmtp:107 mode-change-capability=2;max-red=0
+a=rtpmap:106 AMR-WB/16000
+a=fmtp:106 octet-align=1;mode-change-capability=2;max-red=0
+a=rtpmap:105 AMR/8000
+a=fmtp:105 mode-change-capability=2;max-red=0
+a=rtpmap:104 AMR/8000
+a=fmtp:104 octet-align=1;mode-change-capability=2;max-red=0
+a=rtpmap:101 telephone-event/16000
+a=fmtp:101 0-15
+a=rtpmap:102 telephone-event/8000
+a=fmtp:102 0-15
+a=curr:qos local none
+a=curr:qos remote none
+a=des:qos mandatory local sendrecv
+a=des:qos optional remote sendrecv
+a=sendrecv
+a=rtcp:49581
+a=ptime:20
+a=maxptime:240
+]
+[0;39;49m[0;39;49m 7(41) DEBUG: {1 1 INVITE ttpcbOUBX@10.20.20.17 FINAL_TERM} ims_dialog [dlg_handlers.c:1285]: dlg_onreply(): Ignoring request out as it's not a CANCEL
+[0;39;49m[0;39;49m 7(41) DEBUG: {1 1 INVITE ttpcbOUBX@10.20.20.17 FINAL_TERM} ims_dialog [dlg_hash.c:1109]: unref_dlg(): unref dlg 0x763d89533fb0 with 1 -> 1
+[0;39;49m[0;39;49m 9(43) DEBUG: {2 1 INVITE ttpcbOUBX@10.20.20.17 <null>} ims_dialog [dlg_handlers.c:1252]: dlg_onreply(): ONREPLY CALL_BACK from TM received and type is [2] = [TMCB_RESPONSE_IN]
+[0;39;49m[0;39;49m 9(43) DEBUG: {2 1 INVITE ttpcbOUBX@10.20.20.17 <null>} ims_dialog [dlg_hash.c:921]: lookup_dlg(): ref dlg 0x763d89533fb0 with 1 -> 2
+[0;39;49m[0;39;49m 9(43) DEBUG: {2 1 INVITE ttpcbOUBX@10.20.20.17 <null>} ims_dialog [dlg_hash.c:923]: lookup_dlg(): dialog id=11700 found on entry 1329
+[0;39;49m[0;39;49m 9(43) DEBUG: {2 1 INVITE ttpcbOUBX@10.20.20.17 <null>} ims_dialog [dlg_handlers.c:1269]: dlg_onreply(): DLG dialogid is entry:id [1329:11700]
+[0;39;49m[0;39;49m 9(43) DEBUG: {2 1 INVITE ttpcbOUBX@10.20.20.17 <null>} ims_dialog [dlg_profile.c:423]: set_current_dialog(): setting current dialog [1329:11700]
+[0;39;49m[0;39;49m 9(43) DEBUG: {2 1 INVITE ttpcbOUBX@10.20.20.17 <null>} ims_dialog [dlg_hash.c:1109]: unref_dlg(): unref dlg 0x763d89533fb0 with 1 -> 1
+[0;39;49m[0;39;49m12(46) DEBUG: {2 1 INVITE ttpcbOUBX@10.20.20.17 <null>} ims_dialog [dlg_handlers.c:1252]: dlg_onreply(): ONREPLY CALL_BACK from TM received and type is [2] = [TMCB_RESPONSE_IN]
+[0;39;49m[0;39;49m12(46) DEBUG: {2 1 INVITE ttpcbOUBX@10.20.20.17 <null>} ims_dialog [dlg_hash.c:921]: lookup_dlg(): ref dlg 0x763d89533fb0 with 1 -> 2
+[0;39;49m[0;39;49m12(46) DEBUG: {2 1 INVITE ttpcbOUBX@10.20.20.17 <null>} ims_dialog [dlg_hash.c:923]: lookup_dlg(): dialog id=11700 found on entry 1329
+[0;39;49m[0;39;49m12(46) DEBUG: {2 1 INVITE ttpcbOUBX@10.20.20.17 <null>} ims_dialog [dlg_handlers.c:1269]: dlg_onreply(): DLG dialogid is entry:id [1329:11700]
+[0;39;49m[0;39;49m12(46) DEBUG: {2 1 INVITE ttpcbOUBX@10.20.20.17 <null>} ims_dialog [dlg_profile.c:423]: set_current_dialog(): setting current dialog [1329:11700]
+[0;39;49m[0;39;49m12(46) DEBUG: {2 1 INVITE ttpcbOUBX@10.20.20.17 <null>} ims_dialog [dlg_hash.c:1109]: unref_dlg(): unref dlg 0x763d89533fb0 with 1 -> 1
+[0;39;49m[0;39;49m12(46) DEBUG: {2 1 INVITE ttpcbOUBX@10.20.20.17 <null>} ims_dialog [dlg_handlers.c:1252]: dlg_onreply(): ONREPLY CALL_BACK from TM received and type is [32] = [TMCB_RESPONSE_FWDED]
+[0;39;49m[0;39;49m12(46) DEBUG: {2 1 INVITE ttpcbOUBX@10.20.20.17 <null>} ims_dialog [dlg_hash.c:921]: lookup_dlg(): ref dlg 0x763d89533fb0 with 1 -> 2
+[0;39;49m[0;39;49m12(46) DEBUG: {2 1 INVITE ttpcbOUBX@10.20.20.17 <null>} ims_dialog [dlg_hash.c:923]: lookup_dlg(): dialog id=11700 found on entry 1329
+[0;39;49m[0;39;49m12(46) DEBUG: {2 1 INVITE ttpcbOUBX@10.20.20.17 <null>} ims_dialog [dlg_handlers.c:1269]: dlg_onreply(): DLG dialogid is entry:id [1329:11700]
+[0;39;49m[0;39;49m12(46) DEBUG: {2 1 INVITE ttpcbOUBX@10.20.20.17 <null>} ims_dialog [dlg_handlers.c:1299]: dlg_onreply(): TMCB_RESPONSE_FWDED from TM received[0;39;49m[0;39;49m12(46) DEBUG: {2 1 INVITE ttpcbOUBX@10.20.20.17 <null>} ims_dialog [dlg_hash.c:1109]: unref_dlg(): unref dlg 0x763d89533fb0 with 1 -> 1
+[0;39;49m[0;39;49m12(46) DEBUG: {2 1 INVITE ttpcbOUBX@10.20.20.17 <null>} ims_dialog [dlg_handlers.c:1252]: dlg_onreply(): ONREPLY CALL_BACK from TM received and type is [1048576] = [TMCB_RESPONSE_READY]
+[0;39;49m[0;39;49m12(46) DEBUG: {2 1 INVITE ttpcbOUBX@10.20.20.17 <null>} ims_dialog [dlg_hash.c:921]: lookup_dlg(): ref dlg 0x763d89533fb0 with 1 -> 2
+[0;39;49m[0;39;49m12(46) DEBUG: {2 1 INVITE ttpcbOUBX@10.20.20.17 <null>} ims_dialog [dlg_hash.c:923]: lookup_dlg(): dialog id=11700 found on entry 1329
+[0;39;49m[0;39;49m12(46) DEBUG: {2 1 INVITE ttpcbOUBX@10.20.20.17 <null>} ims_dialog [dlg_handlers.c:1269]: dlg_onreply(): DLG dialogid is entry:id [1329:11700]
+[0;39;49m[0;39;49m12(46) DEBUG: {2 1 INVITE ttpcbOUBX@10.20.20.17 <null>} ims_dialog [dlg_handlers.c:1314]: dlg_onreply(): Extracting to-tag from reply[0;39;49m[0;39;49m12(46) DEBUG: {2 1 INVITE ttpcbOUBX@10.20.20.17 <null>} ims_dialog [dlg_handlers.c:1335]: dlg_onreply(): Got to-tag from response: 142ffb26 
+[0;39;49m[0;39;49m12(46) DEBUG: {2 1 INVITE ttpcbOUBX@10.20.20.17 <null>} ims_dialog [dlg_handlers.c:1355]: dlg_onreply(): Calling next_state_dlg and event is 2 = DLG_EVENT_RPL1xx
+[0;39;49m[0;39;49m12(46) DEBUG: {2 1 INVITE ttpcbOUBX@10.20.20.17 <null>} ims_dialog [dlg_hash.c:1356]: next_state_dlg(): dialog 0x763d89533fb0 changed from state 1 to state 2, due event 2
+[0;39;49m[0;39;49m12(46) DEBUG: {2 1 INVITE ttpcbOUBX@10.20.20.17 <null>} ims_dialog [dlg_handlers.c:1359]: dlg_onreply(): Checking if there is an existing dialog_out entry with same to-tag[0;39;49m[0;39;49m12(46) DEBUG: {2 1 INVITE ttpcbOUBX@10.20.20.17 <null>} ims_dialog [dlg_handlers.c:1382]: dlg_onreply(): Extracting to-tag from reply[0;39;49m[0;39;49m12(46) DEBUG: {2 1 INVITE ttpcbOUBX@10.20.20.17 <null>} ims_dialog [dlg_handlers.c:1418]: dlg_onreply(): Got to-tag from response: 142ffb26 
+[0;39;49m[0;39;49m12(46) DEBUG: {2 1 INVITE ttpcbOUBX@10.20.20.17 <null>} ims_dialog [dlg_handlers.c:1425]: dlg_onreply(): Scanning dlg_entry_out list for dlg_out[0;39;49m[0;39;49m12(46) DEBUG: {2 1 INVITE ttpcbOUBX@10.20.20.17 <null>} ims_dialog [dlg_handlers.c:1448]: dlg_onreply(): No dlg_out entry found - creating a new dialog_out entry on dialog [0x763d89533fb0]
+[0;39;49m[0;39;49m12(46) DEBUG: {2 1 INVITE ttpcbOUBX@10.20.20.17 <null>} ims_dialog [dlg_hash.c:528]: build_new_dlg_out(): new dialog_out on hash 11
+[0;39;49m[0;39;49m12(46) DEBUG: {2 1 INVITE ttpcbOUBX@10.20.20.17 <null>} ims_dialog [dlg_hash.c:1014]: link_dlg_out(): Start: link_dlg_out
+[0;39;49m[0;39;49m12(46) DEBUG: {2 1 INVITE ttpcbOUBX@10.20.20.17 <null>} ims_dialog [dlg_hash.c:1021]: link_dlg_out(): Adding first dlg_out structure
+[0;39;49m[0;39;49m12(46) DEBUG: {2 1 INVITE ttpcbOUBX@10.20.20.17 <null>} ims_dialog [dlg_hash.c:1035]: link_dlg_out(): Done: link_dlg_out
+[0;39;49m[0;39;49m12(46) DEBUG: {2 1 INVITE ttpcbOUBX@10.20.20.17 <null>} ims_dialog [dlg_handlers.c:286]: populate_leg_info(): route_set <sip:mt@172.22.0.21;r2=on;lr=on;ftag=qupcbiB;rm=7;did=135.7d6>,<sip:mt@172.22.0.21:5108;r2=on;lr=on;ftag=qupcbiB;rm=7;did=135.7d6>, contact sip:111111@10.20.20.18:9400;alias=10.20.20.18~9400~2, cseq 1 and bind_addr udp:172.22.0.20:6060 [0x763d90dba7e0]
+[0;39;49m[0;39;49m12(46) DEBUG: {2 1 INVITE ttpcbOUBX@10.20.20.17 <null>} ims_dialog [dlg_hash.c:439]: dlg_set_leg_info(): Searching out dialog with to_tag '142ffb26' (looking for 142ffb26
+[0;39;49m[0;39;49m12(46) DEBUG: {2 1 INVITE ttpcbOUBX@10.20.20.17 <null>} ims_dialog [dlg_hash.c:448]: dlg_set_leg_info(): Found dialog_out entry with correct to_tag - updating leg info
+[0;39;49m[0;39;49m12(46) DEBUG: {2 1 INVITE ttpcbOUBX@10.20.20.17 <null>} ims_dialog [dlg_hash.c:1109]: unref_dlg(): unref dlg 0x763d89533fb0 with 1 -> 1
+[0;39;49m[0;39;49m 8(42) DEBUG: {2 1 INVITE ttpcbOUBX@10.20.20.17 <null>} ims_dialog [dlg_handlers.c:1252]: dlg_onreply(): ONREPLY CALL_BACK from TM received and type is [2] = [TMCB_RESPONSE_IN]
+[0;39;49m[0;39;49m 8(42) DEBUG: {2 1 INVITE ttpcbOUBX@10.20.20.17 <null>} ims_dialog [dlg_hash.c:921]: lookup_dlg(): ref dlg 0x763d8952cbe0 with 1 -> 2
+[0;39;49m[0;39;49m 8(42) DEBUG: {2 1 INVITE ttpcbOUBX@10.20.20.17 <null>} ims_dialog [dlg_hash.c:923]: lookup_dlg(): dialog id=11699 found on entry 1329
+[0;39;49m[0;39;49m 8(42) DEBUG: {2 1 INVITE ttpcbOUBX@10.20.20.17 <null>} ims_dialog [dlg_handlers.c:1269]: dlg_onreply(): DLG dialogid is entry:id [1329:11699]
+[0;39;49m[0;39;49m 8(42) DEBUG: {2 1 INVITE ttpcbOUBX@10.20.20.17 <null>} ims_dialog [dlg_profile.c:423]: set_current_dialog(): setting current dialog [1329:11699]
+[0;39;49m[0;39;49m 8(42) DEBUG: {2 1 INVITE ttpcbOUBX@10.20.20.17 <null>} ims_dialog [dlg_hash.c:1109]: unref_dlg(): unref dlg 0x763d8952cbe0 with 1 -> 1
+[0;39;49m[0;39;49m 8(42) DEBUG: {2 1 INVITE ttpcbOUBX@10.20.20.17 orig_reply} <script>: Orig reply
+[0;39;49m[0;39;49m 8(42) DEBUG: {2 1 INVITE ttpcbOUBX@10.20.20.17 <null>} ims_dialog [dlg_handlers.c:1252]: dlg_onreply(): ONREPLY CALL_BACK from TM received and type is [32] = [TMCB_RESPONSE_FWDED]
+[0;39;49m[0;39;49m 8(42) DEBUG: {2 1 INVITE ttpcbOUBX@10.20.20.17 <null>} ims_dialog [dlg_hash.c:921]: lookup_dlg(): ref dlg 0x763d8952cbe0 with 1 -> 2
+[0;39;49m[0;39;49m 8(42) DEBUG: {2 1 INVITE ttpcbOUBX@10.20.20.17 <null>} ims_dialog [dlg_hash.c:923]: lookup_dlg(): dialog id=11699 found on entry 1329
+[0;39;49m[0;39;49m 8(42) DEBUG: {2 1 INVITE ttpcbOUBX@10.20.20.17 <null>} ims_dialog [dlg_handlers.c:1269]: dlg_onreply(): DLG dialogid is entry:id [1329:11699]
+[0;39;49m[0;39;49m 8(42) DEBUG: {2 1 INVITE ttpcbOUBX@10.20.20.17 <null>} ims_dialog [dlg_handlers.c:1299]: dlg_onreply(): TMCB_RESPONSE_FWDED from TM received[0;39;49m[0;39;49m 8(42) DEBUG: {2 1 INVITE ttpcbOUBX@10.20.20.17 <null>} ims_dialog [dlg_hash.c:1109]: unref_dlg(): unref dlg 0x763d8952cbe0 with 1 -> 1
+[0;39;49m[0;39;49m 8(42) DEBUG: {2 1 INVITE ttpcbOUBX@10.20.20.17 <null>} ims_dialog [dlg_handlers.c:1252]: dlg_onreply(): ONREPLY CALL_BACK from TM received and type is [1048576] = [TMCB_RESPONSE_READY]
+[0;39;49m[0;39;49m 8(42) DEBUG: {2 1 INVITE ttpcbOUBX@10.20.20.17 <null>} ims_dialog [dlg_hash.c:921]: lookup_dlg(): ref dlg 0x763d8952cbe0 with 1 -> 2
+[0;39;49m[0;39;49m 8(42) DEBUG: {2 1 INVITE ttpcbOUBX@10.20.20.17 <null>} ims_dialog [dlg_hash.c:923]: lookup_dlg(): dialog id=11699 found on entry 1329
+[0;39;49m[0;39;49m 8(42) DEBUG: {2 1 INVITE ttpcbOUBX@10.20.20.17 <null>} ims_dialog [dlg_handlers.c:1269]: dlg_onreply(): DLG dialogid is entry:id [1329:11699]
+[0;39;49m[0;39;49m 8(42) DEBUG: {2 1 INVITE ttpcbOUBX@10.20.20.17 <null>} ims_dialog [dlg_handlers.c:1314]: dlg_onreply(): Extracting to-tag from reply[0;39;49m[0;39;49m 8(42) DEBUG: {2 1 INVITE ttpcbOUBX@10.20.20.17 <null>} ims_dialog [dlg_handlers.c:1335]: dlg_onreply(): Got to-tag from response: 142ffb26 
+[0;39;49m[0;39;49m 8(42) DEBUG: {2 1 INVITE ttpcbOUBX@10.20.20.17 <null>} ims_dialog [dlg_handlers.c:1355]: dlg_onreply(): Calling next_state_dlg and event is 2 = DLG_EVENT_RPL1xx
+[0;39;49m[0;39;49m 8(42) DEBUG: {2 1 INVITE ttpcbOUBX@10.20.20.17 <null>} ims_dialog [dlg_hash.c:1356]: next_state_dlg(): dialog 0x763d8952cbe0 changed from state 1 to state 2, due event 2
+[0;39;49m[0;39;49m 8(42) DEBUG: {2 1 INVITE ttpcbOUBX@10.20.20.17 <null>} ims_dialog [dlg_handlers.c:1359]: dlg_onreply(): Checking if there is an existing dialog_out entry with same to-tag[0;39;49m[0;39;49m 8(42) DEBUG: {2 1 INVITE ttpcbOUBX@10.20.20.17 <null>} ims_dialog [dlg_handlers.c:1382]: dlg_onreply(): Extracting to-tag from reply[0;39;49m[0;39;49m 8(42) DEBUG: {2 1 INVITE ttpcbOUBX@10.20.20.17 <null>} ims_dialog [dlg_handlers.c:1418]: dlg_onreply(): Got to-tag from response: 142ffb26 
+[0;39;49m[0;39;49m 8(42) DEBUG: {2 1 INVITE ttpcbOUBX@10.20.20.17 <null>} ims_dialog [dlg_handlers.c:1425]: dlg_onreply(): Scanning dlg_entry_out list for dlg_out[0;39;49m[0;39;49m 8(42) DEBUG: {2 1 INVITE ttpcbOUBX@10.20.20.17 <null>} ims_dialog [dlg_handlers.c:1448]: dlg_onreply(): No dlg_out entry found - creating a new dialog_out entry on dialog [0x763d8952cbe0]
+[0;39;49m[0;39;49m 8(42) DEBUG: {2 1 INVITE ttpcbOUBX@10.20.20.17 <null>} ims_dialog [dlg_hash.c:528]: build_new_dlg_out(): new dialog_out on hash 11
+[0;39;49m[0;39;49m 8(42) DEBUG: {2 1 INVITE ttpcbOUBX@10.20.20.17 <null>} ims_dialog [dlg_hash.c:1014]: link_dlg_out(): Start: link_dlg_out
+[0;39;49m[0;39;49m 8(42) DEBUG: {2 1 INVITE ttpcbOUBX@10.20.20.17 <null>} ims_dialog [dlg_hash.c:1021]: link_dlg_out(): Adding first dlg_out structure
+[0;39;49m[0;39;49m 8(42) DEBUG: {2 1 INVITE ttpcbOUBX@10.20.20.17 <null>} ims_dialog [dlg_hash.c:1035]: link_dlg_out(): Done: link_dlg_out
+[0;39;49m[0;39;49m 8(42) DEBUG: {2 1 INVITE ttpcbOUBX@10.20.20.17 <null>} ims_dialog [dlg_handlers.c:286]: populate_leg_info(): route_set <sip:mt@172.22.0.20:6060;lr=on;ftag=qupcbiB;did=135.4bd2>,<sip:mt@172.22.0.21;r2=on;lr=on;ftag=qupcbiB;rm=7;did=135.7d6>,<sip:mt@172.22.0.21:5108;r2=on;lr=on;ftag=qupcbiB;rm=7;did=135.7d6>, contact sip:111111@10.20.20.18:9400;alias=10.20.20.18~9400~2, cseq 1 and bind_addr udp:172.22.0.20:6060 [0x763d90dba7e0]
+[0;39;49m[0;39;49m 8(42) DEBUG: {2 1 INVITE ttpcbOUBX@10.20.20.17 <null>} ims_dialog [dlg_hash.c:439]: dlg_set_leg_info(): Searching out dialog with to_tag '142ffb26' (looking for 142ffb26
+[0;39;49m[0;39;49m 8(42) DEBUG: {2 1 INVITE ttpcbOUBX@10.20.20.17 <null>} ims_dialog [dlg_hash.c:448]: dlg_set_leg_info(): Found dialog_out entry with correct to_tag - updating leg info
+[0;39;49m[0;39;49m 8(42) DEBUG: {2 1 INVITE ttpcbOUBX@10.20.20.17 <null>} ims_dialog [dlg_hash.c:1109]: unref_dlg(): unref dlg 0x763d8952cbe0 with 1 -> 1
+[0;39;49m[0;32;49m77(111) NOTICE: {1 1 CANCEL ttpcbOUBX@10.20.20.17 DEFAULT_ROUTE} <script>: SCSCF: CANCEL tel:111111;phone-context=ims.mnc001.mcc001.3gppnetwork.org (sip:222222@ims.mnc001.mcc001.3gppnetwork.org (172.22.0.21:6107) to tel:111111;phone-context=ims.mnc001.mcc001.3gppnetwork.org, ttpcbOUBX@10.20.20.17)
+[0;39;49m[0;39;49m77(111) DEBUG: {1 1 CANCEL ttpcbOUBX@10.20.20.17 REQINIT} <script>: Mem: Total 67108864, Free 63006976 [1% used]
+[0;39;49m[0;39;49m77(111) DEBUG: {1 1 CANCEL ttpcbOUBX@10.20.20.17 DEFAULT_ROUTE} ims_dialog [dlg_handlers.c:893]: dlg_onroute(): No to tag header found --- ignoring... MESSAGE [CANCEL
+[0;39;49m[0;39;49m77(111) DEBUG: {1 1 CANCEL ttpcbOUBX@10.20.20.17 DEFAULT_ROUTE} ims_dialog [dlg_handlers.c:1252]: dlg_onreply(): ONREPLY CALL_BACK from TM received and type is [262144] = [TMCB_E2ECANCEL_IN]
+[0;39;49m[0;39;49m77(111) DEBUG: {1 1 CANCEL ttpcbOUBX@10.20.20.17 DEFAULT_ROUTE} ims_dialog [dlg_hash.c:921]: lookup_dlg(): ref dlg 0x763d8952cbe0 with 1 -> 2
+[0;39;49m[0;39;49m77(111) DEBUG: {1 1 CANCEL ttpcbOUBX@10.20.20.17 DEFAULT_ROUTE} ims_dialog [dlg_hash.c:923]: lookup_dlg(): dialog id=11699 found on entry 1329
+[0;39;49m[0;39;49m77(111) DEBUG: {1 1 CANCEL ttpcbOUBX@10.20.20.17 DEFAULT_ROUTE} ims_dialog [dlg_handlers.c:1269]: dlg_onreply(): DLG dialogid is entry:id [1329:11699]
+[0;39;49m[0;39;49m77(111) DEBUG: {1 1 CANCEL ttpcbOUBX@10.20.20.17 DEFAULT_ROUTE} ims_dialog [dlg_handlers.c:1272]: dlg_onreply(): Received CANCEL...
+[0;39;49m[0;39;49m77(111) DEBUG: {1 1 CANCEL ttpcbOUBX@10.20.20.17 DEFAULT_ROUTE} ims_dialog [dlg_hash.c:1109]: unref_dlg(): unref dlg 0x763d8952cbe0 with 1 -> 1
+[0;39;49m[0;39;49m77(111) DEBUG: {1 1 CANCEL ttpcbOUBX@10.20.20.17 DEFAULT_ROUTE} ims_dialog [dlg_handlers.c:1252]: dlg_onreply(): ONREPLY CALL_BACK from TM received and type is [256] = [TMCB_REQUEST_OUT]
+[0;39;49m[0;39;49m77(111) DEBUG: {1 1 CANCEL ttpcbOUBX@10.20.20.17 DEFAULT_ROUTE} ims_dialog [dlg_hash.c:921]: lookup_dlg(): ref dlg 0x763d8952cbe0 with 1 -> 2
+[0;39;49m[0;39;49m77(111) DEBUG: {1 1 CANCEL ttpcbOUBX@10.20.20.17 DEFAULT_ROUTE} ims_dialog [dlg_hash.c:923]: lookup_dlg(): dialog id=11699 found on entry 1329
+[0;39;49m[0;39;49m77(111) DEBUG: {1 1 CANCEL ttpcbOUBX@10.20.20.17 DEFAULT_ROUTE} ims_dialog [dlg_handlers.c:1269]: dlg_onreply(): DLG dialogid is entry:id [1329:11699]
+[0;39;49m[0;39;49m77(111) DEBUG: {1 1 CANCEL ttpcbOUBX@10.20.20.17 DEFAULT_ROUTE} ims_dialog [dlg_handlers.c:1277]: dlg_onreply(): Received Request out for request [CANCEL sip:111111@ims.mnc001.mcc001.3gppnetwork.org;user=phone SIP/2.0
+From: <sip:222222@ims.mnc001.mcc001.3gppnetwork.org>;tag=qupcbiB
+To: "111111"<tel:111111;phone-context=ims.mnc001.mcc001.3gppnetwork.org>
+Call-ID: ttpcbOUBX@10.20.20.17
+CSeq: 1 CANCEL
+Max-Forwards: 68
+Via: SIP/2.0/UDP 172.22.0.20:6060;branch=z9hG4bK8651.7c3b8e20916e68999b2029328764109b.0;i=5
+Content-Length: 0
+Reason: SIP;cause=487;text="request terminated"
+
+]
+[0;39;49m[0;39;49m77(111) DEBUG: {1 1 CANCEL ttpcbOUBX@10.20.20.17 DEFAULT_ROUTE} ims_dialog [dlg_handlers.c:1281]: dlg_onreply(): Request out sending CANCEL...
+[0;39;49m[0;39;49m77(111) DEBUG: {1 1 CANCEL ttpcbOUBX@10.20.20.17 DEFAULT_ROUTE} ims_dialog [dlg_hash.c:1109]: unref_dlg(): unref dlg 0x763d8952cbe0 with 1 -> 1
+[0;39;49m[0;39;49m[0;32;49m10(44) NOTICE: {1 1 CANCEL ttpcbOUBX@10.20.20.17 DEFAULT_ROUTE} <script>: SCSCF: CANCEL sip:111111@ims.mnc001.mcc001.3gppnetwork.org;user=phone (sip:222222@ims.mnc001.mcc001.3gppnetwork.org (172.22.0.19:4060) to tel:111111;phone-context=ims.mnc001.mcc001.3gppnetwork.org, ttpcbOUBX@10.20.20.17)
+13(47) DEBUG: {2 1 CANCEL ttpcbOUBX@10.20.20.17 <null>} ims_dialog [dlg_handlers.c:1252]: dlg_onreply(): ONREPLY CALL_BACK from TM received and type is [2] = [TMCB_RESPONSE_IN]
+[0;39;49m[0;39;49m[0;39;49m13(47) DEBUG: {2 1 CANCEL ttpcbOUBX@10.20.20.17 <null>} ims_dialog [dlg_hash.c:921]: lookup_dlg(): ref dlg 0x763d8952cbe0 with 1 -> 2
+[0;39;49m[0;39;49m13(47) DEBUG: {2 1 CANCEL ttpcbOUBX@10.20.20.17 <null>} ims_dialog [dlg_hash.c:923]: lookup_dlg(): dialog id=11699 found on entry 1329
+[0;39;49m[0;39;49m13(47) DEBUG: {2 1 CANCEL ttpcbOUBX@10.20.20.17 <null>} ims_dialog [dlg_handlers.c:1269]: dlg_onreply(): DLG dialogid is entry:id [1329:11699]
+[0;39;49m[0;39;49m13(47) DEBUG: {2 1 CANCEL ttpcbOUBX@10.20.20.17 <null>} ims_dialog [dlg_profile.c:423]: set_current_dialog(): setting current dialog [1329:11699]
+[0;39;49m[0;39;49m13(47) DEBUG: {2 1 CANCEL ttpcbOUBX@10.20.20.17 <null>} ims_dialog [dlg_hash.c:1109]: unref_dlg(): unref dlg 0x763d8952cbe0 with 1 -> 1
+[0;39;49m[0;39;49m10(44) DEBUG: {1 1 CANCEL ttpcbOUBX@10.20.20.17 REQINIT} <script>: Mem: Total 67108864, Free 62990048 [1% used]
+[0;39;49m[0;39;49m10(44) DEBUG: {1 1 CANCEL ttpcbOUBX@10.20.20.17 DEFAULT_ROUTE} ims_dialog [dlg_handlers.c:1252]: dlg_onreply(): ONREPLY CALL_BACK from TM received and type is [262144] = [TMCB_E2ECANCEL_IN]
+[0;39;49m[0;39;49m10(44) DEBUG: {1 1 CANCEL ttpcbOUBX@10.20.20.17 DEFAULT_ROUTE} ims_dialog [dlg_hash.c:921]: lookup_dlg(): ref dlg 0x763d89533fb0 with 1 -> 2
+[0;39;49m[0;39;49m10(44) DEBUG: {1 1 CANCEL ttpcbOUBX@10.20.20.17 DEFAULT_ROUTE} ims_dialog [dlg_hash.c:923]: lookup_dlg(): dialog id=11700 found on entry 1329
+[0;39;49m[0;39;49m10(44) DEBUG: {1 1 CANCEL ttpcbOUBX@10.20.20.17 DEFAULT_ROUTE} ims_dialog [dlg_handlers.c:1269]: dlg_onreply(): DLG dialogid is entry:id [1329:11700]
+[0;39;49m[0;39;49m10(44) DEBUG: {1 1 CANCEL ttpcbOUBX@10.20.20.17 DEFAULT_ROUTE} ims_dialog [dlg_handlers.c:1272]: dlg_onreply(): Received CANCEL...
+[0;39;49m[0;39;49m10(44) DEBUG: {1 1 CANCEL ttpcbOUBX@10.20.20.17 DEFAULT_ROUTE} ims_dialog [dlg_hash.c:1109]: unref_dlg(): unref dlg 0x763d89533fb0 with 1 -> 1
+[0;39;49m[0;39;49m10(44) DEBUG: {1 1 CANCEL ttpcbOUBX@10.20.20.17 DEFAULT_ROUTE} ims_dialog [dlg_handlers.c:1252]: dlg_onreply(): ONREPLY CALL_BACK from TM received and type is [256] = [TMCB_REQUEST_OUT]
+[0;39;49m[0;39;49m10(44) DEBUG: {1 1 CANCEL ttpcbOUBX@10.20.20.17 DEFAULT_ROUTE} ims_dialog [dlg_hash.c:921]: lookup_dlg(): ref dlg 0x763d89533fb0 with 1 -> 2
+[0;39;49m[0;39;49m10(44) DEBUG: {1 1 CANCEL ttpcbOUBX@10.20.20.17 DEFAULT_ROUTE} ims_dialog [dlg_hash.c:923]: lookup_dlg(): dialog id=11700 found on entry 1329
+[0;39;49m[0;39;49m10(44) DEBUG: {1 1 CANCEL ttpcbOUBX@10.20.20.17 DEFAULT_ROUTE} ims_dialog [dlg_handlers.c:1269]: dlg_onreply(): DLG dialogid is entry:id [1329:11700]
+[0;39;49m[0;39;49m10(44) DEBUG: {1 1 CANCEL ttpcbOUBX@10.20.20.17 DEFAULT_ROUTE} ims_dialog [dlg_handlers.c:1277]: dlg_onreply(): Received Request out for request [CANCEL sip:001010000123528@10.20.20.18:9400;alias=10.20.20.18~9401~1 SIP/2.0
+Route: <sip:term@pcscf.ims.mnc001.mcc001.3gppnetwork.org;lr>
+From: <sip:222222@ims.mnc001.mcc001.3gppnetwork.org>;tag=qupcbiB
+To: "111111"<tel:111111;phone-context=ims.mnc001.mcc001.3gppnetwork.org>
+Call-ID: ttpcbOUBX@10.20.20.17
+CSeq: 1 CANCEL
+Max-Forwards: 66
+Via: SIP/2.0/UDP 172.22.0.20:6060;branch=z9hG4bK8651.531e1ef800c6810c3d348d986b79af7e.0
+Content-Length: 0
+Reason: SIP;cause=487;text="request terminated"
+
+]
+[0;39;49m[0;39;49m10(44) DEBUG: {1 1 CANCEL ttpcbOUBX@10.20.20.17 DEFAULT_ROUTE} ims_dialog [dlg_handlers.c:1281]: dlg_onreply(): Request out sending CANCEL...
+[0;39;49m[0;39;49m10(44) DEBUG: {1 1 CANCEL ttpcbOUBX@10.20.20.17 DEFAULT_ROUTE} ims_dialog [dlg_hash.c:1109]: unref_dlg(): unref dlg 0x763d89533fb0 with 1 -> 1
+[0;39;49m[0;39;49m16(50) DEBUG: {2 1 CANCEL ttpcbOUBX@10.20.20.17 <null>} ims_dialog [dlg_handlers.c:1252]: dlg_onreply(): ONREPLY CALL_BACK from TM received and type is [2] = [TMCB_RESPONSE_IN]
+[0;39;49m[0;39;49m16(50) DEBUG: {2 1 CANCEL ttpcbOUBX@10.20.20.17 <null>} ims_dialog [dlg_hash.c:921]: lookup_dlg(): ref dlg 0x763d89533fb0 with 1 -> 2
+[0;39;49m[0;39;49m16(50) DEBUG: {2 1 CANCEL ttpcbOUBX@10.20.20.17 <null>} ims_dialog [dlg_hash.c:923]: lookup_dlg(): dialog id=11700 found on entry 1329
+[0;39;49m[0;39;49m16(50) DEBUG: {2 1 CANCEL ttpcbOUBX@10.20.20.17 <null>} ims_dialog [dlg_handlers.c:1269]: dlg_onreply(): DLG dialogid is entry:id [1329:11700]
+[0;39;49m[0;39;49m16(50) DEBUG: {2 1 CANCEL ttpcbOUBX@10.20.20.17 <null>} ims_dialog [dlg_profile.c:423]: set_current_dialog(): setting current dialog [1329:11700]
+[0;39;49m[0;39;49m16(50) DEBUG: {2 1 CANCEL ttpcbOUBX@10.20.20.17 <null>} ims_dialog [dlg_hash.c:1109]: unref_dlg(): unref dlg 0x763d89533fb0 with 1 -> 1
+[0;39;49m[0;39;49m14(48) DEBUG: {2 1 INVITE ttpcbOUBX@10.20.20.17 <null>} ims_dialog [dlg_handlers.c:1252]: dlg_onreply(): ONREPLY CALL_BACK from TM received and type is [2] = [TMCB_RESPONSE_IN]
+[0;39;49m[0;39;49m14(48) DEBUG: {2 1 INVITE ttpcbOUBX@10.20.20.17 <null>} ims_dialog [dlg_hash.c:921]: lookup_dlg(): ref dlg 0x763d89533fb0 with 1 -> 2
+[0;39;49m[0;39;49m14(48) DEBUG: {2 1 INVITE ttpcbOUBX@10.20.20.17 <null>} ims_dialog [dlg_hash.c:923]: lookup_dlg(): dialog id=11700 found on entry 1329
+[0;39;49m[0;39;49m14(48) DEBUG: {2 1 INVITE ttpcbOUBX@10.20.20.17 <null>} ims_dialog [dlg_handlers.c:1269]: dlg_onreply(): DLG dialogid is entry:id [1329:11700]
+[0;39;49m[0;39;49m14(48) DEBUG: {2 1 INVITE ttpcbOUBX@10.20.20.17 <null>} ims_dialog [dlg_profile.c:423]: set_current_dialog(): setting current dialog [1329:11700]
+[0;39;49m[0;39;49m14(48) DEBUG: {2 1 INVITE ttpcbOUBX@10.20.20.17 <null>} ims_dialog [dlg_hash.c:1109]: unref_dlg(): unref dlg 0x763d89533fb0 with 1 -> 1
+[0;39;49m[0;39;49m14(48) DEBUG: {2 1 INVITE ttpcbOUBX@10.20.20.17 <null>} ims_dialog [dlg_handlers.c:1252]: dlg_onreply(): ONREPLY CALL_BACK from TM received and type is [128] = [TMCB_ON_FAILURE]
+[0;39;49m[0;39;49m14(48) DEBUG: {2 1 INVITE ttpcbOUBX@10.20.20.17 <null>} ims_dialog [dlg_hash.c:921]: lookup_dlg(): ref dlg 0x763d89533fb0 with 1 -> 2
+[0;39;49m[0;39;49m14(48) DEBUG: {2 1 INVITE ttpcbOUBX@10.20.20.17 <null>} ims_dialog [dlg_hash.c:923]: lookup_dlg(): dialog id=11700 found on entry 1329
+[0;39;49m[0;39;49m14(48) DEBUG: {2 1 INVITE ttpcbOUBX@10.20.20.17 <null>} ims_dialog [dlg_handlers.c:1269]: dlg_onreply(): DLG dialogid is entry:id [1329:11700]
+[0;39;49m[0;39;49m14(48) DEBUG: {2 1 INVITE ttpcbOUBX@10.20.20.17 <null>} ims_dialog [dlg_profile.c:423]: set_current_dialog(): setting current dialog [1329:11700]
+[0;39;49m[0;39;49m14(48) DEBUG: {2 1 INVITE ttpcbOUBX@10.20.20.17 <null>} ims_dialog [dlg_hash.c:1109]: unref_dlg(): unref dlg 0x763d89533fb0 with 1 -> 1
+[0;39;49m[0;39;49m14(48) DEBUG: {2 1 INVITE ttpcbOUBX@10.20.20.17 <null>} ims_dialog [dlg_handlers.c:1252]: dlg_onreply(): ONREPLY CALL_BACK from TM received and type is [1048576] = [TMCB_RESPONSE_READY]
+[0;39;49m[0;39;49m14(48) DEBUG: {2 1 INVITE ttpcbOUBX@10.20.20.17 <null>} ims_dialog [dlg_hash.c:921]: lookup_dlg(): ref dlg 0x763d89533fb0 with 1 -> 2
+[0;39;49m[0;39;49m14(48) DEBUG: {2 1 INVITE ttpcbOUBX@10.20.20.17 <null>} ims_dialog [dlg_hash.c:923]: lookup_dlg(): dialog id=11700 found on entry 1329
+[0;39;49m[0;39;49m14(48) DEBUG: {2 1 INVITE ttpcbOUBX@10.20.20.17 <null>} ims_dialog [dlg_handlers.c:1269]: dlg_onreply(): DLG dialogid is entry:id [1329:11700]
+[0;39;49m[0;39;49m14(48) DEBUG: {2 1 INVITE ttpcbOUBX@10.20.20.17 <null>} ims_dialog [dlg_handlers.c:1314]: dlg_onreply(): Extracting to-tag from reply[0;39;49m[0;39;49m14(48) DEBUG: {2 1 INVITE ttpcbOUBX@10.20.20.17 <null>} ims_dialog [dlg_handlers.c:1335]: dlg_onreply(): Got to-tag from response: 142ffb26 
+[0;39;49m[0;39;49m14(48) DEBUG: {2 1 INVITE ttpcbOUBX@10.20.20.17 <null>} ims_dialog [dlg_handlers.c:1355]: dlg_onreply(): Calling next_state_dlg and event is 4 = DLG_EVENT_RPL3xx
+[0;39;49m[0;39;49m14(48) DEBUG: {2 1 INVITE ttpcbOUBX@10.20.20.17 <null>} ims_dialog [dlg_hash.c:1356]: next_state_dlg(): dialog 0x763d89533fb0 changed from state 2 to state 6, due event 4
+[0;39;49m[0;39;49m14(48) DEBUG: {2 1 INVITE ttpcbOUBX@10.20.20.17 <null>} ims_dialog [dlg_handlers.c:1359]: dlg_onreply(): Checking if there is an existing dialog_out entry with same to-tag[0;39;49m[0;39;49m14(48) DEBUG: {2 1 INVITE ttpcbOUBX@10.20.20.17 <null>} ims_dialog [dlg_handlers.c:1382]: dlg_onreply(): Extracting to-tag from reply[0;39;49m[0;39;49m14(48) DEBUG: {2 1 INVITE ttpcbOUBX@10.20.20.17 <null>} ims_dialog [dlg_handlers.c:1418]: dlg_onreply(): Got to-tag from response: 142ffb26 
+[0;39;49m[0;39;49m14(48) DEBUG: {2 1 INVITE ttpcbOUBX@10.20.20.17 <null>} ims_dialog [dlg_handlers.c:1425]: dlg_onreply(): Scanning dlg_entry_out list for dlg_out[0;39;49m[0;39;49m14(48) DEBUG: {2 1 INVITE ttpcbOUBX@10.20.20.17 <null>} ims_dialog [dlg_handlers.c:1432]: dlg_onreply(): Found dlg_out for to-tag: 142ffb26
+[0;39;49m[0;39;49m14(48) DEBUG: {2 1 INVITE ttpcbOUBX@10.20.20.17 <null>} ims_dialog [dlg_handlers.c:1470]: dlg_onreply(): dlg_out entry found - updating cseq's for dialog out [0x763d89556770] for to-tag [142ffb26] 
+[0;39;49m[0;39;49m14(48) DEBUG: {2 1 INVITE ttpcbOUBX@10.20.20.17 <null>} ims_dialog [dlg_hash.c:742]: dlg_update_cseq(): trying to update cseq with seq [1]
+[0;39;49m[0;39;49m14(48) DEBUG: {2 1 INVITE ttpcbOUBX@10.20.20.17 <null>} ims_dialog [dlg_hash.c:823]: dlg_update_contact(): trying to update contact with contact [sip:111111@10.20.20.18:9400]
+[0;39;49m[0;39;49m14(48) DEBUG: {2 1 INVITE ttpcbOUBX@10.20.20.17 <null>} ims_dialog [dlg_handlers.c:1513]: dlg_onreply(): new state is 6 and old state is 2
+[0;39;49m[0;39;49m14(48) DEBUG: {2 1 INVITE ttpcbOUBX@10.20.20.17 <null>} ims_dialog [dlg_handlers.c:1596]: dlg_onreply(): dialog 0x763d89533fb0 failed (negative reply)
+[0;39;49m[0;39;49m14(48) DEBUG: {2 1 INVITE ttpcbOUBX@10.20.20.17 <null>} ims_dialog [dlg_cb.c:271]: run_dlg_callbacks(): dialog=0x763d89533fb0, type=4
+[0;39;49m[0;39;49m14(48) DEBUG: {2 1 INVITE ttpcbOUBX@10.20.20.17 <null>} ims_usrloc_scscf [contact_dlg_handlers.c:98]: find_contact_from_impu(): Looking for contact [sip:222222@10.20.20.17:31800;alias=10.20.20.17~31100~1] for IMPU [sip:222222@ims.mnc001.mcc001.3gppnetwork.org]
+[0;39;49m[0;39;49m14(48) DEBUG: {2 1 INVITE ttpcbOUBX@10.20.20.17 <null>} ims_usrloc_scscf [contact_dlg_handlers.c:141]: find_contact_from_impu(): Comparing [10.20.20.17:31800;alias=10.20.20.17~31100~1] and [10.20.20.17:31800;alias=10.20.20.17~31100~1]
+[0;39;49m[0;39;49m14(48) DEBUG: {2 1 INVITE ttpcbOUBX@10.20.20.17 <null>} ims_usrloc_scscf [contact_dlg_handlers.c:98]: find_contact_from_impu(): Looking for contact [sip:111111@10.20.20.18:9400;alias=10.20.20.18~9400~2] for IMPU [tel:111111]
+[0;39;49m[0;39;49m14(48) DEBUG: {2 1 INVITE ttpcbOUBX@10.20.20.17 <null>} ims_usrloc_scscf [contact_dlg_handlers.c:141]: find_contact_from_impu(): Comparing [10.20.20.18:9400;alias=10.20.20.18~9400~2] and [10.20.20.18:9400;alias=10.20.20.18~9401~1]
+[0;39;49m[0;39;49m14(48) DEBUG: {2 1 INVITE ttpcbOUBX@10.20.20.17 <null>} ims_usrloc_scscf [contact_dlg_handlers.c:148]: find_contact_from_impu(): Comparing [10.20.20.18:9400;alias=10.20.20.18~] and [10.20.20.18:9400;alias=10.20.20.18~9401~1]
+[0;39;49m[0;39;49m14(48) DEBUG: {2 1 INVITE ttpcbOUBX@10.20.20.17 <null>} ims_usrloc_scscf [contact_dlg_handlers.c:266]: contact_dlg_handler(): Terminated contact of type [4] , caller_id [ttpcbOUBX@10.20.20.17] from handler [0;39;49m[0;39;49m14(48) DEBUG: {2 1 INVITE ttpcbOUBX@10.20.20.17 <null>} ims_usrloc_scscf [ucontact.c:545]: remove_dialog_data_from_contact(): Removing dialog data from contact <sip:001010000123542@10.20.20.17:31800;alias=10.20.20.17~31100~1> with h_entry <1329> and h_id <11700>[0;39;49m[0;39;49m14(48) DEBUG: {2 1 INVITE ttpcbOUBX@10.20.20.17 <null>} ims_usrloc_scscf [ucontact.c:570]: remove_dialog_data_from_contact(): Did not find dialog data to remove from contact[0;39;49m[0;39;49m14(48) DEBUG: {2 1 INVITE ttpcbOUBX@10.20.20.17 <null>} ims_usrloc_scscf [ucontact.c:545]: remove_dialog_data_from_contact(): Removing dialog data from contact <sip:001010000123528@10.20.20.18:9400;alias=10.20.20.18~9401~1> with h_entry <1329> and h_id <11700>[0;39;49m[0;39;49m14(48) DEBUG: {2 1 INVITE ttpcbOUBX@10.20.20.17 <null>} ims_usrloc_scscf [ucontact.c:570]: remove_dialog_data_from_contact(): Did not find dialog data to remove from contact[0;39;49m[0;39;49m14(48) DEBUG: {2 1 INVITE ttpcbOUBX@10.20.20.17 <null>} ims_dialog [dlg_hash.c:1109]: unref_dlg(): unref dlg 0x763d89533fb0 with 1 -> 1
+[0;39;49m[0;39;49m14(48) DEBUG: {2 1 INVITE ttpcbOUBX@10.20.20.17 <null>} ims_dialog [dlg_hash.c:1109]: unref_dlg(): unref dlg 0x763d89533fb0 with 1 -> 0
+[0;39;49m[0;39;49m14(48) DEBUG: {2 1 INVITE ttpcbOUBX@10.20.20.17 <null>} ims_dialog [dlg_hash.c:1109]: unref_dlg(): ref <=0 for dialog 0x763d89533fb0
+[0;39;49m[0;39;49m14(48) DEBUG: {2 1 INVITE ttpcbOUBX@10.20.20.17 <null>} ims_dialog [dlg_hash.c:198]: destroy_dlg(): destroying dialog 0x763d89533fb0
+[0;39;49m[0;39;49m14(48) DEBUG: {2 1 INVITE ttpcbOUBX@10.20.20.17 <null>} ims_dialog [dlg_hash.c:208]: destroy_dlg(): removed timer for dlg 0x763d89533fb0 [1329:11700] with clid 'ttpcbOUBX@10.20.20.17' and tags 'qupcbiB' 
+[0;39;49m[0;39;49m14(48) DEBUG: {2 1 INVITE ttpcbOUBX@10.20.20.17 <null>} ims_dialog [dlg_hash.c:217]: destroy_dlg(): About to run dlg callback for destroy
+[0;39;49m[0;39;49m14(48) DEBUG: {2 1 INVITE ttpcbOUBX@10.20.20.17 <null>} ims_dialog [dlg_cb.c:271]: run_dlg_callbacks(): dialog=0x763d89533fb0, type=8192
+[0;39;49m[0;39;49m14(48) DEBUG: {2 1 INVITE ttpcbOUBX@10.20.20.17 <null>} ims_usrloc_scscf [contact_dlg_handlers.c:98]: find_contact_from_impu(): Looking for contact [sip:222222@10.20.20.17:31800;alias=10.20.20.17~31100~1] for IMPU [sip:222222@ims.mnc001.mcc001.3gppnetwork.org]
+[0;39;49m[0;39;49m14(48) DEBUG: {2 1 INVITE ttpcbOUBX@10.20.20.17 <null>} ims_usrloc_scscf [contact_dlg_handlers.c:141]: find_contact_from_impu(): Comparing [10.20.20.17:31800;alias=10.20.20.17~31100~1] and [10.20.20.17:31800;alias=10.20.20.17~31100~1]
+[0;39;49m[0;39;49m14(48) DEBUG: {2 1 INVITE ttpcbOUBX@10.20.20.17 <null>} ims_usrloc_scscf [contact_dlg_handlers.c:98]: find_contact_from_impu(): Looking for contact [sip:111111@10.20.20.18:9400;alias=10.20.20.18~9400~2] for IMPU [tel:111111]
+[0;39;49m[0;39;49m14(48) DEBUG: {2 1 INVITE ttpcbOUBX@10.20.20.17 <null>} ims_usrloc_scscf [contact_dlg_handlers.c:141]: find_contact_from_impu(): Comparing [10.20.20.18:9400;alias=10.20.20.18~9400~2] and [10.20.20.18:9400;alias=10.20.20.18~9401~1]
+[0;39;49m[0;39;49m14(48) DEBUG: {2 1 INVITE ttpcbOUBX@10.20.20.17 <null>} ims_usrloc_scscf [contact_dlg_handlers.c:148]: find_contact_from_impu(): Comparing [10.20.20.18:9400;alias=10.20.20.18~] and [10.20.20.18:9400;alias=10.20.20.18~9401~1]
+[0;39;49m[0;39;49m14(48) DEBUG: {2 1 INVITE ttpcbOUBX@10.20.20.17 <null>} ims_usrloc_scscf [contact_dlg_handlers.c:266]: contact_dlg_handler(): Terminated contact of type [8192] , caller_id [ttpcbOUBX@10.20.20.17] from handler [0;39;49m[0;39;49m14(48) DEBUG: {2 1 INVITE ttpcbOUBX@10.20.20.17 <null>} ims_usrloc_scscf [ucontact.c:545]: remove_dialog_data_from_contact(): Removing dialog data from contact <sip:001010000123542@10.20.20.17:31800;alias=10.20.20.17~31100~1> with h_entry <1329> and h_id <11700>[0;39;49m[0;39;49m14(48) DEBUG: {2 1 INVITE ttpcbOUBX@10.20.20.17 <null>} ims_usrloc_scscf [ucontact.c:570]: remove_dialog_data_from_contact(): Did not find dialog data to remove from contact[0;39;49m[0;39;49m14(48) DEBUG: {2 1 INVITE ttpcbOUBX@10.20.20.17 <null>} ims_usrloc_scscf [ucontact.c:545]: remove_dialog_data_from_contact(): Removing dialog data from contact <sip:001010000123528@10.20.20.18:9400;alias=10.20.20.18~9401~1> with h_entry <1329> and h_id <11700>[0;39;49m[0;39;49m14(48) DEBUG: {2 1 INVITE ttpcbOUBX@10.20.20.17 <null>} ims_usrloc_scscf [ucontact.c:570]: remove_dialog_data_from_contact(): Did not find dialog data to remove from contact[0;39;49m[0;39;49m14(48) DEBUG: {2 1 INVITE ttpcbOUBX@10.20.20.17 <null>} ims_dialog [dlg_hash.c:219]: destroy_dlg(): DONE: About to run dlg callback for destroy
+[0;39;49m[0;39;49m14(48) DEBUG: {2 1 INVITE ttpcbOUBX@10.20.20.17 <null>} ims_dialog [dlg_hash.c:154]: destroy_entry_out(): Destroy dialog entry out
+[0;39;49m[0;39;49m14(48) DEBUG: {2 1 INVITE ttpcbOUBX@10.20.20.17 <null>} ims_dialog [dlg_hash.c:158]: destroy_entry_out(): content before freeing caller cseq is [1]
+[0;39;49m[0;39;49m14(48) DEBUG: {2 1 INVITE ttpcbOUBX@10.20.20.17 <null>} ims_dialog [dlg_hash.c:164]: destroy_entry_out(): content before freeing callee cseq is [1]
+[0;39;49m[0;39;49m14(48) DEBUG: {2 1 INVITE ttpcbOUBX@10.20.20.17 <null>} ims_dialog [dlg_hash.c:170]: destroy_entry_out(): content before freeing callee contact is [sip:111111@10.20.20.18:9400;alias=10.20.20.18~9400~2]
+[0;39;49m[0;32;49m11(45) NOTICE: {1 1 ACK ttpcbOUBX@10.20.20.17 DEFAULT_ROUTE} <script>: SCSCF: ACK sip:111111@ims.mnc001.mcc001.3gppnetwork.org;user=phone (sip:222222@ims.mnc001.mcc001.3gppnetwork.org (172.22.0.19:4060) to tel:111111;phone-context=ims.mnc001.mcc001.3gppnetwork.org, ttpcbOUBX@10.20.20.17)
+[0;39;49m[0;39;49m11(45) DEBUG: {1 1 ACK ttpcbOUBX@10.20.20.17 REQINIT} <script>: Mem: Total 67108864, Free 62973472 [1% used]
+[0;39;49m[0;35;49m11(45) WARNING: {1 1 ACK ttpcbOUBX@10.20.20.17 <null>} tm [t_lookup.c:2060]: t_unref(): script writer didn't release transaction
+[0;39;49m[0;39;49m15(49) DEBUG: {2 1 INVITE ttpcbOUBX@10.20.20.17 <null>} ims_dialog [dlg_handlers.c:1252]: dlg_onreply(): ONREPLY CALL_BACK from TM received and type is [2] = [TMCB_RESPONSE_IN]
+[0;39;49m[0;39;49m15(49) DEBUG: {2 1 INVITE ttpcbOUBX@10.20.20.17 <null>} ims_dialog [dlg_hash.c:921]: lookup_dlg(): ref dlg 0x763d8952cbe0 with 1 -> 2
+[0;39;49m[0;39;49m15(49) DEBUG: {2 1 INVITE ttpcbOUBX@10.20.20.17 <null>} ims_dialog [dlg_hash.c:923]: lookup_dlg(): dialog id=11699 found on entry 1329
+[0;39;49m[0;39;49m15(49) DEBUG: {2 1 INVITE ttpcbOUBX@10.20.20.17 <null>} ims_dialog [dlg_handlers.c:1269]: dlg_onreply(): DLG dialogid is entry:id [1329:11699]
+[0;39;49m[0;39;49m15(49) DEBUG: {2 1 INVITE ttpcbOUBX@10.20.20.17 <null>} ims_dialog [dlg_profile.c:423]: set_current_dialog(): setting current dialog [1329:11699]
+[0;39;49m[0;39;49m15(49) DEBUG: {2 1 INVITE ttpcbOUBX@10.20.20.17 <null>} ims_dialog [dlg_hash.c:1109]: unref_dlg(): unref dlg 0x763d8952cbe0 with 1 -> 1
+[0;39;49m[0;39;49m15(49) DEBUG: {2 1 INVITE ttpcbOUBX@10.20.20.17 orig_reply} <script>: Orig reply
+[0;39;49m[0;39;49m15(49) DEBUG: {2 1 INVITE ttpcbOUBX@10.20.20.17 <null>} ims_dialog [dlg_handlers.c:1252]: dlg_onreply(): ONREPLY CALL_BACK from TM received and type is [128] = [TMCB_ON_FAILURE]
+[0;39;49m[0;39;49m15(49) DEBUG: {2 1 INVITE ttpcbOUBX@10.20.20.17 <null>} ims_dialog [dlg_hash.c:921]: lookup_dlg(): ref dlg 0x763d8952cbe0 with 1 -> 2
+[0;39;49m[0;39;49m15(49) DEBUG: {2 1 INVITE ttpcbOUBX@10.20.20.17 <null>} ims_dialog [dlg_hash.c:923]: lookup_dlg(): dialog id=11699 found on entry 1329
+[0;39;49m[0;39;49m15(49) DEBUG: {2 1 INVITE ttpcbOUBX@10.20.20.17 <null>} ims_dialog [dlg_handlers.c:1269]: dlg_onreply(): DLG dialogid is entry:id [1329:11699]
+[0;39;49m[0;39;49m15(49) DEBUG: {2 1 INVITE ttpcbOUBX@10.20.20.17 <null>} ims_dialog [dlg_profile.c:423]: set_current_dialog(): setting current dialog [1329:11699]
+[0;39;49m[0;39;49m15(49) DEBUG: {2 1 INVITE ttpcbOUBX@10.20.20.17 <null>} ims_dialog [dlg_hash.c:1109]: unref_dlg(): unref dlg 0x763d8952cbe0 with 1 -> 1
+[0;39;49m[0;39;49m15(49) DEBUG: {2 1 INVITE ttpcbOUBX@10.20.20.17 <null>} ims_dialog [dlg_handlers.c:1252]: dlg_onreply(): ONREPLY CALL_BACK from TM received and type is [1048576] = [TMCB_RESPONSE_READY]
+[0;39;49m[0;39;49m15(49) DEBUG: {2 1 INVITE ttpcbOUBX@10.20.20.17 <null>} ims_dialog [dlg_hash.c:921]: lookup_dlg(): ref dlg 0x763d8952cbe0 with 1 -> 2
+[0;39;49m[0;39;49m15(49) DEBUG: {2 1 INVITE ttpcbOUBX@10.20.20.17 <null>} ims_dialog [dlg_hash.c:923]: lookup_dlg(): dialog id=11699 found on entry 1329
+[0;39;49m[0;39;49m15(49) DEBUG: {2 1 INVITE ttpcbOUBX@10.20.20.17 <null>} ims_dialog [dlg_handlers.c:1269]: dlg_onreply(): DLG dialogid is entry:id [1329:11699]
+[0;39;49m[0;39;49m15(49) DEBUG: {2 1 INVITE ttpcbOUBX@10.20.20.17 <null>} ims_dialog [dlg_handlers.c:1314]: dlg_onreply(): Extracting to-tag from reply[0;39;49m[0;39;49m15(49) DEBUG: {2 1 INVITE ttpcbOUBX@10.20.20.17 <null>} ims_dialog [dlg_handlers.c:1335]: dlg_onreply(): Got to-tag from response: 142ffb26 
+[0;39;49m[0;39;49m15(49) DEBUG: {2 1 INVITE ttpcbOUBX@10.20.20.17 <null>} ims_dialog [dlg_handlers.c:1355]: dlg_onreply(): Calling next_state_dlg and event is 4 = DLG_EVENT_RPL3xx
+[0;39;49m[0;39;49m15(49) DEBUG: {2 1 INVITE ttpcbOUBX@10.20.20.17 <null>} ims_dialog [dlg_hash.c:1356]: next_state_dlg(): dialog 0x763d8952cbe0 changed from state 2 to state 6, due event 4
+[0;39;49m[0;39;49m15(49) DEBUG: {2 1 INVITE ttpcbOUBX@10.20.20.17 <null>} ims_dialog [dlg_handlers.c:1359]: dlg_onreply(): Checking if there is an existing dialog_out entry with same to-tag[0;39;49m[0;39;49m15(49) DEBUG: {2 1 INVITE ttpcbOUBX@10.20.20.17 <null>} ims_dialog [dlg_handlers.c:1382]: dlg_onreply(): Extracting to-tag from reply[0;39;49m[0;39;49m15(49) DEBUG: {2 1 INVITE ttpcbOUBX@10.20.20.17 <null>} ims_dialog [dlg_handlers.c:1418]: dlg_onreply(): Got to-tag from response: 142ffb26 
+[0;39;49m[0;39;49m15(49) DEBUG: {2 1 INVITE ttpcbOUBX@10.20.20.17 <null>} ims_dialog [dlg_handlers.c:1425]: dlg_onreply(): Scanning dlg_entry_out list for dlg_out[0;39;49m[0;39;49m15(49) DEBUG: {2 1 INVITE ttpcbOUBX@10.20.20.17 <null>} ims_dialog [dlg_handlers.c:1432]: dlg_onreply(): Found dlg_out for to-tag: 142ffb26
+[0;39;49m[0;39;49m15(49) DEBUG: {2 1 INVITE ttpcbOUBX@10.20.20.17 <null>} ims_dialog [dlg_handlers.c:1470]: dlg_onreply(): dlg_out entry found - updating cseq's for dialog out [0x763d89556c30] for to-tag [142ffb26] 
+[0;39;49m[0;39;49m15(49) DEBUG: {2 1 INVITE ttpcbOUBX@10.20.20.17 <null>} ims_dialog [dlg_hash.c:742]: dlg_update_cseq(): trying to update cseq with seq [1]
+[0;39;49m[0;39;49m15(49) DEBUG: {2 1 INVITE ttpcbOUBX@10.20.20.17 <null>} ims_dialog [dlg_hash.c:823]: dlg_update_contact(): trying to update contact with contact [sip:111111@10.20.20.18:9400]
+[0;39;49m[0;39;49m15(49) DEBUG: {2 1 INVITE ttpcbOUBX@10.20.20.17 <null>} ims_dialog [dlg_handlers.c:1513]: dlg_onreply(): new state is 6 and old state is 2
+[0;39;49m[0;39;49m15(49) DEBUG: {2 1 INVITE ttpcbOUBX@10.20.20.17 <null>} ims_dialog [dlg_handlers.c:1596]: dlg_onreply(): dialog 0x763d8952cbe0 failed (negative reply)
+[0;39;49m[0;39;49m15(49) DEBUG: {2 1 INVITE ttpcbOUBX@10.20.20.17 <null>} ims_dialog [dlg_cb.c:271]: run_dlg_callbacks(): dialog=0x763d8952cbe0, type=4
+[0;39;49m[0;39;49m15(49) DEBUG: {2 1 INVITE ttpcbOUBX@10.20.20.17 <null>} ims_usrloc_scscf [contact_dlg_handlers.c:98]: find_contact_from_impu(): Looking for contact [sip:222222@10.20.20.17:31800;alias=10.20.20.17~31100~1] for IMPU [sip:222222@ims.mnc001.mcc001.3gppnetwork.org]
+[0;39;49m[0;39;49m15(49) DEBUG: {2 1 INVITE ttpcbOUBX@10.20.20.17 <null>} ims_usrloc_scscf [contact_dlg_handlers.c:141]: find_contact_from_impu(): Comparing [10.20.20.17:31800;alias=10.20.20.17~31100~1] and [10.20.20.17:31800;alias=10.20.20.17~31100~1]
+[0;39;49m[0;39;49m15(49) DEBUG: {2 1 INVITE ttpcbOUBX@10.20.20.17 <null>} ims_usrloc_scscf [contact_dlg_handlers.c:98]: find_contact_from_impu(): Looking for contact [sip:111111@10.20.20.18:9400;alias=10.20.20.18~9400~2] for IMPU [tel:111111]
+[0;39;49m[0;39;49m15(49) DEBUG: {2 1 INVITE ttpcbOUBX@10.20.20.17 <null>} ims_usrloc_scscf [contact_dlg_handlers.c:141]: find_contact_from_impu(): Comparing [10.20.20.18:9400;alias=10.20.20.18~9400~2] and [10.20.20.18:9400;alias=10.20.20.18~9401~1]
+[0;39;49m[0;39;49m15(49) DEBUG: {2 1 INVITE ttpcbOUBX@10.20.20.17 <null>} ims_usrloc_scscf [contact_dlg_handlers.c:148]: find_contact_from_impu(): Comparing [10.20.20.18:9400;alias=10.20.20.18~] and [10.20.20.18:9400;alias=10.20.20.18~9401~1]
+[0;39;49m[0;39;49m15(49) DEBUG: {2 1 INVITE ttpcbOUBX@10.20.20.17 <null>} ims_usrloc_scscf [contact_dlg_handlers.c:266]: contact_dlg_handler(): Terminated contact of type [4] , caller_id [ttpcbOUBX@10.20.20.17] from handler [0;39;49m[0;39;49m15(49) DEBUG: {2 1 INVITE ttpcbOUBX@10.20.20.17 <null>} ims_usrloc_scscf [ucontact.c:545]: remove_dialog_data_from_contact(): Removing dialog data from contact <sip:001010000123542@10.20.20.17:31800;alias=10.20.20.17~31100~1> with h_entry <1329> and h_id <11699>[0;39;49m[0;39;49m15(49) DEBUG: {2 1 INVITE ttpcbOUBX@10.20.20.17 <null>} ims_usrloc_scscf [ucontact.c:570]: remove_dialog_data_from_contact(): Did not find dialog data to remove from contact[0;39;49m[0;39;49m15(49) DEBUG: {2 1 INVITE ttpcbOUBX@10.20.20.17 <null>} ims_usrloc_scscf [ucontact.c:545]: remove_dialog_data_from_contact(): Removing dialog data from contact <sip:001010000123528@10.20.20.18:9400;alias=10.20.20.18~9401~1> with h_entry <1329> and h_id <11699>[0;39;49m[0;39;49m15(49) DEBUG: {2 1 INVITE ttpcbOUBX@10.20.20.17 <null>} ims_usrloc_scscf [ucontact.c:570]: remove_dialog_data_from_contact(): Did not find dialog data to remove from contact[0;39;49m[0;39;49m15(49) DEBUG: {2 1 INVITE ttpcbOUBX@10.20.20.17 <null>} ims_dialog [dlg_hash.c:1109]: unref_dlg(): unref dlg 0x763d8952cbe0 with 1 -> 1
+[0;39;49m[0;39;49m15(49) DEBUG: {2 1 INVITE ttpcbOUBX@10.20.20.17 <null>} ims_dialog [dlg_hash.c:1109]: unref_dlg(): unref dlg 0x763d8952cbe0 with 1 -> 0
+[0;39;49m[0;39;49m15(49) DEBUG: {2 1 INVITE ttpcbOUBX@10.20.20.17 <null>} ims_dialog [dlg_hash.c:1109]: unref_dlg(): ref <=0 for dialog 0x763d8952cbe0
+[0;39;49m[0;39;49m15(49) DEBUG: {2 1 INVITE ttpcbOUBX@10.20.20.17 <null>} ims_dialog [dlg_hash.c:198]: destroy_dlg(): destroying dialog 0x763d8952cbe0
+[0;39;49m[0;39;49m15(49) DEBUG: {2 1 INVITE ttpcbOUBX@10.20.20.17 <null>} ims_dialog [dlg_hash.c:208]: destroy_dlg(): removed timer for dlg 0x763d8952cbe0 [1329:11699] with clid 'ttpcbOUBX@10.20.20.17' and tags 'qupcbiB' 
+[0;39;49m[0;39;49m15(49) DEBUG: {2 1 INVITE ttpcbOUBX@10.20.20.17 <null>} ims_dialog [dlg_hash.c:217]: destroy_dlg(): About to run dlg callback for destroy
+[0;39;49m[0;39;49m15(49) DEBUG: {2 1 INVITE ttpcbOUBX@10.20.20.17 <null>} ims_dialog [dlg_cb.c:271]: run_dlg_callbacks(): dialog=0x763d8952cbe0, type=8192
+[0;39;49m[0;39;49m15(49) DEBUG: {2 1 INVITE ttpcbOUBX@10.20.20.17 <null>} ims_usrloc_scscf [contact_dlg_handlers.c:98]: find_contact_from_impu(): Looking for contact [sip:222222@10.20.20.17:31800;alias=10.20.20.17~31100~1] for IMPU [sip:222222@ims.mnc001.mcc001.3gppnetwork.org]
+[0;39;49m[0;39;49m15(49) DEBUG: {2 1 INVITE ttpcbOUBX@10.20.20.17 <null>} ims_usrloc_scscf [contact_dlg_handlers.c:141]: find_contact_from_impu(): Comparing [10.20.20.17:31800;alias=10.20.20.17~31100~1] and [10.20.20.17:31800;alias=10.20.20.17~31100~1]
+[0;39;49m[0;39;49m15(49) DEBUG: {2 1 INVITE ttpcbOUBX@10.20.20.17 <null>} ims_usrloc_scscf [contact_dlg_handlers.c:98]: find_contact_from_impu(): Looking for contact [sip:111111@10.20.20.18:9400;alias=10.20.20.18~9400~2] for IMPU [tel:111111]
+[0;39;49m[0;39;49m15(49) DEBUG: {2 1 INVITE ttpcbOUBX@10.20.20.17 <null>} ims_usrloc_scscf [contact_dlg_handlers.c:141]: find_contact_from_impu(): Comparing [10.20.20.18:9400;alias=10.20.20.18~9400~2] and [10.20.20.18:9400;alias=10.20.20.18~9401~1]
+[0;39;49m[0;39;49m15(49) DEBUG: {2 1 INVITE ttpcbOUBX@10.20.20.17 <null>} ims_usrloc_scscf [contact_dlg_handlers.c:148]: find_contact_from_impu(): Comparing [10.20.20.18:9400;alias=10.20.20.18~] and [10.20.20.18:9400;alias=10.20.20.18~9401~1]
+[0;39;49m[0;39;49m15(49) DEBUG: {2 1 INVITE ttpcbOUBX@10.20.20.17 <null>} ims_usrloc_scscf [contact_dlg_handlers.c:266]: contact_dlg_handler(): Terminated contact of type [8192] , caller_id [ttpcbOUBX@10.20.20.17] from handler [0;39;49m[0;39;49m15(49) DEBUG: {2 1 INVITE ttpcbOUBX@10.20.20.17 <null>} ims_usrloc_scscf [ucontact.c:545]: remove_dialog_data_from_contact(): Removing dialog data from contact <sip:001010000123542@10.20.20.17:31800;alias=10.20.20.17~31100~1> with h_entry <1329> and h_id <11699>[0;39;49m[0;39;49m15(49) DEBUG: {2 1 INVITE ttpcbOUBX@10.20.20.17 <null>} ims_usrloc_scscf [ucontact.c:570]: remove_dialog_data_from_contact(): Did not find dialog data to remove from contact[0;39;49m[0;39;49m15(49) DEBUG: {2 1 INVITE ttpcbOUBX@10.20.20.17 <null>} ims_usrloc_scscf [ucontact.c:545]: remove_dialog_data_from_contact(): Removing dialog data from contact <sip:001010000123528@10.20.20.18:9400;alias=10.20.20.18~9401~1> with h_entry <1329> and h_id <11699>[0;39;49m[0;39;49m15(49) DEBUG: {2 1 INVITE ttpcbOUBX@10.20.20.17 <null>} ims_usrloc_scscf [ucontact.c:570]: remove_dialog_data_from_contact(): Did not find dialog data to remove from contact[0;39;49m[0;39;49m15(49) DEBUG: {2 1 INVITE ttpcbOUBX@10.20.20.17 <null>} ims_dialog [dlg_hash.c:219]: destroy_dlg(): DONE: About to run dlg callback for destroy
+[0;39;49m[0;39;49m15(49) DEBUG: {2 1 INVITE ttpcbOUBX@10.20.20.17 <null>} ims_dialog [dlg_hash.c:154]: destroy_entry_out(): Destroy dialog entry out
+[0;39;49m[0;39;49m15(49) DEBUG: {2 1 INVITE ttpcbOUBX@10.20.20.17 <null>} ims_dialog [dlg_hash.c:158]: destroy_entry_out(): content before freeing caller cseq is [1]
+[0;39;49m[0;39;49m15(49) DEBUG: {2 1 INVITE ttpcbOUBX@10.20.20.17 <null>} ims_dialog [dlg_hash.c:164]: destroy_entry_out(): content before freeing callee cseq is [1]
+[0;39;49m[0;39;49m15(49) DEBUG: {2 1 INVITE ttpcbOUBX@10.20.20.17 <null>} ims_dialog [dlg_hash.c:170]: destroy_entry_out(): content before freeing callee contact is [sip:111111@10.20.20.18:9400;alias=10.20.20.18~9400~2]
+[0;39;49m[0;32;49m77(111) NOTICE: {1 1 ACK ttpcbOUBX@10.20.20.17 DEFAULT_ROUTE} <script>: SCSCF: ACK tel:111111;phone-context=ims.mnc001.mcc001.3gppnetwork.org (sip:222222@ims.mnc001.mcc001.3gppnetwork.org (172.22.0.21:6107) to tel:111111;phone-context=ims.mnc001.mcc001.3gppnetwork.org, ttpcbOUBX@10.20.20.17)
+[0;39;49m[0;39;49m77(111) DEBUG: {1 1 ACK ttpcbOUBX@10.20.20.17 REQINIT} <script>: Mem: Total 67108864, Free 63006976 [1% used]
+[0;39;49m[0;35;49m77(111) WARNING: {1 1 ACK ttpcbOUBX@10.20.20.17 <null>} tm [t_lookup.c:2060]: t_unref(): script writer didn't release transaction
+[0;39;49m[0;39;49m34(68) DEBUG: ims_dialog [dlg_handlers.c:339]: dlg_iuid_sfree(): freeing dlg iuid [1329:11700] (0x763d89534380)
+[0;39;49m[0;39;49m34(68) DEBUG: ims_dialog [dlg_handlers.c:339]: dlg_iuid_sfree(): freeing dlg iuid [1329:11699] (0x763d8952eda0)
+[0;39;49m[0;39;49m33(67) DEBUG: ims_dialog [dlg_handlers.c:2066]: print_all_dlgs(): ********************[0;39;49m[0;39;49m33(67) DEBUG: ims_dialog [dlg_handlers.c:2067]: print_all_dlgs(): printing 4096 dialogs
+[0;39;49m[0;39;49m33(67) DEBUG: ims_dialog [dlg_handlers.c:2077]: print_all_dlgs(): ********************[0;39;49m[0;39;49m33(67) DEBUG: ims_auth [authorize.c:283]: reg_await_timer(): Looking for expired/useless at 119268886
+[0;39;49m[0;39;49m33(67) DEBUG: ims_auth [authorize.c:288]: reg_await_timer(): Slot  333 <001010000123528@ims.mnc001.mcc001.3gppnetwork.org>
+[0;39;49m[0;39;49m33(67) DEBUG: ims_auth [authorize.c:293]: reg_await_timer(): .. AV    0 - 3 Exp 119270558  0x763d8952e4e0
+[0;39;49m[0;39;49m33(67) DEBUG: ims_auth [authorize.c:288]: reg_await_timer(): Slot  454 <001010000123542@ims.mnc001.mcc001.3gppnetwork.org>
+[0;39;49m[0;39;49m33(67) DEBUG: ims_auth [authorize.c:293]: reg_await_timer(): .. AV    0 - 3 Exp 119270523  0x763d8952ef30
+[0;39;49m[0;39;49m33(67) DEBUG: ims_auth [authorize.c:337]: reg_await_timer(): [DONE] Looking for expired/useless at 119268886
+[0;39;49m[0;39;49m33(67) DEBUG: ims_dialog [dlg_handlers.c:2066]: print_all_dlgs(): ********************[0;39;49m[0;39;49m33(67) DEBUG: ims_dialog [dlg_handlers.c:2067]: print_all_dlgs(): printing 4096 dialogs
+[0;39;49m[0;39;49m33(67) DEBUG: ims_dialog [dlg_handlers.c:2077]: print_all_dlgs(): ********************[0;39;49m[0;39;49m33(67) DEBUG: ims_auth [authorize.c:283]: reg_await_timer(): Looking for expired/useless at 119268896
+[0;39;49m[0;39;49m33(67) DEBUG: ims_auth [authorize.c:288]: reg_await_timer(): Slot  333 <001010000123528@ims.mnc001.mcc001.3gppnetwork.org>
+[0;39;49m[0;39;49m33(67) DEBUG: ims_auth [authorize.c:293]: reg_await_timer(): .. AV    0 - 3 Exp 119270558  0x763d8952e4e0
+[0;39;49m[0;39;49m33(67) DEBUG: ims_auth [authorize.c:288]: reg_await_timer(): Slot  454 <001010000123542@ims.mnc001.mcc001.3gppnetwork.org>
+[0;39;49m[0;39;49m33(67) DEBUG: ims_auth [authorize.c:293]: reg_await_timer(): .. AV    0 - 3 Exp 119270523  0x763d8952ef30
+[0;39;49m[0;39;49m33(67) DEBUG: ims_auth [authorize.c:337]: reg_await_timer(): [DONE] Looking for expired/useless at 119268896
+[0;39;49m[0;39;49m33(67) DEBUG: ims_dialog [dlg_handlers.c:2066]: print_all_dlgs(): ********************[0;39;49m[0;39;49m33(67) DEBUG: ims_dialog [dlg_handlers.c:2067]: print_all_dlgs(): printing 4096 dialogs
+[0;39;49m[0;39;49m33(67) DEBUG: ims_dialog [dlg_handlers.c:2077]: print_all_dlgs(): ********************[0;39;49m[0;39;49m33(67) DEBUG: ims_auth [authorize.c:283]: reg_await_timer(): Looking for expired/useless at 119268906
+[0;39;49m[0;39;49m33(67) DEBUG: ims_auth [authorize.c:288]: reg_await_timer(): Slot  333 <001010000123528@ims.mnc001.mcc001.3gppnetwork.org>
+[0;39;49m[0;39;49m33(67) DEBUG: ims_auth [authorize.c:293]: reg_await_timer(): .. AV    0 - 3 Exp 119270558  0x763d8952e4e0
+[0;39;49m[0;39;49m33(67) DEBUG: ims_auth [authorize.c:288]: reg_await_timer(): Slot  454 <001010000123542@ims.mnc001.mcc001.3gppnetwork.org>
+[0;39;49m[0;39;49m33(67) DEBUG: ims_auth [authorize.c:293]: reg_await_timer(): .. AV    0 - 3 Exp 119270523  0x763d8952ef30
+[0;39;49m[0;39;49m33(67) DEBUG: ims_auth [authorize.c:337]: reg_await_timer(): [DONE] Looking for expired/useless at 119268906
+[0;39;49m[0;39;49m33(67) DEBUG: ims_dialog [dlg_handlers.c:2066]: print_all_dlgs(): ********************[0;39;49m[0;39;49m33(67) DEBUG: ims_dialog [dlg_handlers.c:2067]: print_all_dlgs(): printing 4096 dialogs
+[0;39;49m[0;39;49m33(67) DEBUG: ims_dialog [dlg_handlers.c:2077]: print_all_dlgs(): ********************[0;39;49m[0;39;49m33(67) DEBUG: ims_auth [authorize.c:283]: reg_await_timer(): Looking for expired/useless at 119268916
+[0;39;49m[0;39;49m33(67) DEBUG: ims_auth [authorize.c:288]: reg_await_timer(): Slot  333 <001010000123528@ims.mnc001.mcc001.3gppnetwork.org>
+[0;39;49m[0;39;49m33(67) DEBUG: ims_auth [authorize.c:293]: reg_await_timer(): .. AV    0 - 3 Exp 119270558  0x763d8952e4e0
+[0;39;49m[0;39;49m33(67) DEBUG: ims_auth [authorize.c:288]: reg_await_timer(): Slot  454 <001010000123542@ims.mnc001.mcc001.3gppnetwork.org>
+[0;39;49m[0;39;49m33(67) DEBUG: ims_auth [authorize.c:293]: reg_await_timer(): .. AV    0 - 3 Exp 119270523  0x763d8952ef30
+[0;39;49m[0;39;49m33(67) DEBUG: ims_auth [authorize.c:337]: reg_await_timer(): [DONE] Looking for expired/useless at 119268916
+[0;39;49m[0;39;49m33(67) DEBUG: ims_dialog [dlg_handlers.c:2066]: print_all_dlgs(): ********************[0;39;49m[0;39;49m33(67) DEBUG: ims_dialog [dlg_handlers.c:2067]: print_all_dlgs(): printing 4096 dialogs
+[0;39;49m[0;39;49m33(67) DEBUG: ims_dialog [dlg_handlers.c:2077]: print_all_dlgs(): ********************[0;39;49m[0;39;49m33(67) DEBUG: ims_auth [authorize.c:283]: reg_await_timer(): Looking for expired/useless at 119268926
+[0;39;49m[0;39;49m33(67) DEBUG: ims_auth [authorize.c:288]: reg_await_timer(): Slot  333 <001010000123528@ims.mnc001.mcc001.3gppnetwork.org>
+[0;39;49m[0;39;49m33(67) DEBUG: ims_auth [authorize.c:293]: reg_await_timer(): .. AV    0 - 3 Exp 119270558  0x763d8952e4e0
+[0;39;49m[0;39;49m33(67) DEBUG: ims_auth [authorize.c:288]: reg_await_timer(): Slot  454 <001010000123542@ims.mnc001.mcc001.3gppnetwork.org>
+[0;39;49m[0;39;49m33(67) DEBUG: ims_auth [authorize.c:293]: reg_await_timer(): .. AV    0 - 3 Exp 119270523  0x763d8952ef30
+[0;39;49m[0;39;49m33(67) DEBUG: ims_auth [authorize.c:337]: reg_await_timer(): [DONE] Looking for expired/useless at 119268926
+[0;39;49m[0;32;49m 2(36) NOTICE: {1 1 MESSAGE HHpcbiZip@10.20.20.17 DEFAULT_ROUTE} <script>: SCSCF: MESSAGE tel:0015555;phone-context=ims.mnc001.mcc001.3gppnetwork.org (sip:222222@ims.mnc001.mcc001.3gppnetwork.org (172.22.0.21:6107) to tel:0015555;phone-context=ims.mnc001.mcc001.3gppnetwork.org, HHpcbiZip@10.20.20.17)
+[0;39;49m[0;39;49m 2(36) DEBUG: {1 1 MESSAGE HHpcbiZip@10.20.20.17 REQINIT} <script>: Mem: Total 67108864, Free 63072528 [1% used]
+[0;39;49m[0;39;49m 2(36) DEBUG: {1 1 MESSAGE HHpcbiZip@10.20.20.17 DEFAULT_ROUTE} ims_dialog [dlg_handlers.c:893]: dlg_onroute(): No to tag header found --- ignoring... MESSAGE [MESSAGE
+[0;39;49m[0;31;49m 2(36) ERROR: {1 1 MESSAGE HHpcbiZip@10.20.20.17 DEFAULT_ROUTE} <script>: Orig[0;39;49m[0;39;49m 2(36) DEBUG: {1 1 MESSAGE HHpcbiZip@10.20.20.17 orig} <script>: Enter orig route
+[0;39;49m[0;39;49m 2(36) DEBUG: {1 1 MESSAGE HHpcbiZip@10.20.20.17 orig} ims_dialog [dlg_hash.c:969]: internal_get_dlg(): no dialog callid='HHpcbiZip@10.20.20.17' found
+[0;39;49m[0;39;49m 2(36) DEBUG: {1 1 MESSAGE HHpcbiZip@10.20.20.17 orig} ims_dialog [dlg_hash.c:1000]: get_dlg(): no dialog callid='HHpcbiZip@10.20.20.17' found
+[0;39;49m[0;39;49m 2(36) DEBUG: {1 1 MESSAGE HHpcbiZip@10.20.20.17 orig} ims_dialog [dlg_handlers.c:2104]: dlg_get_msg_dialog(): dlg with callid 'HHpcbiZip@10.20.20.17' not found
+[0;39;49m[0;36;49m 2(36) INFO: {1 1 MESSAGE HHpcbiZip@10.20.20.17 orig} ims_isc [ims_isc_mod.c:254]: isc_match_filter(): Checking triggers
+[0;39;49m[0;39;49m 2(36) DEBUG: {1 1 MESSAGE HHpcbiZip@10.20.20.17 orig} ims_isc [mark.c:95]: isc_mark_get_from_msg(): isc_mark_get_from_msg: Trying to get the mark from the message 
+[0;39;49m[0;39;49m 2(36) DEBUG: {1 1 MESSAGE HHpcbiZip@10.20.20.17 orig} ims_isc [ims_isc_mod.c:281]: isc_match_filter(): Starting triggering
+[0;39;49m[0;39;49m 2(36) DEBUG: {1 1 MESSAGE HHpcbiZip@10.20.20.17 orig} ims_isc [ims_isc_mod.c:355]: isc_match_filter(): Checking if ISC is for originating user
+[0;39;49m[0;39;49m 2(36) DEBUG: {1 1 MESSAGE HHpcbiZip@10.20.20.17 orig} ims_isc [ims_isc_mod.c:359]: isc_match_filter(): ISC is for Orig user
+[0;39;49m[0;39;49m 2(36) DEBUG: {1 1 MESSAGE HHpcbiZip@10.20.20.17 orig} ims_isc [ims_isc_mod.c:361]: isc_match_filter(): Orig user is [sip:222222@ims.mnc001.mcc001.3gppnetwork.org]
+[0;39;49m[0;39;49m 2(36) DEBUG: {1 1 MESSAGE HHpcbiZip@10.20.20.17 orig} ims_isc [checker.c:655]: isc_is_registered(): Searching in usrloc
+[0;39;49m[0;39;49m 2(36) DEBUG: {1 1 MESSAGE HHpcbiZip@10.20.20.17 orig} ims_isc [checker.c:663]: isc_is_registered(): Finished searching usrloc
+[0;39;49m[0;39;49m 2(36) DEBUG: {1 1 MESSAGE HHpcbiZip@10.20.20.17 orig} ims_isc [ims_isc_mod.c:368]: isc_match_filter(): Orig User <sip:222222@ims.mnc001.mcc001.3gppnetwork.org> [1]
+[0;39;49m[0;39;49m 2(36) DEBUG: {1 1 MESSAGE HHpcbiZip@10.20.20.17 orig} ims_isc [ims_isc_mod.c:371]: isc_match_filter(): Checking if RURI has changed...comparing: <> and <sip:222222@ims.mnc001.mcc001.3gppnetwork.org>
+[0;39;49m[0;39;49m 2(36) DEBUG: {1 1 MESSAGE HHpcbiZip@10.20.20.17 orig} ims_isc [checker.c:655]: isc_is_registered(): Searching in usrloc
+[0;39;49m[0;39;49m 2(36) DEBUG: {1 1 MESSAGE HHpcbiZip@10.20.20.17 orig} ims_isc [checker.c:663]: isc_is_registered(): Finished searching usrloc
+[0;39;49m[0;39;49m 2(36) DEBUG: {1 1 MESSAGE HHpcbiZip@10.20.20.17 orig} ims_isc [checker.c:486]: isc_checker_find(): isc_checker_find: starting search
+[0;39;49m[0;39;49m 2(36) DEBUG: {1 1 MESSAGE HHpcbiZip@10.20.20.17 orig} ims_isc [checker.c:510]: isc_checker_find(): isc_checker_find(): got a r_public for the user sip:222222@ims.mnc001.mcc001.3gppnetwork.org
+[0;39;49m[0;39;49m 2(36) DEBUG: {1 1 MESSAGE HHpcbiZip@10.20.20.17 orig} ims_isc [checker.c:526]: isc_checker_find(): About to try p->s->service_profiles_cnt!! #profiles is 1
+[0;39;49m[0;39;49m 2(36) DEBUG: {1 1 MESSAGE HHpcbiZip@10.20.20.17 orig} ims_isc [checker.c:529]: isc_checker_find(): About to try p->s->service_profiles[a].filter_criteria_cnt
+[0;39;49m[0;39;49m 2(36) DEBUG: {1 1 MESSAGE HHpcbiZip@10.20.20.17 orig} ims_isc [checker.c:540]: isc_checker_find(): DEBUG ISC: SECOND TIME About to try p->s->service_profiles_cnt!!
+[0;39;49m[0;39;49m 2(36) DEBUG: {1 1 MESSAGE HHpcbiZip@10.20.20.17 orig} ims_isc [checker.c:545]: isc_checker_find(): DEBUG ISC : About to try p->s->service_profiles
+[0;39;49m[0;39;49m 2(36) DEBUG: {1 1 MESSAGE HHpcbiZip@10.20.20.17 orig} ims_isc [checker.c:548]: isc_checker_find(): DEBUG ISC : About to try public identities
+[0;39;49m[0;39;49m 2(36) DEBUG: {1 1 MESSAGE HHpcbiZip@10.20.20.17 orig} ims_isc [checker.c:551]: isc_checker_find(): DEBUG ISC : About to try WPSI
+[0;39;49m[0;39;49m 2(36) DEBUG: {1 1 MESSAGE HHpcbiZip@10.20.20.17 orig} ims_isc [checker.c:370]: isc_check_filter_criteria(): ifc_checker_trigger: Starting expression check: 
+[0;39;49m[0;39;49m 2(36) DEBUG: {1 1 MESSAGE HHpcbiZip@10.20.20.17 orig} ims_isc [checker.c:277]: isc_check_spt(): ifc_check_spt:             SPT type 2 -> Method == MESSAGE ?
+[0;39;49m[0;39;49m 2(36) DEBUG: {1 1 MESSAGE HHpcbiZip@10.20.20.17 orig} ims_isc [checker.c:280]: isc_check_spt(): ifc_check_spt:               Found method MESSAGE 
+[0;39;49m[0;39;49m 2(36) DEBUG: {1 1 MESSAGE HHpcbiZip@10.20.20.17 orig} ims_isc [checker.c:397]: isc_check_filter_criteria(): ifc_checker_trigger:       - group compromised, skipping to next group
+[0;39;49m[0;39;49m 2(36) DEBUG: {1 1 MESSAGE HHpcbiZip@10.20.20.17 orig} ims_isc [checker.c:293]: isc_check_spt(): ifc_check_spt:             SPT type 3 -> Header[Server]  %=  ?
+[0;39;49m[0;39;49m 2(36) DEBUG: {1 1 MESSAGE HHpcbiZip@10.20.20.17 orig} ims_isc [checker.c:99]: isc_check_headers(): isc_check_headers: Looking for Header[Server(29)]  
+[0;39;49m[0;39;49m 2(36) DEBUG: {1 1 MESSAGE HHpcbiZip@10.20.20.17 orig} ims_isc [checker.c:384]: isc_check_filter_criteria(): ifc_checker_trigger:  - group 1 => 1. 
+[0;39;49m[0;39;49m 2(36) DEBUG: {1 1 MESSAGE HHpcbiZip@10.20.20.17 orig} ims_isc [checker.c:397]: isc_check_filter_criteria(): ifc_checker_trigger:       - group compromised, skipping to next group
+[0;39;49m[0;39;49m 2(36) DEBUG: {1 1 MESSAGE HHpcbiZip@10.20.20.17 orig} ims_isc [checker.c:305]: isc_check_spt(): ifc_check_spt:             SPT type 4 -> Session Case  == 0 ?
+[0;39;49m[0;39;49m 2(36) DEBUG: {1 1 MESSAGE HHpcbiZip@10.20.20.17 orig} ims_isc [checker.c:308]: isc_check_spt(): ifc_check_spt:               Found session_case 0 
+[0;39;49m[0;39;49m 2(36) DEBUG: {1 1 MESSAGE HHpcbiZip@10.20.20.17 orig} ims_isc [checker.c:384]: isc_check_filter_criteria(): ifc_checker_trigger:  - group 2 => 1. 
+[0;39;49m[0;39;49m 2(36) DEBUG: {1 1 MESSAGE HHpcbiZip@10.20.20.17 orig} ims_isc [checker.c:397]: isc_check_filter_criteria(): ifc_checker_trigger:       - group compromised, skipping to next group
+[0;39;49m[0;39;49m 2(36) DEBUG: {1 1 MESSAGE HHpcbiZip@10.20.20.17 orig} ims_isc [checker.c:406]: isc_check_filter_criteria(): ifc_checker_trigger: Check finished => 1
+[0;39;49m[0;39;49m 2(36) DEBUG: {1 1 MESSAGE HHpcbiZip@10.20.20.17 orig} ims_isc [checker.c:594]: isc_checker_find(): isc_checker_find: MATCH -> sip:smsc.ims.mnc001.mcc001.3gppnetwork.org:5060 () handling 0 
+[0;39;49m[0;39;49m 2(36) DEBUG: {1 1 MESSAGE HHpcbiZip@10.20.20.17 orig} ims_isc [isc.c:68]: isc_forward(): marking for AS <sip:smsc.ims.mnc001.mcc001.3gppnetwork.org:5060>
+[0;39;49m[0;39;49m 2(36) DEBUG: {1 1 MESSAGE HHpcbiZip@10.20.20.17 orig} ims_isc [mark.c:276]: isc_mark_drop_route(): ifc_mark_drop_route: Start --------- 
+[0;39;49m[0;39;49m 2(36) DEBUG: {1 1 MESSAGE HHpcbiZip@10.20.20.17 orig} ims_isc [mark.c:291]: isc_mark_drop_route(): ifc_mark_drop_route: ---------- End 
+[0;39;49m[0;39;49m 2(36) DEBUG: {1 1 MESSAGE HHpcbiZip@10.20.20.17 orig} ims_isc [mark.c:365]: isc_mark_write_route(): isc_mark_write_route: <Route: <sip:smsc.ims.mnc001.mcc001.3gppnetwork.org:5060;lr>, <sip:iscmark@scscf.ims.mnc001.mcc001.3gppnetwork.org;lr;s=1;h=0;d=0;a=7369703a32323232323240696d732e6d6e633030312e6d63633030312e336770706e6574776f726b2e6f7267>
+>
+[0;39;49m[0;39;49m 2(36) DEBUG: {1 1 MESSAGE HHpcbiZip@10.20.20.17 orig} ims_isc [mark.c:431]: isc_mark_write_psu(): isc_mark_write_psu: P-Served-User: <sip:222222@ims.mnc001.mcc001.3gppnetwork.org>;sescase=orig;regstate=reg
+[0;39;49m[0;39;49m 2(36) DEBUG: {1 1 MESSAGE HHpcbiZip@10.20.20.17 orig} ims_isc [mark.c:330]: isc_mark_set(): isc_mark_set: NEW mark <sip:iscmark@scscf.ims.mnc001.mcc001.3gppnetwork.org;lr;s=1;h=0;d=0;a=7369703a32323232323240696d732e6d6e633030312e6d63633030312e336770706e6574776f726b2e6f7267>
+[0;39;49m[0;36;49m 2(36) INFO: {1 1 MESSAGE HHpcbiZip@10.20.20.17 orig} ims_isc [isc.c:101]: isc_forward(): Transaction 65070 1857082872 exists. Retransmission?
+[0;39;49m[0;36;49m 2(36) INFO: {1 1 MESSAGE HHpcbiZip@10.20.20.17 orig} ims_isc [isc.c:119]: isc_forward(): >>       msg was fwded to AS
+[0;39;49m[0;39;49m 2(36) DEBUG: {1 1 MESSAGE HHpcbiZip@10.20.20.17 orig} ims_isc [checker.c:639]: isc_free_match(): isc_match_free: match position freed
+[0;39;49m[0;31;49m 2(36) ERROR: {1 1 MESSAGE HHpcbiZip@10.20.20.17 orig} <script>: Orig - msg was fwded to AS
+[0;39;49m[0;32;49m 3(37) NOTICE: {1 1 MESSAGE 6cb6969939eed2c6@smsc.ims.mnc001.mcc001.3gppnetwork.org DEFAULT_ROUTE} <script>: SCSCF: MESSAGE sip:111111@ims.mnc001.mcc001.3gppnetwork.org (sip:222222@ims.mnc001.mcc001.3gppnetwork.org (172.22.0.22:33330) to sip:111111@ims.mnc001.mcc001.3gppnetwork.org, 6cb6969939eed2c6@smsc.ims.mnc001.mcc001.3gppnetwork.org)
+[0;39;49m[0;39;49m 3(37) DEBUG: {1 1 MESSAGE 6cb6969939eed2c6@smsc.ims.mnc001.mcc001.3gppnetwork.org REQINIT} <script>: Mem: Total 67108864, Free 63053280 [1% used]
+[0;39;49m[0;36;49m 3(37) INFO: {1 1 MESSAGE 6cb6969939eed2c6@smsc.ims.mnc001.mcc001.3gppnetwork.org DEFAULT_ROUTE} rr [rr_mod.c:574]: pv_get_route_uri_f(): No route header present.
+[0;39;49m[0;36;49m 3(37) INFO: {1 1 MESSAGE 6cb6969939eed2c6@smsc.ims.mnc001.mcc001.3gppnetwork.org DEFAULT_ROUTE} rr [rr_mod.c:574]: pv_get_route_uri_f(): No route header present.
+[0;39;49m[0;39;49m 3(37) DEBUG: {1 1 MESSAGE 6cb6969939eed2c6@smsc.ims.mnc001.mcc001.3gppnetwork.org DEFAULT_ROUTE} ims_isc [mark.c:95]: isc_mark_get_from_msg(): isc_mark_get_from_msg: Trying to get the mark from the message 
+[0;39;49m[0;39;49m 3(37) DEBUG: {1 1 MESSAGE 6cb6969939eed2c6@smsc.ims.mnc001.mcc001.3gppnetwork.org DEFAULT_ROUTE} ims_isc [mark.c:95]: isc_mark_get_from_msg(): isc_mark_get_from_msg: Trying to get the mark from the message 
+[0;39;49m[0;39;49m 3(37) DEBUG: {1 1 MESSAGE 6cb6969939eed2c6@smsc.ims.mnc001.mcc001.3gppnetwork.org DEFAULT_ROUTE} ims_dialog [dlg_profile.c:604]: is_dlg_in_profile(): Getting current dialog[0;39;49m[0;39;49m 3(37) DEBUG: {1 1 MESSAGE 6cb6969939eed2c6@smsc.ims.mnc001.mcc001.3gppnetwork.org DEFAULT_ROUTE} ims_dialog [dlg_hash.c:969]: internal_get_dlg(): no dialog callid='6cb6969939eed2c6@smsc.ims.mnc001.mcc001.3gppnetwork.org' found
+[0;39;49m[0;39;49m 3(37) DEBUG: {1 1 MESSAGE 6cb6969939eed2c6@smsc.ims.mnc001.mcc001.3gppnetwork.org DEFAULT_ROUTE} ims_dialog [dlg_hash.c:1000]: get_dlg(): no dialog callid='6cb6969939eed2c6@smsc.ims.mnc001.mcc001.3gppnetwork.org' found
+[0;39;49m[0;39;49m 3(37) DEBUG: {1 1 MESSAGE 6cb6969939eed2c6@smsc.ims.mnc001.mcc001.3gppnetwork.org DEFAULT_ROUTE} ims_dialog [dlg_handlers.c:2104]: dlg_get_msg_dialog(): dlg with callid '6cb6969939eed2c6@smsc.ims.mnc001.mcc001.3gppnetwork.org' not found
+[0;39;49m[0;39;49m 3(37) DEBUG: {1 1 MESSAGE 6cb6969939eed2c6@smsc.ims.mnc001.mcc001.3gppnetwork.org DEFAULT_ROUTE} ims_dialog [dlg_profile.c:609]: is_dlg_in_profile(): Error: Current dlg is null[0;39;49m[0;39;49m 3(37) DEBUG: {1 1 MESSAGE 6cb6969939eed2c6@smsc.ims.mnc001.mcc001.3gppnetwork.org DEFAULT_ROUTE} ims_dialog [dlg_profile.c:604]: is_dlg_in_profile(): Getting current dialog[0;39;49m[0;39;49m 3(37) DEBUG: {1 1 MESSAGE 6cb6969939eed2c6@smsc.ims.mnc001.mcc001.3gppnetwork.org DEFAULT_ROUTE} ims_dialog [dlg_hash.c:969]: internal_get_dlg(): no dialog callid='6cb6969939eed2c6@smsc.ims.mnc001.mcc001.3gppnetwork.org' found
+[0;39;49m[0;39;49m 3(37) DEBUG: {1 1 MESSAGE 6cb6969939eed2c6@smsc.ims.mnc001.mcc001.3gppnetwork.org DEFAULT_ROUTE} ims_dialog [dlg_hash.c:1000]: get_dlg(): no dialog callid='6cb6969939eed2c6@smsc.ims.mnc001.mcc001.3gppnetwork.org' found
+[0;39;49m[0;39;49m 3(37) DEBUG: {1 1 MESSAGE 6cb6969939eed2c6@smsc.ims.mnc001.mcc001.3gppnetwork.org DEFAULT_ROUTE} ims_dialog [dlg_handlers.c:2104]: dlg_get_msg_dialog(): dlg with callid '6cb6969939eed2c6@smsc.ims.mnc001.mcc001.3gppnetwork.org' not found
+[0;39;49m[0;39;49m 3(37) DEBUG: {1 1 MESSAGE 6cb6969939eed2c6@smsc.ims.mnc001.mcc001.3gppnetwork.org DEFAULT_ROUTE} ims_dialog [dlg_profile.c:609]: is_dlg_in_profile(): Error: Current dlg is null[0;39;49m[0;39;49m 3(37) DEBUG: {1 1 MESSAGE 6cb6969939eed2c6@smsc.ims.mnc001.mcc001.3gppnetwork.org term} <script>: Term
+[0;39;49m[0;39;49m 3(37) DEBUG: {1 1 MESSAGE 6cb6969939eed2c6@smsc.ims.mnc001.mcc001.3gppnetwork.org term} ims_dialog [dlg_hash.c:969]: internal_get_dlg(): no dialog callid='6cb6969939eed2c6@smsc.ims.mnc001.mcc001.3gppnetwork.org' found
+[0;39;49m[0;39;49m 3(37) DEBUG: {1 1 MESSAGE 6cb6969939eed2c6@smsc.ims.mnc001.mcc001.3gppnetwork.org term} ims_dialog [dlg_hash.c:1000]: get_dlg(): no dialog callid='6cb6969939eed2c6@smsc.ims.mnc001.mcc001.3gppnetwork.org' found
+[0;39;49m[0;39;49m 3(37) DEBUG: {1 1 MESSAGE 6cb6969939eed2c6@smsc.ims.mnc001.mcc001.3gppnetwork.org term} ims_dialog [dlg_handlers.c:2104]: dlg_get_msg_dialog(): dlg with callid '6cb6969939eed2c6@smsc.ims.mnc001.mcc001.3gppnetwork.org' not found
+[0;39;49m[0;36;49m 3(37) INFO: {1 1 MESSAGE 6cb6969939eed2c6@smsc.ims.mnc001.mcc001.3gppnetwork.org term} ims_isc [ims_isc_mod.c:254]: isc_match_filter(): Checking triggers
+[0;39;49m[0;39;49m 3(37) DEBUG: {1 1 MESSAGE 6cb6969939eed2c6@smsc.ims.mnc001.mcc001.3gppnetwork.org term} ims_isc [mark.c:95]: isc_mark_get_from_msg(): isc_mark_get_from_msg: Trying to get the mark from the message 
+[0;39;49m[0;39;49m 3(37) DEBUG: {1 1 MESSAGE 6cb6969939eed2c6@smsc.ims.mnc001.mcc001.3gppnetwork.org term} ims_isc [ims_isc_mod.c:281]: isc_match_filter(): Starting triggering
+[0;39;49m[0;39;49m 3(37) DEBUG: {1 1 MESSAGE 6cb6969939eed2c6@smsc.ims.mnc001.mcc001.3gppnetwork.org term} ims_isc [ims_isc_mod.c:355]: isc_match_filter(): Checking if ISC is for originating user
+[0;39;49m[0;39;49m 3(37) DEBUG: {1 1 MESSAGE 6cb6969939eed2c6@smsc.ims.mnc001.mcc001.3gppnetwork.org term} ims_isc [ims_isc_mod.c:395]: isc_match_filter(): Checking if ISC is for terminating user
+[0;39;49m[0;39;49m 3(37) DEBUG: {1 1 MESSAGE 6cb6969939eed2c6@smsc.ims.mnc001.mcc001.3gppnetwork.org term} ims_isc [ims_isc_mod.c:401]: isc_match_filter(): ISC is for Term user
+[0;39;49m[0;39;49m 3(37) DEBUG: {1 1 MESSAGE 6cb6969939eed2c6@smsc.ims.mnc001.mcc001.3gppnetwork.org term} ims_isc [checker.c:655]: isc_is_registered(): Searching in usrloc
+[0;39;49m[0;39;49m 3(37) DEBUG: {1 1 MESSAGE 6cb6969939eed2c6@smsc.ims.mnc001.mcc001.3gppnetwork.org term} ims_isc [checker.c:663]: isc_is_registered(): Finished searching usrloc
+[0;39;49m[0;39;49m 3(37) DEBUG: {1 1 MESSAGE 6cb6969939eed2c6@smsc.ims.mnc001.mcc001.3gppnetwork.org term} ims_isc [ims_isc_mod.c:409]: isc_match_filter(): Term User <sip:111111@ims.mnc001.mcc001.3gppnetwork.org> [1]
+[0;39;49m[0;39;49m 3(37) DEBUG: {1 1 MESSAGE 6cb6969939eed2c6@smsc.ims.mnc001.mcc001.3gppnetwork.org term} ims_isc [ims_isc_mod.c:412]: isc_match_filter(): Checking if RURI has changed...comparing: <> and <sip:111111@ims.mnc001.mcc001.3gppnetwork.org>
+[0;39;49m[0;39;49m 3(37) DEBUG: {1 1 MESSAGE 6cb6969939eed2c6@smsc.ims.mnc001.mcc001.3gppnetwork.org term} ims_isc [ims_isc_mod.c:421]: isc_match_filter(): Resuming triggering
+[0;39;49m[0;39;49m 3(37) DEBUG: {1 1 MESSAGE 6cb6969939eed2c6@smsc.ims.mnc001.mcc001.3gppnetwork.org term} ims_isc [checker.c:655]: isc_is_registered(): Searching in usrloc
+[0;39;49m[0;39;49m 3(37) DEBUG: {1 1 MESSAGE 6cb6969939eed2c6@smsc.ims.mnc001.mcc001.3gppnetwork.org term} ims_isc [checker.c:663]: isc_is_registered(): Finished searching usrloc
+[0;39;49m[0;39;49m 3(37) DEBUG: {1 1 MESSAGE 6cb6969939eed2c6@smsc.ims.mnc001.mcc001.3gppnetwork.org term} ims_isc [checker.c:486]: isc_checker_find(): isc_checker_find: starting search
+[0;39;49m[0;39;49m 3(37) DEBUG: {1 1 MESSAGE 6cb6969939eed2c6@smsc.ims.mnc001.mcc001.3gppnetwork.org term} ims_isc [checker.c:510]: isc_checker_find(): isc_checker_find(): got a r_public for the user sip:111111@ims.mnc001.mcc001.3gppnetwork.org
+[0;39;49m[0;39;49m 3(37) DEBUG: {1 1 MESSAGE 6cb6969939eed2c6@smsc.ims.mnc001.mcc001.3gppnetwork.org term} ims_isc [checker.c:526]: isc_checker_find(): About to try p->s->service_profiles_cnt!! #profiles is 1
+[0;39;49m[0;39;49m 3(37) DEBUG: {1 1 MESSAGE 6cb6969939eed2c6@smsc.ims.mnc001.mcc001.3gppnetwork.org term} ims_isc [checker.c:529]: isc_checker_find(): About to try p->s->service_profiles[a].filter_criteria_cnt
+[0;39;49m[0;39;49m 3(37) DEBUG: {1 1 MESSAGE 6cb6969939eed2c6@smsc.ims.mnc001.mcc001.3gppnetwork.org term} ims_isc [checker.c:540]: isc_checker_find(): DEBUG ISC: SECOND TIME About to try p->s->service_profiles_cnt!!
+[0;39;49m[0;39;49m 3(37) DEBUG: {1 1 MESSAGE 6cb6969939eed2c6@smsc.ims.mnc001.mcc001.3gppnetwork.org term} ims_isc [checker.c:545]: isc_checker_find(): DEBUG ISC : About to try p->s->service_profiles
+[0;39;49m[0;39;49m 3(37) DEBUG: {1 1 MESSAGE 6cb6969939eed2c6@smsc.ims.mnc001.mcc001.3gppnetwork.org term} ims_isc [checker.c:548]: isc_checker_find(): DEBUG ISC : About to try public identities
+[0;39;49m[0;39;49m 3(37) DEBUG: {1 1 MESSAGE 6cb6969939eed2c6@smsc.ims.mnc001.mcc001.3gppnetwork.org term} ims_isc [checker.c:551]: isc_checker_find(): DEBUG ISC : About to try WPSI
+[0;39;49m[0;39;49m 3(37) DEBUG: {1 1 MESSAGE 6cb6969939eed2c6@smsc.ims.mnc001.mcc001.3gppnetwork.org term} ims_isc [checker.c:370]: isc_check_filter_criteria(): ifc_checker_trigger: Starting expression check: 
+[0;39;49m[0;39;49m 3(37) DEBUG: {1 1 MESSAGE 6cb6969939eed2c6@smsc.ims.mnc001.mcc001.3gppnetwork.org term} ims_isc [checker.c:277]: isc_check_spt(): ifc_check_spt:             SPT type 2 -> Method == MESSAGE ?
+[0;39;49m[0;39;49m 3(37) DEBUG: {1 1 MESSAGE 6cb6969939eed2c6@smsc.ims.mnc001.mcc001.3gppnetwork.org term} ims_isc [checker.c:280]: isc_check_spt(): ifc_check_spt:               Found method MESSAGE 
+[0;39;49m[0;39;49m 3(37) DEBUG: {1 1 MESSAGE 6cb6969939eed2c6@smsc.ims.mnc001.mcc001.3gppnetwork.org term} ims_isc [checker.c:397]: isc_check_filter_criteria(): ifc_checker_trigger:       - group compromised, skipping to next group
+[0;39;49m[0;39;49m 3(37) DEBUG: {1 1 MESSAGE 6cb6969939eed2c6@smsc.ims.mnc001.mcc001.3gppnetwork.org term} ims_isc [checker.c:293]: isc_check_spt(): ifc_check_spt:             SPT type 3 -> Header[Server]  %=  ?
+[0;39;49m[0;39;49m 3(37) DEBUG: {1 1 MESSAGE 6cb6969939eed2c6@smsc.ims.mnc001.mcc001.3gppnetwork.org term} ims_isc [checker.c:99]: isc_check_headers(): isc_check_headers: Looking for Header[Server(29)]  
+[0;39;49m[0;39;49m 3(37) DEBUG: {1 1 MESSAGE 6cb6969939eed2c6@smsc.ims.mnc001.mcc001.3gppnetwork.org term} ims_isc [checker.c:114]: isc_check_headers(): isc_check_headers: Found Header[Server(29)] vmf-smsc/0.1 
+[0;39;49m[0;39;49m 3(37) DEBUG: {1 1 MESSAGE 6cb6969939eed2c6@smsc.ims.mnc001.mcc001.3gppnetwork.org term} ims_isc [checker.c:384]: isc_check_filter_criteria(): ifc_checker_trigger:  - group 1 => 1. 
+[0;39;49m[0;39;49m 3(37) DEBUG: {1 1 MESSAGE 6cb6969939eed2c6@smsc.ims.mnc001.mcc001.3gppnetwork.org term} ims_isc [checker.c:397]: isc_check_filter_criteria(): ifc_checker_trigger:       - group compromised, skipping to next group
+[0;39;49m[0;39;49m 3(37) DEBUG: {1 1 MESSAGE 6cb6969939eed2c6@smsc.ims.mnc001.mcc001.3gppnetwork.org term} ims_isc [checker.c:305]: isc_check_spt(): ifc_check_spt:             SPT type 4 -> Session Case  == 0 ?
+[0;39;49m[0;39;49m 3(37) DEBUG: {1 1 MESSAGE 6cb6969939eed2c6@smsc.ims.mnc001.mcc001.3gppnetwork.org term} ims_isc [checker.c:308]: isc_check_spt(): ifc_check_spt:               Found session_case 1 
+[0;39;49m[0;39;49m 3(37) DEBUG: {1 1 MESSAGE 6cb6969939eed2c6@smsc.ims.mnc001.mcc001.3gppnetwork.org term} ims_isc [checker.c:384]: isc_check_filter_criteria(): ifc_checker_trigger:  - group 2 => 0. 
+[0;39;49m[0;39;49m 3(37) DEBUG: {1 1 MESSAGE 6cb6969939eed2c6@smsc.ims.mnc001.mcc001.3gppnetwork.org term} ims_isc [checker.c:406]: isc_check_filter_criteria(): ifc_checker_trigger: Check finished => 0
+[0;39;49m[0;39;49m 3(37) DEBUG: {1 1 MESSAGE 6cb6969939eed2c6@smsc.ims.mnc001.mcc001.3gppnetwork.org FINAL_TERM} ims_registrar_scscf [lookup.c:92]: lookup(): looking for any type of terminal
+[0;39;49m[0;39;49m 3(37) DEBUG: {1 1 MESSAGE 6cb6969939eed2c6@smsc.ims.mnc001.mcc001.3gppnetwork.org FINAL_TERM} ims_registrar_scscf [lookup.c:127]: lookup(): Looking for <sip:111111@ims.mnc001.mcc001.3gppnetwork.org>
+[0;39;49m[0;39;49m 3(37) DEBUG: {1 1 MESSAGE 6cb6969939eed2c6@smsc.ims.mnc001.mcc001.3gppnetwork.org FINAL_TERM} ims_registrar_scscf [lookup.c:145]: lookup(): Found a valid contact [sip:001010000123528@10.20.20.18:9400;alias=10.20.20.18~9401~1]
+[0;39;49m[0;32;49m 6(40) NOTICE: {1 1 MESSAGE ip8eXGhd7q4IuRNeA3QMOw..@10.20.20.18 DEFAULT_ROUTE} <script>: SCSCF: MESSAGE sip:222222@ims.mnc001.mcc001.3gppnetwork.org (sip:111111@ims.mnc001.mcc001.3gppnetwork.org (172.22.0.21:6108) to sip:222222@ims.mnc001.mcc001.3gppnetwork.org, ip8eXGhd7q4IuRNeA3QMOw..@10.20.20.18)
+[0;39;49m[0;39;49m 6(40) DEBUG: {1 1 MESSAGE ip8eXGhd7q4IuRNeA3QMOw..@10.20.20.18 REQINIT} <script>: Mem: Total 67108864, Free 63036256 [1% used]
+[0;39;49m[0;39;49m 6(40) DEBUG: {1 1 MESSAGE ip8eXGhd7q4IuRNeA3QMOw..@10.20.20.18 DEFAULT_ROUTE} ims_dialog [dlg_handlers.c:893]: dlg_onroute(): No to tag header found --- ignoring... MESSAGE [MESSAGE
+[0;39;49m[0;31;49m 6(40) ERROR: {1 1 MESSAGE ip8eXGhd7q4IuRNeA3QMOw..@10.20.20.18 DEFAULT_ROUTE} <script>: Orig[0;39;49m[0;39;49m 6(40) DEBUG: {1 1 MESSAGE ip8eXGhd7q4IuRNeA3QMOw..@10.20.20.18 orig} <script>: Enter orig route
+[0;39;49m[0;39;49m 6(40) DEBUG: {1 1 MESSAGE ip8eXGhd7q4IuRNeA3QMOw..@10.20.20.18 orig} ims_dialog [dlg_hash.c:969]: internal_get_dlg(): no dialog callid='ip8eXGhd7q4IuRNeA3QMOw..@10.20.20.18' found
+[0;39;49m[0;39;49m 6(40) DEBUG: {1 1 MESSAGE ip8eXGhd7q4IuRNeA3QMOw..@10.20.20.18 orig} ims_dialog [dlg_hash.c:1000]: get_dlg(): no dialog callid='ip8eXGhd7q4IuRNeA3QMOw..@10.20.20.18' found
+[0;39;49m[0;39;49m 6(40) DEBUG: {1 1 MESSAGE ip8eXGhd7q4IuRNeA3QMOw..@10.20.20.18 orig} ims_dialog [dlg_handlers.c:2104]: dlg_get_msg_dialog(): dlg with callid 'ip8eXGhd7q4IuRNeA3QMOw..@10.20.20.18' not found
+[0;39;49m[0;36;49m 6(40) INFO: {1 1 MESSAGE ip8eXGhd7q4IuRNeA3QMOw..@10.20.20.18 orig} ims_isc [ims_isc_mod.c:254]: isc_match_filter(): Checking triggers
+[0;39;49m[0;39;49m 6(40) DEBUG: {1 1 MESSAGE ip8eXGhd7q4IuRNeA3QMOw..@10.20.20.18 orig} ims_isc [mark.c:95]: isc_mark_get_from_msg(): isc_mark_get_from_msg: Trying to get the mark from the message 
+[0;39;49m[0;39;49m 6(40) DEBUG: {1 1 MESSAGE ip8eXGhd7q4IuRNeA3QMOw..@10.20.20.18 orig} ims_isc [ims_isc_mod.c:281]: isc_match_filter(): Starting triggering
+[0;39;49m[0;39;49m 6(40) DEBUG: {1 1 MESSAGE ip8eXGhd7q4IuRNeA3QMOw..@10.20.20.18 orig} ims_isc [ims_isc_mod.c:355]: isc_match_filter(): Checking if ISC is for originating user
+[0;39;49m[0;39;49m 6(40) DEBUG: {1 1 MESSAGE ip8eXGhd7q4IuRNeA3QMOw..@10.20.20.18 orig} ims_isc [ims_isc_mod.c:359]: isc_match_filter(): ISC is for Orig user
+[0;39;49m[0;39;49m 6(40) DEBUG: {1 1 MESSAGE ip8eXGhd7q4IuRNeA3QMOw..@10.20.20.18 orig} ims_isc [ims_isc_mod.c:361]: isc_match_filter(): Orig user is [sip:111111@ims.mnc001.mcc001.3gppnetwork.org]
+[0;39;49m[0;39;49m 6(40) DEBUG: {1 1 MESSAGE ip8eXGhd7q4IuRNeA3QMOw..@10.20.20.18 orig} ims_isc [checker.c:655]: isc_is_registered(): Searching in usrloc
+[0;39;49m[0;39;49m 6(40) DEBUG: {1 1 MESSAGE ip8eXGhd7q4IuRNeA3QMOw..@10.20.20.18 orig} ims_isc [checker.c:663]: isc_is_registered(): Finished searching usrloc
+[0;39;49m[0;39;49m 6(40) DEBUG: {1 1 MESSAGE ip8eXGhd7q4IuRNeA3QMOw..@10.20.20.18 orig} ims_isc [ims_isc_mod.c:368]: isc_match_filter(): Orig User <sip:111111@ims.mnc001.mcc001.3gppnetwork.org> [1]
+[0;39;49m[0;39;49m 6(40) DEBUG: {1 1 MESSAGE ip8eXGhd7q4IuRNeA3QMOw..@10.20.20.18 orig} ims_isc [ims_isc_mod.c:371]: isc_match_filter(): Checking if RURI has changed...comparing: <> and <sip:111111@ims.mnc001.mcc001.3gppnetwork.org>
+[0;39;49m[0;39;49m 6(40) DEBUG: {1 1 MESSAGE ip8eXGhd7q4IuRNeA3QMOw..@10.20.20.18 orig} ims_isc [checker.c:655]: isc_is_registered(): Searching in usrloc
+[0;39;49m[0;39;49m 6(40) DEBUG: {1 1 MESSAGE ip8eXGhd7q4IuRNeA3QMOw..@10.20.20.18 orig} ims_isc [checker.c:663]: isc_is_registered(): Finished searching usrloc
+[0;39;49m[0;39;49m 6(40) DEBUG: {1 1 MESSAGE ip8eXGhd7q4IuRNeA3QMOw..@10.20.20.18 orig} ims_isc [checker.c:486]: isc_checker_find(): isc_checker_find: starting search
+[0;39;49m[0;39;49m 6(40) DEBUG: {1 1 MESSAGE ip8eXGhd7q4IuRNeA3QMOw..@10.20.20.18 orig} ims_isc [checker.c:510]: isc_checker_find(): isc_checker_find(): got a r_public for the user sip:111111@ims.mnc001.mcc001.3gppnetwork.org
+[0;39;49m[0;39;49m 6(40) DEBUG: {1 1 MESSAGE ip8eXGhd7q4IuRNeA3QMOw..@10.20.20.18 orig} ims_isc [checker.c:526]: isc_checker_find(): About to try p->s->service_profiles_cnt!! #profiles is 1
+[0;39;49m[0;39;49m 6(40) DEBUG: {1 1 MESSAGE ip8eXGhd7q4IuRNeA3QMOw..@10.20.20.18 orig} ims_isc [checker.c:529]: isc_checker_find(): About to try p->s->service_profiles[a].filter_criteria_cnt
+[0;39;49m[0;39;49m 6(40) DEBUG: {1 1 MESSAGE ip8eXGhd7q4IuRNeA3QMOw..@10.20.20.18 orig} ims_isc [checker.c:540]: isc_checker_find(): DEBUG ISC: SECOND TIME About to try p->s->service_profiles_cnt!!
+[0;39;49m[0;39;49m 6(40) DEBUG: {1 1 MESSAGE ip8eXGhd7q4IuRNeA3QMOw..@10.20.20.18 orig} ims_isc [checker.c:545]: isc_checker_find(): DEBUG ISC : About to try p->s->service_profiles
+[0;39;49m[0;39;49m 6(40) DEBUG: {1 1 MESSAGE ip8eXGhd7q4IuRNeA3QMOw..@10.20.20.18 orig} ims_isc [checker.c:548]: isc_checker_find(): DEBUG ISC : About to try public identities
+[0;39;49m[0;39;49m 6(40) DEBUG: {1 1 MESSAGE ip8eXGhd7q4IuRNeA3QMOw..@10.20.20.18 orig} ims_isc [checker.c:551]: isc_checker_find(): DEBUG ISC : About to try WPSI
+[0;39;49m[0;39;49m 6(40) DEBUG: {1 1 MESSAGE ip8eXGhd7q4IuRNeA3QMOw..@10.20.20.18 orig} ims_isc [checker.c:370]: isc_check_filter_criteria(): ifc_checker_trigger: Starting expression check: 
+[0;39;49m[0;39;49m 6(40) DEBUG: {1 1 MESSAGE ip8eXGhd7q4IuRNeA3QMOw..@10.20.20.18 orig} ims_isc [checker.c:277]: isc_check_spt(): ifc_check_spt:             SPT type 2 -> Method == MESSAGE ?
+[0;39;49m[0;39;49m 6(40) DEBUG: {1 1 MESSAGE ip8eXGhd7q4IuRNeA3QMOw..@10.20.20.18 orig} ims_isc [checker.c:280]: isc_check_spt(): ifc_check_spt:               Found method MESSAGE 
+[0;39;49m[0;39;49m 6(40) DEBUG: {1 1 MESSAGE ip8eXGhd7q4IuRNeA3QMOw..@10.20.20.18 orig} ims_isc [checker.c:397]: isc_check_filter_criteria(): ifc_checker_trigger:       - group compromised, skipping to next group
+[0;39;49m[0;39;49m 6(40) DEBUG: {1 1 MESSAGE ip8eXGhd7q4IuRNeA3QMOw..@10.20.20.18 orig} ims_isc [checker.c:293]: isc_check_spt(): ifc_check_spt:             SPT type 3 -> Header[Server]  %=  ?
+[0;39;49m[0;39;49m 6(40) DEBUG: {1 1 MESSAGE ip8eXGhd7q4IuRNeA3QMOw..@10.20.20.18 orig} ims_isc [checker.c:99]: isc_check_headers(): isc_check_headers: Looking for Header[Server(29)]  
+[0;39;49m[0;39;49m 6(40) DEBUG: {1 1 MESSAGE ip8eXGhd7q4IuRNeA3QMOw..@10.20.20.18 orig} ims_isc [checker.c:384]: isc_check_filter_criteria(): ifc_checker_trigger:  - group 1 => 1. 
+[0;39;49m[0;39;49m 6(40) DEBUG: {1 1 MESSAGE ip8eXGhd7q4IuRNeA3QMOw..@10.20.20.18 orig} ims_isc [checker.c:397]: isc_check_filter_criteria(): ifc_checker_trigger:       - group compromised, skipping to next group
+[0;39;49m[0;39;49m 6(40) DEBUG: {1 1 MESSAGE ip8eXGhd7q4IuRNeA3QMOw..@10.20.20.18 orig} ims_isc [checker.c:305]: isc_check_spt(): ifc_check_spt:             SPT type 4 -> Session Case  == 0 ?
+[0;39;49m[0;39;49m 6(40) DEBUG: {1 1 MESSAGE ip8eXGhd7q4IuRNeA3QMOw..@10.20.20.18 orig} ims_isc [checker.c:308]: isc_check_spt(): ifc_check_spt:               Found session_case 0 
+[0;39;49m[0;39;49m 6(40) DEBUG: {1 1 MESSAGE ip8eXGhd7q4IuRNeA3QMOw..@10.20.20.18 orig} ims_isc [checker.c:384]: isc_check_filter_criteria(): ifc_checker_trigger:  - group 2 => 1. 
+[0;39;49m[0;39;49m 6(40) DEBUG: {1 1 MESSAGE ip8eXGhd7q4IuRNeA3QMOw..@10.20.20.18 orig} ims_isc [checker.c:397]: isc_check_filter_criteria(): ifc_checker_trigger:       - group compromised, skipping to next group
+[0;39;49m[0;39;49m 6(40) DEBUG: {1 1 MESSAGE ip8eXGhd7q4IuRNeA3QMOw..@10.20.20.18 orig} ims_isc [checker.c:406]: isc_check_filter_criteria(): ifc_checker_trigger: Check finished => 1
+[0;39;49m[0;39;49m 6(40) DEBUG: {1 1 MESSAGE ip8eXGhd7q4IuRNeA3QMOw..@10.20.20.18 orig} ims_isc [checker.c:594]: isc_checker_find(): isc_checker_find: MATCH -> sip:smsc.ims.mnc001.mcc001.3gppnetwork.org:5060 () handling 0 
+[0;39;49m[0;39;49m 6(40) DEBUG: {1 1 MESSAGE ip8eXGhd7q4IuRNeA3QMOw..@10.20.20.18 orig} ims_isc [isc.c:68]: isc_forward(): marking for AS <sip:smsc.ims.mnc001.mcc001.3gppnetwork.org:5060>
+[0;39;49m[0;39;49m 6(40) DEBUG: {1 1 MESSAGE ip8eXGhd7q4IuRNeA3QMOw..@10.20.20.18 orig} ims_isc [mark.c:276]: isc_mark_drop_route(): ifc_mark_drop_route: Start --------- 
+[0;39;49m[0;39;49m 6(40) DEBUG: {1 1 MESSAGE ip8eXGhd7q4IuRNeA3QMOw..@10.20.20.18 orig} ims_isc [mark.c:291]: isc_mark_drop_route(): ifc_mark_drop_route: ---------- End 
+[0;39;49m[0;39;49m 6(40) DEBUG: {1 1 MESSAGE ip8eXGhd7q4IuRNeA3QMOw..@10.20.20.18 orig} ims_isc [mark.c:365]: isc_mark_write_route(): isc_mark_write_route: <Route: <sip:smsc.ims.mnc001.mcc001.3gppnetwork.org:5060;lr>, <sip:iscmark@scscf.ims.mnc001.mcc001.3gppnetwork.org;lr;s=1;h=0;d=0;a=7369703a31313131313140696d732e6d6e633030312e6d63633030312e336770706e6574776f726b2e6f7267>
+>
+[0;39;49m[0;39;49m 6(40) DEBUG: {1 1 MESSAGE ip8eXGhd7q4IuRNeA3QMOw..@10.20.20.18 orig} ims_isc [mark.c:431]: isc_mark_write_psu(): isc_mark_write_psu: P-Served-User: <sip:111111@ims.mnc001.mcc001.3gppnetwork.org>;sescase=orig;regstate=reg
+[0;39;49m[0;39;49m 6(40) DEBUG: {1 1 MESSAGE ip8eXGhd7q4IuRNeA3QMOw..@10.20.20.18 orig} ims_isc [mark.c:330]: isc_mark_set(): isc_mark_set: NEW mark <sip:iscmark@scscf.ims.mnc001.mcc001.3gppnetwork.org;lr;s=1;h=0;d=0;a=7369703a31313131313140696d732e6d6e633030312e6d63633030312e336770706e6574776f726b2e6f7267>
+[0;39;49m[0;36;49m 6(40) INFO: {1 1 MESSAGE ip8eXGhd7q4IuRNeA3QMOw..@10.20.20.18 orig} ims_isc [isc.c:101]: isc_forward(): Transaction 22872 228705115 exists. Retransmission?
+[0;39;49m[0;36;49m 6(40) INFO: {1 1 MESSAGE ip8eXGhd7q4IuRNeA3QMOw..@10.20.20.18 orig} ims_isc [isc.c:119]: isc_forward(): >>       msg was fwded to AS
+[0;39;49m[0;39;49m 6(40) DEBUG: {1 1 MESSAGE ip8eXGhd7q4IuRNeA3QMOw..@10.20.20.18 orig} ims_isc [checker.c:639]: isc_free_match(): isc_match_free: match position freed
+[0;39;49m[0;31;49m 6(40) ERROR: {1 1 MESSAGE ip8eXGhd7q4IuRNeA3QMOw..@10.20.20.18 orig} <script>: Orig - msg was fwded to AS
+[0;39;49m[0;39;49m33(67) DEBUG: ims_dialog [dlg_handlers.c:2066]: print_all_dlgs(): ********************[0;39;49m[0;39;49m33(67) DEBUG: ims_dialog [dlg_handlers.c:2067]: print_all_dlgs(): printing 4096 dialogs
+[0;39;49m[0;39;49m33(67) DEBUG: ims_dialog [dlg_handlers.c:2077]: print_all_dlgs(): ********************[0;39;49m[0;39;49m33(67) DEBUG: ims_auth [authorize.c:283]: reg_await_timer(): Looking for expired/useless at 119268936
+[0;39;49m[0;39;49m33(67) DEBUG: ims_auth [authorize.c:288]: reg_await_timer(): Slot  333 <001010000123528@ims.mnc001.mcc001.3gppnetwork.org>
+[0;39;49m[0;39;49m33(67) DEBUG: ims_auth [authorize.c:293]: reg_await_timer(): .. AV    0 - 3 Exp 119270558  0x763d8952e4e0
+[0;39;49m[0;39;49m33(67) DEBUG: ims_auth [authorize.c:288]: reg_await_timer(): Slot  454 <001010000123542@ims.mnc001.mcc001.3gppnetwork.org>
+[0;39;49m[0;39;49m33(67) DEBUG: ims_auth [authorize.c:293]: reg_await_timer(): .. AV    0 - 3 Exp 119270523  0x763d8952ef30
+[0;39;49m[0;39;49m33(67) DEBUG: ims_auth [authorize.c:337]: reg_await_timer(): [DONE] Looking for expired/useless at 119268936
+[0;39;49m[0;39;49m33(67) DEBUG: ims_dialog [dlg_handlers.c:2066]: print_all_dlgs(): ********************[0;39;49m[0;39;49m33(67) DEBUG: ims_dialog [dlg_handlers.c:2067]: print_all_dlgs(): printing 4096 dialogs
+[0;39;49m[0;39;49m33(67) DEBUG: ims_dialog [dlg_handlers.c:2077]: print_all_dlgs(): ********************[0;39;49m[0;39;49m33(67) DEBUG: ims_auth [authorize.c:283]: reg_await_timer(): Looking for expired/useless at 119268946
+[0;39;49m[0;39;49m33(67) DEBUG: ims_auth [authorize.c:288]: reg_await_timer(): Slot  333 <001010000123528@ims.mnc001.mcc001.3gppnetwork.org>
+[0;39;49m[0;39;49m33(67) DEBUG: ims_auth [authorize.c:293]: reg_await_timer(): .. AV    0 - 3 Exp 119270558  0x763d8952e4e0
+[0;39;49m[0;39;49m33(67) DEBUG: ims_auth [authorize.c:288]: reg_await_timer(): Slot  454 <001010000123542@ims.mnc001.mcc001.3gppnetwork.org>
+[0;39;49m[0;39;49m33(67) DEBUG: ims_auth [authorize.c:293]: reg_await_timer(): .. AV    0 - 3 Exp 119270523  0x763d8952ef30
+[0;39;49m[0;39;49m33(67) DEBUG: ims_auth [authorize.c:337]: reg_await_timer(): [DONE] Looking for expired/useless at 119268946
+[0;39;49m[0;39;49m33(67) DEBUG: ims_dialog [dlg_handlers.c:2066]: print_all_dlgs(): ********************[0;39;49m[0;39;49m33(67) DEBUG: ims_dialog [dlg_handlers.c:2067]: print_all_dlgs(): printing 4096 dialogs
+[0;39;49m[0;39;49m33(67) DEBUG: ims_dialog [dlg_handlers.c:2077]: print_all_dlgs(): ********************[0;39;49m[0;39;49m33(67) DEBUG: ims_auth [authorize.c:283]: reg_await_timer(): Looking for expired/useless at 119268956
+[0;39;49m[0;39;49m33(67) DEBUG: ims_auth [authorize.c:288]: reg_await_timer(): Slot  333 <001010000123528@ims.mnc001.mcc001.3gppnetwork.org>
+[0;39;49m[0;39;49m33(67) DEBUG: ims_auth [authorize.c:293]: reg_await_timer(): .. AV    0 - 3 Exp 119270558  0x763d8952e4e0
+[0;39;49m[0;39;49m33(67) DEBUG: ims_auth [authorize.c:288]: reg_await_timer(): Slot  454 <001010000123542@ims.mnc001.mcc001.3gppnetwork.org>
+[0;39;49m[0;39;49m33(67) DEBUG: ims_auth [authorize.c:293]: reg_await_timer(): .. AV    0 - 3 Exp 119270523  0x763d8952ef30
+[0;39;49m[0;39;49m33(67) DEBUG: ims_auth [authorize.c:337]: reg_await_timer(): [DONE] Looking for expired/useless at 119268956
+[0;39;49m[0;39;49m33(67) DEBUG: ims_usrloc_scscf [ims_usrloc_scscf_mod.c:500]: timer(): Syncing cache
+[0;39;49m[0;39;49m33(67) DEBUG: ims_usrloc_scscf [udomain.c:312]: mem_timer_udomain(): *** mem_timer_udomain - checking contacts - START ***
+[0;39;49m[0;39;49m33(67) DEBUG: ims_usrloc_scscf [udomain.c:323]: mem_timer_udomain(): We have a [3gpp=1] contact in the new contact list in slot 110 = [sip:001010000123528@ims.mnc001.mcc001.3gppnetwork.org] (sip:001010000123528@10.20.20.18:9400;alias=10.20.20.18~9401~1) which expires in 1591.000000 seconds and has a ref count of 3 (state: Contact valid)
+[0;39;49m[0;39;49m33(67) DEBUG: ims_usrloc_scscf [udomain.c:323]: mem_timer_udomain(): We have a [3gpp=1] contact in the new contact list in slot 374 = [sip:001010000123542@ims.mnc001.mcc001.3gppnetwork.org] (sip:001010000123542@10.20.20.17:31800;alias=10.20.20.17~31100~1) which expires in 1557.000000 seconds and has a ref count of 3 (state: Contact valid)
+[0;39;49m[0;39;49m33(67) DEBUG: ims_usrloc_scscf [udomain.c:418]: mem_timer_udomain(): *** mem_timer_udomain - checking contacts - FINISHED ***
+[0;39;49m[0;39;49m33(67) DEBUG: ims_usrloc_scscf [udomain.c:424]: mem_timer_udomain(): *** mem_timer_udomain - checking IMPUs - START ***
+[0;39;49m[0;39;49m33(67) DEBUG: ims_usrloc_scscf [impurecord.c:402]: process_impurecord(): 	Public Identity sip:111111@ims.mnc001.mcc001.3gppnetwork.org, Barred: [0], State: [registered], contacts [1], 3gppcontacts [1]
+[0;39;49m[0;39;49m33(67) DEBUG: ims_usrloc_scscf [impurecord.c:452]: process_impurecord(): 		Contact #0 - sip:001010000123528@10.20.20.18:9400;alias=10.20.20.18~9401~1, Ref [3] (expires in 1591 seconds) (State: 0)
+[0;39;49m[0;39;49m33(67) DEBUG: ims_usrloc_scscf [impurecord.c:484]: process_impurecord(): Checking validity of IMPU: <sip:111111@ims.mnc001.mcc001.3gppnetwork.org> registration subscriptions
+[0;39;49m[0;39;49m33(67) DEBUG: ims_usrloc_scscf [impurecord.c:402]: process_impurecord(): 	Public Identity tel:222222, Barred: [0], State: [registered], contacts [1], 3gppcontacts [1]
+[0;39;49m[0;39;49m33(67) DEBUG: ims_usrloc_scscf [impurecord.c:452]: process_impurecord(): 		Contact #0 - sip:001010000123542@10.20.20.17:31800;alias=10.20.20.17~31100~1, Ref [3] (expires in 1557 seconds) (State: 0)
+[0;39;49m[0;39;49m33(67) DEBUG: ims_usrloc_scscf [impurecord.c:484]: process_impurecord(): Checking validity of IMPU: <tel:222222> registration subscriptions
+[0;39;49m[0;39;49m33(67) DEBUG: ims_usrloc_scscf [impurecord.c:402]: process_impurecord(): 	Public Identity sip:222222@ims.mnc001.mcc001.3gppnetwork.org, Barred: [0], State: [registered], contacts [1], 3gppcontacts [1]
+[0;39;49m[0;39;49m33(67) DEBUG: ims_usrloc_scscf [impurecord.c:452]: process_impurecord(): 		Contact #0 - sip:001010000123542@10.20.20.17:31800;alias=10.20.20.17~31100~1, Ref [3] (expires in 1557 seconds) (State: 0)
+[0;39;49m[0;39;49m33(67) DEBUG: ims_usrloc_scscf [impurecord.c:484]: process_impurecord(): Checking validity of IMPU: <sip:222222@ims.mnc001.mcc001.3gppnetwork.org> registration subscriptions
+[0;39;49m[0;39;49m33(67) DEBUG: ims_usrloc_scscf [impurecord.c:499]: process_impurecord(): DBG:registrar_timer: Subscriber with watcher_contact <sip:222222@10.20.20.15:31800> and presentity uri <sip:222222@ims.mnc001.mcc001.3gppnetwork.org> is valid and expires in 1085 seconds.
+[0;39;49m[0;39;49m33(67) DEBUG: ims_usrloc_scscf [impurecord.c:506]: process_impurecord(): Hash size: <512>
+[0;39;49m[0;39;49m33(67) DEBUG: ims_usrloc_scscf [impurecord.c:507]: process_impurecord(): Searching sub dialog hash info with call_id: <cgncbynME@10.20.20.15> and ttag <4d2b7af309c0e63b4f73900cc6bd5790-7686794f> ftag <dhncbyn> and hash code <79>
+[0;39;49m[0;39;49m33(67) DEBUG: ims_usrloc_scscf [impurecord.c:519]: process_impurecord(): DBG:registrar_timer: Subscription has dialog record in hash table with presentity uri <sip:222222@ims.mnc001.mcc001.3gppnetwork.org>
+[0;39;49m[0;39;49m33(67) DEBUG: ims_usrloc_scscf [impurecord.c:499]: process_impurecord(): DBG:registrar_timer: Subscriber with watcher_contact <sip:222222@10.20.20.17:31800> and presentity uri <sip:222222@ims.mnc001.mcc001.3gppnetwork.org> is valid and expires in 1557 seconds.
+[0;39;49m[0;39;49m33(67) DEBUG: ims_usrloc_scscf [impurecord.c:506]: process_impurecord(): Hash size: <512>
+[0;39;49m[0;39;49m33(67) DEBUG: ims_usrloc_scscf [impurecord.c:507]: process_impurecord(): Searching sub dialog hash info with call_id: <Y6ncbyAoc@10.20.20.17> and ttag <4d2b7af309c0e63b4f73900cc6bd5790-dbfad418> ftag <Z7ncbyA> and hash code <305>
+[0;39;49m[0;39;49m33(67) DEBUG: ims_usrloc_scscf [impurecord.c:519]: process_impurecord(): DBG:registrar_timer: Subscription has dialog record in hash table with presentity uri <sip:222222@ims.mnc001.mcc001.3gppnetwork.org>
+[0;39;49m[0;39;49m33(67) DEBUG: ims_usrloc_scscf [impurecord.c:402]: process_impurecord(): 	Public Identity sip:001010000123528@ims.mnc001.mcc001.3gppnetwork.org, Barred: [0], State: [registered], contacts [1], 3gppcontacts [1]
+[0;39;49m[0;39;49m33(67) DEBUG: ims_usrloc_scscf [impurecord.c:452]: process_impurecord(): 		Contact #0 - sip:001010000123528@10.20.20.18:9400;alias=10.20.20.18~9401~1, Ref [3] (expires in 1591 seconds) (State: 0)
+[0;39;49m[0;39;49m33(67) DEBUG: ims_usrloc_scscf [impurecord.c:484]: process_impurecord(): Checking validity of IMPU: <sip:001010000123528@ims.mnc001.mcc001.3gppnetwork.org> registration subscriptions
+[0;39;49m[0;39;49m33(67) DEBUG: ims_usrloc_scscf [impurecord.c:402]: process_impurecord(): 	Public Identity tel:111111, Barred: [0], State: [registered], contacts [1], 3gppcontacts [1]
+[0;39;49m[0;39;49m33(67) DEBUG: ims_usrloc_scscf [impurecord.c:452]: process_impurecord(): 		Contact #0 - sip:001010000123528@10.20.20.18:9400;alias=10.20.20.18~9401~1, Ref [3] (expires in 1591 seconds) (State: 0)
+[0;39;49m[0;39;49m33(67) DEBUG: ims_usrloc_scscf [impurecord.c:484]: process_impurecord(): Checking validity of IMPU: <tel:111111> registration subscriptions
+[0;39;49m[0;39;49m33(67) DEBUG: ims_usrloc_scscf [impurecord.c:402]: process_impurecord(): 	Public Identity sip:001010000123542@ims.mnc001.mcc001.3gppnetwork.org, Barred: [0], State: [registered], contacts [1], 3gppcontacts [1]
+[0;39;49m[0;39;49m33(67) DEBUG: ims_usrloc_scscf [impurecord.c:452]: process_impurecord(): 		Contact #0 - sip:001010000123542@10.20.20.17:31800;alias=10.20.20.17~31100~1, Ref [3] (expires in 1557 seconds) (State: 0)
+[0;39;49m[0;39;49m33(67) DEBUG: ims_usrloc_scscf [impurecord.c:484]: process_impurecord(): Checking validity of IMPU: <sip:001010000123542@ims.mnc001.mcc001.3gppnetwork.org> registration subscriptions
+[0;39;49m[0;39;49m33(67) DEBUG: ims_usrloc_scscf [udomain.c:449]: mem_timer_udomain(): *** mem_timer_udomain - checking IMPUs - FINISHED ***
+[0;39;49m[0;39;49m33(67) DEBUG: ims_dialog [dlg_handlers.c:2066]: print_all_dlgs(): ********************[0;39;49m[0;39;49m33(67) DEBUG: ims_dialog [dlg_handlers.c:2067]: print_all_dlgs(): printing 4096 dialogs
+[0;39;49m[0;39;49m33(67) DEBUG: ims_dialog [dlg_handlers.c:2077]: print_all_dlgs(): ********************[0;39;49m[0;39;49m33(67) DEBUG: ims_auth [authorize.c:283]: reg_await_timer(): Looking for expired/useless at 119268966
+[0;39;49m[0;39;49m33(67) DEBUG: ims_auth [authorize.c:288]: reg_await_timer(): Slot  333 <001010000123528@ims.mnc001.mcc001.3gppnetwork.org>
+[0;39;49m[0;39;49m33(67) DEBUG: ims_auth [authorize.c:293]: reg_await_timer(): .. AV    0 - 3 Exp 119270558  0x763d8952e4e0
+[0;39;49m[0;39;49m33(67) DEBUG: ims_auth [authorize.c:288]: reg_await_timer(): Slot  454 <001010000123542@ims.mnc001.mcc001.3gppnetwork.org>
+[0;39;49m[0;39;49m33(67) DEBUG: ims_auth [authorize.c:293]: reg_await_timer(): .. AV    0 - 3 Exp 119270523  0x763d8952ef30
+[0;39;49m[0;39;49m33(67) DEBUG: ims_auth [authorize.c:337]: reg_await_timer(): [DONE] Looking for expired/useless at 119268966
+[0;39;49m[0;39;49m33(67) DEBUG: ims_dialog [dlg_handlers.c:2066]: print_all_dlgs(): ********************[0;39;49m[0;39;49m33(67) DEBUG: ims_dialog [dlg_handlers.c:2067]: print_all_dlgs(): printing 4096 dialogs
+[0;39;49m[0;39;49m33(67) DEBUG: ims_dialog [dlg_handlers.c:2077]: print_all_dlgs(): ********************[0;39;49m[0;39;49m33(67) DEBUG: ims_auth [authorize.c:283]: reg_await_timer(): Looking for expired/useless at 119268976
+[0;39;49m[0;39;49m33(67) DEBUG: ims_auth [authorize.c:288]: reg_await_timer(): Slot  333 <001010000123528@ims.mnc001.mcc001.3gppnetwork.org>
+[0;39;49m[0;39;49m33(67) DEBUG: ims_auth [authorize.c:293]: reg_await_timer(): .. AV    0 - 3 Exp 119270558  0x763d8952e4e0
+[0;39;49m[0;39;49m33(67) DEBUG: ims_auth [authorize.c:288]: reg_await_timer(): Slot  454 <001010000123542@ims.mnc001.mcc001.3gppnetwork.org>
+[0;39;49m[0;39;49m33(67) DEBUG: ims_auth [authorize.c:293]: reg_await_timer(): .. AV    0 - 3 Exp 119270523  0x763d8952ef30
+[0;39;49m[0;39;49m33(67) DEBUG: ims_auth [authorize.c:337]: reg_await_timer(): [DONE] Looking for expired/useless at 119268976
+[0;39;49m[0;39;49m33(67) DEBUG: ims_dialog [dlg_handlers.c:2066]: print_all_dlgs(): ********************[0;39;49m[0;39;49m33(67) DEBUG: ims_dialog [dlg_handlers.c:2067]: print_all_dlgs(): printing 4096 dialogs
+[0;39;49m[0;39;49m33(67) DEBUG: ims_dialog [dlg_handlers.c:2077]: print_all_dlgs(): ********************[0;39;49m[0;39;49m33(67) DEBUG: ims_auth [authorize.c:283]: reg_await_timer(): Looking for expired/useless at 119268986
+[0;39;49m[0;39;49m33(67) DEBUG: ims_auth [authorize.c:288]: reg_await_timer(): Slot  333 <001010000123528@ims.mnc001.mcc001.3gppnetwork.org>
+[0;39;49m[0;39;49m33(67) DEBUG: ims_auth [authorize.c:293]: reg_await_timer(): .. AV    0 - 3 Exp 119270558  0x763d8952e4e0
+[0;39;49m[0;39;49m33(67) DEBUG: ims_auth [authorize.c:288]: reg_await_timer(): Slot  454 <001010000123542@ims.mnc001.mcc001.3gppnetwork.org>
+[0;39;49m[0;39;49m33(67) DEBUG: ims_auth [authorize.c:293]: reg_await_timer(): .. AV    0 - 3 Exp 119270523  0x763d8952ef30
+[0;39;49m[0;39;49m33(67) DEBUG: ims_auth [authorize.c:337]: reg_await_timer(): [DONE] Looking for expired/useless at 119268986
+[0;39;49m[0;39;49m33(67) DEBUG: ims_dialog [dlg_handlers.c:2066]: print_all_dlgs(): ********************[0;39;49m[0;39;49m33(67) DEBUG: ims_dialog [dlg_handlers.c:2067]: print_all_dlgs(): printing 4096 dialogs
+[0;39;49m[0;39;49m33(67) DEBUG: ims_dialog [dlg_handlers.c:2077]: print_all_dlgs(): ********************[0;39;49m[0;39;49m33(67) DEBUG: ims_auth [authorize.c:283]: reg_await_timer(): Looking for expired/useless at 119268996
+[0;39;49m[0;39;49m33(67) DEBUG: ims_auth [authorize.c:288]: reg_await_timer(): Slot  333 <001010000123528@ims.mnc001.mcc001.3gppnetwork.org>
+[0;39;49m[0;39;49m33(67) DEBUG: ims_auth [authorize.c:293]: reg_await_timer(): .. AV    0 - 3 Exp 119270558  0x763d8952e4e0
+[0;39;49m[0;39;49m33(67) DEBUG: ims_auth [authorize.c:288]: reg_await_timer(): Slot  454 <001010000123542@ims.mnc001.mcc001.3gppnetwork.org>
+[0;39;49m[0;39;49m33(67) DEBUG: ims_auth [authorize.c:293]: reg_await_timer(): .. AV    0 - 3 Exp 119270523  0x763d8952ef30
+[0;39;49m[0;39;49m33(67) DEBUG: ims_auth [authorize.c:337]: reg_await_timer(): [DONE] Looking for expired/useless at 119268996
+[0;39;49m[0;39;49m33(67) DEBUG: ims_dialog [dlg_handlers.c:2066]: print_all_dlgs(): ********************[0;39;49m[0;39;49m33(67) DEBUG: ims_dialog [dlg_handlers.c:2067]: print_all_dlgs(): printing 4096 dialogs
+[0;39;49m[0;39;49m33(67) DEBUG: ims_dialog [dlg_handlers.c:2077]: print_all_dlgs(): ********************[0;39;49m[0;39;49m33(67) DEBUG: ims_auth [authorize.c:283]: reg_await_timer(): Looking for expired/useless at 119269006
+[0;39;49m[0;39;49m33(67) DEBUG: ims_auth [authorize.c:288]: reg_await_timer(): Slot  333 <001010000123528@ims.mnc001.mcc001.3gppnetwork.org>
+[0;39;49m[0;39;49m33(67) DEBUG: ims_auth [authorize.c:293]: reg_await_timer(): .. AV    0 - 3 Exp 119270558  0x763d8952e4e0
+[0;39;49m[0;39;49m33(67) DEBUG: ims_auth [authorize.c:288]: reg_await_timer(): Slot  454 <001010000123542@ims.mnc001.mcc001.3gppnetwork.org>
+[0;39;49m[0;39;49m33(67) DEBUG: ims_auth [authorize.c:293]: reg_await_timer(): .. AV    0 - 3 Exp 119270523  0x763d8952ef30
+[0;39;49m[0;39;49m33(67) DEBUG: ims_auth [authorize.c:337]: reg_await_timer(): [DONE] Looking for expired/useless at 119269006

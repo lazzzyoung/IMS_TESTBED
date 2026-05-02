@@ -1,0 +1,9 @@
+[0;39;49m[0;31;49m 4(34) ERROR: {1 1 INVITE ttpcbOUBX@10.20.20.17 initial_request} <script>: $ru => sip:111111@ims.mnc001.mcc001.3gppnetwork.org;user=phone
+[0;39;49m[0;36;49m 4(34) INFO: {1 1 INVITE ttpcbOUBX@10.20.20.17 initial_request} ims_icscf [cxdx_lir.c:72]: create_lia_return_code(): created AVP successfully : [lia_return_code]
+[0;39;49m[0;36;49m24(54) INFO: {1 1 INVITE XXncbOOtD@10.20.20.11 <null>} ims_icscf [cxdx_avp.c:140]: cxdx_get_avp(): cxdx_get_experimental_result_code: Failed finding avp
+[0;39;49m[0;36;49m24(54) INFO: {1 1 INVITE XXncbOOtD@10.20.20.11 <null>} ims_icscf [cxdx_lir.c:72]: create_lia_return_code(): created AVP successfully : [lia_return_code]
+[0;39;49m[0;31;49m 3(33) ERROR: {1 1 CANCEL ttpcbOUBX@10.20.20.17 initial_request} <script>: $ru => sip:111111@ims.mnc001.mcc001.3gppnetwork.org;user=phone
+[0;39;49m[0;36;49m 3(33) INFO: {1 1 CANCEL ttpcbOUBX@10.20.20.17 initial_request} ims_icscf [cxdx_lir.c:72]: create_lia_return_code(): created AVP successfully : [lia_return_code]
+[0;39;49m[0;36;49m25(55) INFO: {1 1 REGISTER bbncbywiV@10.20.20.15 <null>} ims_icscf [cxdx_avp.c:140]: cxdx_get_avp(): cxdx_get_experimental_result_code: Failed finding avp
+[0;39;49m[0;36;49m25(55) INFO: {1 1 REGISTER bbncbywiV@10.20.20.15 <null>} ims_icscf [cxdx_lir.c:72]: create_lia_return_code(): created AVP successfully : [lia_return_code]
+[0;39;49m[0;35;49m 2(32) WARNING: {1 1 ACK ttpcbOUBX@10.20.20.17 <null>} tm [t_lookup.c:2060]: t_unref(): script writer didn't release transaction
