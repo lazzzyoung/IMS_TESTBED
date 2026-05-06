@@ -29,6 +29,7 @@ SAFE_NAME_RE = re.compile(r"[^A-Za-z0-9._-]+")
 PENDING_FORWARDS: dict[str, dict[str, Any]] = {}
 PENDING_FORWARDS_BY_RP_REF: dict[int, list[dict[str, Any]]] = {}
 PENDING_FORWARDS_LOCK = threading.Lock()
+CONTROL_RP_TYPES = {"0x02", "0x03", "0x04", "0x05", "0x06"}
 
 
 @dataclass
@@ -279,7 +280,7 @@ def _annotate_control_signal(
         return
     rp_message_type = sms_parse.get("rp_message_type")
     rp_message_reference = sms_parse.get("rp_message_reference")
-    if rp_message_type != "0x05" or not isinstance(rp_message_reference, int):
+    if rp_message_type not in CONTROL_RP_TYPES or not isinstance(rp_message_reference, int):
         return
     with PENDING_FORWARDS_LOCK:
         pendings = list(PENDING_FORWARDS_BY_RP_REF.get(rp_message_reference, []))
@@ -290,11 +291,13 @@ def _annotate_control_signal(
         event["control_signal_transport"] = transport
         event["control_signal_from"] = f"{peer[0]}:{peer[1]}"
         event["control_signal_rp_message_type"] = rp_message_type
+        event["control_signal_rp_message_type_name"] = sms_parse.get("rp_message_type_name")
         event["control_signal_rp_message_reference"] = rp_message_reference
         event["control_signal_from_header"] = msg.first_header("From")
         event["control_signal_to_header"] = msg.first_header("To")
         event["control_signal_body_hex"] = msg.body_bytes.hex().upper()
         event["control_signal_start_line"] = msg.start_line
+        event["control_signal_sms_parse"] = sms_parse
 
 
 def forward_to_ims(msg: SIPMessage, sms_parse: dict[str, object] | None) -> None:
@@ -307,12 +310,13 @@ def forward_to_ims(msg: SIPMessage, sms_parse: dict[str, object] | None) -> None
                 "status": "skipped",
                 "reason": "non-mo-rp-message",
                 "rp_message_type": rp_message_type,
+                "rp_message_type_name": sms_parse.get("rp_message_type_name"),
                 "sms_parse": sms_parse,
                 "call_id": msg.first_header("Call-ID"),
             }
         )
         return
-    destination = sms_parse.get("best_effort_destination")
+    destination = sms_parse.get("tp_destination_digits") or sms_parse.get("best_effort_destination")
     if not isinstance(destination, str) or not destination:
         persist_forward_result(
             {
@@ -334,6 +338,7 @@ def forward_to_ims(msg: SIPMessage, sms_parse: dict[str, object] | None) -> None
         originating_msisdn=originating,
         text=relay_text,
         rp_message_reference=rp_message_reference,
+        rp_message_type=0x01,
     )
     forward_call_id, payload = build_forward_message(
         destination_msisdn=destination,
@@ -351,9 +356,18 @@ def forward_to_ims(msg: SIPMessage, sms_parse: dict[str, object] | None) -> None
         "forward_call_id": forward_call_id,
         "content_type": content_type,
         "source_rp_message_type": rp_message_type,
+        "source_rp_message_type_name": sms_parse.get("rp_message_type_name"),
+        "source_tpdu_type": (
+            sms_parse.get("tpdu", {}).get("tpdu_type")
+            if isinstance(sms_parse.get("tpdu"), dict)
+            else None
+        ),
+        "source_tp_destination_digits": sms_parse.get("tp_destination_digits"),
         "relay_text": relay_text,
+        "relay_rp_message_type": "0x01",
         "relay_body_hex": mt_body_bytes.hex().upper(),
         "payload_hex_prefix": payload[:160].hex().upper(),
+        "self_send": destination == originating,
     }
     waiter = _register_pending_forward(
         forward_call_id,
