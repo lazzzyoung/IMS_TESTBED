@@ -2139,3 +2139,7 @@ Open5GS daemon v2.7.6-78-g47d0062
 05/06 17:53:14.758: [mme] INFO: ErrorIndication (../src/mme/s1ap-path.c:867)
 05/06 17:53:34.758: [emm] WARNING: No connection of MSC/VLR (../src/mme/emm-sm.c:990)
 05/06 17:53:34.758: [mme] INFO: ErrorIndication (../src/mme/s1ap-path.c:867)
+05/06 18:19:55.078: [emm] WARNING: No connection of MSC/VLR (../src/mme/emm-sm.c:990)
+05/06 18:19:55.078: [mme] INFO: ErrorIndication (../src/mme/s1ap-path.c:867)
+05/06 18:20:14.078: [emm] WARNING: No connection of MSC/VLR (../src/mme/emm-sm.c:990)
+05/06 18:20:14.078: [mme] INFO: ErrorIndication (../src/mme/s1ap-path.c:867)
