@@ -35,3 +35,11 @@ Open5GS daemon v2.7.6-78-g47d0062
 05/02 10:17:38.611: [app] INFO: Polling freeDiameter stats every 60000000 usecs (../lib/diameter/common/stats.c:77)
 05/02 10:17:38.611: [app] INFO: PCRF initialize...done (../src/pcrf/app-init.c:31)
 05/02 10:17:38.613: [diam] INFO: CONNECTED TO 'smf.epc.mnc001.mcc001.3gppnetwork.org' (SCTP,soc#15): (../lib/diameter/common/logger.c:81)
+Open5GS daemon v2.7.6-78-g47d0062
+
+05/06 16:29:55.886: [app] INFO: Configuration: '/open5gs/install/etc/open5gs/pcrf.yaml' (../lib/app/ogs-init.c:144)
+05/06 16:29:55.886: [app] INFO: File Logging: '/open5gs/install/var/log/open5gs/pcrf.log' (../lib/app/ogs-init.c:147)
+05/06 16:29:55.889: [dbi] INFO: MongoDB URI: 'mongodb://172.22.0.2/open5gs' (../lib/dbi/ogs-mongoc.c:130)
+05/06 16:29:55.918: [app] INFO: Polling freeDiameter stats every 60000000 usecs (../lib/diameter/common/stats.c:77)
+05/06 16:29:55.918: [app] INFO: PCRF initialize...done (../src/pcrf/app-init.c:31)
+05/06 16:29:55.920: [diam] INFO: CONNECTED TO 'smf.epc.mnc001.mcc001.3gppnetwork.org' (SCTP,soc#15): (../lib/diameter/common/logger.c:81)

@@ -1,0 +1,22 @@
+{
+  "timestamp": "20260506T170209.938262Z",
+  "transport": "UDP",
+  "peer_host": "172.22.0.20",
+  "peer_port": 6060,
+  "start_line": "SIP/2.0 200 OK",
+  "is_response": true,
+  "method": "SIP/2.0",
+  "uri": null,
+  "version": "SIP/2.0",
+  "status_code": 200,
+  "reason": "OK",
+  "from": "<sip:111111@ims.mnc001.mcc001.3gppnetwork.org>;tag=0a0b135b",
+  "to": "<sip:111111@ims.mnc001.mcc001.3gppnetwork.org>;tag=HPfcbQo",
+  "call_id": "22a5bc5ebc872bd9@smsc.ims.mnc001.mcc001.3gppnetwork.org",
+  "cseq": "1 MESSAGE",
+  "content_type": null,
+  "content_length": "0",
+  "body": "",
+  "body_hex": "",
+  "sms_parse": null
+}
