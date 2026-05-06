@@ -12,7 +12,11 @@ from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any
 
-from sms_parser import build_mt_3gpp_sms_payload, parse_3gpp_sms_payload
+from sms_parser import (
+    build_mt_3gpp_sms_payload,
+    build_rp_ack_network_to_ms_payload,
+    parse_3gpp_sms_payload,
+)
 
 CRLF = "\r\n"
 HOST = "0.0.0.0"
@@ -184,6 +188,12 @@ def persist_message(msg: SIPMessage, transport: str, peer: tuple[str, int]) -> N
         "cseq": msg.first_header("CSeq"),
         "content_type": content_type,
         "content_length": msg.first_header("Content-Length"),
+        "in_reply_to": msg.first_header("In-Reply-To"),
+        "reply_to": msg.first_header("Reply-To"),
+        "p_asserted_identity": msg.first_header("P-Asserted-Identity"),
+        "request_disposition": msg.first_header("Request-Disposition"),
+        "accept_contact": msg.first_header("Accept-Contact"),
+        "content_transfer_encoding": msg.first_header("Content-Transfer-Encoding"),
         "body": msg.body,
         "body_hex": msg.body_bytes.hex().upper(),
         "sms_parse": sms_parse,
@@ -209,24 +219,102 @@ def build_forward_message(
     originating_msisdn: str,
     body_bytes: bytes,
     content_type: str,
+    from_uri: str | None = None,
+    to_uri: str | None = None,
+    p_asserted_identity: str | None = None,
+    reply_to: str | None = None,
+    request_disposition: str | None = None,
+    accept_contact: str | None = None,
+    content_transfer_encoding: str | None = None,
 ) -> tuple[str, bytes]:
     call_id = f"{secrets.token_hex(8)}@{SMSC_FQDN}"
+    from_uri = from_uri or f"sip:{originating_msisdn}@{IMS_DOMAIN}"
+    to_uri = to_uri or f"sip:{destination_msisdn}@{IMS_DOMAIN}"
     lines = [
         f"MESSAGE sip:{destination_msisdn}@{IMS_DOMAIN} SIP/2.0",
         f"Via: SIP/2.0/UDP {SMSC_FQDN}:5060;branch=z9hG4bK-{secrets.token_hex(8)}",
         "Max-Forwards: 70",
-        f"From: <sip:{originating_msisdn}@{IMS_DOMAIN}>;tag={secrets.token_hex(4)}",
-        f"To: <sip:{destination_msisdn}@{IMS_DOMAIN}>",
+        f"From: <{from_uri}>;tag={secrets.token_hex(4)}",
+        f"To: <{to_uri}>",
         f"Call-ID: {call_id}",
         "CSeq: 1 MESSAGE",
-        f"Contact: <sip:smsc@{SMSC_FQDN}:5060>",
         "Server: vmf-smsc/0.1",
+    ]
+    if p_asserted_identity:
+        lines.append(f"P-Asserted-Identity: <{p_asserted_identity}>")
+    if reply_to:
+        lines.append(f"Reply-To: <{reply_to}>")
+    if request_disposition:
+        lines.append(f"Request-Disposition: {request_disposition}")
+    if accept_contact:
+        lines.append(f"Accept-Contact: {accept_contact}")
+    if content_transfer_encoding:
+        lines.append(f"Content-Transfer-Encoding: {content_transfer_encoding}")
+    lines.extend(
+        [
         f"Content-Type: {content_type}",
         f"Content-Length: {len(body_bytes)}",
         "",
         "",
-    ]
+        ]
+    )
     return call_id, CRLF.join(lines).encode("utf-8") + body_bytes
+
+
+def send_submit_ack_to_ims(
+    *,
+    originating_msisdn: str,
+    rp_message_reference: int,
+    source_call_id: str | None,
+) -> dict[str, object]:
+    ack_body_bytes = build_rp_ack_network_to_ms_payload(
+        rp_message_reference=rp_message_reference,
+    )
+    ack_call_id, payload = build_forward_message(
+        destination_msisdn=originating_msisdn,
+        originating_msisdn="smsc",
+        body_bytes=ack_body_bytes,
+        content_type="application/vnd.3gpp.sms",
+        from_uri=f"sip:smsc@{IMS_DOMAIN}",
+        to_uri=f"sip:{originating_msisdn}@{IMS_DOMAIN}",
+        p_asserted_identity=f"sip:smsc@{IMS_DOMAIN}",
+        reply_to=f"sip:smsc@{IMS_DOMAIN}",
+        request_disposition="no-fork",
+        accept_contact="*;+g.3gpp.smsip",
+        content_transfer_encoding="binary",
+    )
+    event: dict[str, object] = {
+        "status": "attempt",
+        "kind": "submit-ack",
+        "source_call_id": source_call_id,
+        "destination_msisdn": originating_msisdn,
+        "rp_message_reference": rp_message_reference,
+        "forward_call_id": ack_call_id,
+        "content_type": "application/vnd.3gpp.sms",
+        "ack_rp_message_type": "0x03",
+        "ack_body_hex": ack_body_bytes.hex().upper(),
+        "payload_hex_prefix": payload[:160].hex().upper(),
+        "scscf_host": SCSCF_HOST,
+        "scscf_port": SCSCF_PORT,
+    }
+    waiter = _register_pending_forward(
+        ack_call_id,
+        event,
+        rp_message_reference=None,
+    )
+    try:
+        with socket.socket(socket.AF_INET, socket.SOCK_DGRAM) as sock:
+            sock.sendto(payload, (SCSCF_HOST, SCSCF_PORT))
+        if not waiter.wait(timeout=8.0):
+            event["status"] = "timeout"
+    except OSError as exc:
+        event["status"] = "error"
+        event["error"] = str(exc)
+    finally:
+        with PENDING_FORWARDS_LOCK:
+            PENDING_FORWARDS.pop(ack_call_id, None)
+    persist_forward_result(event)
+    return event
 
 
 def _register_pending_forward(
@@ -295,6 +383,9 @@ def _annotate_control_signal(
         event["control_signal_rp_message_reference"] = rp_message_reference
         event["control_signal_from_header"] = msg.first_header("From")
         event["control_signal_to_header"] = msg.first_header("To")
+        event["control_signal_in_reply_to"] = msg.first_header("In-Reply-To")
+        event["control_signal_reply_to"] = msg.first_header("Reply-To")
+        event["control_signal_p_asserted_identity"] = msg.first_header("P-Asserted-Identity")
         event["control_signal_body_hex"] = msg.body_bytes.hex().upper()
         event["control_signal_start_line"] = msg.start_line
         event["control_signal_sms_parse"] = sms_parse
@@ -333,7 +424,15 @@ def forward_to_ims(msg: SIPMessage, sms_parse: dict[str, object] | None) -> None
     rp_message_reference = sms_parse.get("rp_message_reference")
     if not isinstance(rp_message_reference, int):
         rp_message_reference = 0
-    relay_text = f"VMF relay from {originating}"
+    source_tpdu = sms_parse.get("tpdu") if isinstance(sms_parse.get("tpdu"), dict) else {}
+    source_text = source_tpdu.get("tp_user_data_text") if isinstance(source_tpdu, dict) else None
+    relay_text = source_text if isinstance(source_text, str) and source_text else f"VMF relay from {originating}"
+    relay_text_source = "decoded-source-text" if relay_text == source_text else "placeholder"
+    submit_ack_event = send_submit_ack_to_ims(
+        originating_msisdn=originating,
+        rp_message_reference=rp_message_reference,
+        source_call_id=msg.first_header("Call-ID"),
+    )
     mt_body_bytes = build_mt_3gpp_sms_payload(
         originating_msisdn=originating,
         text=relay_text,
@@ -345,6 +444,13 @@ def forward_to_ims(msg: SIPMessage, sms_parse: dict[str, object] | None) -> None
         originating_msisdn=originating,
         body_bytes=mt_body_bytes,
         content_type=content_type,
+        from_uri=f"sip:{originating}@{IMS_DOMAIN}",
+        to_uri=f"sip:{destination}@{IMS_DOMAIN}",
+        p_asserted_identity=f"sip:smsc@{IMS_DOMAIN}",
+        reply_to=f"sip:smsc@{IMS_DOMAIN}",
+        request_disposition="no-fork",
+        accept_contact="*;+g.3gpp.smsip",
+        content_transfer_encoding="binary",
     )
     event: dict[str, object] = {
         "status": "attempt",
@@ -364,10 +470,12 @@ def forward_to_ims(msg: SIPMessage, sms_parse: dict[str, object] | None) -> None
         ),
         "source_tp_destination_digits": sms_parse.get("tp_destination_digits"),
         "relay_text": relay_text,
+        "relay_text_source": relay_text_source,
         "relay_rp_message_type": "0x01",
         "relay_body_hex": mt_body_bytes.hex().upper(),
         "payload_hex_prefix": payload[:160].hex().upper(),
         "self_send": destination == originating,
+        "submit_ack": submit_ack_event,
     }
     waiter = _register_pending_forward(
         forward_call_id,
@@ -421,6 +529,8 @@ def handle_request_bytes(data: bytes, transport: str, peer: tuple[str, int]) -> 
             daemon=True,
         ).start()
     if msg.method == "MESSAGE":
+        if sms_parse and sms_parse.get("rp_message_type") in CONTROL_RP_TYPES:
+            return build_response(msg, 200, "OK")
         return build_response(msg, 202, "Accepted")
     if msg.method == "OPTIONS":
         return build_response(msg, 200, "OK")

@@ -4,6 +4,11 @@ from math import ceil
 
 _SMS_DEFAULT_SMSC = "821000000000"
 _SMS_DEFAULT_SCTS_HEX = "62403151423300"
+_GSM7_BASIC_ALPHABET = (
+    "@"
+    "PS"
+    "abcdefghijklmnopqrstuvwxyz"
+)
 _RP_MESSAGE_TYPE_NAMES = {
     0x00: "rp-data-ms-to-network",
     0x01: "rp-data-network-to-ms",
@@ -113,6 +118,46 @@ def _best_effort_ud_text(user_data: bytes) -> str | None:
     return text
 
 
+def _decode_gsm7(user_data: bytes, septet_count: int) -> str:
+    bits: list[int] = []
+    for byte in user_data:
+        for i in range(8):
+            bits.append((byte >> i) & 0x01)
+    chars: list[str] = []
+    for septet_idx in range(septet_count):
+        value = 0
+        base = septet_idx * 7
+        for bit_idx in range(7):
+            if base + bit_idx < len(bits):
+                value |= bits[base + bit_idx] << bit_idx
+        if value == 0x1B:
+            chars.append("^")
+        elif 0x20 <= value <= 0x7E:
+            chars.append(chr(value))
+        elif value < len(_GSM7_BASIC_ALPHABET):
+            chars.append(_GSM7_BASIC_ALPHABET[value])
+        else:
+            chars.append(f"[{value:02X}]")
+    return "".join(chars)
+
+
+def _decode_tp_user_data(dcs: int, udl: int, user_data: bytes) -> tuple[str | None, int]:
+    if dcs == 0x00:
+        octet_len = ceil(udl * 7 / 8)
+        text = _decode_gsm7(user_data[:octet_len], udl)
+        return text, octet_len
+    if dcs == 0x08:
+        octet_len = udl
+        try:
+            text = user_data[:octet_len].decode("utf-16-be", errors="replace")
+        except Exception:
+            text = None
+        return text, octet_len
+    octet_len = udl
+    text = _best_effort_ud_text(user_data[:octet_len])
+    return text, octet_len
+
+
 def _parse_tpdu(tpdu: bytes) -> dict[str, object]:
     result: dict[str, object] = {
         "tpdu_len": len(tpdu),
@@ -143,18 +188,25 @@ def _parse_tpdu(tpdu: bytes) -> dict[str, object]:
                 "digits": destination,
             }
         idx = end
+        dcs_int: int | None = None
         if idx + 2 <= len(tpdu):
             result["tp_pid"] = f"0x{tpdu[idx]:02X}"
             result["tp_dcs"] = f"0x{tpdu[idx + 1]:02X}"
+            dcs_int = tpdu[idx + 1]
             idx += 2
         if idx < len(tpdu):
             udl = tpdu[idx]
             result["tp_user_data_length"] = udl
-            user_data = tpdu[idx + 1 : idx + 1 + udl]
+            decode_text, octet_len = _decode_tp_user_data(
+                dcs_int if dcs_int is not None else 0x00,
+                udl,
+                tpdu[idx + 1 :],
+            )
+            user_data = tpdu[idx + 1 : idx + 1 + octet_len]
             result["tp_user_data_hex"] = user_data.hex().upper()
-            text = _best_effort_ud_text(user_data)
-            if text is not None:
-                result["tp_user_data_text"] = text
+            result["tp_user_data_octets"] = octet_len
+            if decode_text is not None:
+                result["tp_user_data_text"] = decode_text
 
     elif mti == 0x00 and len(tpdu) >= 4:
         # SMS-DELIVER
@@ -170,9 +222,11 @@ def _parse_tpdu(tpdu: bytes) -> dict[str, object]:
                 "digits": originating,
             }
         idx = end
+        dcs_int: int | None = None
         if idx + 2 <= len(tpdu):
             result["tp_pid"] = f"0x{tpdu[idx]:02X}"
             result["tp_dcs"] = f"0x{tpdu[idx + 1]:02X}"
+            dcs_int = tpdu[idx + 1]
             idx += 2
         if idx + 7 <= len(tpdu):
             result["tp_scts_hex"] = tpdu[idx : idx + 7].hex().upper()
@@ -180,11 +234,16 @@ def _parse_tpdu(tpdu: bytes) -> dict[str, object]:
         if idx < len(tpdu):
             udl = tpdu[idx]
             result["tp_user_data_length"] = udl
-            user_data = tpdu[idx + 1 : idx + 1 + udl]
+            decode_text, octet_len = _decode_tp_user_data(
+                dcs_int if dcs_int is not None else 0x00,
+                udl,
+                tpdu[idx + 1 :],
+            )
+            user_data = tpdu[idx + 1 : idx + 1 + octet_len]
             result["tp_user_data_hex"] = user_data.hex().upper()
-            text = _best_effort_ud_text(user_data)
-            if text is not None:
-                result["tp_user_data_text"] = text
+            result["tp_user_data_octets"] = octet_len
+            if decode_text is not None:
+                result["tp_user_data_text"] = decode_text
 
     return result
 
@@ -225,6 +284,28 @@ def build_mt_3gpp_sms_payload(
         f"{rp_oa_len:02X}{rp_oa_body}"
         "00"
         f"{tpdu_len:02X}{tpdu_hex}"
+    )
+    return bytes.fromhex(rp_hex)
+
+
+def build_rp_ack_network_to_ms_payload(
+    *,
+    rp_message_reference: int,
+    scts_hex: str = _SMS_DEFAULT_SCTS_HEX,
+) -> bytes:
+    # RP-ACK network->ms with minimal SMS-SUBMIT-REPORT TPDU.
+    tpdu_hex = (
+        "01"  # SMS-SUBMIT-REPORT
+        + "00"  # TP-PI
+        + scts_hex
+    )
+    tpdu_len = len(bytes.fromhex(tpdu_hex))
+    rp_hex = (
+        "03"  # RP-ACK network->ms
+        + f"{rp_message_reference & 0xFF:02X}"
+        + "41"  # RP-User-Data IEI
+        + f"{tpdu_len:02X}"
+        + tpdu_hex
     )
     return bytes.fromhex(rp_hex)
 
