@@ -1,426 +1,660 @@
 [0;39;49m[0;32;49m89(131) NOTICE: {1 1 OPTIONS 123 NATPING} <script>: OPTIONS to sip:001010000123528@10.20.20.9:31800 via sip:10.20.20.9:31800;transport=tcp...
 [0;39;49m[0;32;49m89(131) NOTICE: {1 1 OPTIONS 123 NATPING} <script>: OPTIONS to sip:001010000123542@10.20.20.10:9900 via sip:10.20.20.10:9900;transport=tcp...
-[0;39;49m[0;32;49m92(134) NOTICE: {2 10 OPTIONS 4d1d0f4a739b6cde-131@172.22.0.21 uac:reply} <script>: request sent to sip:001010000123528@10.20.20.9:31800 completed with code: 200, Type 1
-[0;39;49m[0;32;49m94(136) NOTICE: {2 10 OPTIONS 4d1d0f4a739b6cdf-131@172.22.0.21 uac:reply} <script>: request sent to sip:001010000123542@10.20.20.10:9900 completed with code: 200, Type 1
+[0;39;49m[0;32;49m95(137) NOTICE: {2 10 OPTIONS 4d1d0f4a739b6f5b-131@172.22.0.21 uac:reply} <script>: request sent to sip:001010000123542@10.20.20.10:9900 completed with code: 200, Type 1
+[0;39;49m[0;32;49m92(134) NOTICE: {2 10 OPTIONS 4d1d0f4a739b6f5a-131@172.22.0.21 uac:reply} <script>: request sent to sip:001010000123528@10.20.20.9:31800 completed with code: 200, Type 1
 [0;39;49m[0;32;49m89(131) NOTICE: {1 1 OPTIONS 123 NATPING} <script>: OPTIONS to sip:001010000123528@10.20.20.9:31800 via sip:10.20.20.9:31800;transport=tcp...
 [0;39;49m[0;32;49m89(131) NOTICE: {1 1 OPTIONS 123 NATPING} <script>: OPTIONS to sip:001010000123542@10.20.20.10:9900 via sip:10.20.20.10:9900;transport=tcp...
-[0;39;49m[0;32;49m94(136) NOTICE: {2 10 OPTIONS 4d1d0f4a739b6ce1-131@172.22.0.21 uac:reply} <script>: request sent to sip:001010000123542@10.20.20.10:9900 completed with code: 200, Type 1
-[0;39;49m[0;32;49m92(134) NOTICE: {2 10 OPTIONS 4d1d0f4a739b6ce0-131@172.22.0.21 uac:reply} <script>: request sent to sip:001010000123528@10.20.20.9:31800 completed with code: 200, Type 1
+[0;39;49m[0;32;49m95(137) NOTICE: {2 10 OPTIONS 4d1d0f4a739b6f5d-131@172.22.0.21 uac:reply} <script>: request sent to sip:001010000123542@10.20.20.10:9900 completed with code: 200, Type 1
+[0;39;49m[0;32;49m92(134) NOTICE: {2 10 OPTIONS 4d1d0f4a739b6f5c-131@172.22.0.21 uac:reply} <script>: request sent to sip:001010000123528@10.20.20.9:31800 completed with code: 200, Type 1
 [0;39;49m[0;32;49m89(131) NOTICE: {1 1 OPTIONS 123 NATPING} <script>: OPTIONS to sip:001010000123528@10.20.20.9:31800 via sip:10.20.20.9:31800;transport=tcp...
 [0;39;49m[0;32;49m89(131) NOTICE: {1 1 OPTIONS 123 NATPING} <script>: OPTIONS to sip:001010000123542@10.20.20.10:9900 via sip:10.20.20.10:9900;transport=tcp...
-[0;39;49m[0;32;49m92(134) NOTICE: {2 10 OPTIONS 4d1d0f4a739b6ce2-131@172.22.0.21 uac:reply} <script>: request sent to sip:001010000123528@10.20.20.9:31800 completed with code: 200, Type 1
-[0;39;49m[0;32;49m94(136) NOTICE: {2 10 OPTIONS 4d1d0f4a739b6ce3-131@172.22.0.21 uac:reply} <script>: request sent to sip:001010000123542@10.20.20.10:9900 completed with code: 200, Type 1
+[0;39;49m[0;32;49m95(137) NOTICE: {2 10 OPTIONS 4d1d0f4a739b6f5f-131@172.22.0.21 uac:reply} <script>: request sent to sip:001010000123542@10.20.20.10:9900 completed with code: 200, Type 1
+[0;39;49m[0;32;49m92(134) NOTICE: {2 10 OPTIONS 4d1d0f4a739b6f5e-131@172.22.0.21 uac:reply} <script>: request sent to sip:001010000123528@10.20.20.9:31800 completed with code: 200, Type 1
 [0;39;49m[0;32;49m89(131) NOTICE: {1 1 OPTIONS 123 NATPING} <script>: OPTIONS to sip:001010000123528@10.20.20.9:31800 via sip:10.20.20.9:31800;transport=tcp...
 [0;39;49m[0;32;49m89(131) NOTICE: {1 1 OPTIONS 123 NATPING} <script>: OPTIONS to sip:001010000123542@10.20.20.10:9900 via sip:10.20.20.10:9900;transport=tcp...
-[0;39;49m[0;32;49m92(134) NOTICE: {2 10 OPTIONS 4d1d0f4a739b6ce4-131@172.22.0.21 uac:reply} <script>: request sent to sip:001010000123528@10.20.20.9:31800 completed with code: 200, Type 1
-[0;39;49m[0;32;49m94(136) NOTICE: {2 10 OPTIONS 4d1d0f4a739b6ce5-131@172.22.0.21 uac:reply} <script>: request sent to sip:001010000123542@10.20.20.10:9900 completed with code: 200, Type 1
+[0;39;49m[0;32;49m95(137) NOTICE: {2 10 OPTIONS 4d1d0f4a739b6f61-131@172.22.0.21 uac:reply} <script>: request sent to sip:001010000123542@10.20.20.10:9900 completed with code: 200, Type 1
+[0;39;49m[0;32;49m92(134) NOTICE: {2 10 OPTIONS 4d1d0f4a739b6f60-131@172.22.0.21 uac:reply} <script>: request sent to sip:001010000123528@10.20.20.9:31800 completed with code: 200, Type 1
 [0;39;49m[0;32;49m89(131) NOTICE: {1 1 OPTIONS 123 NATPING} <script>: OPTIONS to sip:001010000123528@10.20.20.9:31800 via sip:10.20.20.9:31800;transport=tcp...
 [0;39;49m[0;32;49m89(131) NOTICE: {1 1 OPTIONS 123 NATPING} <script>: OPTIONS to sip:001010000123542@10.20.20.10:9900 via sip:10.20.20.10:9900;transport=tcp...
-[0;39;49m[0;32;49m92(134) NOTICE: {2 10 OPTIONS 4d1d0f4a739b6ce6-131@172.22.0.21 uac:reply} <script>: request sent to sip:001010000123528@10.20.20.9:31800 completed with code: 200, Type 1
-[0;39;49m[0;32;49m94(136) NOTICE: {2 10 OPTIONS 4d1d0f4a739b6ce7-131@172.22.0.21 uac:reply} <script>: request sent to sip:001010000123542@10.20.20.10:9900 completed with code: 200, Type 1
+[0;39;49m[0;32;49m95(137) NOTICE: {2 10 OPTIONS 4d1d0f4a739b6f63-131@172.22.0.21 uac:reply} <script>: request sent to sip:001010000123542@10.20.20.10:9900 completed with code: 200, Type 1
+[0;39;49m[0;32;49m92(134) NOTICE: {2 10 OPTIONS 4d1d0f4a739b6f62-131@172.22.0.21 uac:reply} <script>: request sent to sip:001010000123528@10.20.20.9:31800 completed with code: 200, Type 1
 [0;39;49m[0;32;49m89(131) NOTICE: {1 1 OPTIONS 123 NATPING} <script>: OPTIONS to sip:001010000123528@10.20.20.9:31800 via sip:10.20.20.9:31800;transport=tcp...
 [0;39;49m[0;32;49m89(131) NOTICE: {1 1 OPTIONS 123 NATPING} <script>: OPTIONS to sip:001010000123542@10.20.20.10:9900 via sip:10.20.20.10:9900;transport=tcp...
-[0;39;49m[0;32;49m92(134) NOTICE: {2 10 OPTIONS 4d1d0f4a739b6ce8-131@172.22.0.21 uac:reply} <script>: request sent to sip:001010000123528@10.20.20.9:31800 completed with code: 200, Type 1
-[0;39;49m[0;32;49m94(136) NOTICE: {2 10 OPTIONS 4d1d0f4a739b6ce9-131@172.22.0.21 uac:reply} <script>: request sent to sip:001010000123542@10.20.20.10:9900 completed with code: 200, Type 1
+[0;39;49m[0;32;49m92(134) NOTICE: {2 10 OPTIONS 4d1d0f4a739b6f64-131@172.22.0.21 uac:reply} <script>: request sent to sip:001010000123528@10.20.20.9:31800 completed with code: 200, Type 1
+[0;39;49m[0;32;49m95(137) NOTICE: {2 10 OPTIONS 4d1d0f4a739b6f65-131@172.22.0.21 uac:reply} <script>: request sent to sip:001010000123542@10.20.20.10:9900 completed with code: 200, Type 1
 [0;39;49m[0;32;49m89(131) NOTICE: {1 1 OPTIONS 123 NATPING} <script>: OPTIONS to sip:001010000123528@10.20.20.9:31800 via sip:10.20.20.9:31800;transport=tcp...
 [0;39;49m[0;32;49m89(131) NOTICE: {1 1 OPTIONS 123 NATPING} <script>: OPTIONS to sip:001010000123542@10.20.20.10:9900 via sip:10.20.20.10:9900;transport=tcp...
-[0;39;49m[0;32;49m92(134) NOTICE: {2 10 OPTIONS 4d1d0f4a739b6cea-131@172.22.0.21 uac:reply} <script>: request sent to sip:001010000123528@10.20.20.9:31800 completed with code: 200, Type 1
-[0;39;49m[0;32;49m94(136) NOTICE: {2 10 OPTIONS 4d1d0f4a739b6ceb-131@172.22.0.21 uac:reply} <script>: request sent to sip:001010000123542@10.20.20.10:9900 completed with code: 200, Type 1
+[0;39;49m[0;32;49m92(134) NOTICE: {2 10 OPTIONS 4d1d0f4a739b6f66-131@172.22.0.21 uac:reply} <script>: request sent to sip:001010000123528@10.20.20.9:31800 completed with code: 200, Type 1
+[0;39;49m[0;32;49m95(137) NOTICE: {2 10 OPTIONS 4d1d0f4a739b6f67-131@172.22.0.21 uac:reply} <script>: request sent to sip:001010000123542@10.20.20.10:9900 completed with code: 200, Type 1
 [0;39;49m[0;32;49m89(131) NOTICE: {1 1 OPTIONS 123 NATPING} <script>: OPTIONS to sip:001010000123528@10.20.20.9:31800 via sip:10.20.20.9:31800;transport=tcp...
 [0;39;49m[0;32;49m89(131) NOTICE: {1 1 OPTIONS 123 NATPING} <script>: OPTIONS to sip:001010000123542@10.20.20.10:9900 via sip:10.20.20.10:9900;transport=tcp...
-[0;39;49m[0;32;49m92(134) NOTICE: {2 10 OPTIONS 4d1d0f4a739b6cec-131@172.22.0.21 uac:reply} <script>: request sent to sip:001010000123528@10.20.20.9:31800 completed with code: 200, Type 1
-[0;39;49m[0;32;49m94(136) NOTICE: {2 10 OPTIONS 4d1d0f4a739b6ced-131@172.22.0.21 uac:reply} <script>: request sent to sip:001010000123542@10.20.20.10:9900 completed with code: 200, Type 1
+[0;39;49m[0;32;49m95(137) NOTICE: {2 10 OPTIONS 4d1d0f4a739b6f69-131@172.22.0.21 uac:reply} <script>: request sent to sip:001010000123542@10.20.20.10:9900 completed with code: 200, Type 1
+[0;39;49m[0;32;49m92(134) NOTICE: {2 10 OPTIONS 4d1d0f4a739b6f68-131@172.22.0.21 uac:reply} <script>: request sent to sip:001010000123528@10.20.20.9:31800 completed with code: 200, Type 1
 [0;39;49m[0;32;49m89(131) NOTICE: {1 1 OPTIONS 123 NATPING} <script>: OPTIONS to sip:001010000123528@10.20.20.9:31800 via sip:10.20.20.9:31800;transport=tcp...
 [0;39;49m[0;32;49m89(131) NOTICE: {1 1 OPTIONS 123 NATPING} <script>: OPTIONS to sip:001010000123542@10.20.20.10:9900 via sip:10.20.20.10:9900;transport=tcp...
-[0;39;49m[0;32;49m92(134) NOTICE: {2 10 OPTIONS 4d1d0f4a739b6cee-131@172.22.0.21 uac:reply} <script>: request sent to sip:001010000123528@10.20.20.9:31800 completed with code: 200, Type 1
-[0;39;49m[0;32;49m94(136) NOTICE: {2 10 OPTIONS 4d1d0f4a739b6cef-131@172.22.0.21 uac:reply} <script>: request sent to sip:001010000123542@10.20.20.10:9900 completed with code: 200, Type 1
+[0;39;49m[0;32;49m95(137) NOTICE: {2 10 OPTIONS 4d1d0f4a739b6f6b-131@172.22.0.21 uac:reply} <script>: request sent to sip:001010000123542@10.20.20.10:9900 completed with code: 200, Type 1
+[0;39;49m[0;32;49m92(134) NOTICE: {2 10 OPTIONS 4d1d0f4a739b6f6a-131@172.22.0.21 uac:reply} <script>: request sent to sip:001010000123528@10.20.20.9:31800 completed with code: 200, Type 1
 [0;39;49m[0;32;49m89(131) NOTICE: {1 1 OPTIONS 123 NATPING} <script>: OPTIONS to sip:001010000123528@10.20.20.9:31800 via sip:10.20.20.9:31800;transport=tcp...
 [0;39;49m[0;32;49m89(131) NOTICE: {1 1 OPTIONS 123 NATPING} <script>: OPTIONS to sip:001010000123542@10.20.20.10:9900 via sip:10.20.20.10:9900;transport=tcp...
-[0;39;49m[0;32;49m92(134) NOTICE: {2 10 OPTIONS 4d1d0f4a739b6cf0-131@172.22.0.21 uac:reply} <script>: request sent to sip:001010000123528@10.20.20.9:31800 completed with code: 200, Type 1
-[0;39;49m[0;32;49m94(136) NOTICE: {2 10 OPTIONS 4d1d0f4a739b6cf1-131@172.22.0.21 uac:reply} <script>: request sent to sip:001010000123542@10.20.20.10:9900 completed with code: 200, Type 1
+[0;39;49m[0;32;49m95(137) NOTICE: {2 10 OPTIONS 4d1d0f4a739b6f6d-131@172.22.0.21 uac:reply} <script>: request sent to sip:001010000123542@10.20.20.10:9900 completed with code: 200, Type 1
+[0;39;49m[0;32;49m92(134) NOTICE: {2 10 OPTIONS 4d1d0f4a739b6f6c-131@172.22.0.21 uac:reply} <script>: request sent to sip:001010000123528@10.20.20.9:31800 completed with code: 200, Type 1
 [0;39;49m[0;32;49m89(131) NOTICE: {1 1 OPTIONS 123 NATPING} <script>: OPTIONS to sip:001010000123528@10.20.20.9:31800 via sip:10.20.20.9:31800;transport=tcp...
 [0;39;49m[0;32;49m89(131) NOTICE: {1 1 OPTIONS 123 NATPING} <script>: OPTIONS to sip:001010000123542@10.20.20.10:9900 via sip:10.20.20.10:9900;transport=tcp...
-[0;39;49m[0;32;49m92(134) NOTICE: {2 10 OPTIONS 4d1d0f4a739b6cf2-131@172.22.0.21 uac:reply} <script>: request sent to sip:001010000123528@10.20.20.9:31800 completed with code: 200, Type 1
-[0;39;49m[0;32;49m94(136) NOTICE: {2 10 OPTIONS 4d1d0f4a739b6cf3-131@172.22.0.21 uac:reply} <script>: request sent to sip:001010000123542@10.20.20.10:9900 completed with code: 200, Type 1
+[0;39;49m[0;32;49m95(137) NOTICE: {2 10 OPTIONS 4d1d0f4a739b6f6f-131@172.22.0.21 uac:reply} <script>: request sent to sip:001010000123542@10.20.20.10:9900 completed with code: 200, Type 1
+[0;39;49m[0;32;49m92(134) NOTICE: {2 10 OPTIONS 4d1d0f4a739b6f6e-131@172.22.0.21 uac:reply} <script>: request sent to sip:001010000123528@10.20.20.9:31800 completed with code: 200, Type 1
 [0;39;49m[0;32;49m89(131) NOTICE: {1 1 OPTIONS 123 NATPING} <script>: OPTIONS to sip:001010000123528@10.20.20.9:31800 via sip:10.20.20.9:31800;transport=tcp...
 [0;39;49m[0;32;49m89(131) NOTICE: {1 1 OPTIONS 123 NATPING} <script>: OPTIONS to sip:001010000123542@10.20.20.10:9900 via sip:10.20.20.10:9900;transport=tcp...
-[0;39;49m[0;32;49m92(134) NOTICE: {2 10 OPTIONS 4d1d0f4a739b6cf4-131@172.22.0.21 uac:reply} <script>: request sent to sip:001010000123528@10.20.20.9:31800 completed with code: 200, Type 1
-[0;39;49m[0;32;49m94(136) NOTICE: {2 10 OPTIONS 4d1d0f4a739b6cf5-131@172.22.0.21 uac:reply} <script>: request sent to sip:001010000123542@10.20.20.10:9900 completed with code: 200, Type 1
+[0;39;49m[0;32;49m95(137) NOTICE: {2 10 OPTIONS 4d1d0f4a739b6f71-131@172.22.0.21 uac:reply} <script>: request sent to sip:001010000123542@10.20.20.10:9900 completed with code: 200, Type 1
+[0;39;49m[0;32;49m92(134) NOTICE: {2 10 OPTIONS 4d1d0f4a739b6f70-131@172.22.0.21 uac:reply} <script>: request sent to sip:001010000123528@10.20.20.9:31800 completed with code: 200, Type 1
 [0;39;49m[0;32;49m89(131) NOTICE: {1 1 OPTIONS 123 NATPING} <script>: OPTIONS to sip:001010000123528@10.20.20.9:31800 via sip:10.20.20.9:31800;transport=tcp...
 [0;39;49m[0;32;49m89(131) NOTICE: {1 1 OPTIONS 123 NATPING} <script>: OPTIONS to sip:001010000123542@10.20.20.10:9900 via sip:10.20.20.10:9900;transport=tcp...
-[0;39;49m[0;32;49m92(134) NOTICE: {2 10 OPTIONS 4d1d0f4a739b6cf6-131@172.22.0.21 uac:reply} <script>: request sent to sip:001010000123528@10.20.20.9:31800 completed with code: 200, Type 1
-[0;39;49m[0;32;49m94(136) NOTICE: {2 10 OPTIONS 4d1d0f4a739b6cf7-131@172.22.0.21 uac:reply} <script>: request sent to sip:001010000123542@10.20.20.10:9900 completed with code: 200, Type 1
+[0;39;49m[0;32;49m95(137) NOTICE: {2 10 OPTIONS 4d1d0f4a739b6f73-131@172.22.0.21 uac:reply} <script>: request sent to sip:001010000123542@10.20.20.10:9900 completed with code: 200, Type 1
+[0;39;49m[0;32;49m92(134) NOTICE: {2 10 OPTIONS 4d1d0f4a739b6f72-131@172.22.0.21 uac:reply} <script>: request sent to sip:001010000123528@10.20.20.9:31800 completed with code: 200, Type 1
 [0;39;49m[0;32;49m89(131) NOTICE: {1 1 OPTIONS 123 NATPING} <script>: OPTIONS to sip:001010000123528@10.20.20.9:31800 via sip:10.20.20.9:31800;transport=tcp...
 [0;39;49m[0;32;49m89(131) NOTICE: {1 1 OPTIONS 123 NATPING} <script>: OPTIONS to sip:001010000123542@10.20.20.10:9900 via sip:10.20.20.10:9900;transport=tcp...
-[0;39;49m[0;32;49m92(134) NOTICE: {2 10 OPTIONS 4d1d0f4a739b6cf8-131@172.22.0.21 uac:reply} <script>: request sent to sip:001010000123528@10.20.20.9:31800 completed with code: 200, Type 1
-[0;39;49m[0;32;49m94(136) NOTICE: {2 10 OPTIONS 4d1d0f4a739b6cf9-131@172.22.0.21 uac:reply} <script>: request sent to sip:001010000123542@10.20.20.10:9900 completed with code: 200, Type 1
+[0;39;49m[0;32;49m95(137) NOTICE: {2 10 OPTIONS 4d1d0f4a739b6f75-131@172.22.0.21 uac:reply} <script>: request sent to sip:001010000123542@10.20.20.10:9900 completed with code: 200, Type 1
+[0;39;49m[0;32;49m92(134) NOTICE: {2 10 OPTIONS 4d1d0f4a739b6f74-131@172.22.0.21 uac:reply} <script>: request sent to sip:001010000123528@10.20.20.9:31800 completed with code: 200, Type 1
 [0;39;49m[0;32;49m89(131) NOTICE: {1 1 OPTIONS 123 NATPING} <script>: OPTIONS to sip:001010000123528@10.20.20.9:31800 via sip:10.20.20.9:31800;transport=tcp...
 [0;39;49m[0;32;49m89(131) NOTICE: {1 1 OPTIONS 123 NATPING} <script>: OPTIONS to sip:001010000123542@10.20.20.10:9900 via sip:10.20.20.10:9900;transport=tcp...
-[0;39;49m[0;32;49m92(134) NOTICE: {2 10 OPTIONS 4d1d0f4a739b6cfa-131@172.22.0.21 uac:reply} <script>: request sent to sip:001010000123528@10.20.20.9:31800 completed with code: 200, Type 1
-[0;39;49m[0;32;49m94(136) NOTICE: {2 10 OPTIONS 4d1d0f4a739b6cfb-131@172.22.0.21 uac:reply} <script>: request sent to sip:001010000123542@10.20.20.10:9900 completed with code: 200, Type 1
+[0;39;49m[0;32;49m95(137) NOTICE: {2 10 OPTIONS 4d1d0f4a739b6f77-131@172.22.0.21 uac:reply} <script>: request sent to sip:001010000123542@10.20.20.10:9900 completed with code: 200, Type 1
+[0;39;49m[0;32;49m92(134) NOTICE: {2 10 OPTIONS 4d1d0f4a739b6f76-131@172.22.0.21 uac:reply} <script>: request sent to sip:001010000123528@10.20.20.9:31800 completed with code: 200, Type 1
 [0;39;49m[0;32;49m89(131) NOTICE: {1 1 OPTIONS 123 NATPING} <script>: OPTIONS to sip:001010000123528@10.20.20.9:31800 via sip:10.20.20.9:31800;transport=tcp...
 [0;39;49m[0;32;49m89(131) NOTICE: {1 1 OPTIONS 123 NATPING} <script>: OPTIONS to sip:001010000123542@10.20.20.10:9900 via sip:10.20.20.10:9900;transport=tcp...
-[0;39;49m[0;32;49m92(134) NOTICE: {2 10 OPTIONS 4d1d0f4a739b6cfc-131@172.22.0.21 uac:reply} <script>: request sent to sip:001010000123528@10.20.20.9:31800 completed with code: 200, Type 1
-[0;39;49m[0;32;49m94(136) NOTICE: {2 10 OPTIONS 4d1d0f4a739b6cfd-131@172.22.0.21 uac:reply} <script>: request sent to sip:001010000123542@10.20.20.10:9900 completed with code: 200, Type 1
+[0;39;49m[0;32;49m92(134) NOTICE: {2 10 OPTIONS 4d1d0f4a739b6f78-131@172.22.0.21 uac:reply} <script>: request sent to sip:001010000123528@10.20.20.9:31800 completed with code: 200, Type 1
+[0;39;49m[0;32;49m95(137) NOTICE: {2 10 OPTIONS 4d1d0f4a739b6f79-131@172.22.0.21 uac:reply} <script>: request sent to sip:001010000123542@10.20.20.10:9900 completed with code: 200, Type 1
 [0;39;49m[0;32;49m89(131) NOTICE: {1 1 OPTIONS 123 NATPING} <script>: OPTIONS to sip:001010000123528@10.20.20.9:31800 via sip:10.20.20.9:31800;transport=tcp...
 [0;39;49m[0;32;49m89(131) NOTICE: {1 1 OPTIONS 123 NATPING} <script>: OPTIONS to sip:001010000123542@10.20.20.10:9900 via sip:10.20.20.10:9900;transport=tcp...
-[0;39;49m[0;32;49m92(134) NOTICE: {2 10 OPTIONS 4d1d0f4a739b6cfe-131@172.22.0.21 uac:reply} <script>: request sent to sip:001010000123528@10.20.20.9:31800 completed with code: 200, Type 1
-[0;39;49m[0;32;49m94(136) NOTICE: {2 10 OPTIONS 4d1d0f4a739b6cff-131@172.22.0.21 uac:reply} <script>: request sent to sip:001010000123542@10.20.20.10:9900 completed with code: 200, Type 1
+[0;39;49m[0;32;49m95(137) NOTICE: {2 10 OPTIONS 4d1d0f4a739b6f7b-131@172.22.0.21 uac:reply} <script>: request sent to sip:001010000123542@10.20.20.10:9900 completed with code: 200, Type 1
+[0;39;49m[0;32;49m92(134) NOTICE: {2 10 OPTIONS 4d1d0f4a739b6f7a-131@172.22.0.21 uac:reply} <script>: request sent to sip:001010000123528@10.20.20.9:31800 completed with code: 200, Type 1
 [0;39;49m[0;32;49m89(131) NOTICE: {1 1 OPTIONS 123 NATPING} <script>: OPTIONS to sip:001010000123528@10.20.20.9:31800 via sip:10.20.20.9:31800;transport=tcp...
 [0;39;49m[0;32;49m89(131) NOTICE: {1 1 OPTIONS 123 NATPING} <script>: OPTIONS to sip:001010000123542@10.20.20.10:9900 via sip:10.20.20.10:9900;transport=tcp...
-[0;39;49m[0;32;49m92(134) NOTICE: {2 10 OPTIONS 4d1d0f4a739b6d00-131@172.22.0.21 uac:reply} <script>: request sent to sip:001010000123528@10.20.20.9:31800 completed with code: 200, Type 1
-[0;39;49m[0;32;49m94(136) NOTICE: {2 10 OPTIONS 4d1d0f4a739b6d01-131@172.22.0.21 uac:reply} <script>: request sent to sip:001010000123542@10.20.20.10:9900 completed with code: 200, Type 1
+[0;39;49m[0;32;49m92(134) NOTICE: {2 10 OPTIONS 4d1d0f4a739b6f7c-131@172.22.0.21 uac:reply} <script>: request sent to sip:001010000123528@10.20.20.9:31800 completed with code: 200, Type 1
+[0;39;49m[0;32;49m95(137) NOTICE: {2 10 OPTIONS 4d1d0f4a739b6f7d-131@172.22.0.21 uac:reply} <script>: request sent to sip:001010000123542@10.20.20.10:9900 completed with code: 200, Type 1
 [0;39;49m[0;32;49m89(131) NOTICE: {1 1 OPTIONS 123 NATPING} <script>: OPTIONS to sip:001010000123528@10.20.20.9:31800 via sip:10.20.20.9:31800;transport=tcp...
 [0;39;49m[0;32;49m89(131) NOTICE: {1 1 OPTIONS 123 NATPING} <script>: OPTIONS to sip:001010000123542@10.20.20.10:9900 via sip:10.20.20.10:9900;transport=tcp...
-[0;39;49m[0;32;49m92(134) NOTICE: {2 10 OPTIONS 4d1d0f4a739b6d02-131@172.22.0.21 uac:reply} <script>: request sent to sip:001010000123528@10.20.20.9:31800 completed with code: 200, Type 1
-[0;39;49m[0;32;49m94(136) NOTICE: {2 10 OPTIONS 4d1d0f4a739b6d03-131@172.22.0.21 uac:reply} <script>: request sent to sip:001010000123542@10.20.20.10:9900 completed with code: 200, Type 1
-[0;39;49m[0;32;49m89(131) NOTICE: {1 1 OPTIONS 123 NATPING} <script>: OPTIONS to sip:001010000123528@10.20.20.9:31800 via sip:10.20.20.9:31800;transport=tcp...
-[0;39;49m[0;32;49m89(131) NOTICE: {1 1 OPTIONS 123 NATPING} <script>: OPTIONS to sip:001010000123542@10.20.20.10:9900 via sip:10.20.20.10:9900;transport=tcp...
-[0;39;49m[0;32;49m92(134) NOTICE: {2 10 OPTIONS 4d1d0f4a739b6d04-131@172.22.0.21 uac:reply} <script>: request sent to sip:001010000123528@10.20.20.9:31800 completed with code: 200, Type 1
-[0;39;49m[0;32;49m94(136) NOTICE: {2 10 OPTIONS 4d1d0f4a739b6d05-131@172.22.0.21 uac:reply} <script>: request sent to sip:001010000123542@10.20.20.10:9900 completed with code: 200, Type 1
-[0;39;49m[0;32;49m89(131) NOTICE: {1 1 OPTIONS 123 NATPING} <script>: OPTIONS to sip:001010000123528@10.20.20.9:31800 via sip:10.20.20.9:31800;transport=tcp...
-[0;39;49m[0;32;49m89(131) NOTICE: {1 1 OPTIONS 123 NATPING} <script>: OPTIONS to sip:001010000123542@10.20.20.10:9900 via sip:10.20.20.10:9900;transport=tcp...
-[0;39;49m[0;32;49m92(134) NOTICE: {2 10 OPTIONS 4d1d0f4a739b6d06-131@172.22.0.21 uac:reply} <script>: request sent to sip:001010000123528@10.20.20.9:31800 completed with code: 200, Type 1
-[0;39;49m[0;32;49m94(136) NOTICE: {2 10 OPTIONS 4d1d0f4a739b6d07-131@172.22.0.21 uac:reply} <script>: request sent to sip:001010000123542@10.20.20.10:9900 completed with code: 200, Type 1
-[0;39;49m[0;32;49m89(131) NOTICE: {1 1 OPTIONS 123 NATPING} <script>: OPTIONS to sip:001010000123528@10.20.20.9:31800 via sip:10.20.20.9:31800;transport=tcp...
-[0;39;49m[0;32;49m89(131) NOTICE: {1 1 OPTIONS 123 NATPING} <script>: OPTIONS to sip:001010000123542@10.20.20.10:9900 via sip:10.20.20.10:9900;transport=tcp...
-[0;39;49m[0;32;49m92(134) NOTICE: {2 10 OPTIONS 4d1d0f4a739b6d08-131@172.22.0.21 uac:reply} <script>: request sent to sip:001010000123528@10.20.20.9:31800 completed with code: 200, Type 1
-[0;39;49m[0;32;49m94(136) NOTICE: {2 10 OPTIONS 4d1d0f4a739b6d09-131@172.22.0.21 uac:reply} <script>: request sent to sip:001010000123542@10.20.20.10:9900 completed with code: 200, Type 1
-[0;39;49m[0;32;49m89(131) NOTICE: {1 1 OPTIONS 123 NATPING} <script>: OPTIONS to sip:001010000123528@10.20.20.9:31800 via sip:10.20.20.9:31800;transport=tcp...
-[0;39;49m[0;32;49m89(131) NOTICE: {1 1 OPTIONS 123 NATPING} <script>: OPTIONS to sip:001010000123542@10.20.20.10:9900 via sip:10.20.20.10:9900;transport=tcp...
-[0;39;49m[0;32;49m92(134) NOTICE: {2 10 OPTIONS 4d1d0f4a739b6d0a-131@172.22.0.21 uac:reply} <script>: request sent to sip:001010000123528@10.20.20.9:31800 completed with code: 200, Type 1
-[0;39;49m[0;32;49m94(136) NOTICE: {2 10 OPTIONS 4d1d0f4a739b6d0b-131@172.22.0.21 uac:reply} <script>: request sent to sip:001010000123542@10.20.20.10:9900 completed with code: 200, Type 1
-[0;39;49m[0;32;49m89(131) NOTICE: {1 1 OPTIONS 123 NATPING} <script>: OPTIONS to sip:001010000123528@10.20.20.9:31800 via sip:10.20.20.9:31800;transport=tcp...
-[0;39;49m[0;32;49m89(131) NOTICE: {1 1 OPTIONS 123 NATPING} <script>: OPTIONS to sip:001010000123542@10.20.20.10:9900 via sip:10.20.20.10:9900;transport=tcp...
-[0;39;49m[0;32;49m92(134) NOTICE: {2 10 OPTIONS 4d1d0f4a739b6d0c-131@172.22.0.21 uac:reply} <script>: request sent to sip:001010000123528@10.20.20.9:31800 completed with code: 200, Type 1
-[0;39;49m[0;32;49m94(136) NOTICE: {2 10 OPTIONS 4d1d0f4a739b6d0d-131@172.22.0.21 uac:reply} <script>: request sent to sip:001010000123542@10.20.20.10:9900 completed with code: 200, Type 1
-[0;39;49m[0;32;49m89(131) NOTICE: {1 1 OPTIONS 123 NATPING} <script>: OPTIONS to sip:001010000123528@10.20.20.9:31800 via sip:10.20.20.9:31800;transport=tcp...
-[0;39;49m[0;32;49m89(131) NOTICE: {1 1 OPTIONS 123 NATPING} <script>: OPTIONS to sip:001010000123542@10.20.20.10:9900 via sip:10.20.20.10:9900;transport=tcp...
-[0;39;49m[0;32;49m92(134) NOTICE: {2 10 OPTIONS 4d1d0f4a739b6d0e-131@172.22.0.21 uac:reply} <script>: request sent to sip:001010000123528@10.20.20.9:31800 completed with code: 200, Type 1
-[0;39;49m[0;32;49m94(136) NOTICE: {2 10 OPTIONS 4d1d0f4a739b6d0f-131@172.22.0.21 uac:reply} <script>: request sent to sip:001010000123542@10.20.20.10:9900 completed with code: 200, Type 1
-[0;39;49m[0;32;49m89(131) NOTICE: {1 1 OPTIONS 123 NATPING} <script>: OPTIONS to sip:001010000123528@10.20.20.9:31800 via sip:10.20.20.9:31800;transport=tcp...
-[0;39;49m[0;32;49m89(131) NOTICE: {1 1 OPTIONS 123 NATPING} <script>: OPTIONS to sip:001010000123542@10.20.20.10:9900 via sip:10.20.20.10:9900;transport=tcp...
-[0;39;49m[0;32;49m92(134) NOTICE: {2 10 OPTIONS 4d1d0f4a739b6d10-131@172.22.0.21 uac:reply} <script>: request sent to sip:001010000123528@10.20.20.9:31800 completed with code: 200, Type 1
-[0;39;49m[0;32;49m94(136) NOTICE: {2 10 OPTIONS 4d1d0f4a739b6d11-131@172.22.0.21 uac:reply} <script>: request sent to sip:001010000123542@10.20.20.10:9900 completed with code: 200, Type 1
-[0;39;49m[0;32;49m89(131) NOTICE: {1 1 OPTIONS 123 NATPING} <script>: OPTIONS to sip:001010000123528@10.20.20.9:31800 via sip:10.20.20.9:31800;transport=tcp...
-[0;39;49m[0;32;49m89(131) NOTICE: {1 1 OPTIONS 123 NATPING} <script>: OPTIONS to sip:001010000123542@10.20.20.10:9900 via sip:10.20.20.10:9900;transport=tcp...
-[0;39;49m[0;32;49m92(134) NOTICE: {2 10 OPTIONS 4d1d0f4a739b6d12-131@172.22.0.21 uac:reply} <script>: request sent to sip:001010000123528@10.20.20.9:31800 completed with code: 200, Type 1
-[0;39;49m[0;32;49m94(136) NOTICE: {2 10 OPTIONS 4d1d0f4a739b6d13-131@172.22.0.21 uac:reply} <script>: request sent to sip:001010000123542@10.20.20.10:9900 completed with code: 200, Type 1
-[0;39;49m[0;32;49m89(131) NOTICE: {1 1 OPTIONS 123 NATPING} <script>: OPTIONS to sip:001010000123528@10.20.20.9:31800 via sip:10.20.20.9:31800;transport=tcp...
-[0;39;49m[0;32;49m89(131) NOTICE: {1 1 OPTIONS 123 NATPING} <script>: OPTIONS to sip:001010000123542@10.20.20.10:9900 via sip:10.20.20.10:9900;transport=tcp...
-[0;39;49m[0;32;49m92(134) NOTICE: {2 10 OPTIONS 4d1d0f4a739b6d14-131@172.22.0.21 uac:reply} <script>: request sent to sip:001010000123528@10.20.20.9:31800 completed with code: 200, Type 1
-[0;39;49m[0;32;49m94(136) NOTICE: {2 10 OPTIONS 4d1d0f4a739b6d15-131@172.22.0.21 uac:reply} <script>: request sent to sip:001010000123542@10.20.20.10:9900 completed with code: 200, Type 1
-[0;39;49m[0;32;49m89(131) NOTICE: {1 1 OPTIONS 123 NATPING} <script>: OPTIONS to sip:001010000123528@10.20.20.9:31800 via sip:10.20.20.9:31800;transport=tcp...
-[0;39;49m[0;32;49m89(131) NOTICE: {1 1 OPTIONS 123 NATPING} <script>: OPTIONS to sip:001010000123542@10.20.20.10:9900 via sip:10.20.20.10:9900;transport=tcp...
-[0;39;49m[0;32;49m92(134) NOTICE: {2 10 OPTIONS 4d1d0f4a739b6d16-131@172.22.0.21 uac:reply} <script>: request sent to sip:001010000123528@10.20.20.9:31800 completed with code: 200, Type 1
-[0;39;49m[0;32;49m94(136) NOTICE: {2 10 OPTIONS 4d1d0f4a739b6d17-131@172.22.0.21 uac:reply} <script>: request sent to sip:001010000123542@10.20.20.10:9900 completed with code: 200, Type 1
-[0;39;49m[0;32;49m89(131) NOTICE: {1 1 OPTIONS 123 NATPING} <script>: OPTIONS to sip:001010000123528@10.20.20.9:31800 via sip:10.20.20.9:31800;transport=tcp...
-[0;39;49m[0;32;49m89(131) NOTICE: {1 1 OPTIONS 123 NATPING} <script>: OPTIONS to sip:001010000123542@10.20.20.10:9900 via sip:10.20.20.10:9900;transport=tcp...
-[0;39;49m[0;32;49m92(134) NOTICE: {2 10 OPTIONS 4d1d0f4a739b6d18-131@172.22.0.21 uac:reply} <script>: request sent to sip:001010000123528@10.20.20.9:31800 completed with code: 200, Type 1
-[0;39;49m[0;32;49m94(136) NOTICE: {2 10 OPTIONS 4d1d0f4a739b6d19-131@172.22.0.21 uac:reply} <script>: request sent to sip:001010000123542@10.20.20.10:9900 completed with code: 200, Type 1
-[0;39;49m[0;32;49m89(131) NOTICE: {1 1 OPTIONS 123 NATPING} <script>: OPTIONS to sip:001010000123528@10.20.20.9:31800 via sip:10.20.20.9:31800;transport=tcp...
-[0;39;49m[0;32;49m89(131) NOTICE: {1 1 OPTIONS 123 NATPING} <script>: OPTIONS to sip:001010000123542@10.20.20.10:9900 via sip:10.20.20.10:9900;transport=tcp...
-[0;39;49m[0;32;49m92(134) NOTICE: {2 10 OPTIONS 4d1d0f4a739b6d1a-131@172.22.0.21 uac:reply} <script>: request sent to sip:001010000123528@10.20.20.9:31800 completed with code: 200, Type 1
-[0;39;49m[0;32;49m94(136) NOTICE: {2 10 OPTIONS 4d1d0f4a739b6d1b-131@172.22.0.21 uac:reply} <script>: request sent to sip:001010000123542@10.20.20.10:9900 completed with code: 200, Type 1
-[0;39;49m[0;32;49m89(131) NOTICE: {1 1 OPTIONS 123 NATPING} <script>: OPTIONS to sip:001010000123528@10.20.20.9:31800 via sip:10.20.20.9:31800;transport=tcp...
-[0;39;49m[0;32;49m89(131) NOTICE: {1 1 OPTIONS 123 NATPING} <script>: OPTIONS to sip:001010000123542@10.20.20.10:9900 via sip:10.20.20.10:9900;transport=tcp...
-[0;39;49m[0;32;49m92(134) NOTICE: {2 10 OPTIONS 4d1d0f4a739b6d1c-131@172.22.0.21 uac:reply} <script>: request sent to sip:001010000123528@10.20.20.9:31800 completed with code: 200, Type 1
-[0;39;49m[0;32;49m94(136) NOTICE: {2 10 OPTIONS 4d1d0f4a739b6d1d-131@172.22.0.21 uac:reply} <script>: request sent to sip:001010000123542@10.20.20.10:9900 completed with code: 200, Type 1
-[0;39;49m[0;32;49m89(131) NOTICE: {1 1 OPTIONS 123 NATPING} <script>: OPTIONS to sip:001010000123528@10.20.20.9:31800 via sip:10.20.20.9:31800;transport=tcp...
-[0;39;49m[0;32;49m89(131) NOTICE: {1 1 OPTIONS 123 NATPING} <script>: OPTIONS to sip:001010000123542@10.20.20.10:9900 via sip:10.20.20.10:9900;transport=tcp...
-[0;39;49m[0;32;49m92(134) NOTICE: {2 10 OPTIONS 4d1d0f4a739b6d1e-131@172.22.0.21 uac:reply} <script>: request sent to sip:001010000123528@10.20.20.9:31800 completed with code: 200, Type 1
-[0;39;49m[0;32;49m94(136) NOTICE: {2 10 OPTIONS 4d1d0f4a739b6d1f-131@172.22.0.21 uac:reply} <script>: request sent to sip:001010000123542@10.20.20.10:9900 completed with code: 200, Type 1
-[0;39;49m[0;32;49m89(131) NOTICE: {1 1 OPTIONS 123 NATPING} <script>: OPTIONS to sip:001010000123528@10.20.20.9:31800 via sip:10.20.20.9:31800;transport=tcp...
-[0;39;49m[0;32;49m89(131) NOTICE: {1 1 OPTIONS 123 NATPING} <script>: OPTIONS to sip:001010000123542@10.20.20.10:9900 via sip:10.20.20.10:9900;transport=tcp...
-[0;39;49m[0;32;49m92(134) NOTICE: {2 10 OPTIONS 4d1d0f4a739b6d20-131@172.22.0.21 uac:reply} <script>: request sent to sip:001010000123528@10.20.20.9:31800 completed with code: 200, Type 1
-[0;39;49m[0;32;49m94(136) NOTICE: {2 10 OPTIONS 4d1d0f4a739b6d21-131@172.22.0.21 uac:reply} <script>: request sent to sip:001010000123542@10.20.20.10:9900 completed with code: 200, Type 1
-[0;39;49m[0;32;49m89(131) NOTICE: {1 1 OPTIONS 123 NATPING} <script>: OPTIONS to sip:001010000123528@10.20.20.9:31800 via sip:10.20.20.9:31800;transport=tcp...
-[0;39;49m[0;32;49m89(131) NOTICE: {1 1 OPTIONS 123 NATPING} <script>: OPTIONS to sip:001010000123542@10.20.20.10:9900 via sip:10.20.20.10:9900;transport=tcp...
-[0;39;49m[0;32;49m92(134) NOTICE: {2 10 OPTIONS 4d1d0f4a739b6d22-131@172.22.0.21 uac:reply} <script>: request sent to sip:001010000123528@10.20.20.9:31800 completed with code: 200, Type 1
-[0;39;49m[0;32;49m94(136) NOTICE: {2 10 OPTIONS 4d1d0f4a739b6d23-131@172.22.0.21 uac:reply} <script>: request sent to sip:001010000123542@10.20.20.10:9900 completed with code: 200, Type 1
-[0;39;49m[0;32;49m89(131) NOTICE: {1 1 OPTIONS 123 NATPING} <script>: OPTIONS to sip:001010000123528@10.20.20.9:31800 via sip:10.20.20.9:31800;transport=tcp...
-[0;39;49m[0;32;49m89(131) NOTICE: {1 1 OPTIONS 123 NATPING} <script>: OPTIONS to sip:001010000123542@10.20.20.10:9900 via sip:10.20.20.10:9900;transport=tcp...
-[0;39;49m[0;32;49m92(134) NOTICE: {2 10 OPTIONS 4d1d0f4a739b6d24-131@172.22.0.21 uac:reply} <script>: request sent to sip:001010000123528@10.20.20.9:31800 completed with code: 200, Type 1
-[0;39;49m[0;32;49m94(136) NOTICE: {2 10 OPTIONS 4d1d0f4a739b6d25-131@172.22.0.21 uac:reply} <script>: request sent to sip:001010000123542@10.20.20.10:9900 completed with code: 200, Type 1
-[0;39;49m[0;32;49m89(131) NOTICE: {1 1 OPTIONS 123 NATPING} <script>: OPTIONS to sip:001010000123528@10.20.20.9:31800 via sip:10.20.20.9:31800;transport=tcp...
-[0;39;49m[0;32;49m89(131) NOTICE: {1 1 OPTIONS 123 NATPING} <script>: OPTIONS to sip:001010000123542@10.20.20.10:9900 via sip:10.20.20.10:9900;transport=tcp...
-[0;39;49m[0;32;49m92(134) NOTICE: {2 10 OPTIONS 4d1d0f4a739b6d26-131@172.22.0.21 uac:reply} <script>: request sent to sip:001010000123528@10.20.20.9:31800 completed with code: 200, Type 1
-[0;39;49m[0;32;49m94(136) NOTICE: {2 10 OPTIONS 4d1d0f4a739b6d27-131@172.22.0.21 uac:reply} <script>: request sent to sip:001010000123542@10.20.20.10:9900 completed with code: 200, Type 1
-[0;39;49m[0;32;49m89(131) NOTICE: {1 1 OPTIONS 123 NATPING} <script>: OPTIONS to sip:001010000123528@10.20.20.9:31800 via sip:10.20.20.9:31800;transport=tcp...
-[0;39;49m[0;32;49m89(131) NOTICE: {1 1 OPTIONS 123 NATPING} <script>: OPTIONS to sip:001010000123542@10.20.20.10:9900 via sip:10.20.20.10:9900;transport=tcp...
-[0;39;49m[0;32;49m92(134) NOTICE: {2 10 OPTIONS 4d1d0f4a739b6d28-131@172.22.0.21 uac:reply} <script>: request sent to sip:001010000123528@10.20.20.9:31800 completed with code: 200, Type 1
-[0;39;49m[0;32;49m94(136) NOTICE: {2 10 OPTIONS 4d1d0f4a739b6d29-131@172.22.0.21 uac:reply} <script>: request sent to sip:001010000123542@10.20.20.10:9900 completed with code: 200, Type 1
-[0;39;49m[0;32;49m89(131) NOTICE: {1 1 OPTIONS 123 NATPING} <script>: OPTIONS to sip:001010000123528@10.20.20.9:31800 via sip:10.20.20.9:31800;transport=tcp...
-[0;39;49m[0;32;49m89(131) NOTICE: {1 1 OPTIONS 123 NATPING} <script>: OPTIONS to sip:001010000123542@10.20.20.10:9900 via sip:10.20.20.10:9900;transport=tcp...
-[0;39;49m[0;32;49m92(134) NOTICE: {2 10 OPTIONS 4d1d0f4a739b6d2a-131@172.22.0.21 uac:reply} <script>: request sent to sip:001010000123528@10.20.20.9:31800 completed with code: 200, Type 1
-[0;39;49m[0;32;49m94(136) NOTICE: {2 10 OPTIONS 4d1d0f4a739b6d2b-131@172.22.0.21 uac:reply} <script>: request sent to sip:001010000123542@10.20.20.10:9900 completed with code: 200, Type 1
-[0;39;49m[0;32;49m89(131) NOTICE: {1 1 OPTIONS 123 NATPING} <script>: OPTIONS to sip:001010000123528@10.20.20.9:31800 via sip:10.20.20.9:31800;transport=tcp...
-[0;39;49m[0;32;49m89(131) NOTICE: {1 1 OPTIONS 123 NATPING} <script>: OPTIONS to sip:001010000123542@10.20.20.10:9900 via sip:10.20.20.10:9900;transport=tcp...
-[0;39;49m[0;32;49m92(134) NOTICE: {2 10 OPTIONS 4d1d0f4a739b6d2c-131@172.22.0.21 uac:reply} <script>: request sent to sip:001010000123528@10.20.20.9:31800 completed with code: 200, Type 1
-[0;39;49m[0;32;49m94(136) NOTICE: {2 10 OPTIONS 4d1d0f4a739b6d2d-131@172.22.0.21 uac:reply} <script>: request sent to sip:001010000123542@10.20.20.10:9900 completed with code: 200, Type 1
-[0;39;49m[0;32;49m89(131) NOTICE: {1 1 OPTIONS 123 NATPING} <script>: OPTIONS to sip:001010000123528@10.20.20.9:31800 via sip:10.20.20.9:31800;transport=tcp...
-[0;39;49m[0;32;49m89(131) NOTICE: {1 1 OPTIONS 123 NATPING} <script>: OPTIONS to sip:001010000123542@10.20.20.10:9900 via sip:10.20.20.10:9900;transport=tcp...
-[0;39;49m[0;32;49m92(134) NOTICE: {2 10 OPTIONS 4d1d0f4a739b6d2e-131@172.22.0.21 uac:reply} <script>: request sent to sip:001010000123528@10.20.20.9:31800 completed with code: 200, Type 1
-[0;39;49m[0;32;49m94(136) NOTICE: {2 10 OPTIONS 4d1d0f4a739b6d2f-131@172.22.0.21 uac:reply} <script>: request sent to sip:001010000123542@10.20.20.10:9900 completed with code: 200, Type 1
-[0;39;49m[0;32;49m89(131) NOTICE: {1 1 OPTIONS 123 NATPING} <script>: OPTIONS to sip:001010000123528@10.20.20.9:31800 via sip:10.20.20.9:31800;transport=tcp...
-[0;39;49m[0;32;49m89(131) NOTICE: {1 1 OPTIONS 123 NATPING} <script>: OPTIONS to sip:001010000123542@10.20.20.10:9900 via sip:10.20.20.10:9900;transport=tcp...
-[0;39;49m[0;32;49m92(134) NOTICE: {2 10 OPTIONS 4d1d0f4a739b6d30-131@172.22.0.21 uac:reply} <script>: request sent to sip:001010000123528@10.20.20.9:31800 completed with code: 200, Type 1
-[0;39;49m[0;32;49m94(136) NOTICE: {2 10 OPTIONS 4d1d0f4a739b6d31-131@172.22.0.21 uac:reply} <script>: request sent to sip:001010000123542@10.20.20.10:9900 completed with code: 200, Type 1
-[0;39;49m[0;32;49m89(131) NOTICE: {1 1 OPTIONS 123 NATPING} <script>: OPTIONS to sip:001010000123528@10.20.20.9:31800 via sip:10.20.20.9:31800;transport=tcp...
-[0;39;49m[0;32;49m89(131) NOTICE: {1 1 OPTIONS 123 NATPING} <script>: OPTIONS to sip:001010000123542@10.20.20.10:9900 via sip:10.20.20.10:9900;transport=tcp...
-[0;39;49m[0;32;49m92(134) NOTICE: {2 10 OPTIONS 4d1d0f4a739b6d32-131@172.22.0.21 uac:reply} <script>: request sent to sip:001010000123528@10.20.20.9:31800 completed with code: 200, Type 1
-[0;39;49m[0;32;49m94(136) NOTICE: {2 10 OPTIONS 4d1d0f4a739b6d33-131@172.22.0.21 uac:reply} <script>: request sent to sip:001010000123542@10.20.20.10:9900 completed with code: 200, Type 1
-[0;39;49m[0;32;49m89(131) NOTICE: {1 1 OPTIONS 123 NATPING} <script>: OPTIONS to sip:001010000123528@10.20.20.9:31800 via sip:10.20.20.9:31800;transport=tcp...
-[0;39;49m[0;32;49m89(131) NOTICE: {1 1 OPTIONS 123 NATPING} <script>: OPTIONS to sip:001010000123542@10.20.20.10:9900 via sip:10.20.20.10:9900;transport=tcp...
-[0;39;49m[0;32;49m92(134) NOTICE: {2 10 OPTIONS 4d1d0f4a739b6d34-131@172.22.0.21 uac:reply} <script>: request sent to sip:001010000123528@10.20.20.9:31800 completed with code: 200, Type 1
-[0;39;49m[0;32;49m94(136) NOTICE: {2 10 OPTIONS 4d1d0f4a739b6d35-131@172.22.0.21 uac:reply} <script>: request sent to sip:001010000123542@10.20.20.10:9900 completed with code: 200, Type 1
-[0;39;49m[0;32;49m89(131) NOTICE: {1 1 OPTIONS 123 NATPING} <script>: OPTIONS to sip:001010000123528@10.20.20.9:31800 via sip:10.20.20.9:31800;transport=tcp...
-[0;39;49m[0;32;49m89(131) NOTICE: {1 1 OPTIONS 123 NATPING} <script>: OPTIONS to sip:001010000123542@10.20.20.10:9900 via sip:10.20.20.10:9900;transport=tcp...
-[0;39;49m[0;32;49m92(134) NOTICE: {2 10 OPTIONS 4d1d0f4a739b6d36-131@172.22.0.21 uac:reply} <script>: request sent to sip:001010000123528@10.20.20.9:31800 completed with code: 200, Type 1
-[0;39;49m[0;32;49m94(136) NOTICE: {2 10 OPTIONS 4d1d0f4a739b6d37-131@172.22.0.21 uac:reply} <script>: request sent to sip:001010000123542@10.20.20.10:9900 completed with code: 200, Type 1
-[0;39;49m[0;32;49m89(131) NOTICE: {1 1 OPTIONS 123 NATPING} <script>: OPTIONS to sip:001010000123528@10.20.20.9:31800 via sip:10.20.20.9:31800;transport=tcp...
-[0;39;49m[0;32;49m89(131) NOTICE: {1 1 OPTIONS 123 NATPING} <script>: OPTIONS to sip:001010000123542@10.20.20.10:9900 via sip:10.20.20.10:9900;transport=tcp...
-[0;39;49m[0;32;49m92(134) NOTICE: {2 10 OPTIONS 4d1d0f4a739b6d38-131@172.22.0.21 uac:reply} <script>: request sent to sip:001010000123528@10.20.20.9:31800 completed with code: 200, Type 1
-[0;39;49m[0;32;49m94(136) NOTICE: {2 10 OPTIONS 4d1d0f4a739b6d39-131@172.22.0.21 uac:reply} <script>: request sent to sip:001010000123542@10.20.20.10:9900 completed with code: 200, Type 1
-[0;39;49m[0;32;49m89(131) NOTICE: {1 1 OPTIONS 123 NATPING} <script>: OPTIONS to sip:001010000123528@10.20.20.9:31800 via sip:10.20.20.9:31800;transport=tcp...
-[0;39;49m[0;32;49m89(131) NOTICE: {1 1 OPTIONS 123 NATPING} <script>: OPTIONS to sip:001010000123542@10.20.20.10:9900 via sip:10.20.20.10:9900;transport=tcp...
-[0;39;49m[0;32;49m92(134) NOTICE: {2 10 OPTIONS 4d1d0f4a739b6d3a-131@172.22.0.21 uac:reply} <script>: request sent to sip:001010000123528@10.20.20.9:31800 completed with code: 200, Type 1
-[0;39;49m[0;32;49m94(136) NOTICE: {2 10 OPTIONS 4d1d0f4a739b6d3b-131@172.22.0.21 uac:reply} <script>: request sent to sip:001010000123542@10.20.20.10:9900 completed with code: 200, Type 1
-[0;39;49m[0;32;49m89(131) NOTICE: {1 1 OPTIONS 123 NATPING} <script>: OPTIONS to sip:001010000123528@10.20.20.9:31800 via sip:10.20.20.9:31800;transport=tcp...
-[0;39;49m[0;32;49m89(131) NOTICE: {1 1 OPTIONS 123 NATPING} <script>: OPTIONS to sip:001010000123542@10.20.20.10:9900 via sip:10.20.20.10:9900;transport=tcp...
-[0;39;49m[0;32;49m92(134) NOTICE: {2 10 OPTIONS 4d1d0f4a739b6d3c-131@172.22.0.21 uac:reply} <script>: request sent to sip:001010000123528@10.20.20.9:31800 completed with code: 200, Type 1
-[0;39;49m[0;32;49m94(136) NOTICE: {2 10 OPTIONS 4d1d0f4a739b6d3d-131@172.22.0.21 uac:reply} <script>: request sent to sip:001010000123542@10.20.20.10:9900 completed with code: 200, Type 1
-[0;39;49m[0;32;49m89(131) NOTICE: {1 1 OPTIONS 123 NATPING} <script>: OPTIONS to sip:001010000123528@10.20.20.9:31800 via sip:10.20.20.9:31800;transport=tcp...
-[0;39;49m[0;32;49m89(131) NOTICE: {1 1 OPTIONS 123 NATPING} <script>: OPTIONS to sip:001010000123542@10.20.20.10:9900 via sip:10.20.20.10:9900;transport=tcp...
-[0;39;49m[0;32;49m94(136) NOTICE: {2 10 OPTIONS 4d1d0f4a739b6d3f-131@172.22.0.21 uac:reply} <script>: request sent to sip:001010000123542@10.20.20.10:9900 completed with code: 200, Type 1
-[0;39;49m[0;32;49m92(134) NOTICE: {2 10 OPTIONS 4d1d0f4a739b6d3e-131@172.22.0.21 uac:reply} <script>: request sent to sip:001010000123528@10.20.20.9:31800 completed with code: 200, Type 1
-[0;39;49m[0;32;49m89(131) NOTICE: {1 1 OPTIONS 123 NATPING} <script>: OPTIONS to sip:001010000123528@10.20.20.9:31800 via sip:10.20.20.9:31800;transport=tcp...
-[0;39;49m[0;32;49m89(131) NOTICE: {1 1 OPTIONS 123 NATPING} <script>: OPTIONS to sip:001010000123542@10.20.20.10:9900 via sip:10.20.20.10:9900;transport=tcp...
-[0;39;49m[0;32;49m92(134) NOTICE: {2 10 OPTIONS 4d1d0f4a739b6d40-131@172.22.0.21 uac:reply} <script>: request sent to sip:001010000123528@10.20.20.9:31800 completed with code: 200, Type 1
-[0;39;49m[0;32;49m94(136) NOTICE: {2 10 OPTIONS 4d1d0f4a739b6d41-131@172.22.0.21 uac:reply} <script>: request sent to sip:001010000123542@10.20.20.10:9900 completed with code: 200, Type 1
-[0;39;49m[0;32;49m78(120) NOTICE: {1 1 INVITE ckjcb6OFD@10.20.20.9 DEFAULT_ROUTE} <script>: PCSCF: INVITE tel:222222;phone-context=ims.mnc001.mcc001.3gppnetwork.org (sip:111111@ims.mnc001.mcc001.3gppnetwork.org (10.20.20.9:31100) to tel:222222;phone-context=ims.mnc001.mcc001.3gppnetwork.org, ckjcb6OFD@10.20.20.9)
-[0;39;49m[0;32;49m78(120) NOTICE: {1 1 INVITE ckjcb6OFD@10.20.20.9 MO} <script>: Destination URI: sip:orig@scscf.ims.mnc001.mcc001.3gppnetwork.org:6060;lr
- Request URI: tel:222222;phone-context=ims.mnc001.mcc001.3gppnetwork.org
-[0;39;49m[0;32;49m78(120) NOTICE: {1 1 INVITE ckjcb6OFD@10.20.20.9 MO} <script>: Source IP and Port: (10.20.20.9:31100)
- Route-URI: sip:172.22.0.21:6108;lr
-[0;39;49m[0;32;49m78(120) NOTICE: {1 1 INVITE ckjcb6OFD@10.20.20.9 MO} <script>: Received IP and Port: (172.22.0.21:6108)
-[0;39;49m[0;32;49m78(120) NOTICE: {1 1 INVITE ckjcb6OFD@10.20.20.9 MO} <script>: Next hop domain: (scscf.ims.mnc001.mcc001.3gppnetwork.org)
-[0;39;49m[0;32;49m78(120) NOTICE: {1 1 INVITE ckjcb6OFD@10.20.20.9 MO} <script>: Contact header: <sip:111111@10.20.20.9:31800>;+sip.instance="<urn:gsma:imei:86838903-875492-0>";+g.3gpp.icsi-ref="urn%3Aurn-7%3A3gpp-service.ims.icsi.mmtel";audio;video;+g.3gpp.mid-call;+g.3gpp.srvcc-alerting;+g.3gpp.ps2cs-srvcc-orig-pre-alerting
-[0;39;49m[0;36;49m78(120) INFO: {1 1 INVITE ckjcb6OFD@10.20.20.9 MO} siputils [chargingvector.c:479]: sip_handle_pcv(): Generated new PCV header P-Charging-Vector: icid-value=495653AC160015780000002601000000;icid-generated-at=
-[0;39;49m[0;32;49m78(120) NOTICE: {1 1 INVITE ckjcb6OFD@10.20.20.9 NATMANAGE} <script>: REQUEST: INVITE tel:222222;phone-context=ims.mnc001.mcc001.3gppnetwork.org (10.20.20.9:31100, ckjcb6OFD@10.20.20.9)
-[0;39;49m[0;32;49m78(120) NOTICE: {1 1 INVITE ckjcb6OFD@10.20.20.9 NATMANAGE} <script>:     downstream
-[0;39;49m[0;32;49m78(120) NOTICE: {1 1 INVITE ckjcb6OFD@10.20.20.9 NATMANAGE} <script>:     Offer: replace-origin replace-session-connection ICE=remove RTP AVP
-[0;39;49m[0;32;49m78(120) NOTICE: {1 1 INVITE ckjcb6OFD@10.20.20.9 NATMANAGE} <script>:     Answer: replace-origin replace-session-connection ICE=force RTP AVP
-[0;39;49m[0;32;49m78(120) NOTICE: {1 1 INVITE ckjcb6OFD@10.20.20.9 NATMANAGE} <script>:     mo
-[0;39;49m[0;32;49m78(120) NOTICE: {1 1 INVITE ckjcb6OFD@10.20.20.9 NATMANAGE} <script>: Handling RTP for initial request from 111111 on mo side
-[0;39;49m[0;32;49m99(141) NOTICE: {2 1 INVITE ckjcb6OFD@10.20.20.9 MO_reply} <script>: Destination URI: <null>
- Request URI: <null>
-[0;39;49m[0;36;49m99(141) INFO: {2 1 INVITE ckjcb6OFD@10.20.20.9 MO_reply} rr [rr_mod.c:574]: pv_get_route_uri_f(): No route header present.
-[0;39;49m[0;32;49m99(141) NOTICE: {2 1 INVITE ckjcb6OFD@10.20.20.9 MO_reply} <script>: Source IP and Port: (172.22.0.20:6060)
- Route-URI: 
-[0;39;49m[0;32;49m99(141) NOTICE: {2 1 INVITE ckjcb6OFD@10.20.20.9 MO_reply} <script>: Received IP and Port: (172.22.0.21:6108)
-[0;39;49m[0;32;49m99(141) NOTICE: {2 1 INVITE ckjcb6OFD@10.20.20.9 MO_reply} <script>: Next hop domain: (10.20.20.9)
-[0;39;49m[0;32;49m99(141) NOTICE: {2 1 INVITE ckjcb6OFD@10.20.20.9 MO_reply} <script>: Contact header: <null>
-[0;39;49m[0;36;49m99(141) INFO: {2 1 INVITE ckjcb6OFD@10.20.20.9 MO_reply} ims_ipsec_pcscf [cmd.c:1202]: ipsec_forward(): new destination URI: sip:10.20.20.9:31800
-[0;39;49m[0;32;49m99(141) NOTICE: {2 1 INVITE ckjcb6OFD@10.20.20.9 NATMANAGE} <script>: REPLY: 100 Trying (INVITE, 172.22.0.20:6060, ckjcb6OFD@10.20.20.9)
-[0;39;49m[0;32;49m99(141) NOTICE: {2 1 INVITE ckjcb6OFD@10.20.20.9 NATMANAGE} <script>:     downstream
-[0;39;49m[0;32;49m99(141) NOTICE: {2 1 INVITE ckjcb6OFD@10.20.20.9 NATMANAGE} <script>:     Offer: replace-origin replace-session-connection ICE=remove RTP AVP
-[0;39;49m[0;32;49m99(141) NOTICE: {2 1 INVITE ckjcb6OFD@10.20.20.9 NATMANAGE} <script>:     Answer: replace-origin replace-session-connection ICE=force RTP AVP
-[0;39;49m[0;32;49m99(141) NOTICE: {2 1 INVITE ckjcb6OFD@10.20.20.9 NATMANAGE} <script>:     mo
-[0;39;49m[0;32;49m99(141) NOTICE: {2 1 INVITE ckjcb6OFD@10.20.20.9 NATMANAGE} <script>: No SDP body, skipping RTP handling
-[0;39;49m[0;32;49m 3(45) NOTICE: {1 1 INVITE ckjcb6OFD@10.20.20.9 DEFAULT_ROUTE} <script>: PCSCF: INVITE sip:001010000123542@10.20.20.10:9900;alias=10.20.20.10~9901~1 (sip:111111@ims.mnc001.mcc001.3gppnetwork.org (172.22.0.20:6060) to tel:222222;phone-context=ims.mnc001.mcc001.3gppnetwork.org, ckjcb6OFD@10.20.20.9)
-[0;39;49m[0;32;49m 3(45) NOTICE: {1 1 INVITE ckjcb6OFD@10.20.20.9 NATMANAGE} <script>: REQUEST: INVITE sip:001010000123542@10.20.20.10:9900 (172.22.0.20:6060, ckjcb6OFD@10.20.20.9)
-[0;39;49m[0;32;49m 3(45) NOTICE: {1 1 INVITE ckjcb6OFD@10.20.20.9 NATMANAGE} <script>:     downstream
-[0;39;49m[0;32;49m 3(45) NOTICE: {1 1 INVITE ckjcb6OFD@10.20.20.9 NATMANAGE} <script>:     Offer: replace-origin replace-session-connection ICE=force RTP AVP
-[0;39;49m[0;32;49m 3(45) NOTICE: {1 1 INVITE ckjcb6OFD@10.20.20.9 NATMANAGE} <script>:     Answer: replace-origin replace-session-connection ICE=remove RTP AVP
-[0;39;49m[0;32;49m 3(45) NOTICE: {1 1 INVITE ckjcb6OFD@10.20.20.9 NATMANAGE} <script>:     mt
-[0;39;49m[0;32;49m 3(45) NOTICE: {1 1 INVITE ckjcb6OFD@10.20.20.9 MT} <script>: Destination URI: sip:10.20.20.10:9901
- Request URI: sip:001010000123542@10.20.20.10:9900
-[0;39;49m[0;32;49m 3(45) NOTICE: {1 1 INVITE ckjcb6OFD@10.20.20.9 MT} <script>: Source IP and Port: (172.22.0.20:6060)
- Route-URI: sip:term@pcscf.ims.mnc001.mcc001.3gppnetwork.org;lr
-[0;39;49m[0;32;49m 3(45) NOTICE: {1 1 INVITE ckjcb6OFD@10.20.20.9 MT} <script>: Received IP and Port: (172.22.0.21:5060)
-[0;39;49m[0;32;49m 3(45) NOTICE: {1 1 INVITE ckjcb6OFD@10.20.20.9 MT} <script>: Next hop domain: (10.20.20.10)
-[0;39;49m[0;32;49m 3(45) NOTICE: {1 1 INVITE ckjcb6OFD@10.20.20.9 MT} <script>: Contact header: <sip:111111@10.20.20.9:31800;alias=10.20.20.9~31100~1>;+sip.instance="<urn:gsma:imei:86838903-875492-0>";+g.3gpp.icsi-ref="urn%3Aurn-7%3A3gpp-service.ims.icsi.mmtel";audio;video;+g.3gpp.mid-call;+g.3gpp.srvcc-alerting;+g.3gpp.ps2cs-srvcc-orig-pre-alerting
-[0;39;49m[0;32;49m 3(45) NOTICE: {1 1 INVITE ckjcb6OFD@10.20.20.9 MT} <script>: Term UE connection information : IP is 10.20.20.10 and Port is 9900 
-[0;39;49m[0;32;49m 3(45) NOTICE: {1 1 INVITE ckjcb6OFD@10.20.20.9 MT} <script>: Term P-CSCF connection information : IP is 172.22.0.21 and Port is 5060 
-[0;39;49m[0;36;49m 3(45) INFO: {1 1 INVITE ckjcb6OFD@10.20.20.9 MT} ims_ipsec_pcscf [cmd.c:1202]: ipsec_forward(): new destination URI: sip:10.20.20.10:9900
-[0;39;49m[0;32;49m94(136) NOTICE: {2 1 INVITE ckjcb6OFD@10.20.20.9 MT_reply} <script>: Destination URI: <null>
- Request URI: <null>
-[0;39;49m[0;36;49m94(136) INFO: {2 1 INVITE ckjcb6OFD@10.20.20.9 MT_reply} rr [rr_mod.c:574]: pv_get_route_uri_f(): No route header present.
-[0;39;49m[0;32;49m94(136) NOTICE: {2 1 INVITE ckjcb6OFD@10.20.20.9 MT_reply} <script>: Source IP and Port: (10.20.20.10:9900)
- Route-URI: 
-[0;39;49m[0;32;49m94(136) NOTICE: {2 1 INVITE ckjcb6OFD@10.20.20.9 MT_reply} <script>: Received IP and Port: (172.22.0.21:5109)
-[0;39;49m[0;32;49m94(136) NOTICE: {2 1 INVITE ckjcb6OFD@10.20.20.9 MT_reply} <script>: Next hop domain: (172.22.0.20)
-[0;39;49m[0;32;49m94(136) NOTICE: {2 1 INVITE ckjcb6OFD@10.20.20.9 MT_reply} <script>: Contact header: <null>
-[0;39;49m[0;32;49m94(136) NOTICE: {2 1 INVITE ckjcb6OFD@10.20.20.9 NATMANAGE} <script>: REPLY: 100 Trying (INVITE, 10.20.20.10:9900, ckjcb6OFD@10.20.20.9)
-[0;39;49m[0;32;49m94(136) NOTICE: {2 1 INVITE ckjcb6OFD@10.20.20.9 NATMANAGE} <script>:     downstream
-[0;39;49m[0;32;49m94(136) NOTICE: {2 1 INVITE ckjcb6OFD@10.20.20.9 NATMANAGE} <script>:     Offer: replace-origin replace-session-connection ICE=force RTP AVP
-[0;39;49m[0;32;49m94(136) NOTICE: {2 1 INVITE ckjcb6OFD@10.20.20.9 NATMANAGE} <script>:     Answer: replace-origin replace-session-connection ICE=remove RTP AVP
-[0;39;49m[0;32;49m94(136) NOTICE: {2 1 INVITE ckjcb6OFD@10.20.20.9 NATMANAGE} <script>:     mt
-[0;39;49m[0;32;49m94(136) NOTICE: {2 1 INVITE ckjcb6OFD@10.20.20.9 NATMANAGE} <script>: No SDP body, skipping RTP handling
-[0;39;49m[0;32;49m94(136) NOTICE: {2 1 INVITE ckjcb6OFD@10.20.20.9 MT_reply} <script>: Destination URI: <null>
- Request URI: <null>
-[0;39;49m[0;36;49m94(136) INFO: {2 1 INVITE ckjcb6OFD@10.20.20.9 MT_reply} rr [rr_mod.c:574]: pv_get_route_uri_f(): No route header present.
-[0;39;49m[0;32;49m94(136) NOTICE: {2 1 INVITE ckjcb6OFD@10.20.20.9 MT_reply} <script>: Source IP and Port: (10.20.20.10:9900)
- Route-URI: 
-[0;39;49m[0;32;49m94(136) NOTICE: {2 1 INVITE ckjcb6OFD@10.20.20.9 MT_reply} <script>: Received IP and Port: (172.22.0.21:5109)
-[0;39;49m[0;32;49m94(136) NOTICE: {2 1 INVITE ckjcb6OFD@10.20.20.9 MT_reply} <script>: Next hop domain: (172.22.0.20)
-[0;39;49m[0;32;49m94(136) NOTICE: {2 1 INVITE ckjcb6OFD@10.20.20.9 MT_reply} <script>: Contact header: <sip:222222@10.20.20.10:9900>;+g.3gpp.icsi-ref="urn%3Aurn-7%3A3gpp-service.ims.icsi.mmtel";video
-[0;39;49m[0;32;49m94(136) NOTICE: {2 1 INVITE ckjcb6OFD@10.20.20.9 NATMANAGE} <script>: REPLY: 180 Ringing (INVITE, 10.20.20.10:9900, ckjcb6OFD@10.20.20.9)
-[0;39;49m[0;32;49m94(136) NOTICE: {2 1 INVITE ckjcb6OFD@10.20.20.9 NATMANAGE} <script>:     downstream
-[0;39;49m[0;32;49m94(136) NOTICE: {2 1 INVITE ckjcb6OFD@10.20.20.9 NATMANAGE} <script>:     Offer: replace-origin replace-session-connection ICE=force RTP AVP
-[0;39;49m[0;32;49m94(136) NOTICE: {2 1 INVITE ckjcb6OFD@10.20.20.9 NATMANAGE} <script>:     Answer: replace-origin replace-session-connection ICE=remove RTP AVP
-[0;39;49m[0;32;49m94(136) NOTICE: {2 1 INVITE ckjcb6OFD@10.20.20.9 NATMANAGE} <script>:     mt
-[0;39;49m[0;32;49m94(136) NOTICE: {2 1 INVITE ckjcb6OFD@10.20.20.9 NATMANAGE} <script>: No SDP body, skipping RTP handling
-[0;39;49m[0;32;49m99(141) NOTICE: {2 1 INVITE ckjcb6OFD@10.20.20.9 MO_reply} <script>: Destination URI: <null>
- Request URI: <null>
-[0;39;49m[0;36;49m99(141) INFO: {2 1 INVITE ckjcb6OFD@10.20.20.9 MO_reply} rr [rr_mod.c:574]: pv_get_route_uri_f(): No route header present.
-[0;39;49m[0;32;49m99(141) NOTICE: {2 1 INVITE ckjcb6OFD@10.20.20.9 MO_reply} <script>: Source IP and Port: (172.22.0.20:6060)
- Route-URI: 
-[0;39;49m[0;32;49m99(141) NOTICE: {2 1 INVITE ckjcb6OFD@10.20.20.9 MO_reply} <script>: Received IP and Port: (172.22.0.21:6108)
-[0;39;49m[0;32;49m99(141) NOTICE: {2 1 INVITE ckjcb6OFD@10.20.20.9 MO_reply} <script>: Next hop domain: (10.20.20.9)
-[0;39;49m[0;32;49m99(141) NOTICE: {2 1 INVITE ckjcb6OFD@10.20.20.9 MO_reply} <script>: Contact header: <sip:222222@10.20.20.10:9900;alias=10.20.20.10~9900~2>;+g.3gpp.icsi-ref="urn%3Aurn-7%3A3gpp-service.ims.icsi.mmtel";video
-[0;39;49m[0;36;49m99(141) INFO: {2 1 INVITE ckjcb6OFD@10.20.20.9 MO_reply} ims_ipsec_pcscf [cmd.c:1202]: ipsec_forward(): new destination URI: sip:10.20.20.9:31800
-[0;39;49m[0;32;49m99(141) NOTICE: {2 1 INVITE ckjcb6OFD@10.20.20.9 NATMANAGE} <script>: REPLY: 180 Ringing (INVITE, 172.22.0.20:6060, ckjcb6OFD@10.20.20.9)
-[0;39;49m[0;32;49m99(141) NOTICE: {2 1 INVITE ckjcb6OFD@10.20.20.9 NATMANAGE} <script>:     downstream
-[0;39;49m[0;32;49m99(141) NOTICE: {2 1 INVITE ckjcb6OFD@10.20.20.9 NATMANAGE} <script>:     Offer: replace-origin replace-session-connection ICE=remove RTP AVP
-[0;39;49m[0;32;49m99(141) NOTICE: {2 1 INVITE ckjcb6OFD@10.20.20.9 NATMANAGE} <script>:     Answer: replace-origin replace-session-connection ICE=force RTP AVP
-[0;39;49m[0;32;49m99(141) NOTICE: {2 1 INVITE ckjcb6OFD@10.20.20.9 NATMANAGE} <script>:     mo
-[0;39;49m[0;32;49m99(141) NOTICE: {2 1 INVITE ckjcb6OFD@10.20.20.9 NATMANAGE} <script>: No SDP body, skipping RTP handling
-[0;39;49m[0;32;49m89(131) NOTICE: {1 1 OPTIONS 123 NATPING} <script>: OPTIONS to sip:001010000123528@10.20.20.9:31800 via sip:10.20.20.9:31800;transport=tcp...
-[0;39;49m[0;32;49m89(131) NOTICE: {1 1 OPTIONS 123 NATPING} <script>: OPTIONS to sip:001010000123542@10.20.20.10:9900 via sip:10.20.20.10:9900;transport=tcp...
-[0;39;49m[0;32;49m92(134) NOTICE: {2 10 OPTIONS 4d1d0f4a739b6d42-131@172.22.0.21 uac:reply} <script>: request sent to sip:001010000123528@10.20.20.9:31800 completed with code: 200, Type 1
-[0;39;49m[0;32;49m94(136) NOTICE: {2 10 OPTIONS 4d1d0f4a739b6d43-131@172.22.0.21 uac:reply} <script>: request sent to sip:001010000123542@10.20.20.10:9900 completed with code: 200, Type 1
-[0;39;49m[0;32;49m80(122) NOTICE: {1 1 CANCEL ckjcb6OFD@10.20.20.9 DEFAULT_ROUTE} <script>: PCSCF: CANCEL tel:222222;phone-context=ims.mnc001.mcc001.3gppnetwork.org (sip:111111@ims.mnc001.mcc001.3gppnetwork.org (10.20.20.9:31100) to tel:222222;phone-context=ims.mnc001.mcc001.3gppnetwork.org, ckjcb6OFD@10.20.20.9)
-[0;39;49m[0;32;49m 4(46) NOTICE: {1 1 CANCEL ckjcb6OFD@10.20.20.9 DEFAULT_ROUTE} <script>: PCSCF: CANCEL sip:001010000123542@10.20.20.10:9900;alias=10.20.20.10~9901~1 (sip:111111@ims.mnc001.mcc001.3gppnetwork.org (172.22.0.20:6060) to tel:222222;phone-context=ims.mnc001.mcc001.3gppnetwork.org, ckjcb6OFD@10.20.20.9)
-[0;39;49m[0;32;49m94(136) NOTICE: {2 1 INVITE ckjcb6OFD@10.20.20.9 MT_reply} <script>: Destination URI: <null>
- Request URI: <null>
-[0;39;49m[0;36;49m94(136) INFO: {2 1 INVITE ckjcb6OFD@10.20.20.9 MT_reply} rr [rr_mod.c:574]: pv_get_route_uri_f(): No route header present.
-[0;39;49m[0;32;49m94(136) NOTICE: {2 1 INVITE ckjcb6OFD@10.20.20.9 MT_reply} <script>: Source IP and Port: (10.20.20.10:9900)
- Route-URI: 
-[0;39;49m[0;32;49m94(136) NOTICE: {2 1 INVITE ckjcb6OFD@10.20.20.9 MT_reply} <script>: Received IP and Port: (172.22.0.21:5109)
-[0;39;49m[0;32;49m94(136) NOTICE: {2 1 INVITE ckjcb6OFD@10.20.20.9 MT_reply} <script>: Next hop domain: (172.22.0.20)
-[0;39;49m[0;32;49m94(136) NOTICE: {2 1 INVITE ckjcb6OFD@10.20.20.9 MT_reply} <script>: Contact header: <sip:222222@10.20.20.10:9900>;+g.3gpp.icsi-ref="urn%3Aurn-7%3A3gpp-service.ims.icsi.mmtel";video
-[0;39;49m[0;32;49m 1(43) NOTICE: {1 1 ACK ckjcb6OFD@10.20.20.9 DEFAULT_ROUTE} <script>: PCSCF: ACK sip:001010000123542@10.20.20.10:9900;alias=10.20.20.10~9901~1 (sip:111111@ims.mnc001.mcc001.3gppnetwork.org (172.22.0.20:6060) to tel:222222;phone-context=ims.mnc001.mcc001.3gppnetwork.org, ckjcb6OFD@10.20.20.9)
-[0;39;49m[0;35;49m 1(43) WARNING: {1 1 ACK ckjcb6OFD@10.20.20.9 <null>} tm [t_lookup.c:2060]: t_unref(): script writer didn't release transaction
-[0;39;49m[0;32;49m99(141) NOTICE: {2 1 INVITE ckjcb6OFD@10.20.20.9 MO_reply} <script>: Destination URI: <null>
- Request URI: <null>
-[0;39;49m[0;36;49m99(141) INFO: {2 1 INVITE ckjcb6OFD@10.20.20.9 MO_reply} rr [rr_mod.c:574]: pv_get_route_uri_f(): No route header present.
-[0;39;49m[0;32;49m99(141) NOTICE: {2 1 INVITE ckjcb6OFD@10.20.20.9 MO_reply} <script>: Source IP and Port: (172.22.0.20:6060)
- Route-URI: 
-[0;39;49m[0;32;49m99(141) NOTICE: {2 1 INVITE ckjcb6OFD@10.20.20.9 MO_reply} <script>: Received IP and Port: (172.22.0.21:6108)
-[0;39;49m[0;32;49m99(141) NOTICE: {2 1 INVITE ckjcb6OFD@10.20.20.9 MO_reply} <script>: Next hop domain: (10.20.20.9)
-[0;39;49m[0;32;49m99(141) NOTICE: {2 1 INVITE ckjcb6OFD@10.20.20.9 MO_reply} <script>: Contact header: <sip:222222@10.20.20.10:9900>;+g.3gpp.icsi-ref="urn%3Aurn-7%3A3gpp-service.ims.icsi.mmtel";video
-[0;39;49m[0;36;49m99(141) INFO: {2 1 INVITE ckjcb6OFD@10.20.20.9 MO_reply} ims_ipsec_pcscf [cmd.c:1202]: ipsec_forward(): new destination URI: sip:10.20.20.9:31800
-[0;39;49m[0;32;49m77(119) NOTICE: {1 1 ACK ckjcb6OFD@10.20.20.9 DEFAULT_ROUTE} <script>: PCSCF: ACK tel:222222;phone-context=ims.mnc001.mcc001.3gppnetwork.org (sip:111111@ims.mnc001.mcc001.3gppnetwork.org (10.20.20.9:31100) to tel:222222;phone-context=ims.mnc001.mcc001.3gppnetwork.org, ckjcb6OFD@10.20.20.9)
-[0;39;49m[0;35;49m77(119) WARNING: {1 1 ACK ckjcb6OFD@10.20.20.9 <null>} tm [t_lookup.c:2060]: t_unref(): script writer didn't release transaction
-[0;39;49m[0;32;49m89(131) NOTICE: {1 1 OPTIONS 123 NATPING} <script>: OPTIONS to sip:001010000123528@10.20.20.9:31800 via sip:10.20.20.9:31800;transport=tcp...
-[0;39;49m[0;32;49m89(131) NOTICE: {1 1 OPTIONS 123 NATPING} <script>: OPTIONS to sip:001010000123542@10.20.20.10:9900 via sip:10.20.20.10:9900;transport=tcp...
-[0;39;49m[0;32;49m92(134) NOTICE: {2 10 OPTIONS 4d1d0f4a739b6d44-131@172.22.0.21 uac:reply} <script>: request sent to sip:001010000123528@10.20.20.9:31800 completed with code: 200, Type 1
-[0;39;49m[0;32;49m94(136) NOTICE: {2 10 OPTIONS 4d1d0f4a739b6d45-131@172.22.0.21 uac:reply} <script>: request sent to sip:001010000123542@10.20.20.10:9900 completed with code: 200, Type 1
-[0;39;49m[0;32;49m89(131) NOTICE: {1 1 OPTIONS 123 NATPING} <script>: OPTIONS to sip:001010000123528@10.20.20.9:31800 via sip:10.20.20.9:31800;transport=tcp...
-[0;39;49m[0;32;49m89(131) NOTICE: {1 1 OPTIONS 123 NATPING} <script>: OPTIONS to sip:001010000123542@10.20.20.10:9900 via sip:10.20.20.10:9900;transport=tcp...
-[0;39;49m[0;32;49m92(134) NOTICE: {2 10 OPTIONS 4d1d0f4a739b6d46-131@172.22.0.21 uac:reply} <script>: request sent to sip:001010000123528@10.20.20.9:31800 completed with code: 200, Type 1
-[0;39;49m[0;32;49m94(136) NOTICE: {2 10 OPTIONS 4d1d0f4a739b6d47-131@172.22.0.21 uac:reply} <script>: request sent to sip:001010000123542@10.20.20.10:9900 completed with code: 200, Type 1
-[0;39;49m[0;32;49m79(121) NOTICE: {1 1 MESSAGE rrjcbAVuT@10.20.20.9 DEFAULT_ROUTE} <script>: PCSCF: MESSAGE tel:0015555;phone-context=ims.mnc001.mcc001.3gppnetwork.org (sip:111111@ims.mnc001.mcc001.3gppnetwork.org (10.20.20.9:31100) to tel:0015555;phone-context=ims.mnc001.mcc001.3gppnetwork.org, rrjcbAVuT@10.20.20.9)
-[0;39;49m[0;32;49m79(121) NOTICE: {1 1 MESSAGE rrjcbAVuT@10.20.20.9 MO} <script>: Destination URI: sip:orig@scscf.ims.mnc001.mcc001.3gppnetwork.org:6060;lr
+[0;39;49m[0;32;49m92(134) NOTICE: {2 10 OPTIONS 4d1d0f4a739b6f7e-131@172.22.0.21 uac:reply} <script>: request sent to sip:001010000123528@10.20.20.9:31800 completed with code: 200, Type 1
+[0;39;49m[0;32;49m95(137) NOTICE: {2 10 OPTIONS 4d1d0f4a739b6f7f-131@172.22.0.21 uac:reply} <script>: request sent to sip:001010000123542@10.20.20.10:9900 completed with code: 200, Type 1
+[0;39;49m[0;32;49m79(121) NOTICE: {1 1 MESSAGE cckcb6Vd2@10.20.20.9 DEFAULT_ROUTE} <script>: PCSCF: MESSAGE tel:0015555;phone-context=ims.mnc001.mcc001.3gppnetwork.org (sip:111111@ims.mnc001.mcc001.3gppnetwork.org (10.20.20.9:31100) to tel:0015555;phone-context=ims.mnc001.mcc001.3gppnetwork.org, cckcb6Vd2@10.20.20.9)
+[0;39;49m[0;32;49m79(121) NOTICE: {1 1 MESSAGE cckcb6Vd2@10.20.20.9 MO} <script>: Destination URI: sip:orig@scscf.ims.mnc001.mcc001.3gppnetwork.org:6060;lr
  Request URI: tel:0015555;phone-context=ims.mnc001.mcc001.3gppnetwork.org
-[0;39;49m[0;32;49m79(121) NOTICE: {1 1 MESSAGE rrjcbAVuT@10.20.20.9 MO} <script>: Source IP and Port: (10.20.20.9:31100)
+[0;39;49m[0;32;49m79(121) NOTICE: {1 1 MESSAGE cckcb6Vd2@10.20.20.9 MO} <script>: Source IP and Port: (10.20.20.9:31100)
  Route-URI: sip:172.22.0.21:6108;lr
-[0;39;49m[0;32;49m79(121) NOTICE: {1 1 MESSAGE rrjcbAVuT@10.20.20.9 MO} <script>: Received IP and Port: (172.22.0.21:6108)
-[0;39;49m[0;32;49m79(121) NOTICE: {1 1 MESSAGE rrjcbAVuT@10.20.20.9 MO} <script>: Next hop domain: (scscf.ims.mnc001.mcc001.3gppnetwork.org)
-[0;39;49m[0;32;49m79(121) NOTICE: {1 1 MESSAGE rrjcbAVuT@10.20.20.9 MO} <script>: Contact header: <sip:111111@10.20.20.9:31800>
-[0;39;49m[0;36;49m79(121) INFO: {1 1 MESSAGE rrjcbAVuT@10.20.20.9 MO} siputils [chargingvector.c:479]: sip_handle_pcv(): Generated new PCV header P-Charging-Vector: icid-value=495653AC160015790000003701000000;icid-generated-at=
-[0;39;49m[0;32;49m78(120) NOTICE: {2 1 MESSAGE rrjcbAVuT@10.20.20.9 MO_reply} <script>: Destination URI: <null>
+[0;39;49m[0;32;49m79(121) NOTICE: {1 1 MESSAGE cckcb6Vd2@10.20.20.9 MO} <script>: Received IP and Port: (172.22.0.21:6108)
+[0;39;49m[0;32;49m79(121) NOTICE: {1 1 MESSAGE cckcb6Vd2@10.20.20.9 MO} <script>: Next hop domain: (scscf.ims.mnc001.mcc001.3gppnetwork.org)
+[0;39;49m[0;32;49m79(121) NOTICE: {1 1 MESSAGE cckcb6Vd2@10.20.20.9 MO} <script>: Contact header: <sip:111111@10.20.20.9:31800>
+[0;39;49m[0;36;49m79(121) INFO: {1 1 MESSAGE cckcb6Vd2@10.20.20.9 MO} siputils [chargingvector.c:479]: sip_handle_pcv(): Generated new PCV header P-Charging-Vector: icid-value=495653AC16001579000000C002000000;icid-generated-at=
+[0;39;49m[0;32;49m78(120) NOTICE: {2 1 MESSAGE cckcb6Vd2@10.20.20.9 MO_reply} <script>: Destination URI: <null>
  Request URI: <null>
-[0;39;49m[0;36;49m78(120) INFO: {2 1 MESSAGE rrjcbAVuT@10.20.20.9 MO_reply} rr [rr_mod.c:574]: pv_get_route_uri_f(): No route header present.
-[0;39;49m[0;32;49m78(120) NOTICE: {2 1 MESSAGE rrjcbAVuT@10.20.20.9 MO_reply} <script>: Source IP and Port: (172.22.0.20:6060)
+[0;39;49m[0;36;49m78(120) INFO: {2 1 MESSAGE cckcb6Vd2@10.20.20.9 MO_reply} rr [rr_mod.c:574]: pv_get_route_uri_f(): No route header present.
+[0;39;49m[0;32;49m78(120) NOTICE: {2 1 MESSAGE cckcb6Vd2@10.20.20.9 MO_reply} <script>: Source IP and Port: (172.22.0.20:6060)
  Route-URI: 
-[0;39;49m[0;32;49m78(120) NOTICE: {2 1 MESSAGE rrjcbAVuT@10.20.20.9 MO_reply} <script>: Received IP and Port: (172.22.0.21:6108)
-[0;39;49m[0;32;49m78(120) NOTICE: {2 1 MESSAGE rrjcbAVuT@10.20.20.9 MO_reply} <script>: Next hop domain: (10.20.20.9)
-[0;39;49m[0;32;49m78(120) NOTICE: {2 1 MESSAGE rrjcbAVuT@10.20.20.9 MO_reply} <script>: Contact header: <null>
-[0;39;49m[0;36;49m78(120) INFO: {2 1 MESSAGE rrjcbAVuT@10.20.20.9 MO_reply} ims_ipsec_pcscf [cmd.c:1202]: ipsec_forward(): new destination URI: sip:10.20.20.9:31800
-[0;39;49m[0;32;49m78(120) NOTICE: {2 1 MESSAGE rrjcbAVuT@10.20.20.9 NATMANAGE} <script>: REPLY: 202 Accepted (MESSAGE, 172.22.0.20:6060, rrjcbAVuT@10.20.20.9)
-[0;39;49m[0;32;49m78(120) NOTICE: {2 1 MESSAGE rrjcbAVuT@10.20.20.9 NATMANAGE} <script>:     downstream
-[0;39;49m[0;32;49m78(120) NOTICE: {2 1 MESSAGE rrjcbAVuT@10.20.20.9 NATMANAGE} <script>:     Offer: <null>
-[0;39;49m[0;32;49m78(120) NOTICE: {2 1 MESSAGE rrjcbAVuT@10.20.20.9 NATMANAGE} <script>:     Answer: <null>
-[0;39;49m[0;32;49m78(120) NOTICE: {2 1 MESSAGE rrjcbAVuT@10.20.20.9 NATMANAGE} <script>:     mo
-[0;39;49m[0;32;49m78(120) NOTICE: {2 1 MESSAGE rrjcbAVuT@10.20.20.9 NATMANAGE} <script>: No SDP body, skipping RTP handling
-[0;39;49m[0;32;49m 2(44) NOTICE: {1 1 MESSAGE e76d3d645963de67@smsc.ims.mnc001.mcc001.3gppnetwork.org DEFAULT_ROUTE} <script>: PCSCF: MESSAGE sip:001010000123528@10.20.20.9:31800;alias=10.20.20.9~31100~1 (sip:smsc@ims.mnc001.mcc001.3gppnetwork.org (172.22.0.20:6060) to sip:111111@ims.mnc001.mcc001.3gppnetwork.org, e76d3d645963de67@smsc.ims.mnc001.mcc001.3gppnetwork.org)
-[0;39;49m[0;32;49m 2(44) NOTICE: {1 1 MESSAGE e76d3d645963de67@smsc.ims.mnc001.mcc001.3gppnetwork.org NATMANAGE} <script>: REQUEST: MESSAGE sip:001010000123528@10.20.20.9:31800 (172.22.0.20:6060, e76d3d645963de67@smsc.ims.mnc001.mcc001.3gppnetwork.org)
-[0;39;49m[0;32;49m 2(44) NOTICE: {1 1 MESSAGE e76d3d645963de67@smsc.ims.mnc001.mcc001.3gppnetwork.org NATMANAGE} <script>:     downstream
-[0;39;49m[0;32;49m 2(44) NOTICE: {1 1 MESSAGE e76d3d645963de67@smsc.ims.mnc001.mcc001.3gppnetwork.org NATMANAGE} <script>:     Offer: replace-origin replace-session-connection ICE=force RTP AVP
-[0;39;49m[0;32;49m 2(44) NOTICE: {1 1 MESSAGE e76d3d645963de67@smsc.ims.mnc001.mcc001.3gppnetwork.org NATMANAGE} <script>:     Answer: replace-origin replace-session-connection ICE=remove RTP AVP
-[0;39;49m[0;32;49m 2(44) NOTICE: {1 1 MESSAGE e76d3d645963de67@smsc.ims.mnc001.mcc001.3gppnetwork.org NATMANAGE} <script>:     mt
-[0;39;49m[0;32;49m 2(44) NOTICE: {1 1 MESSAGE e76d3d645963de67@smsc.ims.mnc001.mcc001.3gppnetwork.org NATMANAGE} <script>: No SDP body, skipping RTP handling
-[0;39;49m[0;32;49m 2(44) NOTICE: {1 1 MESSAGE e76d3d645963de67@smsc.ims.mnc001.mcc001.3gppnetwork.org MT} <script>: Destination URI: sip:10.20.20.9:31100
+[0;39;49m[0;32;49m78(120) NOTICE: {2 1 MESSAGE cckcb6Vd2@10.20.20.9 MO_reply} <script>: Received IP and Port: (172.22.0.21:6108)
+[0;39;49m[0;32;49m78(120) NOTICE: {2 1 MESSAGE cckcb6Vd2@10.20.20.9 MO_reply} <script>: Next hop domain: (10.20.20.9)
+[0;39;49m[0;32;49m78(120) NOTICE: {2 1 MESSAGE cckcb6Vd2@10.20.20.9 MO_reply} <script>: Contact header: <null>
+[0;39;49m[0;36;49m78(120) INFO: {2 1 MESSAGE cckcb6Vd2@10.20.20.9 MO_reply} ims_ipsec_pcscf [cmd.c:1202]: ipsec_forward(): new destination URI: sip:10.20.20.9:31800
+[0;39;49m[0;32;49m78(120) NOTICE: {2 1 MESSAGE cckcb6Vd2@10.20.20.9 NATMANAGE} <script>: REPLY: 202 Accepted (MESSAGE, 172.22.0.20:6060, cckcb6Vd2@10.20.20.9)
+[0;39;49m[0;32;49m78(120) NOTICE: {2 1 MESSAGE cckcb6Vd2@10.20.20.9 NATMANAGE} <script>:     downstream
+[0;39;49m[0;32;49m78(120) NOTICE: {2 1 MESSAGE cckcb6Vd2@10.20.20.9 NATMANAGE} <script>:     Offer: <null>
+[0;39;49m[0;32;49m78(120) NOTICE: {2 1 MESSAGE cckcb6Vd2@10.20.20.9 NATMANAGE} <script>:     Answer: <null>
+[0;39;49m[0;32;49m78(120) NOTICE: {2 1 MESSAGE cckcb6Vd2@10.20.20.9 NATMANAGE} <script>:     mo
+[0;39;49m[0;32;49m78(120) NOTICE: {2 1 MESSAGE cckcb6Vd2@10.20.20.9 NATMANAGE} <script>: No SDP body, skipping RTP handling
+[0;39;49m[0;32;49m 2(44) NOTICE: {1 1 MESSAGE cf62137842487f8f@smsc.ims.mnc001.mcc001.3gppnetwork.org DEFAULT_ROUTE} <script>: PCSCF: MESSAGE sip:001010000123528@10.20.20.9:31800;alias=10.20.20.9~31100~1 (sip:smsc@ims.mnc001.mcc001.3gppnetwork.org (172.22.0.20:6060) to sip:111111@ims.mnc001.mcc001.3gppnetwork.org, cf62137842487f8f@smsc.ims.mnc001.mcc001.3gppnetwork.org)
+[0;39;49m[0;32;49m 2(44) NOTICE: {1 1 MESSAGE cf62137842487f8f@smsc.ims.mnc001.mcc001.3gppnetwork.org NATMANAGE} <script>: REQUEST: MESSAGE sip:001010000123528@10.20.20.9:31800 (172.22.0.20:6060, cf62137842487f8f@smsc.ims.mnc001.mcc001.3gppnetwork.org)
+[0;39;49m[0;32;49m 2(44) NOTICE: {1 1 MESSAGE cf62137842487f8f@smsc.ims.mnc001.mcc001.3gppnetwork.org NATMANAGE} <script>:     downstream
+[0;39;49m[0;32;49m 2(44) NOTICE: {1 1 MESSAGE cf62137842487f8f@smsc.ims.mnc001.mcc001.3gppnetwork.org NATMANAGE} <script>:     Offer: replace-origin replace-session-connection ICE=force RTP AVP
+[0;39;49m[0;32;49m 2(44) NOTICE: {1 1 MESSAGE cf62137842487f8f@smsc.ims.mnc001.mcc001.3gppnetwork.org NATMANAGE} <script>:     Answer: replace-origin replace-session-connection ICE=remove RTP AVP
+[0;39;49m[0;32;49m 2(44) NOTICE: {1 1 MESSAGE cf62137842487f8f@smsc.ims.mnc001.mcc001.3gppnetwork.org NATMANAGE} <script>:     mt
+[0;39;49m[0;32;49m 2(44) NOTICE: {1 1 MESSAGE cf62137842487f8f@smsc.ims.mnc001.mcc001.3gppnetwork.org NATMANAGE} <script>: No SDP body, skipping RTP handling
+[0;39;49m[0;32;49m 2(44) NOTICE: {1 1 MESSAGE cf62137842487f8f@smsc.ims.mnc001.mcc001.3gppnetwork.org MT} <script>: Destination URI: sip:10.20.20.9:31100
  Request URI: sip:001010000123528@10.20.20.9:31800
-[0;39;49m[0;32;49m 2(44) NOTICE: {1 1 MESSAGE e76d3d645963de67@smsc.ims.mnc001.mcc001.3gppnetwork.org MT} <script>: Source IP and Port: (172.22.0.20:6060)
+[0;39;49m[0;32;49m 2(44) NOTICE: {1 1 MESSAGE cf62137842487f8f@smsc.ims.mnc001.mcc001.3gppnetwork.org MT} <script>: Source IP and Port: (172.22.0.20:6060)
  Route-URI: sip:term@pcscf.ims.mnc001.mcc001.3gppnetwork.org;lr
-[0;39;49m[0;32;49m 2(44) NOTICE: {1 1 MESSAGE e76d3d645963de67@smsc.ims.mnc001.mcc001.3gppnetwork.org MT} <script>: Received IP and Port: (172.22.0.21:5060)
-[0;39;49m[0;32;49m 2(44) NOTICE: {1 1 MESSAGE e76d3d645963de67@smsc.ims.mnc001.mcc001.3gppnetwork.org MT} <script>: Next hop domain: (10.20.20.9)
-[0;39;49m[0;32;49m 2(44) NOTICE: {1 1 MESSAGE e76d3d645963de67@smsc.ims.mnc001.mcc001.3gppnetwork.org MT} <script>: Contact header: <null>
-[0;39;49m[0;32;49m 2(44) NOTICE: {1 1 MESSAGE e76d3d645963de67@smsc.ims.mnc001.mcc001.3gppnetwork.org MT} <script>: Term UE connection information : IP is 10.20.20.9 and Port is 31800 
-[0;39;49m[0;32;49m 2(44) NOTICE: {1 1 MESSAGE e76d3d645963de67@smsc.ims.mnc001.mcc001.3gppnetwork.org MT} <script>: Term P-CSCF connection information : IP is 172.22.0.21 and Port is 5060 
-[0;39;49m[0;36;49m 2(44) INFO: {1 1 MESSAGE e76d3d645963de67@smsc.ims.mnc001.mcc001.3gppnetwork.org MT} ims_ipsec_pcscf [cmd.c:1202]: ipsec_forward(): new destination URI: sip:10.20.20.9:31800
-[0;39;49m[0;32;49m80(122) NOTICE: {2 1 MESSAGE e76d3d645963de67@smsc.ims.mnc001.mcc001.3gppnetwork.org MT_reply} <script>: Destination URI: <null>
+[0;39;49m[0;32;49m 2(44) NOTICE: {1 1 MESSAGE cf62137842487f8f@smsc.ims.mnc001.mcc001.3gppnetwork.org MT} <script>: Received IP and Port: (172.22.0.21:5060)
+[0;39;49m[0;32;49m 2(44) NOTICE: {1 1 MESSAGE cf62137842487f8f@smsc.ims.mnc001.mcc001.3gppnetwork.org MT} <script>: Next hop domain: (10.20.20.9)
+[0;39;49m[0;32;49m 2(44) NOTICE: {1 1 MESSAGE cf62137842487f8f@smsc.ims.mnc001.mcc001.3gppnetwork.org MT} <script>: Contact header: <null>
+[0;39;49m[0;32;49m 2(44) NOTICE: {1 1 MESSAGE cf62137842487f8f@smsc.ims.mnc001.mcc001.3gppnetwork.org MT} <script>: Term UE connection information : IP is 10.20.20.9 and Port is 31800 
+[0;39;49m[0;32;49m 2(44) NOTICE: {1 1 MESSAGE cf62137842487f8f@smsc.ims.mnc001.mcc001.3gppnetwork.org MT} <script>: Term P-CSCF connection information : IP is 172.22.0.21 and Port is 5060 
+[0;39;49m[0;36;49m 2(44) INFO: {1 1 MESSAGE cf62137842487f8f@smsc.ims.mnc001.mcc001.3gppnetwork.org MT} ims_ipsec_pcscf [cmd.c:1202]: ipsec_forward(): new destination URI: sip:10.20.20.9:31800
+[0;39;49m[0;32;49m80(122) NOTICE: {2 1 MESSAGE cf62137842487f8f@smsc.ims.mnc001.mcc001.3gppnetwork.org MT_reply} <script>: Destination URI: <null>
  Request URI: <null>
-[0;39;49m[0;36;49m80(122) INFO: {2 1 MESSAGE e76d3d645963de67@smsc.ims.mnc001.mcc001.3gppnetwork.org MT_reply} rr [rr_mod.c:574]: pv_get_route_uri_f(): No route header present.
-[0;39;49m[0;32;49m80(122) NOTICE: {2 1 MESSAGE e76d3d645963de67@smsc.ims.mnc001.mcc001.3gppnetwork.org MT_reply} <script>: Source IP and Port: (10.20.20.9:31100)
+[0;39;49m[0;36;49m80(122) INFO: {2 1 MESSAGE cf62137842487f8f@smsc.ims.mnc001.mcc001.3gppnetwork.org MT_reply} rr [rr_mod.c:574]: pv_get_route_uri_f(): No route header present.
+[0;39;49m[0;32;49m80(122) NOTICE: {2 1 MESSAGE cf62137842487f8f@smsc.ims.mnc001.mcc001.3gppnetwork.org MT_reply} <script>: Source IP and Port: (10.20.20.9:31100)
  Route-URI: 
-[0;39;49m[0;32;49m80(122) NOTICE: {2 1 MESSAGE e76d3d645963de67@smsc.ims.mnc001.mcc001.3gppnetwork.org MT_reply} <script>: Received IP and Port: (172.22.0.21:6108)
-[0;39;49m[0;32;49m80(122) NOTICE: {2 1 MESSAGE e76d3d645963de67@smsc.ims.mnc001.mcc001.3gppnetwork.org MT_reply} <script>: Next hop domain: (172.22.0.20)
-[0;39;49m[0;32;49m80(122) NOTICE: {2 1 MESSAGE e76d3d645963de67@smsc.ims.mnc001.mcc001.3gppnetwork.org MT_reply} <script>: Contact header: <null>
-[0;39;49m[0;32;49m80(122) NOTICE: {2 1 MESSAGE e76d3d645963de67@smsc.ims.mnc001.mcc001.3gppnetwork.org NATMANAGE} <script>: REPLY: 200 OK (MESSAGE, 10.20.20.9:31100, e76d3d645963de67@smsc.ims.mnc001.mcc001.3gppnetwork.org)
-[0;39;49m[0;32;49m80(122) NOTICE: {2 1 MESSAGE e76d3d645963de67@smsc.ims.mnc001.mcc001.3gppnetwork.org NATMANAGE} <script>:     downstream
-[0;39;49m[0;32;49m80(122) NOTICE: {2 1 MESSAGE e76d3d645963de67@smsc.ims.mnc001.mcc001.3gppnetwork.org NATMANAGE} <script>:     Offer: replace-origin replace-session-connection ICE=force RTP AVP
-[0;39;49m[0;32;49m80(122) NOTICE: {2 1 MESSAGE e76d3d645963de67@smsc.ims.mnc001.mcc001.3gppnetwork.org NATMANAGE} <script>:     Answer: replace-origin replace-session-connection ICE=remove RTP AVP
-[0;39;49m[0;32;49m80(122) NOTICE: {2 1 MESSAGE e76d3d645963de67@smsc.ims.mnc001.mcc001.3gppnetwork.org NATMANAGE} <script>:     mt
-[0;39;49m[0;32;49m80(122) NOTICE: {2 1 MESSAGE e76d3d645963de67@smsc.ims.mnc001.mcc001.3gppnetwork.org NATMANAGE} <script>: No SDP body, skipping RTP handling
-[0;39;49m[0;32;49m 3(45) NOTICE: {1 1 MESSAGE 92cd31cfb235fc85@smsc.ims.mnc001.mcc001.3gppnetwork.org DEFAULT_ROUTE} <script>: PCSCF: MESSAGE sip:001010000123542@10.20.20.10:9900;alias=10.20.20.10~9901~1 (sip:111111@ims.mnc001.mcc001.3gppnetwork.org (172.22.0.20:6060) to sip:222222@ims.mnc001.mcc001.3gppnetwork.org, 92cd31cfb235fc85@smsc.ims.mnc001.mcc001.3gppnetwork.org)
-[0;39;49m[0;32;49m 3(45) NOTICE: {1 1 MESSAGE 92cd31cfb235fc85@smsc.ims.mnc001.mcc001.3gppnetwork.org NATMANAGE} <script>: REQUEST: MESSAGE sip:001010000123542@10.20.20.10:9900 (172.22.0.20:6060, 92cd31cfb235fc85@smsc.ims.mnc001.mcc001.3gppnetwork.org)
-[0;39;49m[0;32;49m 3(45) NOTICE: {1 1 MESSAGE 92cd31cfb235fc85@smsc.ims.mnc001.mcc001.3gppnetwork.org NATMANAGE} <script>:     downstream
-[0;39;49m[0;32;49m 3(45) NOTICE: {1 1 MESSAGE 92cd31cfb235fc85@smsc.ims.mnc001.mcc001.3gppnetwork.org NATMANAGE} <script>:     Offer: replace-origin replace-session-connection ICE=force RTP AVP
-[0;39;49m[0;32;49m 3(45) NOTICE: {1 1 MESSAGE 92cd31cfb235fc85@smsc.ims.mnc001.mcc001.3gppnetwork.org NATMANAGE} <script>:     Answer: replace-origin replace-session-connection ICE=remove RTP AVP
-[0;39;49m[0;32;49m 3(45) NOTICE: {1 1 MESSAGE 92cd31cfb235fc85@smsc.ims.mnc001.mcc001.3gppnetwork.org NATMANAGE} <script>:     mt
-[0;39;49m[0;32;49m 3(45) NOTICE: {1 1 MESSAGE 92cd31cfb235fc85@smsc.ims.mnc001.mcc001.3gppnetwork.org NATMANAGE} <script>: No SDP body, skipping RTP handling
-[0;39;49m[0;32;49m 3(45) NOTICE: {1 1 MESSAGE 92cd31cfb235fc85@smsc.ims.mnc001.mcc001.3gppnetwork.org MT} <script>: Destination URI: sip:10.20.20.10:9901
+[0;39;49m[0;32;49m80(122) NOTICE: {2 1 MESSAGE cf62137842487f8f@smsc.ims.mnc001.mcc001.3gppnetwork.org MT_reply} <script>: Received IP and Port: (172.22.0.21:6108)
+[0;39;49m[0;32;49m80(122) NOTICE: {2 1 MESSAGE cf62137842487f8f@smsc.ims.mnc001.mcc001.3gppnetwork.org MT_reply} <script>: Next hop domain: (172.22.0.20)
+[0;39;49m[0;32;49m80(122) NOTICE: {2 1 MESSAGE cf62137842487f8f@smsc.ims.mnc001.mcc001.3gppnetwork.org MT_reply} <script>: Contact header: <null>
+[0;39;49m[0;32;49m80(122) NOTICE: {2 1 MESSAGE cf62137842487f8f@smsc.ims.mnc001.mcc001.3gppnetwork.org NATMANAGE} <script>: REPLY: 200 OK (MESSAGE, 10.20.20.9:31100, cf62137842487f8f@smsc.ims.mnc001.mcc001.3gppnetwork.org)
+[0;39;49m[0;32;49m80(122) NOTICE: {2 1 MESSAGE cf62137842487f8f@smsc.ims.mnc001.mcc001.3gppnetwork.org NATMANAGE} <script>:     downstream
+[0;39;49m[0;32;49m80(122) NOTICE: {2 1 MESSAGE cf62137842487f8f@smsc.ims.mnc001.mcc001.3gppnetwork.org NATMANAGE} <script>:     Offer: replace-origin replace-session-connection ICE=force RTP AVP
+[0;39;49m[0;32;49m80(122) NOTICE: {2 1 MESSAGE cf62137842487f8f@smsc.ims.mnc001.mcc001.3gppnetwork.org NATMANAGE} <script>:     Answer: replace-origin replace-session-connection ICE=remove RTP AVP
+[0;39;49m[0;32;49m80(122) NOTICE: {2 1 MESSAGE cf62137842487f8f@smsc.ims.mnc001.mcc001.3gppnetwork.org NATMANAGE} <script>:     mt
+[0;39;49m[0;32;49m80(122) NOTICE: {2 1 MESSAGE cf62137842487f8f@smsc.ims.mnc001.mcc001.3gppnetwork.org NATMANAGE} <script>: No SDP body, skipping RTP handling
+[0;39;49m[0;32;49m 3(45) NOTICE: {1 1 MESSAGE 5530f4297b21627a@smsc.ims.mnc001.mcc001.3gppnetwork.org DEFAULT_ROUTE} <script>: PCSCF: MESSAGE sip:001010000123542@10.20.20.10:9900;alias=10.20.20.10~9901~1 (sip:111111@ims.mnc001.mcc001.3gppnetwork.org (172.22.0.20:6060) to sip:222222@ims.mnc001.mcc001.3gppnetwork.org, 5530f4297b21627a@smsc.ims.mnc001.mcc001.3gppnetwork.org)
+[0;39;49m[0;32;49m 3(45) NOTICE: {1 1 MESSAGE 5530f4297b21627a@smsc.ims.mnc001.mcc001.3gppnetwork.org NATMANAGE} <script>: REQUEST: MESSAGE sip:001010000123542@10.20.20.10:9900 (172.22.0.20:6060, 5530f4297b21627a@smsc.ims.mnc001.mcc001.3gppnetwork.org)
+[0;39;49m[0;32;49m 3(45) NOTICE: {1 1 MESSAGE 5530f4297b21627a@smsc.ims.mnc001.mcc001.3gppnetwork.org NATMANAGE} <script>:     downstream
+[0;39;49m[0;32;49m 3(45) NOTICE: {1 1 MESSAGE 5530f4297b21627a@smsc.ims.mnc001.mcc001.3gppnetwork.org NATMANAGE} <script>:     Offer: replace-origin replace-session-connection ICE=force RTP AVP
+[0;39;49m[0;32;49m 3(45) NOTICE: {1 1 MESSAGE 5530f4297b21627a@smsc.ims.mnc001.mcc001.3gppnetwork.org NATMANAGE} <script>:     Answer: replace-origin replace-session-connection ICE=remove RTP AVP
+[0;39;49m[0;32;49m 3(45) NOTICE: {1 1 MESSAGE 5530f4297b21627a@smsc.ims.mnc001.mcc001.3gppnetwork.org NATMANAGE} <script>:     mt
+[0;39;49m[0;32;49m 3(45) NOTICE: {1 1 MESSAGE 5530f4297b21627a@smsc.ims.mnc001.mcc001.3gppnetwork.org NATMANAGE} <script>: No SDP body, skipping RTP handling
+[0;39;49m[0;32;49m 3(45) NOTICE: {1 1 MESSAGE 5530f4297b21627a@smsc.ims.mnc001.mcc001.3gppnetwork.org MT} <script>: Destination URI: sip:10.20.20.10:9901
  Request URI: sip:001010000123542@10.20.20.10:9900
-[0;39;49m[0;32;49m 3(45) NOTICE: {1 1 MESSAGE 92cd31cfb235fc85@smsc.ims.mnc001.mcc001.3gppnetwork.org MT} <script>: Source IP and Port: (172.22.0.20:6060)
+[0;39;49m[0;32;49m 3(45) NOTICE: {1 1 MESSAGE 5530f4297b21627a@smsc.ims.mnc001.mcc001.3gppnetwork.org MT} <script>: Source IP and Port: (172.22.0.20:6060)
  Route-URI: sip:term@pcscf.ims.mnc001.mcc001.3gppnetwork.org;lr
-[0;39;49m[0;32;49m 3(45) NOTICE: {1 1 MESSAGE 92cd31cfb235fc85@smsc.ims.mnc001.mcc001.3gppnetwork.org MT} <script>: Received IP and Port: (172.22.0.21:5060)
-[0;39;49m[0;32;49m 3(45) NOTICE: {1 1 MESSAGE 92cd31cfb235fc85@smsc.ims.mnc001.mcc001.3gppnetwork.org MT} <script>: Next hop domain: (10.20.20.10)
-[0;39;49m[0;32;49m 3(45) NOTICE: {1 1 MESSAGE 92cd31cfb235fc85@smsc.ims.mnc001.mcc001.3gppnetwork.org MT} <script>: Contact header: <null>
-[0;39;49m[0;32;49m 3(45) NOTICE: {1 1 MESSAGE 92cd31cfb235fc85@smsc.ims.mnc001.mcc001.3gppnetwork.org MT} <script>: Term UE connection information : IP is 10.20.20.10 and Port is 9900 
-[0;39;49m[0;32;49m 3(45) NOTICE: {1 1 MESSAGE 92cd31cfb235fc85@smsc.ims.mnc001.mcc001.3gppnetwork.org MT} <script>: Term P-CSCF connection information : IP is 172.22.0.21 and Port is 5060 
-[0;39;49m[0;36;49m 3(45) INFO: {1 1 MESSAGE 92cd31cfb235fc85@smsc.ims.mnc001.mcc001.3gppnetwork.org MT} ims_ipsec_pcscf [cmd.c:1202]: ipsec_forward(): new destination URI: sip:10.20.20.10:9900
-[0;39;49m[0;32;49m 4(46) NOTICE: {1 1 MESSAGE 92cd31cfb235fc85@smsc.ims.mnc001.mcc001.3gppnetwork.org DEFAULT_ROUTE} <script>: PCSCF: MESSAGE sip:001010000123542@10.20.20.10:9900;alias=10.20.20.10~9901~1 (sip:111111@ims.mnc001.mcc001.3gppnetwork.org (172.22.0.20:6060) to sip:222222@ims.mnc001.mcc001.3gppnetwork.org, 92cd31cfb235fc85@smsc.ims.mnc001.mcc001.3gppnetwork.org)
+[0;39;49m[0;32;49m 3(45) NOTICE: {1 1 MESSAGE 5530f4297b21627a@smsc.ims.mnc001.mcc001.3gppnetwork.org MT} <script>: Received IP and Port: (172.22.0.21:5060)
+[0;39;49m[0;32;49m 3(45) NOTICE: {1 1 MESSAGE 5530f4297b21627a@smsc.ims.mnc001.mcc001.3gppnetwork.org MT} <script>: Next hop domain: (10.20.20.10)
+[0;39;49m[0;32;49m 3(45) NOTICE: {1 1 MESSAGE 5530f4297b21627a@smsc.ims.mnc001.mcc001.3gppnetwork.org MT} <script>: Contact header: <null>
+[0;39;49m[0;32;49m 3(45) NOTICE: {1 1 MESSAGE 5530f4297b21627a@smsc.ims.mnc001.mcc001.3gppnetwork.org MT} <script>: Term UE connection information : IP is 10.20.20.10 and Port is 9900 
+[0;39;49m[0;32;49m 3(45) NOTICE: {1 1 MESSAGE 5530f4297b21627a@smsc.ims.mnc001.mcc001.3gppnetwork.org MT} <script>: Term P-CSCF connection information : IP is 172.22.0.21 and Port is 5060 
+[0;39;49m[0;36;49m 3(45) INFO: {1 1 MESSAGE 5530f4297b21627a@smsc.ims.mnc001.mcc001.3gppnetwork.org MT} ims_ipsec_pcscf [cmd.c:1202]: ipsec_forward(): new destination URI: sip:10.20.20.10:9900
+[0;39;49m[0;32;49m 4(46) NOTICE: {1 1 MESSAGE 5530f4297b21627a@smsc.ims.mnc001.mcc001.3gppnetwork.org DEFAULT_ROUTE} <script>: PCSCF: MESSAGE sip:001010000123542@10.20.20.10:9900;alias=10.20.20.10~9901~1 (sip:111111@ims.mnc001.mcc001.3gppnetwork.org (172.22.0.20:6060) to sip:222222@ims.mnc001.mcc001.3gppnetwork.org, 5530f4297b21627a@smsc.ims.mnc001.mcc001.3gppnetwork.org)
+[0;39;49m[0;32;49m 1(43) NOTICE: {1 1 MESSAGE 5530f4297b21627a@smsc.ims.mnc001.mcc001.3gppnetwork.org DEFAULT_ROUTE} <script>: PCSCF: MESSAGE sip:001010000123542@10.20.20.10:9900;alias=10.20.20.10~9901~1 (sip:111111@ims.mnc001.mcc001.3gppnetwork.org (172.22.0.20:6060) to sip:222222@ims.mnc001.mcc001.3gppnetwork.org, 5530f4297b21627a@smsc.ims.mnc001.mcc001.3gppnetwork.org)
 [0;39;49m[0;32;49m89(131) NOTICE: {1 1 OPTIONS 123 NATPING} <script>: OPTIONS to sip:001010000123528@10.20.20.9:31800 via sip:10.20.20.9:31800;transport=tcp...
 [0;39;49m[0;32;49m89(131) NOTICE: {1 1 OPTIONS 123 NATPING} <script>: OPTIONS to sip:001010000123542@10.20.20.10:9900 via sip:10.20.20.10:9900;transport=tcp...
-[0;39;49m[0;32;49m 1(43) NOTICE: {1 1 MESSAGE 92cd31cfb235fc85@smsc.ims.mnc001.mcc001.3gppnetwork.org DEFAULT_ROUTE} <script>: PCSCF: MESSAGE sip:001010000123542@10.20.20.10:9900;alias=10.20.20.10~9901~1 (sip:111111@ims.mnc001.mcc001.3gppnetwork.org (172.22.0.20:6060) to sip:222222@ims.mnc001.mcc001.3gppnetwork.org, 92cd31cfb235fc85@smsc.ims.mnc001.mcc001.3gppnetwork.org)
-[0;39;49m[0;32;49m94(136) NOTICE: {2 10 OPTIONS 4d1d0f4a739b6d49-131@172.22.0.21 uac:reply} <script>: request sent to sip:001010000123542@10.20.20.10:9900 completed with code: 200, Type 1
-[0;39;49m[0;32;49m92(134) NOTICE: {2 10 OPTIONS 4d1d0f4a739b6d48-131@172.22.0.21 uac:reply} <script>: request sent to sip:001010000123528@10.20.20.9:31800 completed with code: 200, Type 1
+[0;39;49m[0;32;49m92(134) NOTICE: {2 10 OPTIONS 4d1d0f4a739b6f80-131@172.22.0.21 uac:reply} <script>: request sent to sip:001010000123528@10.20.20.9:31800 completed with code: 200, Type 1
+[0;39;49m[0;32;49m95(137) NOTICE: {2 10 OPTIONS 4d1d0f4a739b6f81-131@172.22.0.21 uac:reply} <script>: request sent to sip:001010000123542@10.20.20.10:9900 completed with code: 200, Type 1
 [0;39;49m[0;32;49m89(131) NOTICE: {1 1 OPTIONS 123 NATPING} <script>: OPTIONS to sip:001010000123528@10.20.20.9:31800 via sip:10.20.20.9:31800;transport=tcp...
 [0;39;49m[0;32;49m89(131) NOTICE: {1 1 OPTIONS 123 NATPING} <script>: OPTIONS to sip:001010000123542@10.20.20.10:9900 via sip:10.20.20.10:9900;transport=tcp...
-[0;39;49m[0;32;49m94(136) NOTICE: {2 10 OPTIONS 4d1d0f4a739b6d4b-131@172.22.0.21 uac:reply} <script>: request sent to sip:001010000123542@10.20.20.10:9900 completed with code: 200, Type 1
-[0;39;49m[0;32;49m92(134) NOTICE: {2 10 OPTIONS 4d1d0f4a739b6d4a-131@172.22.0.21 uac:reply} <script>: request sent to sip:001010000123528@10.20.20.9:31800 completed with code: 200, Type 1
+[0;39;49m[0;32;49m92(134) NOTICE: {2 10 OPTIONS 4d1d0f4a739b6f82-131@172.22.0.21 uac:reply} <script>: request sent to sip:001010000123528@10.20.20.9:31800 completed with code: 200, Type 1
+[0;39;49m[0;32;49m95(137) NOTICE: {2 10 OPTIONS 4d1d0f4a739b6f83-131@172.22.0.21 uac:reply} <script>: request sent to sip:001010000123542@10.20.20.10:9900 completed with code: 200, Type 1
 [0;39;49m[0;32;49m89(131) NOTICE: {1 1 OPTIONS 123 NATPING} <script>: OPTIONS to sip:001010000123528@10.20.20.9:31800 via sip:10.20.20.9:31800;transport=tcp...
 [0;39;49m[0;32;49m89(131) NOTICE: {1 1 OPTIONS 123 NATPING} <script>: OPTIONS to sip:001010000123542@10.20.20.10:9900 via sip:10.20.20.10:9900;transport=tcp...
-[0;39;49m[0;32;49m92(134) NOTICE: {2 10 OPTIONS 4d1d0f4a739b6d4c-131@172.22.0.21 uac:reply} <script>: request sent to sip:001010000123528@10.20.20.9:31800 completed with code: 200, Type 1
-[0;39;49m[0;32;49m94(136) NOTICE: {2 10 OPTIONS 4d1d0f4a739b6d4d-131@172.22.0.21 uac:reply} <script>: request sent to sip:001010000123542@10.20.20.10:9900 completed with code: 200, Type 1
+[0;39;49m[0;32;49m95(137) NOTICE: {2 10 OPTIONS 4d1d0f4a739b6f85-131@172.22.0.21 uac:reply} <script>: request sent to sip:001010000123542@10.20.20.10:9900 completed with code: 200, Type 1
+[0;39;49m[0;32;49m92(134) NOTICE: {2 10 OPTIONS 4d1d0f4a739b6f84-131@172.22.0.21 uac:reply} <script>: request sent to sip:001010000123528@10.20.20.9:31800 completed with code: 200, Type 1
 [0;39;49m[0;32;49m89(131) NOTICE: {1 1 OPTIONS 123 NATPING} <script>: OPTIONS to sip:001010000123528@10.20.20.9:31800 via sip:10.20.20.9:31800;transport=tcp...
 [0;39;49m[0;32;49m89(131) NOTICE: {1 1 OPTIONS 123 NATPING} <script>: OPTIONS to sip:001010000123542@10.20.20.10:9900 via sip:10.20.20.10:9900;transport=tcp...
-[0;39;49m[0;32;49m92(134) NOTICE: {2 10 OPTIONS 4d1d0f4a739b6d4e-131@172.22.0.21 uac:reply} <script>: request sent to sip:001010000123528@10.20.20.9:31800 completed with code: 200, Type 1
-[0;39;49m[0;32;49m94(136) NOTICE: {2 10 OPTIONS 4d1d0f4a739b6d4f-131@172.22.0.21 uac:reply} <script>: request sent to sip:001010000123542@10.20.20.10:9900 completed with code: 200, Type 1
+[0;39;49m[0;32;49m95(137) NOTICE: {2 10 OPTIONS 4d1d0f4a739b6f87-131@172.22.0.21 uac:reply} <script>: request sent to sip:001010000123542@10.20.20.10:9900 completed with code: 200, Type 1
+[0;39;49m[0;32;49m92(134) NOTICE: {2 10 OPTIONS 4d1d0f4a739b6f86-131@172.22.0.21 uac:reply} <script>: request sent to sip:001010000123528@10.20.20.9:31800 completed with code: 200, Type 1
 [0;39;49m[0;32;49m89(131) NOTICE: {1 1 OPTIONS 123 NATPING} <script>: OPTIONS to sip:001010000123528@10.20.20.9:31800 via sip:10.20.20.9:31800;transport=tcp...
 [0;39;49m[0;32;49m89(131) NOTICE: {1 1 OPTIONS 123 NATPING} <script>: OPTIONS to sip:001010000123542@10.20.20.10:9900 via sip:10.20.20.10:9900;transport=tcp...
-[0;39;49m[0;32;49m92(134) NOTICE: {2 10 OPTIONS 4d1d0f4a739b6d50-131@172.22.0.21 uac:reply} <script>: request sent to sip:001010000123528@10.20.20.9:31800 completed with code: 200, Type 1
-[0;39;49m[0;32;49m94(136) NOTICE: {2 10 OPTIONS 4d1d0f4a739b6d51-131@172.22.0.21 uac:reply} <script>: request sent to sip:001010000123542@10.20.20.10:9900 completed with code: 200, Type 1
+[0;39;49m[0;32;49m92(134) NOTICE: {2 10 OPTIONS 4d1d0f4a739b6f88-131@172.22.0.21 uac:reply} <script>: request sent to sip:001010000123528@10.20.20.9:31800 completed with code: 200, Type 1
+[0;39;49m[0;32;49m95(137) NOTICE: {2 10 OPTIONS 4d1d0f4a739b6f89-131@172.22.0.21 uac:reply} <script>: request sent to sip:001010000123542@10.20.20.10:9900 completed with code: 200, Type 1
 [0;39;49m[0;32;49m89(131) NOTICE: {1 1 OPTIONS 123 NATPING} <script>: OPTIONS to sip:001010000123528@10.20.20.9:31800 via sip:10.20.20.9:31800;transport=tcp...
 [0;39;49m[0;32;49m89(131) NOTICE: {1 1 OPTIONS 123 NATPING} <script>: OPTIONS to sip:001010000123542@10.20.20.10:9900 via sip:10.20.20.10:9900;transport=tcp...
-[0;39;49m[0;32;49m92(134) NOTICE: {2 10 OPTIONS 4d1d0f4a739b6d52-131@172.22.0.21 uac:reply} <script>: request sent to sip:001010000123528@10.20.20.9:31800 completed with code: 200, Type 1
-[0;39;49m[0;32;49m94(136) NOTICE: {2 10 OPTIONS 4d1d0f4a739b6d53-131@172.22.0.21 uac:reply} <script>: request sent to sip:001010000123542@10.20.20.10:9900 completed with code: 200, Type 1
+[0;39;49m[0;32;49m95(137) NOTICE: {2 10 OPTIONS 4d1d0f4a739b6f8b-131@172.22.0.21 uac:reply} <script>: request sent to sip:001010000123542@10.20.20.10:9900 completed with code: 200, Type 1
+[0;39;49m[0;32;49m92(134) NOTICE: {2 10 OPTIONS 4d1d0f4a739b6f8a-131@172.22.0.21 uac:reply} <script>: request sent to sip:001010000123528@10.20.20.9:31800 completed with code: 200, Type 1
 [0;39;49m[0;32;49m89(131) NOTICE: {1 1 OPTIONS 123 NATPING} <script>: OPTIONS to sip:001010000123528@10.20.20.9:31800 via sip:10.20.20.9:31800;transport=tcp...
 [0;39;49m[0;32;49m89(131) NOTICE: {1 1 OPTIONS 123 NATPING} <script>: OPTIONS to sip:001010000123542@10.20.20.10:9900 via sip:10.20.20.10:9900;transport=tcp...
-[0;39;49m[0;32;49m92(134) NOTICE: {2 10 OPTIONS 4d1d0f4a739b6d54-131@172.22.0.21 uac:reply} <script>: request sent to sip:001010000123528@10.20.20.9:31800 completed with code: 200, Type 1
-[0;39;49m[0;32;49m94(136) NOTICE: {2 10 OPTIONS 4d1d0f4a739b6d55-131@172.22.0.21 uac:reply} <script>: request sent to sip:001010000123542@10.20.20.10:9900 completed with code: 200, Type 1
+[0;39;49m[0;32;49m92(134) NOTICE: {2 10 OPTIONS 4d1d0f4a739b6f8c-131@172.22.0.21 uac:reply} <script>: request sent to sip:001010000123528@10.20.20.9:31800 completed with code: 200, Type 1
+[0;39;49m[0;32;49m95(137) NOTICE: {2 10 OPTIONS 4d1d0f4a739b6f8d-131@172.22.0.21 uac:reply} <script>: request sent to sip:001010000123542@10.20.20.10:9900 completed with code: 200, Type 1
+[0;39;49mDeploying component: 'pcscf'
+mysqld is alive
+[0;36;49m 0(7) INFO: rtimer [rtimer_mod.c:307]: stm_t_param(): created rtimer name=NATPING interval=5 mode=1
+[0;39;49m[0;36;49m 0(7) INFO: pv [pv_shv.c:61]: shvar_init_locks(): locks array size 16
+[0;39;49m[0;36;49m 0(7) INFO: <core> [core/tcp_main.c:5302]: init_tcp(): using epoll_lt as the io watch method (auto detected)
+loading modules under config path: /usr/lib64/kamailio/modules_k/:/usr/lib64/kamailio/modules/:/usr/lib/kamailio/modules_k/:/usr/lib/kamailio/modules/:/usr/lib/x86_64-linux-gnu/kamailio/modules/:/usr/local/lib64/kamailio/modules
+Listening on 
+             udp: 172.22.0.21 [172.22.0.21]:5060
+             tcp: 172.22.0.21 [172.22.0.21]:5060
+Aliases: 
+             *: pcscf.ims.mnc001.mcc001.3gppnetwork.org:*
+
+[0;39;49m[0;36;49m 0(7) INFO: <core> [main.c:3332]: main(): current open file limits [soft/hard]: [1024/524288]
+[0;39;49m[0;36;49m 0(7) INFO: rr [../outbound/api.h:55]: ob_load_api(): unable to import bind_ob - maybe module is not loaded
+[0;39;49m[0;36;49m 0(7) INFO: rr [rr_mod.c:176]: mod_init(): outbound module not available
+[0;39;49m[0;36;49m 0(7) INFO: auth [auth_mod.c:368]: mod_init(): qop set, but nonce-count (nonce_count) support disabled
+[0;39;49m[0;36;49m 0(7) INFO: path [../outbound/api.h:55]: ob_load_api(): unable to import bind_ob - maybe module is not loaded
+[0;39;49m[0;36;49m 0(7) INFO: path [path_mod.c:153]: mod_init(): outbound module not available
+[0;39;49m[0;36;49m 0(7) INFO: ims_usrloc_pcscf [hslot.c:63]: ul_init_locks(): locks array size 512
+[0;39;49m[0;36;49m 0(7) INFO: ims_ipsec_pcscf [ims_ipsec_pcscf_mod.c:384]: mod_init(): Successfully bound to PCSCF Usrloc module
+[0;39;49m[0;36;49m 0(7) INFO: ims_ipsec_pcscf [ims_ipsec_pcscf_mod.c:391]: mod_init(): Successfully bound to TM module
+[0;39;49m[0;36;49m 0(7) INFO: ims_ipsec_pcscf [ims_ipsec_pcscf_mod.c:150]: ipsec_print_all_socket_lists(): Listening on:
+[0;39;49m[0;36;49m 0(7) INFO: ims_ipsec_pcscf [ims_ipsec_pcscf_mod.c:214]: ipsec_print_all_socket_lists(): udp: 172.22.0.21 [172.22.0.21]:5060
+[0;39;49m[0;36;49m 0(7) INFO: ims_ipsec_pcscf [ims_ipsec_pcscf_mod.c:214]: ipsec_print_all_socket_lists(): udp: 172.22.0.21 [172.22.0.21]:5100
+[0;39;49m[0;36;49m 0(7) INFO: ims_ipsec_pcscf [ims_ipsec_pcscf_mod.c:214]: ipsec_print_all_socket_lists(): udp: 172.22.0.21 [172.22.0.21]:5101
+[0;39;49m[0;36;49m 0(7) INFO: ims_ipsec_pcscf [ims_ipsec_pcscf_mod.c:214]: ipsec_print_all_socket_lists(): udp: 172.22.0.21 [172.22.0.21]:5102
+[0;39;49m[0;36;49m 0(7) INFO: ims_ipsec_pcscf [ims_ipsec_pcscf_mod.c:214]: ipsec_print_all_socket_lists(): udp: 172.22.0.21 [172.22.0.21]:5103
+[0;39;49m[0;36;49m 0(7) INFO: ims_ipsec_pcscf [ims_ipsec_pcscf_mod.c:214]: ipsec_print_all_socket_lists(): udp: 172.22.0.21 [172.22.0.21]:5104
+[0;39;49m[0;36;49m 0(7) INFO: ims_ipsec_pcscf [ims_ipsec_pcscf_mod.c:214]: ipsec_print_all_socket_lists(): udp: 172.22.0.21 [172.22.0.21]:5105
+[0;39;49m[0;36;49m 0(7) INFO: ims_ipsec_pcscf [ims_ipsec_pcscf_mod.c:214]: ipsec_print_all_socket_lists(): udp: 172.22.0.21 [172.22.0.21]:5106
+[0;39;49m[0;36;49m 0(7) INFO: ims_ipsec_pcscf [ims_ipsec_pcscf_mod.c:214]: ipsec_print_all_socket_lists(): udp: 172.22.0.21 [172.22.0.21]:5107
+[0;39;49m[0;36;49m 0(7) INFO: ims_ipsec_pcscf [ims_ipsec_pcscf_mod.c:214]: ipsec_print_all_socket_lists(): udp: 172.22.0.21 [172.22.0.21]:5108
+[0;39;49m[0;36;49m 0(7) INFO: ims_ipsec_pcscf [ims_ipsec_pcscf_mod.c:214]: ipsec_print_all_socket_lists(): udp: 172.22.0.21 [172.22.0.21]:5109
+[0;39;49m[0;36;49m 0(7) INFO: ims_ipsec_pcscf [ims_ipsec_pcscf_mod.c:214]: ipsec_print_all_socket_lists(): udp: 172.22.0.21 [172.22.0.21]:6100
+[0;39;49m[0;36;49m 0(7) INFO: ims_ipsec_pcscf [ims_ipsec_pcscf_mod.c:214]: ipsec_print_all_socket_lists(): udp: 172.22.0.21 [172.22.0.21]:6101
+[0;39;49m[0;36;49m 0(7) INFO: ims_ipsec_pcscf [ims_ipsec_pcscf_mod.c:214]: ipsec_print_all_socket_lists(): udp: 172.22.0.21 [172.22.0.21]:6102
+[0;39;49m[0;36;49m 0(7) INFO: ims_ipsec_pcscf [ims_ipsec_pcscf_mod.c:214]: ipsec_print_all_socket_lists(): udp: 172.22.0.21 [172.22.0.21]:6103
+[0;39;49m[0;36;49m 0(7) INFO: ims_ipsec_pcscf [ims_ipsec_pcscf_mod.c:214]: ipsec_print_all_socket_lists(): udp: 172.22.0.21 [172.22.0.21]:6104
+[0;39;49m[0;36;49m 0(7) INFO: ims_ipsec_pcscf [ims_ipsec_pcscf_mod.c:214]: ipsec_print_all_socket_lists(): udp: 172.22.0.21 [172.22.0.21]:6105
+[0;39;49m[0;36;49m 0(7) INFO: ims_ipsec_pcscf [ims_ipsec_pcscf_mod.c:214]: ipsec_print_all_socket_lists(): udp: 172.22.0.21 [172.22.0.21]:6106
+[0;39;49m[0;36;49m 0(7) INFO: ims_ipsec_pcscf [ims_ipsec_pcscf_mod.c:214]: ipsec_print_all_socket_lists(): udp: 172.22.0.21 [172.22.0.21]:6107
+[0;39;49m[0;36;49m 0(7) INFO: ims_ipsec_pcscf [ims_ipsec_pcscf_mod.c:214]: ipsec_print_all_socket_lists(): udp: 172.22.0.21 [172.22.0.21]:6108
+[0;39;49m[0;36;49m 0(7) INFO: ims_ipsec_pcscf [ims_ipsec_pcscf_mod.c:214]: ipsec_print_all_socket_lists(): udp: 172.22.0.21 [172.22.0.21]:6109
+[0;39;49m[0;36;49m 0(7) INFO: ims_ipsec_pcscf [ims_ipsec_pcscf_mod.c:214]: ipsec_print_all_socket_lists(): tcp: 172.22.0.21 [172.22.0.21]:5060
+[0;39;49m[0;36;49m 0(7) INFO: ims_ipsec_pcscf [ims_ipsec_pcscf_mod.c:214]: ipsec_print_all_socket_lists(): tcp: 172.22.0.21 [172.22.0.21]:5100
+[0;39;49m[0;36;49m 0(7) INFO: ims_ipsec_pcscf [ims_ipsec_pcscf_mod.c:214]: ipsec_print_all_socket_lists(): tcp: 172.22.0.21 [172.22.0.21]:5101
+[0;39;49m[0;36;49m 0(7) INFO: ims_ipsec_pcscf [ims_ipsec_pcscf_mod.c:214]: ipsec_print_all_socket_lists(): tcp: 172.22.0.21 [172.22.0.21]:5102
+[0;39;49m[0;36;49m 0(7) INFO: ims_ipsec_pcscf [ims_ipsec_pcscf_mod.c:214]: ipsec_print_all_socket_lists(): tcp: 172.22.0.21 [172.22.0.21]:5103
+[0;39;49m[0;36;49m 0(7) INFO: ims_ipsec_pcscf [ims_ipsec_pcscf_mod.c:214]: ipsec_print_all_socket_lists(): tcp: 172.22.0.21 [172.22.0.21]:5104
+[0;39;49m[0;36;49m 0(7) INFO: ims_ipsec_pcscf [ims_ipsec_pcscf_mod.c:214]: ipsec_print_all_socket_lists(): tcp: 172.22.0.21 [172.22.0.21]:5105
+[0;39;49m[0;36;49m 0(7) INFO: ims_ipsec_pcscf [ims_ipsec_pcscf_mod.c:214]: ipsec_print_all_socket_lists(): tcp: 172.22.0.21 [172.22.0.21]:5106
+[0;39;49m[0;36;49m 0(7) INFO: ims_ipsec_pcscf [ims_ipsec_pcscf_mod.c:214]: ipsec_print_all_socket_lists(): tcp: 172.22.0.21 [172.22.0.21]:5107
+[0;39;49m[0;36;49m 0(7) INFO: ims_ipsec_pcscf [ims_ipsec_pcscf_mod.c:214]: ipsec_print_all_socket_lists(): tcp: 172.22.0.21 [172.22.0.21]:5108
+[0;39;49m[0;36;49m 0(7) INFO: ims_ipsec_pcscf [ims_ipsec_pcscf_mod.c:214]: ipsec_print_all_socket_lists(): tcp: 172.22.0.21 [172.22.0.21]:5109
+[0;39;49m[0;36;49m 0(7) INFO: ims_ipsec_pcscf [ims_ipsec_pcscf_mod.c:214]: ipsec_print_all_socket_lists(): tcp: 172.22.0.21 [172.22.0.21]:6100
+[0;39;49m[0;36;49m 0(7) INFO: ims_ipsec_pcscf [ims_ipsec_pcscf_mod.c:214]: ipsec_print_all_socket_lists(): tcp: 172.22.0.21 [172.22.0.21]:6101
+[0;39;49m[0;36;49m 0(7) INFO: ims_ipsec_pcscf [ims_ipsec_pcscf_mod.c:214]: ipsec_print_all_socket_lists(): tcp: 172.22.0.21 [172.22.0.21]:6102
+[0;39;49m[0;36;49m 0(7) INFO: ims_ipsec_pcscf [ims_ipsec_pcscf_mod.c:214]: ipsec_print_all_socket_lists(): tcp: 172.22.0.21 [172.22.0.21]:6103
+[0;39;49m[0;36;49m 0(7) INFO: ims_ipsec_pcscf [ims_ipsec_pcscf_mod.c:214]: ipsec_print_all_socket_lists(): tcp: 172.22.0.21 [172.22.0.21]:6104
+[0;39;49m[0;36;49m 0(7) INFO: ims_ipsec_pcscf [ims_ipsec_pcscf_mod.c:214]: ipsec_print_all_socket_lists(): tcp: 172.22.0.21 [172.22.0.21]:6105
+[0;39;49m[0;36;49m 0(7) INFO: ims_ipsec_pcscf [ims_ipsec_pcscf_mod.c:214]: ipsec_print_all_socket_lists(): tcp: 172.22.0.21 [172.22.0.21]:6106
+[0;39;49m[0;36;49m 0(7) INFO: ims_ipsec_pcscf [ims_ipsec_pcscf_mod.c:214]: ipsec_print_all_socket_lists(): tcp: 172.22.0.21 [172.22.0.21]:6107
+[0;39;49m[0;36;49m 0(7) INFO: ims_ipsec_pcscf [ims_ipsec_pcscf_mod.c:214]: ipsec_print_all_socket_lists(): tcp: 172.22.0.21 [172.22.0.21]:6108
+[0;39;49m[0;36;49m 0(7) INFO: ims_ipsec_pcscf [ims_ipsec_pcscf_mod.c:214]: ipsec_print_all_socket_lists(): tcp: 172.22.0.21 [172.22.0.21]:6109
+[0;39;49m[0;31;49m 0(7) ERROR: ims_ipsec_pcscf [ipsec.c:654]: clean_sa(): Error sending delete SAs command via netlink socket: No data available
+[0;39;49m[0;35;49m 0(7) WARNING: ims_ipsec_pcscf [cmd.c:1422]: ipsec_cleanall(): Error cleaning IPSec Security associations during startup.
+[0;39;49m[0;31;49m 0(7) ERROR: ims_ipsec_pcscf [ipsec.c:703]: clean_policy(): Error sending delete policies command via netlink socket: No data available
+[0;39;49m[0;35;49m 0(7) WARNING: ims_ipsec_pcscf [cmd.c:1426]: ipsec_cleanall(): Error cleaning IPSec Policies during startup.
+[0;39;49m[0;36;49m 0(7) INFO: ims_registrar_pcscf [ims_registrar_pcscf_mod.c:306]: mod_init(): Successfully bound to PCSCF IPSEC module
+[0;39;49m[0;36;49m 0(7) INFO: jsonrpcs [jsonrpcs_sock.c:221]: jsonrpc_dgram_mod_init(): the socket /var/run/kamailio/kamailio_rpc.sock already exists, trying to delete it...
+[0;39;49m[0;36;49m 0(7) INFO: <core> [main.c:3398]: main(): processes (at least): 102 - shm size: 67108864 - pkg size: 8388608
+[0;39;49m[0;36;49m 0(7) INFO: <core> [main.c:3421]: main(): tcp main processing threads not enabled
+[0;39;49m[0;35;49m 0(7) WARNING: tm [tm.c:573]: fixup_routes(): t_on_failure("NATMANAGE"): empty/non existing route
+[0;39;49m[0;36;49m 0(7) INFO: <core> [core/udp_server.c:169]: probe_max_receive_buffer(): SO_RCVBUF is initially 1048576 for fd 8
+[0;39;49m[0;36;49m 0(7) INFO: <core> [core/udp_server.c:239]: probe_max_receive_buffer(): SO_RCVBUF is finally 1048576 on fd 8
+[0;39;49m[0;36;49m 0(7) INFO: <core> [core/udp_server.c:270]: probe_max_send_buffer(): SO_SNDBUF is initially 1048576 for fd 8
+[0;39;49m[0;36;49m 0(7) INFO: <core> [core/udp_server.c:340]: probe_max_send_buffer(): SO_SNDBUF is finally 1048576 on fd 8
+[0;39;49m[0;36;49m 0(7) INFO: <core> [core/udp_server.c:169]: probe_max_receive_buffer(): SO_RCVBUF is initially 1048576 for fd 9
+[0;39;49m[0;36;49m 0(7) INFO: <core> [core/udp_server.c:239]: probe_max_receive_buffer(): SO_RCVBUF is finally 1048576 on fd 9
+[0;39;49m[0;36;49m 0(7) INFO: <core> [core/udp_server.c:270]: probe_max_send_buffer(): SO_SNDBUF is initially 1048576 for fd 9
+[0;39;49m[0;36;49m 0(7) INFO: <core> [core/udp_server.c:340]: probe_max_send_buffer(): SO_SNDBUF is finally 1048576 on fd 9
+[0;39;49m[0;36;49m 0(7) INFO: <core> [core/udp_server.c:169]: probe_max_receive_buffer(): SO_RCVBUF is initially 1048576 for fd 10
+[0;39;49m[0;36;49m 0(7) INFO: <core> [core/udp_server.c:239]: probe_max_receive_buffer(): SO_RCVBUF is finally 1048576 on fd 10
+[0;39;49m[0;36;49m 0(7) INFO: <core> [core/udp_server.c:270]: probe_max_send_buffer(): SO_SNDBUF is initially 1048576 for fd 10
+[0;39;49m[0;36;49m 0(7) INFO: <core> [core/udp_server.c:340]: probe_max_send_buffer(): SO_SNDBUF is finally 1048576 on fd 10
+[0;39;49m[0;36;49m 0(7) INFO: <core> [core/udp_server.c:169]: probe_max_receive_buffer(): SO_RCVBUF is initially 1048576 for fd 11
+[0;39;49m[0;36;49m 0(7) INFO: <core> [core/udp_server.c:239]: probe_max_receive_buffer(): SO_RCVBUF is finally 1048576 on fd 11
+[0;39;49m[0;36;49m 0(7) INFO: <core> [core/udp_server.c:270]: probe_max_send_buffer(): SO_SNDBUF is initially 1048576 for fd 11
+[0;39;49m[0;36;49m 0(7) INFO: <core> [core/udp_server.c:340]: probe_max_send_buffer(): SO_SNDBUF is finally 1048576 on fd 11
+[0;39;49m[0;36;49m 0(7) INFO: <core> [core/udp_server.c:169]: probe_max_receive_buffer(): SO_RCVBUF is initially 1048576 for fd 12
+[0;39;49m[0;36;49m 0(7) INFO: <core> [core/udp_server.c:239]: probe_max_receive_buffer(): SO_RCVBUF is finally 1048576 on fd 12
+[0;39;49m[0;36;49m 0(7) INFO: <core> [core/udp_server.c:270]: probe_max_send_buffer(): SO_SNDBUF is initially 1048576 for fd 12
+[0;39;49m[0;36;49m 0(7) INFO: <core> [core/udp_server.c:340]: probe_max_send_buffer(): SO_SNDBUF is finally 1048576 on fd 12
+[0;39;49m[0;36;49m 0(7) INFO: <core> [core/udp_server.c:169]: probe_max_receive_buffer(): SO_RCVBUF is initially 1048576 for fd 13
+[0;39;49m[0;36;49m 0(7) INFO: <core> [core/udp_server.c:239]: probe_max_receive_buffer(): SO_RCVBUF is finally 1048576 on fd 13
+[0;39;49m[0;36;49m 0(7) INFO: <core> [core/udp_server.c:270]: probe_max_send_buffer(): SO_SNDBUF is initially 1048576 for fd 13
+[0;39;49m[0;36;49m 0(7) INFO: <core> [core/udp_server.c:340]: probe_max_send_buffer(): SO_SNDBUF is finally 1048576 on fd 13
+[0;39;49m[0;36;49m 0(7) INFO: <core> [core/udp_server.c:169]: probe_max_receive_buffer(): SO_RCVBUF is initially 1048576 for fd 14
+[0;39;49m[0;36;49m 0(7) INFO: <core> [core/udp_server.c:239]: probe_max_receive_buffer(): SO_RCVBUF is finally 1048576 on fd 14
+[0;39;49m[0;36;49m 0(7) INFO: <core> [core/udp_server.c:270]: probe_max_send_buffer(): SO_SNDBUF is initially 1048576 for fd 14
+[0;39;49m[0;36;49m 0(7) INFO: <core> [core/udp_server.c:340]: probe_max_send_buffer(): SO_SNDBUF is finally 1048576 on fd 14
+[0;39;49m[0;36;49m 0(7) INFO: <core> [core/udp_server.c:169]: probe_max_receive_buffer(): SO_RCVBUF is initially 1048576 for fd 15
+[0;39;49m[0;36;49m 0(7) INFO: <core> [core/udp_server.c:239]: probe_max_receive_buffer(): SO_RCVBUF is finally 1048576 on fd 15
+[0;39;49m[0;36;49m 0(7) INFO: <core> [core/udp_server.c:270]: probe_max_send_buffer(): SO_SNDBUF is initially 1048576 for fd 15
+[0;39;49m[0;36;49m 0(7) INFO: <core> [core/udp_server.c:340]: probe_max_send_buffer(): SO_SNDBUF is finally 1048576 on fd 15
+[0;39;49m[0;36;49m 0(7) INFO: <core> [core/udp_server.c:169]: probe_max_receive_buffer(): SO_RCVBUF is initially 1048576 for fd 16
+[0;39;49m[0;36;49m 0(7) INFO: <core> [core/udp_server.c:239]: probe_max_receive_buffer(): SO_RCVBUF is finally 1048576 on fd 16
+[0;39;49m[0;36;49m 0(7) INFO: <core> [core/udp_server.c:270]: probe_max_send_buffer(): SO_SNDBUF is initially 1048576 for fd 16
+[0;39;49m[0;36;49m 0(7) INFO: <core> [core/udp_server.c:340]: probe_max_send_buffer(): SO_SNDBUF is finally 1048576 on fd 16
+[0;39;49m[0;36;49m 0(7) INFO: <core> [core/udp_server.c:169]: probe_max_receive_buffer(): SO_RCVBUF is initially 1048576 for fd 17
+[0;39;49m[0;36;49m 0(7) INFO: <core> [core/udp_server.c:239]: probe_max_receive_buffer(): SO_RCVBUF is finally 1048576 on fd 17
+[0;39;49m[0;36;49m 0(7) INFO: <core> [core/udp_server.c:270]: probe_max_send_buffer(): SO_SNDBUF is initially 1048576 for fd 17
+[0;39;49m[0;36;49m 0(7) INFO: <core> [core/udp_server.c:340]: probe_max_send_buffer(): SO_SNDBUF is finally 1048576 on fd 17
+[0;39;49m[0;36;49m 0(7) INFO: <core> [core/udp_server.c:169]: probe_max_receive_buffer(): SO_RCVBUF is initially 1048576 for fd 18
+[0;39;49m[0;36;49m 0(7) INFO: <core> [core/udp_server.c:239]: probe_max_receive_buffer(): SO_RCVBUF is finally 1048576 on fd 18
+[0;39;49m[0;36;49m 0(7) INFO: <core> [core/udp_server.c:270]: probe_max_send_buffer(): SO_SNDBUF is initially 1048576 for fd 18
+[0;39;49m[0;36;49m 0(7) INFO: <core> [core/udp_server.c:340]: probe_max_send_buffer(): SO_SNDBUF is finally 1048576 on fd 18
+[0;39;49m[0;36;49m 0(7) INFO: <core> [core/udp_server.c:169]: probe_max_receive_buffer(): SO_RCVBUF is initially 1048576 for fd 19
+[0;39;49m[0;36;49m 0(7) INFO: <core> [core/udp_server.c:239]: probe_max_receive_buffer(): SO_RCVBUF is finally 1048576 on fd 19
+[0;39;49m[0;36;49m 0(7) INFO: <core> [core/udp_server.c:270]: probe_max_send_buffer(): SO_SNDBUF is initially 1048576 for fd 19
+[0;39;49m[0;36;49m 0(7) INFO: <core> [core/udp_server.c:340]: probe_max_send_buffer(): SO_SNDBUF is finally 1048576 on fd 19
+[0;39;49m[0;36;49m 0(7) INFO: <core> [core/udp_server.c:169]: probe_max_receive_buffer(): SO_RCVBUF is initially 1048576 for fd 20
+[0;39;49m[0;36;49m 0(7) INFO: <core> [core/udp_server.c:239]: probe_max_receive_buffer(): SO_RCVBUF is finally 1048576 on fd 20
+[0;39;49m[0;36;49m 0(7) INFO: <core> [core/udp_server.c:270]: probe_max_send_buffer(): SO_SNDBUF is initially 1048576 for fd 20
+[0;39;49m[0;36;49m 0(7) INFO: <core> [core/udp_server.c:340]: probe_max_send_buffer(): SO_SNDBUF is finally 1048576 on fd 20
+[0;39;49m[0;36;49m 0(7) INFO: <core> [core/udp_server.c:169]: probe_max_receive_buffer(): SO_RCVBUF is initially 1048576 for fd 21
+[0;39;49m[0;36;49m 0(7) INFO: <core> [core/udp_server.c:239]: probe_max_receive_buffer(): SO_RCVBUF is finally 1048576 on fd 21
+[0;39;49m[0;36;49m 0(7) INFO: <core> [core/udp_server.c:270]: probe_max_send_buffer(): SO_SNDBUF is initially 1048576 for fd 21
+[0;39;49m[0;36;49m 0(7) INFO: <core> [core/udp_server.c:340]: probe_max_send_buffer(): SO_SNDBUF is finally 1048576 on fd 21
+[0;39;49m[0;36;49m 0(7) INFO: <core> [core/udp_server.c:169]: probe_max_receive_buffer(): SO_RCVBUF is initially 1048576 for fd 22
+[0;39;49m[0;36;49m 0(7) INFO: <core> [core/udp_server.c:239]: probe_max_receive_buffer(): SO_RCVBUF is finally 1048576 on fd 22
+[0;39;49m[0;36;49m 0(7) INFO: <core> [core/udp_server.c:270]: probe_max_send_buffer(): SO_SNDBUF is initially 1048576 for fd 22
+[0;39;49m[0;36;49m 0(7) INFO: <core> [core/udp_server.c:340]: probe_max_send_buffer(): SO_SNDBUF is finally 1048576 on fd 22
+[0;39;49m[0;36;49m 0(7) INFO: <core> [core/udp_server.c:169]: probe_max_receive_buffer(): SO_RCVBUF is initially 1048576 for fd 23
+[0;39;49m[0;36;49m 0(7) INFO: <core> [core/udp_server.c:239]: probe_max_receive_buffer(): SO_RCVBUF is finally 1048576 on fd 23
+[0;39;49m[0;36;49m 0(7) INFO: <core> [core/udp_server.c:270]: probe_max_send_buffer(): SO_SNDBUF is initially 1048576 for fd 23
+[0;39;49m[0;36;49m 0(7) INFO: <core> [core/udp_server.c:340]: probe_max_send_buffer(): SO_SNDBUF is finally 1048576 on fd 23
+[0;39;49m[0;36;49m 0(7) INFO: <core> [core/udp_server.c:169]: probe_max_receive_buffer(): SO_RCVBUF is initially 1048576 for fd 24
+[0;39;49m[0;36;49m 0(7) INFO: <core> [core/udp_server.c:239]: probe_max_receive_buffer(): SO_RCVBUF is finally 1048576 on fd 24
+[0;39;49m[0;36;49m 0(7) INFO: <core> [core/udp_server.c:270]: probe_max_send_buffer(): SO_SNDBUF is initially 1048576 for fd 24
+[0;39;49m[0;36;49m 0(7) INFO: <core> [core/udp_server.c:340]: probe_max_send_buffer(): SO_SNDBUF is finally 1048576 on fd 24
+[0;39;49m[0;36;49m 0(7) INFO: <core> [core/udp_server.c:169]: probe_max_receive_buffer(): SO_RCVBUF is initially 1048576 for fd 25
+[0;39;49m[0;36;49m 0(7) INFO: <core> [core/udp_server.c:239]: probe_max_receive_buffer(): SO_RCVBUF is finally 1048576 on fd 25
+[0;39;49m[0;36;49m 0(7) INFO: <core> [core/udp_server.c:270]: probe_max_send_buffer(): SO_SNDBUF is initially 1048576 for fd 25
+[0;39;49m[0;36;49m 0(7) INFO: <core> [core/udp_server.c:340]: probe_max_send_buffer(): SO_SNDBUF is finally 1048576 on fd 25
+[0;39;49m[0;36;49m 0(7) INFO: <core> [core/udp_server.c:169]: probe_max_receive_buffer(): SO_RCVBUF is initially 1048576 for fd 26
+[0;39;49m[0;36;49m 0(7) INFO: <core> [core/udp_server.c:239]: probe_max_receive_buffer(): SO_RCVBUF is finally 1048576 on fd 26
+[0;39;49m[0;36;49m 0(7) INFO: <core> [core/udp_server.c:270]: probe_max_send_buffer(): SO_SNDBUF is initially 1048576 for fd 26
+[0;39;49m[0;36;49m 0(7) INFO: <core> [core/udp_server.c:340]: probe_max_send_buffer(): SO_SNDBUF is finally 1048576 on fd 26
+[0;39;49m[0;36;49m 0(7) INFO: <core> [core/udp_server.c:169]: probe_max_receive_buffer(): SO_RCVBUF is initially 1048576 for fd 27
+[0;39;49m[0;36;49m 0(7) INFO: <core> [core/udp_server.c:239]: probe_max_receive_buffer(): SO_RCVBUF is finally 1048576 on fd 27
+[0;39;49m[0;36;49m 0(7) INFO: <core> [core/udp_server.c:270]: probe_max_send_buffer(): SO_SNDBUF is initially 1048576 for fd 27
+[0;39;49m[0;36;49m 0(7) INFO: <core> [core/udp_server.c:340]: probe_max_send_buffer(): SO_SNDBUF is finally 1048576 on fd 27
+[0;39;49m[0;36;49m 0(7) INFO: <core> [core/udp_server.c:169]: probe_max_receive_buffer(): SO_RCVBUF is initially 1048576 for fd 28
+[0;39;49m[0;36;49m 0(7) INFO: <core> [core/udp_server.c:239]: probe_max_receive_buffer(): SO_RCVBUF is finally 1048576 on fd 28
+[0;39;49m[0;36;49m 0(7) INFO: <core> [core/udp_server.c:270]: probe_max_send_buffer(): SO_SNDBUF is initially 1048576 for fd 28
+[0;39;49m[0;36;49m 0(7) INFO: <core> [core/udp_server.c:340]: probe_max_send_buffer(): SO_SNDBUF is finally 1048576 on fd 28
+[0;39;49m[0;36;49m 0(7) INFO: <core> [core/tcp_main.c:3342]: tcp_init(): Set TCP_USER_TIMEOUT=10000 ms
+[0;39;49m[0;36;49m 0(7) INFO: <core> [core/tcp_main.c:3342]: tcp_init(): Set TCP_USER_TIMEOUT=10000 ms
+[0;39;49m[0;36;49m 0(7) INFO: <core> [core/tcp_main.c:3342]: tcp_init(): Set TCP_USER_TIMEOUT=10000 ms
+[0;39;49m[0;36;49m 0(7) INFO: <core> [core/tcp_main.c:3342]: tcp_init(): Set TCP_USER_TIMEOUT=10000 ms
+[0;39;49m[0;36;49m 0(7) INFO: <core> [core/tcp_main.c:3342]: tcp_init(): Set TCP_USER_TIMEOUT=10000 ms
+[0;39;49m[0;36;49m 0(7) INFO: <core> [core/tcp_main.c:3342]: tcp_init(): Set TCP_USER_TIMEOUT=10000 ms
+[0;39;49m[0;36;49m 0(7) INFO: <core> [core/tcp_main.c:3342]: tcp_init(): Set TCP_USER_TIMEOUT=10000 ms
+[0;39;49m[0;36;49m 0(7) INFO: <core> [core/tcp_main.c:3342]: tcp_init(): Set TCP_USER_TIMEOUT=10000 ms
+[0;39;49m[0;36;49m 0(7) INFO: <core> [core/tcp_main.c:3342]: tcp_init(): Set TCP_USER_TIMEOUT=10000 ms
+[0;39;49m[0;36;49m 0(7) INFO: <core> [core/tcp_main.c:3342]: tcp_init(): Set TCP_USER_TIMEOUT=10000 ms
+[0;39;49m[0;36;49m 0(7) INFO: <core> [core/tcp_main.c:3342]: tcp_init(): Set TCP_USER_TIMEOUT=10000 ms
+[0;39;49m[0;36;49m 0(7) INFO: <core> [core/tcp_main.c:3342]: tcp_init(): Set TCP_USER_TIMEOUT=10000 ms
+[0;39;49m[0;36;49m 0(7) INFO: <core> [core/tcp_main.c:3342]: tcp_init(): Set TCP_USER_TIMEOUT=10000 ms
+[0;39;49m[0;36;49m 0(7) INFO: <core> [core/tcp_main.c:3342]: tcp_init(): Set TCP_USER_TIMEOUT=10000 ms
+[0;39;49m[0;36;49m 0(7) INFO: <core> [core/tcp_main.c:3342]: tcp_init(): Set TCP_USER_TIMEOUT=10000 ms
+[0;39;49m[0;36;49m 0(7) INFO: <core> [core/tcp_main.c:3342]: tcp_init(): Set TCP_USER_TIMEOUT=10000 ms
+[0;39;49m[0;36;49m 0(7) INFO: <core> [core/tcp_main.c:3342]: tcp_init(): Set TCP_USER_TIMEOUT=10000 ms
+[0;39;49m[0;36;49m 0(7) INFO: <core> [core/tcp_main.c:3342]: tcp_init(): Set TCP_USER_TIMEOUT=10000 ms
+[0;39;49m[0;36;49m 0(7) INFO: <core> [core/tcp_main.c:3342]: tcp_init(): Set TCP_USER_TIMEOUT=10000 ms
+[0;39;49m[0;36;49m 0(7) INFO: <core> [core/tcp_main.c:3342]: tcp_init(): Set TCP_USER_TIMEOUT=10000 ms
+[0;39;49m[0;36;49m 0(7) INFO: <core> [core/tcp_main.c:3342]: tcp_init(): Set TCP_USER_TIMEOUT=10000 ms
+[0;39;49m[0;31;49m 0(7) ERROR: {1 1 OPTIONS 123 htable:mod-init} <script>: event_route[htable:mod-init] 
+[0;39;49m[0;36;49m 1(39) INFO: {1 1 OPTIONS 123 <null>} rtpengine [rtpengine.c:4313]: rtpp_test(): rtpengine instance <udp:172.22.0.16:2223> found, support for it enabled
+[0;39;49m[0;36;49m100(138) INFO: {1 1 OPTIONS 123 <null>} <core> [core/tcp_main.c:5037]: tcp_main_loop(): tcp main processing threads not enabled
+[0;39;49m[0;36;49m91(129) INFO: {1 1 OPTIONS 123 <null>} jsonrpcs [jsonrpcs_sock.c:473]: jsonrpc_dgram_process(): a new child 0/129
+[0;39;49m[0;36;49m88(126) INFO: {1 1 OPTIONS 123 <null>} ctl [io_listener.c:216]: io_listen_loop(): using epoll_lt io watch method (config)
+[0;39;49m[0;36;49m89(127) INFO: {1 1 OPTIONS 123 preload_pcscf} <script>: Preloading NAT-PING. Rows: 0
+[0;39;49m[0;32;49m 2(40) NOTICE: {1 1 REGISTER qqkcbAlaz@10.20.20.11 DEFAULT_ROUTE} <script>: PCSCF: REGISTER sip:ims.mnc001.mcc001.3gppnetwork.org (sip:001010000123528@ims.mnc001.mcc001.3gppnetwork.org (10.20.20.11:5060) to sip:001010000123528@ims.mnc001.mcc001.3gppnetwork.org, qqkcbAlaz@10.20.20.11)
+[0;39;49m[0;36;49m 2(40) INFO: {1 1 REGISTER qqkcbAlaz@10.20.20.11 DEFAULT_ROUTE} rr [rr_mod.c:574]: pv_get_route_uri_f(): No route header present.
+[0;39;49m[0;32;49m 2(40) NOTICE: {1 1 REGISTER qqkcbAlaz@10.20.20.11 REGISTER} <script>: Destination URI: <null>
+ Request URI: sip:ims.mnc001.mcc001.3gppnetwork.org
+[0;39;49m[0;36;49m 2(40) INFO: {1 1 REGISTER qqkcbAlaz@10.20.20.11 REGISTER} rr [rr_mod.c:574]: pv_get_route_uri_f(): No route header present.
+[0;39;49m[0;32;49m 2(40) NOTICE: {1 1 REGISTER qqkcbAlaz@10.20.20.11 REGISTER} <script>: Source IP and Port: (10.20.20.11:5060)
+ Route-URI: 
+[0;39;49m[0;32;49m 2(40) NOTICE: {1 1 REGISTER qqkcbAlaz@10.20.20.11 REGISTER} <script>: Received IP and Port: (172.22.0.21:5060)
+[0;39;49m[0;32;49m 2(40) NOTICE: {1 1 REGISTER qqkcbAlaz@10.20.20.11 REGISTER} <script>: Contact header: <sip:001010000123528@10.20.20.11:5060>;+sip.instance="<urn:gsma:imei:86838903-875492-0>";+g.3gpp.accesstype="cellular2";audio;video;+g.3gpp.smsip;+g.3gpp.icsi-ref="urn%3Aurn-7%3A3gpp-service.ims.icsi.mmtel"
+[0;39;49m[0;32;49m 2(40) NOTICE: {1 1 REGISTER qqkcbAlaz@10.20.20.11 REGISTER} <script>: REGISTER debug: Call-ID=qqkcbAlaz@10.20.20.11 From=sip:001010000123528@ims.mnc001.mcc001.3gppnetwork.org To=sip:001010000123528@ims.mnc001.mcc001.3gppnetwork.org Expires=600000 User-Agent=IM-client/OMA1.0 HW-Rto/V1.0
+[0;39;49m[0;32;49m 2(40) NOTICE: {1 1 REGISTER qqkcbAlaz@10.20.20.11 REGISTER} <script>: REGISTER debug: Accept-Contact=<null> Feature-Caps=<null>
+[0;39;49m[0;32;49m 2(40) NOTICE: {1 1 REGISTER qqkcbAlaz@10.20.20.11 REGISTER} <script>: REGISTER debug: Supported=path,sec-agree Require=sec-agree
+[0;39;49m[0;32;49m 2(40) NOTICE: {1 1 REGISTER qqkcbAlaz@10.20.20.11 REGISTER} <script>: REGISTER debug: Security-Client=ipsec-3gpp;alg=hmac-sha-1-96;prot=esp;mod=trans;ealg=des-ede3-cbc;spi-c=37003332;spi-s=56679983;port-c=31100;port-s=31800,ipsec-3gpp;alg=hmac-sha-1-96;prot=esp;mod=trans;ealg=aes-cbc;spi-c=37003332;spi-s=56679983;port-c=31100;port-s=31800,ipsec-3gpp;alg=hmac-sha-1-96;prot=esp;mod=trans;ealg=null;spi-c=37003332;spi-s=56679983;port-c=31100;port-s=31800,ipsec-3gpp;alg=hmac-md5-96;prot=esp;mod=trans;ealg=des-ede3-cbc;spi-c=37003332;spi-s=56679983;port-c=31100;port-s=31800,ipsec-3gpp;alg=hmac-md5-96;prot=esp;mod=trans;ealg=aes-cbc;spi-c=37003332;spi-s=56679983;port-c=31100;port-s=31800,ipsec-3gpp;alg=hmac-md5-96;prot=esp;mod=trans;ealg=null;spi-c=37003332;spi-s=56679983;port-c=31100;port-s=31800
+[0;39;49m[0;32;49m 2(40) NOTICE: {1 1 REGISTER qqkcbAlaz@10.20.20.11 REGISTER} <script>: REGISTER debug: Security-Verify=<null>
+[0;39;49m[0;36;49m 2(40) INFO: {1 1 REGISTER qqkcbAlaz@10.20.20.11 REGISTER} ims_registrar_pcscf [sec_agree.c:304]: cscf_get_security_verify(): No security-verify parameters found
+[0;39;49m[0;31;49m 2(40) ERROR: {1 1 REGISTER qqkcbAlaz@10.20.20.11 REGISTER} ims_ipsec_pcscf [ipsec.c:654]: clean_sa(): Error sending delete SAs command via netlink socket: No data available
+[0;39;49m[0;35;49m 2(40) WARNING: {1 1 REGISTER qqkcbAlaz@10.20.20.11 REGISTER} ims_ipsec_pcscf [cmd.c:1422]: ipsec_cleanall(): Error cleaning IPSec Security associations during startup.
+[0;39;49m[0;31;49m 2(40) ERROR: {1 1 REGISTER qqkcbAlaz@10.20.20.11 REGISTER} ims_ipsec_pcscf [ipsec.c:703]: clean_policy(): Error sending delete policies command via netlink socket: No data available
+[0;39;49m[0;35;49m 2(40) WARNING: {1 1 REGISTER qqkcbAlaz@10.20.20.11 REGISTER} ims_ipsec_pcscf [cmd.c:1426]: ipsec_cleanall(): Error cleaning IPSec Policies during startup.
+[0;39;49m[0;36;49m 2(40) INFO: {1 1 REGISTER qqkcbAlaz@10.20.20.11 RELAY} <core> [core/tcp_main.c:3147]: tcpconn_1st_send(): quick connect for 0x7e9443d4fcd0 sock 30
+[0;39;49m[0;31;49m94(132) ERROR: {2 1 REGISTER qqkcbAlaz@10.20.20.11 REGISTER_reply} ims_ipsec_pcscf [ipsec.c:930]: delete_unused_sa(): Error sending delete unused SAs command via netlink socket: No data available
+[0;39;49m[0;31;49m94(132) ERROR: {2 1 REGISTER qqkcbAlaz@10.20.20.11 REGISTER_reply} ims_ipsec_pcscf [ipsec.c:1146]: delete_unused_policy(): Error sending delete unused policies command via netlink socket: No data available
+[0;39;49m[0;32;49m94(132) NOTICE: {2 1 REGISTER qqkcbAlaz@10.20.20.11 REGISTER_reply} <script>: Security-Client=ipsec-3gpp;alg=hmac-sha-1-96;prot=esp;mod=trans;ealg=des-ede3-cbc;spi-c=37003332;spi-s=56679983;port-c=31100;port-s=31800,ipsec-3gpp;alg=hmac-sha-1-96;prot=esp;mod=trans;ealg=aes-cbc;spi-c=37003332;spi-s=56679983;port-c=31100;port-s=31800,ipsec-3gpp;alg=hmac-sha-1-96;prot=esp;mod=trans;ealg=null;spi-c=37003332;spi-s=56679983;port-c=31100;port-s=31800,ipsec-3gpp;alg=hmac-md5-96;prot=esp;mod=trans;ealg=des-ede3-cbc;spi-c=37003332;spi-s=56679983;port-c=31100;port-s=31800,ipsec-3gpp;alg=hmac-md5-96;prot=esp;mod=trans;ealg=aes-cbc;spi-c=37003332;spi-s=56679983;port-c=31100;port-s=31800,ipsec-3gpp;alg=hmac-md5-96;prot=esp;mod=trans;ealg=null;spi-c=37003332;spi-s=56679983;port-c=31100;port-s=31800
+[0;39;49m[0;32;49m94(132) NOTICE: {2 1 REGISTER qqkcbAlaz@10.20.20.11 REGISTER_reply} <script>: port-c=31100
+[0;39;49m[0;32;49m94(132) NOTICE: {2 1 REGISTER qqkcbAlaz@10.20.20.11 REGISTER_reply} <script>: port-s=31800
+[0;39;49m[0;32;49m94(132) NOTICE: {2 1 REGISTER qqkcbAlaz@10.20.20.11 REGISTER_reply} <script>: Expires=600000
+[0;39;49m[0;32;49m94(132) NOTICE: {2 1 REGISTER qqkcbAlaz@10.20.20.11 REGISTER_reply} <script>: Old header - WWW-Authenticate=Digest realm="ims.mnc001.mcc001.3gppnetwork.org", nonce="NWY1f/N0RDk8bCxvZJa6o7f0C88WwIAAQn8MiYBduSw=", algorithm=AKAv1-MD5, ck="251780f18ffe156bd2e11361302e662d", ik="e3b8421a837fd5773b0fcc71512fcfe0", qop="auth"
+[0;39;49m[0;32;49m94(132) NOTICE: {2 1 REGISTER qqkcbAlaz@10.20.20.11 REGISTER_reply} <script>: New header - WWW-Authenticate=Digest realm="ims.mnc001.mcc001.3gppnetwork.org", nonce="NWY1f/N0RDk8bCxvZJa6o7f0C88WwIAAQn8MiYBduSw=", algorithm=AKAv1-MD5, qop="auth"
+[0;39;49m[0;32;49m46(84) NOTICE: {1 2 REGISTER qqkcbAlaz@10.20.20.11 DEFAULT_ROUTE} <script>: PCSCF: REGISTER sip:ims.mnc001.mcc001.3gppnetwork.org (sip:001010000123528@ims.mnc001.mcc001.3gppnetwork.org (10.20.20.11:31100) to sip:001010000123528@ims.mnc001.mcc001.3gppnetwork.org, qqkcbAlaz@10.20.20.11)
+[0;39;49m[0;36;49m46(84) INFO: {1 2 REGISTER qqkcbAlaz@10.20.20.11 DEFAULT_ROUTE} rr [rr_mod.c:574]: pv_get_route_uri_f(): No route header present.
+[0;39;49m[0;32;49m46(84) NOTICE: {1 2 REGISTER qqkcbAlaz@10.20.20.11 REGISTER} <script>: Destination URI: <null>
+ Request URI: sip:ims.mnc001.mcc001.3gppnetwork.org
+[0;39;49m[0;36;49m46(84) INFO: {1 2 REGISTER qqkcbAlaz@10.20.20.11 REGISTER} rr [rr_mod.c:574]: pv_get_route_uri_f(): No route header present.
+[0;39;49m[0;32;49m46(84) NOTICE: {1 2 REGISTER qqkcbAlaz@10.20.20.11 REGISTER} <script>: Source IP and Port: (10.20.20.11:31100)
+ Route-URI: 
+[0;39;49m[0;32;49m46(84) NOTICE: {1 2 REGISTER qqkcbAlaz@10.20.20.11 REGISTER} <script>: Received IP and Port: (172.22.0.21:6100)
+[0;39;49m[0;32;49m46(84) NOTICE: {1 2 REGISTER qqkcbAlaz@10.20.20.11 REGISTER} <script>: Contact header: <sip:001010000123528@10.20.20.11:31800>;+sip.instance="<urn:gsma:imei:86838903-875492-0>";+g.3gpp.accesstype="cellular2";audio;video;+g.3gpp.smsip;+g.3gpp.icsi-ref="urn%3Aurn-7%3A3gpp-service.ims.icsi.mmtel"
+[0;39;49m[0;32;49m46(84) NOTICE: {1 2 REGISTER qqkcbAlaz@10.20.20.11 REGISTER} <script>: REGISTER debug: Call-ID=qqkcbAlaz@10.20.20.11 From=sip:001010000123528@ims.mnc001.mcc001.3gppnetwork.org To=sip:001010000123528@ims.mnc001.mcc001.3gppnetwork.org Expires=600000 User-Agent=IM-client/OMA1.0 HW-Rto/V1.0
+[0;39;49m[0;32;49m46(84) NOTICE: {1 2 REGISTER qqkcbAlaz@10.20.20.11 REGISTER} <script>: REGISTER debug: Accept-Contact=<null> Feature-Caps=<null>
+[0;39;49m[0;32;49m46(84) NOTICE: {1 2 REGISTER qqkcbAlaz@10.20.20.11 REGISTER} <script>: REGISTER debug: Supported=path,sec-agree Require=sec-agree
+[0;39;49m[0;32;49m46(84) NOTICE: {1 2 REGISTER qqkcbAlaz@10.20.20.11 REGISTER} <script>: REGISTER debug: Security-Client=ipsec-3gpp;alg=hmac-sha-1-96;prot=esp;mod=trans;ealg=des-ede3-cbc;spi-c=37003332;spi-s=56679983;port-c=31100;port-s=31800,ipsec-3gpp;alg=hmac-sha-1-96;prot=esp;mod=trans;ealg=aes-cbc;spi-c=37003332;spi-s=56679983;port-c=31100;port-s=31800,ipsec-3gpp;alg=hmac-sha-1-96;prot=esp;mod=trans;ealg=null;spi-c=37003332;spi-s=56679983;port-c=31100;port-s=31800,ipsec-3gpp;alg=hmac-md5-96;prot=esp;mod=trans;ealg=des-ede3-cbc;spi-c=37003332;spi-s=56679983;port-c=31100;port-s=31800,ipsec-3gpp;alg=hmac-md5-96;prot=esp;mod=trans;ealg=aes-cbc;spi-c=37003332;spi-s=56679983;port-c=31100;port-s=31800,ipsec-3gpp;alg=hmac-md5-96;prot=esp;mod=trans;ealg=null;spi-c=37003332;spi-s=56679983;port-c=31100;port-s=31800
+[0;39;49m[0;32;49m46(84) NOTICE: {1 2 REGISTER qqkcbAlaz@10.20.20.11 REGISTER} <script>: REGISTER debug: Security-Verify=ipsec-3gpp;q=0.1;prot=esp;mod=trans;spi-c=4096;spi-s=4097;port-c=5100;port-s=6100;alg=hmac-sha-1-96;ealg=null
+[0;39;49m[0;32;49m94(132) NOTICE: {2 2 REGISTER qqkcbAlaz@10.20.20.11 REGISTER_reply} <script>: REGISTER 200 debug: Call-ID=qqkcbAlaz@10.20.20.11 P-Associated-URI=<sip:111111@ims.mnc001.mcc001.3gppnetwork.org>, <tel:111111>, <sip:001010000123528@ims.mnc001.mcc001.3gppnetwork.org>
+[0;39;49m[0;32;49m94(132) NOTICE: {2 2 REGISTER qqkcbAlaz@10.20.20.11 REGISTER_reply} <script>: REGISTER 200 debug: Service-Route=<sip:orig@scscf.ims.mnc001.mcc001.3gppnetwork.org:6060;lr>
+[0;39;49m[0;32;49m94(132) NOTICE: {2 2 REGISTER qqkcbAlaz@10.20.20.11 REGISTER_reply} <script>: REGISTER 200 debug: Contact=<sip:001010000123528@10.20.20.11:31800;alias=10.20.20.11~31100~1>;expires=3240;+g.3gpp.icsi-ref="urn%3Aurn-7%3A3gpp-service.ims.icsi.mmtel";+g.3gpp.smsip;video;audio;+g.3gpp.accesstype="cellular2";+sip.instance="<urn:gsma:imei:86838903-875492-0>"
+[0;39;49m[0;32;49m94(132) NOTICE: {2 2 REGISTER qqkcbAlaz@10.20.20.11 REGISTER_reply} <script>: Security-Client=ipsec-3gpp;alg=hmac-sha-1-96;prot=esp;mod=trans;ealg=des-ede3-cbc;spi-c=37003332;spi-s=56679983;port-c=31100;port-s=31800,ipsec-3gpp;alg=hmac-sha-1-96;prot=esp;mod=trans;ealg=aes-cbc;spi-c=37003332;spi-s=56679983;port-c=31100;port-s=31800,ipsec-3gpp;alg=hmac-sha-1-96;prot=esp;mod=trans;ealg=null;spi-c=37003332;spi-s=56679983;port-c=31100;port-s=31800,ipsec-3gpp;alg=hmac-md5-96;prot=esp;mod=trans;ealg=des-ede3-cbc;spi-c=37003332;spi-s=56679983;port-c=31100;port-s=31800,ipsec-3gpp;alg=hmac-md5-96;prot=esp;mod=trans;ealg=aes-cbc;spi-c=37003332;spi-s=56679983;port-c=31100;port-s=31800,ipsec-3gpp;alg=hmac-md5-96;prot=esp;mod=trans;ealg=null;spi-c=37003332;spi-s=56679983;port-c=31100;port-s=31800
+[0;39;49m[0;32;49m94(132) NOTICE: {2 2 REGISTER qqkcbAlaz@10.20.20.11 REGISTER_reply} <script>: port-c=31100
+[0;39;49m[0;32;49m94(132) NOTICE: {2 2 REGISTER qqkcbAlaz@10.20.20.11 REGISTER_reply} <script>: port-s=31800
+[0;39;49m[0;32;49m94(132) NOTICE: {2 2 REGISTER qqkcbAlaz@10.20.20.11 REGISTER_reply} <script>: Security-Verify=ipsec-3gpp;q=0.1;prot=esp;mod=trans;spi-c=4096;spi-s=4097;port-c=5100;port-s=6100;alg=hmac-sha-1-96;ealg=null
+[0;39;49m[0;32;49m94(132) NOTICE: {2 2 REGISTER qqkcbAlaz@10.20.20.11 REGISTER_reply} <script>: port-c=5100
+[0;39;49m[0;32;49m94(132) NOTICE: {2 2 REGISTER qqkcbAlaz@10.20.20.11 REGISTER_reply} <script>: port-s=6100
+[0;39;49m[0;36;49m94(132) INFO: {2 2 REGISTER qqkcbAlaz@10.20.20.11 REGISTER_reply} ims_ipsec_pcscf [cmd.c:1202]: ipsec_forward(): new destination URI: sip:10.20.20.11:31800
+[0;39;49m[0;32;49m45(83) NOTICE: {1 1 SUBSCRIBE rvkcbAlaz@10.20.20.11 DEFAULT_ROUTE} <script>: PCSCF: SUBSCRIBE sip:111111@ims.mnc001.mcc001.3gppnetwork.org (sip:111111@ims.mnc001.mcc001.3gppnetwork.org (10.20.20.11:31100) to sip:111111@ims.mnc001.mcc001.3gppnetwork.org, rvkcbAlaz@10.20.20.11)
+[0;39;49m[0;33;49m45(83) CRITICAL: {1 1 SUBSCRIBE rvkcbAlaz@10.20.20.11 DEFAULT_ROUTE} <core> [core/mem/q_malloc.c:555]: qm_free(): BUG: freeing already freed pointer (0x7e9447c06b90), called from core: core/action.c: do_action(1161), first free core: core/pvapi.c: pv_elem_free_all(1613) - ignoring
+[0;39;49m[0;32;49m89(127) NOTICE: {1 1 OPTIONS 123 NATPING} <script>: OPTIONS to sip:001010000123528@10.20.20.11:31800 via sip:10.20.20.11:31800;transport=tcp...
+[0;39;49m[0;32;49m95(133) NOTICE: {2 10 OPTIONS 4aa49f953b82c674-127@172.22.0.21 uac:reply} <script>: request sent to sip:001010000123528@10.20.20.11:31800 completed with code: 200, Type 1
+[0;39;49m[0;32;49m89(127) NOTICE: {1 1 OPTIONS 123 NATPING} <script>: OPTIONS to sip:001010000123528@10.20.20.11:31800 via sip:10.20.20.11:31800;transport=tcp...
+[0;39;49m[0;32;49m95(133) NOTICE: {2 10 OPTIONS 4aa49f953b82c675-127@172.22.0.21 uac:reply} <script>: request sent to sip:001010000123528@10.20.20.11:31800 completed with code: 200, Type 1
+[0;39;49m[0;32;49m89(127) NOTICE: {1 1 OPTIONS 123 NATPING} <script>: OPTIONS to sip:001010000123528@10.20.20.11:31800 via sip:10.20.20.11:31800;transport=tcp...
+[0;39;49m[0;32;49m95(133) NOTICE: {2 10 OPTIONS 4aa49f953b82c676-127@172.22.0.21 uac:reply} <script>: request sent to sip:001010000123528@10.20.20.11:31800 completed with code: 200, Type 1
+[0;39;49m[0;32;49m89(127) NOTICE: {1 1 OPTIONS 123 NATPING} <script>: OPTIONS to sip:001010000123528@10.20.20.11:31800 via sip:10.20.20.11:31800;transport=tcp...
+[0;39;49m[0;32;49m95(133) NOTICE: {2 10 OPTIONS 4aa49f953b82c677-127@172.22.0.21 uac:reply} <script>: request sent to sip:001010000123528@10.20.20.11:31800 completed with code: 200, Type 1
+[0;39;49m[0;32;49m89(127) NOTICE: {1 1 OPTIONS 123 NATPING} <script>: OPTIONS to sip:001010000123528@10.20.20.11:31800 via sip:10.20.20.11:31800;transport=tcp...
+[0;39;49m[0;32;49m95(133) NOTICE: {2 10 OPTIONS 4aa49f953b82c678-127@172.22.0.21 uac:reply} <script>: request sent to sip:001010000123528@10.20.20.11:31800 completed with code: 200, Type 1
+[0;39;49m[0;32;49m89(127) NOTICE: {1 1 OPTIONS 123 NATPING} <script>: OPTIONS to sip:001010000123528@10.20.20.11:31800 via sip:10.20.20.11:31800;transport=tcp...
+[0;39;49m[0;32;49m85(123) NOTICE: {1 1 OPTIONS 123 uac:reply} <script>: request sent to sip:001010000123528@10.20.20.11:31800 completed with code: 408, Type 2
+[0;39;49m[0;31;49m85(123) ERROR: {1 1 OPTIONS 123 uac:reply} <script>:   request sent to sip:001010000123528@10.20.20.11:31800: Fail Counter is 1
+[0;39;49m[0;32;49m89(127) NOTICE: {1 1 OPTIONS 123 NATPING} <script>: OPTIONS to sip:001010000123528@10.20.20.11:31800 via sip:10.20.20.11:31800;transport=tcp...
+[0;39;49m[0;32;49m97(135) NOTICE: {2 10 OPTIONS 4aa49f953b82c67a-127@172.22.0.21 uac:reply} <script>: request sent to sip:001010000123528@10.20.20.11:31800 completed with code: 200, Type 1
+[0;39;49m[0;32;49m 1(39) NOTICE: {1 1 REGISTER 6lttWf2XKguq0uqp7R4KZg..@10.20.20.12 DEFAULT_ROUTE} <script>: PCSCF: REGISTER sip:ims.mnc001.mcc001.3gppnetwork.org (sip:001010000123542@ims.mnc001.mcc001.3gppnetwork.org (10.20.20.12:5060) to sip:001010000123542@ims.mnc001.mcc001.3gppnetwork.org, 6lttWf2XKguq0uqp7R4KZg..@10.20.20.12)
+[0;39;49m[0;36;49m 1(39) INFO: {1 1 REGISTER 6lttWf2XKguq0uqp7R4KZg..@10.20.20.12 DEFAULT_ROUTE} rr [rr_mod.c:574]: pv_get_route_uri_f(): No route header present.
+[0;39;49m[0;32;49m 1(39) NOTICE: {1 1 REGISTER 6lttWf2XKguq0uqp7R4KZg..@10.20.20.12 REGISTER} <script>: Destination URI: <null>
+ Request URI: sip:ims.mnc001.mcc001.3gppnetwork.org
+[0;39;49m[0;36;49m 1(39) INFO: {1 1 REGISTER 6lttWf2XKguq0uqp7R4KZg..@10.20.20.12 REGISTER} rr [rr_mod.c:574]: pv_get_route_uri_f(): No route header present.
+[0;39;49m[0;32;49m 1(39) NOTICE: {1 1 REGISTER 6lttWf2XKguq0uqp7R4KZg..@10.20.20.12 REGISTER} <script>: Source IP and Port: (10.20.20.12:5060)
+ Route-URI: 
+[0;39;49m[0;32;49m 1(39) NOTICE: {1 1 REGISTER 6lttWf2XKguq0uqp7R4KZg..@10.20.20.12 REGISTER} <script>: Received IP and Port: (172.22.0.21:5060)
+[0;39;49m[0;32;49m 1(39) NOTICE: {1 1 REGISTER 6lttWf2XKguq0uqp7R4KZg..@10.20.20.12 REGISTER} <script>: Contact header: <sip:001010000123542@10.20.20.12:5060>;+sip.instance="<urn:gsma:imei:35049581-044242-0>";q=1.0;v_cc;+g.3gpp.icsi-ref="urn%3Aurn-7%3A3gpp-service.ims.icsi.mmtel";video
+[0;39;49m[0;32;49m 1(39) NOTICE: {1 1 REGISTER 6lttWf2XKguq0uqp7R4KZg..@10.20.20.12 REGISTER} <script>: REGISTER debug: Call-ID=6lttWf2XKguq0uqp7R4KZg..@10.20.20.12 From=sip:001010000123542@ims.mnc001.mcc001.3gppnetwork.org To=sip:001010000123542@ims.mnc001.mcc001.3gppnetwork.org Expires=600000 User-Agent=TTA-VoLTE/3.0 SM-A165N/ZB4_ZB1 Device_Type/Android_Phone OMD
+[0;39;49m[0;32;49m 1(39) NOTICE: {1 1 REGISTER 6lttWf2XKguq0uqp7R4KZg..@10.20.20.12 REGISTER} <script>: REGISTER debug: Accept-Contact=<null> Feature-Caps=<null>
+[0;39;49m[0;32;49m 1(39) NOTICE: {1 1 REGISTER 6lttWf2XKguq0uqp7R4KZg..@10.20.20.12 REGISTER} <script>: REGISTER debug: Supported=path, sec-agree Require=sec-agree
+[0;39;49m[0;32;49m 1(39) NOTICE: {1 1 REGISTER 6lttWf2XKguq0uqp7R4KZg..@10.20.20.12 REGISTER} <script>: REGISTER debug: Security-Client=ipsec-3gpp;prot=esp;mod=trans;spi-c=35911;spi-s=35912;port-c=6101;port-s=6100;alg=hmac-sha-1-96;ealg=aes-cbc
+[0;39;49m[0;32;49m 1(39) NOTICE: {1 1 REGISTER 6lttWf2XKguq0uqp7R4KZg..@10.20.20.12 REGISTER} <script>: REGISTER debug: Security-Verify=<null>
+[0;39;49m[0;36;49m 1(39) INFO: {1 1 REGISTER 6lttWf2XKguq0uqp7R4KZg..@10.20.20.12 REGISTER} ims_registrar_pcscf [sec_agree.c:304]: cscf_get_security_verify(): No security-verify parameters found
+[0;39;49m[0;31;49m98(136) ERROR: {2 1 REGISTER 6lttWf2XKguq0uqp7R4KZg..@10.20.20.12 REGISTER_reply} ims_ipsec_pcscf [ipsec.c:930]: delete_unused_sa(): Error sending delete unused SAs command via netlink socket: No data available
+[0;39;49m[0;32;49m98(136) NOTICE: {2 1 REGISTER 6lttWf2XKguq0uqp7R4KZg..@10.20.20.12 REGISTER_reply} <script>: Security-Client=ipsec-3gpp;prot=esp;mod=trans;spi-c=35911;spi-s=35912;port-c=6101;port-s=6100;alg=hmac-sha-1-96;ealg=aes-cbc
+[0;39;49m[0;32;49m98(136) NOTICE: {2 1 REGISTER 6lttWf2XKguq0uqp7R4KZg..@10.20.20.12 REGISTER_reply} <script>: port-c=6101
+[0;39;49m[0;32;49m98(136) NOTICE: {2 1 REGISTER 6lttWf2XKguq0uqp7R4KZg..@10.20.20.12 REGISTER_reply} <script>: port-s=6100
+[0;39;49m[0;32;49m98(136) NOTICE: {2 1 REGISTER 6lttWf2XKguq0uqp7R4KZg..@10.20.20.12 REGISTER_reply} <script>: Expires=600000
+[0;39;49m[0;32;49m98(136) NOTICE: {2 1 REGISTER 6lttWf2XKguq0uqp7R4KZg..@10.20.20.12 REGISTER_reply} <script>: Old header - WWW-Authenticate=Digest realm="ims.mnc001.mcc001.3gppnetwork.org", nonce="43G/2z3Hloh5B0Sj/eZd0+Dou+DTBIAAv6DTJFNiCL0=", algorithm=AKAv1-MD5, ck="729631af5a60f06c03269f87d05612d4", ik="04ae147b85b90523e2b344411c553924", qop="auth"
+[0;39;49m[0;32;49m98(136) NOTICE: {2 1 REGISTER 6lttWf2XKguq0uqp7R4KZg..@10.20.20.12 REGISTER_reply} <script>: New header - WWW-Authenticate=Digest realm="ims.mnc001.mcc001.3gppnetwork.org", nonce="43G/2z3Hloh5B0Sj/eZd0+Dou+DTBIAAv6DTJFNiCL0=", algorithm=AKAv1-MD5, qop="auth"
+[0;39;49m[0;32;49m50(88) NOTICE: {1 2 REGISTER 6lttWf2XKguq0uqp7R4KZg..@10.20.20.12 DEFAULT_ROUTE} <script>: PCSCF: REGISTER sip:ims.mnc001.mcc001.3gppnetwork.org (sip:001010000123542@ims.mnc001.mcc001.3gppnetwork.org (10.20.20.12:6101) to sip:001010000123542@ims.mnc001.mcc001.3gppnetwork.org, 6lttWf2XKguq0uqp7R4KZg..@10.20.20.12)
+[0;39;49m[0;36;49m50(88) INFO: {1 2 REGISTER 6lttWf2XKguq0uqp7R4KZg..@10.20.20.12 DEFAULT_ROUTE} rr [rr_mod.c:574]: pv_get_route_uri_f(): No route header present.
+[0;39;49m[0;32;49m50(88) NOTICE: {1 2 REGISTER 6lttWf2XKguq0uqp7R4KZg..@10.20.20.12 REGISTER} <script>: Destination URI: <null>
+ Request URI: sip:ims.mnc001.mcc001.3gppnetwork.org
+[0;39;49m[0;36;49m50(88) INFO: {1 2 REGISTER 6lttWf2XKguq0uqp7R4KZg..@10.20.20.12 REGISTER} rr [rr_mod.c:574]: pv_get_route_uri_f(): No route header present.
+[0;39;49m[0;32;49m50(88) NOTICE: {1 2 REGISTER 6lttWf2XKguq0uqp7R4KZg..@10.20.20.12 REGISTER} <script>: Source IP and Port: (10.20.20.12:6101)
+ Route-URI: 
+[0;39;49m[0;32;49m50(88) NOTICE: {1 2 REGISTER 6lttWf2XKguq0uqp7R4KZg..@10.20.20.12 REGISTER} <script>: Received IP and Port: (172.22.0.21:6101)
+[0;39;49m[0;32;49m50(88) NOTICE: {1 2 REGISTER 6lttWf2XKguq0uqp7R4KZg..@10.20.20.12 REGISTER} <script>: Contact header: <sip:001010000123542@10.20.20.12:6100>;+sip.instance="<urn:gsma:imei:35049581-044242-0>";q=1.0;v_cc;+g.3gpp.icsi-ref="urn%3Aurn-7%3A3gpp-service.ims.icsi.mmtel";video
+[0;39;49m[0;32;49m50(88) NOTICE: {1 2 REGISTER 6lttWf2XKguq0uqp7R4KZg..@10.20.20.12 REGISTER} <script>: REGISTER debug: Call-ID=6lttWf2XKguq0uqp7R4KZg..@10.20.20.12 From=sip:001010000123542@ims.mnc001.mcc001.3gppnetwork.org To=sip:001010000123542@ims.mnc001.mcc001.3gppnetwork.org Expires=600000 User-Agent=TTA-VoLTE/3.0 SM-A165N/ZB4_ZB1 Device_Type/Android_Phone OMD
+[0;39;49m[0;32;49m50(88) NOTICE: {1 2 REGISTER 6lttWf2XKguq0uqp7R4KZg..@10.20.20.12 REGISTER} <script>: REGISTER debug: Accept-Contact=<null> Feature-Caps=<null>
+[0;39;49m[0;32;49m50(88) NOTICE: {1 2 REGISTER 6lttWf2XKguq0uqp7R4KZg..@10.20.20.12 REGISTER} <script>: REGISTER debug: Supported=path, sec-agree Require=sec-agree
+[0;39;49m[0;32;49m50(88) NOTICE: {1 2 REGISTER 6lttWf2XKguq0uqp7R4KZg..@10.20.20.12 REGISTER} <script>: REGISTER debug: Security-Client=ipsec-3gpp;prot=esp;mod=trans;spi-c=35911;spi-s=35912;port-c=6101;port-s=6100;alg=hmac-sha-1-96;ealg=aes-cbc
+[0;39;49m[0;32;49m50(88) NOTICE: {1 2 REGISTER 6lttWf2XKguq0uqp7R4KZg..@10.20.20.12 REGISTER} <script>: REGISTER debug: Security-Verify=ipsec-3gpp;q=0.1;prot=esp;mod=trans;spi-c=4098;spi-s=4099;port-c=5101;port-s=6101;alg=hmac-sha-1-96;ealg=aes-cbc
+[0;39;49m[0;32;49m98(136) NOTICE: {2 2 REGISTER 6lttWf2XKguq0uqp7R4KZg..@10.20.20.12 REGISTER_reply} <script>: REGISTER 200 debug: Call-ID=6lttWf2XKguq0uqp7R4KZg..@10.20.20.12 P-Associated-URI=<sip:222222@ims.mnc001.mcc001.3gppnetwork.org>, <tel:222222>, <sip:001010000123542@ims.mnc001.mcc001.3gppnetwork.org>
+[0;39;49m[0;32;49m98(136) NOTICE: {2 2 REGISTER 6lttWf2XKguq0uqp7R4KZg..@10.20.20.12 REGISTER_reply} <script>: REGISTER 200 debug: Service-Route=<sip:orig@scscf.ims.mnc001.mcc001.3gppnetwork.org:6060;lr>
+[0;39;49m[0;32;49m98(136) NOTICE: {2 2 REGISTER 6lttWf2XKguq0uqp7R4KZg..@10.20.20.12 REGISTER_reply} <script>: REGISTER 200 debug: Contact=<sip:001010000123542@10.20.20.12:6100;alias=10.20.20.12~6101~1>;q=1;expires=3240;video;+g.3gpp.icsi-ref="urn%3Aurn-7%3A3gpp-service.ims.icsi.mmtel";v_cc;+sip.instance="<urn:gsma:imei:35049581-044242-0>"
+[0;39;49m[0;32;49m98(136) NOTICE: {2 2 REGISTER 6lttWf2XKguq0uqp7R4KZg..@10.20.20.12 REGISTER_reply} <script>: Security-Client=ipsec-3gpp;prot=esp;mod=trans;spi-c=35911;spi-s=35912;port-c=6101;port-s=6100;alg=hmac-sha-1-96;ealg=aes-cbc
+[0;39;49m[0;32;49m98(136) NOTICE: {2 2 REGISTER 6lttWf2XKguq0uqp7R4KZg..@10.20.20.12 REGISTER_reply} <script>: port-c=6101
+[0;39;49m[0;32;49m98(136) NOTICE: {2 2 REGISTER 6lttWf2XKguq0uqp7R4KZg..@10.20.20.12 REGISTER_reply} <script>: port-s=6100
+[0;39;49m[0;32;49m98(136) NOTICE: {2 2 REGISTER 6lttWf2XKguq0uqp7R4KZg..@10.20.20.12 REGISTER_reply} <script>: Security-Verify=ipsec-3gpp;q=0.1;prot=esp;mod=trans;spi-c=4098;spi-s=4099;port-c=5101;port-s=6101;alg=hmac-sha-1-96;ealg=aes-cbc
+[0;39;49m[0;32;49m98(136) NOTICE: {2 2 REGISTER 6lttWf2XKguq0uqp7R4KZg..@10.20.20.12 REGISTER_reply} <script>: port-c=5101
+[0;39;49m[0;32;49m98(136) NOTICE: {2 2 REGISTER 6lttWf2XKguq0uqp7R4KZg..@10.20.20.12 REGISTER_reply} <script>: port-s=6101
+[0;39;49m[0;36;49m98(136) INFO: {2 2 REGISTER 6lttWf2XKguq0uqp7R4KZg..@10.20.20.12 REGISTER_reply} ims_ipsec_pcscf [cmd.c:1202]: ipsec_forward(): new destination URI: sip:10.20.20.12:6100
+[0;39;49m[0;32;49m49(87) NOTICE: {1 1 SUBSCRIBE OHHdJXrtU0sMR-M7TYz0kg..@10.20.20.12 DEFAULT_ROUTE} <script>: PCSCF: SUBSCRIBE tel:222222 (tel:222222 (10.20.20.12:6101) to tel:222222, OHHdJXrtU0sMR-M7TYz0kg..@10.20.20.12)
+[0;39;49m[0;33;49m49(87) CRITICAL: {1 1 SUBSCRIBE OHHdJXrtU0sMR-M7TYz0kg..@10.20.20.12 DEFAULT_ROUTE} <core> [core/mem/q_malloc.c:555]: qm_free(): BUG: freeing already freed pointer (0x7e9447c78b30), called from core: core/action.c: do_action(1161), first free core: core/pvapi.c: pv_elem_free_all(1613) - ignoring
+[0;39;49m[0;31;49m49(87) ERROR: {1 1 SUBSCRIBE OHHdJXrtU0sMR-M7TYz0kg..@10.20.20.12 RELAY} <core> [core/resolve.c:1801]: str2ipbuf(): invalid name (0x59496bf88260,0), no conversion to IP address possible
+[0;39;49m[0;31;49m49(87) ERROR: {1 1 SUBSCRIBE OHHdJXrtU0sMR-M7TYz0kg..@10.20.20.12 RELAY} <core> [core/resolve.c:1920]: str2ip6buf(): invalid name (0x59496bf88260,0), no conversion to IP address possible
+[0;39;49m[0;32;49m52(90) NOTICE: {1 1 SUBSCRIBE OHHdJXrtU0sMR-M7TYz0kg..@10.20.20.12 DEFAULT_ROUTE} <script>: PCSCF: SUBSCRIBE tel:222222 (tel:222222 (10.20.20.12:6101) to tel:222222, OHHdJXrtU0sMR-M7TYz0kg..@10.20.20.12)
+[0;39;49m[0;32;49m89(127) NOTICE: {1 1 OPTIONS 123 NATPING} <script>: OPTIONS to sip:001010000123528@10.20.20.11:31800 via sip:10.20.20.11:31800;transport=tcp...
+[0;39;49m[0;32;49m89(127) NOTICE: {1 1 OPTIONS 123 NATPING} <script>: OPTIONS to sip:001010000123542@10.20.20.12:6100 via sip:10.20.20.12:6100;transport=tcp...
+[0;39;49m[0;32;49m97(135) NOTICE: {2 10 OPTIONS 4aa49f953b82c67b-127@172.22.0.21 uac:reply} <script>: request sent to sip:001010000123528@10.20.20.11:31800 completed with code: 200, Type 1
+[0;39;49m[0;32;49m51(89) NOTICE: {1 1 SUBSCRIBE OHHdJXrtU0sMR-M7TYz0kg..@10.20.20.12 DEFAULT_ROUTE} <script>: PCSCF: SUBSCRIBE tel:222222 (tel:222222 (10.20.20.12:6101) to tel:222222, OHHdJXrtU0sMR-M7TYz0kg..@10.20.20.12)
+[0;39;49m[0;32;49m92(130) NOTICE: {2 10 OPTIONS 4aa49f953b82c67c-127@172.22.0.21 uac:reply} <script>: request sent to sip:001010000123542@10.20.20.12:6100 completed with code: 200, Type 1
+[0;39;49m[0;31;49m49(87) ERROR: {1 1 SUBSCRIBE OHHdJXrtU0sMR-M7TYz0kg..@10.20.20.12 RELAY} <core> [core/resolve.c:1801]: str2ipbuf(): invalid name (0x59496beca960,0), no conversion to IP address possible
+[0;39;49m[0;31;49m49(87) ERROR: {1 1 SUBSCRIBE OHHdJXrtU0sMR-M7TYz0kg..@10.20.20.12 RELAY} <core> [core/resolve.c:1920]: str2ip6buf(): invalid name (0x59496beca960,0), no conversion to IP address possible
+[0;39;49m[0;32;49m89(127) NOTICE: {1 1 OPTIONS 123 NATPING} <script>: OPTIONS to sip:001010000123528@10.20.20.11:31800 via sip:10.20.20.11:31800;transport=tcp...
+[0;39;49m[0;32;49m89(127) NOTICE: {1 1 OPTIONS 123 NATPING} <script>: OPTIONS to sip:001010000123542@10.20.20.12:6100 via sip:10.20.20.12:6100;transport=tcp...
+[0;39;49m[0;32;49m97(135) NOTICE: {2 10 OPTIONS 4aa49f953b82c67d-127@172.22.0.21 uac:reply} <script>: request sent to sip:001010000123528@10.20.20.11:31800 completed with code: 200, Type 1
+[0;39;49m[0;32;49m92(130) NOTICE: {2 10 OPTIONS 4aa49f953b82c67e-127@172.22.0.21 uac:reply} <script>: request sent to sip:001010000123542@10.20.20.12:6100 completed with code: 200, Type 1
+[0;39;49m[0;32;49m47(85) NOTICE: {1 1 MESSAGE IIkcbQeIy@10.20.20.11 DEFAULT_ROUTE} <script>: PCSCF: MESSAGE tel:0015555;phone-context=ims.mnc001.mcc001.3gppnetwork.org (sip:111111@ims.mnc001.mcc001.3gppnetwork.org (10.20.20.11:31100) to tel:0015555;phone-context=ims.mnc001.mcc001.3gppnetwork.org, IIkcbQeIy@10.20.20.11)
+[0;39;49m[0;32;49m47(85) NOTICE: {1 1 MESSAGE IIkcbQeIy@10.20.20.11 MO} <script>: Destination URI: sip:orig@scscf.ims.mnc001.mcc001.3gppnetwork.org:6060;lr
+ Request URI: tel:0015555;phone-context=ims.mnc001.mcc001.3gppnetwork.org
+[0;39;49m[0;32;49m47(85) NOTICE: {1 1 MESSAGE IIkcbQeIy@10.20.20.11 MO} <script>: Source IP and Port: (10.20.20.11:31100)
+ Route-URI: sip:172.22.0.21:6100;lr
+[0;39;49m[0;32;49m47(85) NOTICE: {1 1 MESSAGE IIkcbQeIy@10.20.20.11 MO} <script>: Received IP and Port: (172.22.0.21:6100)
+[0;39;49m[0;32;49m47(85) NOTICE: {1 1 MESSAGE IIkcbQeIy@10.20.20.11 MO} <script>: Next hop domain: (scscf.ims.mnc001.mcc001.3gppnetwork.org)
+[0;39;49m[0;32;49m47(85) NOTICE: {1 1 MESSAGE IIkcbQeIy@10.20.20.11 MO} <script>: Contact header: <sip:111111@10.20.20.11:31800>
+[0;39;49m[0;32;49m47(85) NOTICE: {1 1 MESSAGE IIkcbQeIy@10.20.20.11 MO} <script>: MO MESSAGE debug: Call-ID=IIkcbQeIy@10.20.20.11 From=sip:111111@ims.mnc001.mcc001.3gppnetwork.org To=tel:0015555;phone-context=ims.mnc001.mcc001.3gppnetwork.org User-Agent=IM-client/OMA1.0 HW-Rto/V1.0
+[0;39;49m[0;32;49m47(85) NOTICE: {1 1 MESSAGE IIkcbQeIy@10.20.20.11 MO} <script>: MO MESSAGE debug: Accept-Contact=*;+g.3gpp.smsip P-Preferred-Identity=<sip:111111@ims.mnc001.mcc001.3gppnetwork.org>
+[0;39;49m[0;32;49m47(85) NOTICE: {1 1 MESSAGE IIkcbQeIy@10.20.20.11 MO} <script>: MO MESSAGE debug: P-Asserted-Identity=<null> Feature-Caps=<null>
+[0;39;49m[0;32;49m47(85) NOTICE: {1 1 MESSAGE IIkcbQeIy@10.20.20.11 MO} <script>: MO MESSAGE debug: Content-Type=application/vnd.3gpp.sms Content-Length=22
+[0;39;49m[0;36;49m47(85) INFO: {1 1 MESSAGE IIkcbQeIy@10.20.20.11 MO} siputils [chargingvector.c:479]: sip_handle_pcv(): Generated new PCV header P-Charging-Vector: icid-value=495653AC160015550000003A00000000;icid-generated-at=
+[0;39;49m[0;32;49m46(84) NOTICE: {2 1 MESSAGE IIkcbQeIy@10.20.20.11 MO_reply} <script>: Destination URI: <null>
+ Request URI: <null>
+[0;39;49m[0;36;49m46(84) INFO: {2 1 MESSAGE IIkcbQeIy@10.20.20.11 MO_reply} rr [rr_mod.c:574]: pv_get_route_uri_f(): No route header present.
+[0;39;49m[0;32;49m46(84) NOTICE: {2 1 MESSAGE IIkcbQeIy@10.20.20.11 MO_reply} <script>: Source IP and Port: (172.22.0.20:6060)
+ Route-URI: 
+[0;39;49m[0;32;49m46(84) NOTICE: {2 1 MESSAGE IIkcbQeIy@10.20.20.11 MO_reply} <script>: Received IP and Port: (172.22.0.21:6100)
+[0;39;49m[0;32;49m46(84) NOTICE: {2 1 MESSAGE IIkcbQeIy@10.20.20.11 MO_reply} <script>: Next hop domain: (10.20.20.11)
+[0;39;49m[0;32;49m46(84) NOTICE: {2 1 MESSAGE IIkcbQeIy@10.20.20.11 MO_reply} <script>: Contact header: <null>
+[0;39;49m[0;36;49m46(84) INFO: {2 1 MESSAGE IIkcbQeIy@10.20.20.11 MO_reply} ims_ipsec_pcscf [cmd.c:1202]: ipsec_forward(): new destination URI: sip:10.20.20.11:31800
+[0;39;49m[0;32;49m46(84) NOTICE: {2 1 MESSAGE IIkcbQeIy@10.20.20.11 NATMANAGE} <script>: REPLY: 202 Accepted (MESSAGE, 172.22.0.20:6060, IIkcbQeIy@10.20.20.11)
+[0;39;49m[0;32;49m46(84) NOTICE: {2 1 MESSAGE IIkcbQeIy@10.20.20.11 NATMANAGE} <script>:     downstream
+[0;39;49m[0;32;49m46(84) NOTICE: {2 1 MESSAGE IIkcbQeIy@10.20.20.11 NATMANAGE} <script>:     Offer: <null>
+[0;39;49m[0;32;49m46(84) NOTICE: {2 1 MESSAGE IIkcbQeIy@10.20.20.11 NATMANAGE} <script>:     Answer: <null>
+[0;39;49m[0;32;49m46(84) NOTICE: {2 1 MESSAGE IIkcbQeIy@10.20.20.11 NATMANAGE} <script>:     mo
+[0;39;49m[0;32;49m46(84) NOTICE: {2 1 MESSAGE IIkcbQeIy@10.20.20.11 NATMANAGE} <script>: No SDP body, skipping RTP handling
+[0;39;49m[0;32;49m 4(42) NOTICE: {1 1 MESSAGE b8046d0e7a320b69@smsc.ims.mnc001.mcc001.3gppnetwork.org DEFAULT_ROUTE} <script>: PCSCF: MESSAGE sip:001010000123528@10.20.20.11:31800;alias=10.20.20.11~31100~1 (sip:smsc@ims.mnc001.mcc001.3gppnetwork.org (172.22.0.20:6060) to sip:111111@ims.mnc001.mcc001.3gppnetwork.org, b8046d0e7a320b69@smsc.ims.mnc001.mcc001.3gppnetwork.org)
+[0;39;49m[0;32;49m 4(42) NOTICE: {1 1 MESSAGE b8046d0e7a320b69@smsc.ims.mnc001.mcc001.3gppnetwork.org NATMANAGE} <script>: REQUEST: MESSAGE sip:001010000123528@10.20.20.11:31800 (172.22.0.20:6060, b8046d0e7a320b69@smsc.ims.mnc001.mcc001.3gppnetwork.org)
+[0;39;49m[0;32;49m 4(42) NOTICE: {1 1 MESSAGE b8046d0e7a320b69@smsc.ims.mnc001.mcc001.3gppnetwork.org NATMANAGE} <script>:     downstream
+[0;39;49m[0;32;49m 4(42) NOTICE: {1 1 MESSAGE b8046d0e7a320b69@smsc.ims.mnc001.mcc001.3gppnetwork.org NATMANAGE} <script>:     Offer: replace-origin replace-session-connection ICE=force RTP AVP
+[0;39;49m[0;32;49m 4(42) NOTICE: {1 1 MESSAGE b8046d0e7a320b69@smsc.ims.mnc001.mcc001.3gppnetwork.org NATMANAGE} <script>:     Answer: replace-origin replace-session-connection ICE=remove RTP AVP
+[0;39;49m[0;32;49m 4(42) NOTICE: {1 1 MESSAGE b8046d0e7a320b69@smsc.ims.mnc001.mcc001.3gppnetwork.org NATMANAGE} <script>:     mt
+[0;39;49m[0;32;49m 4(42) NOTICE: {1 1 MESSAGE b8046d0e7a320b69@smsc.ims.mnc001.mcc001.3gppnetwork.org NATMANAGE} <script>: No SDP body, skipping RTP handling
+[0;39;49m[0;32;49m 4(42) NOTICE: {1 1 MESSAGE b8046d0e7a320b69@smsc.ims.mnc001.mcc001.3gppnetwork.org MT} <script>: Destination URI: sip:10.20.20.11:31100
+ Request URI: sip:001010000123528@10.20.20.11:31800
+[0;39;49m[0;32;49m 4(42) NOTICE: {1 1 MESSAGE b8046d0e7a320b69@smsc.ims.mnc001.mcc001.3gppnetwork.org MT} <script>: Source IP and Port: (172.22.0.20:6060)
+ Route-URI: sip:term@pcscf.ims.mnc001.mcc001.3gppnetwork.org;lr
+[0;39;49m[0;32;49m 4(42) NOTICE: {1 1 MESSAGE b8046d0e7a320b69@smsc.ims.mnc001.mcc001.3gppnetwork.org MT} <script>: Received IP and Port: (172.22.0.21:5060)
+[0;39;49m[0;32;49m 4(42) NOTICE: {1 1 MESSAGE b8046d0e7a320b69@smsc.ims.mnc001.mcc001.3gppnetwork.org MT} <script>: Next hop domain: (10.20.20.11)
+[0;39;49m[0;32;49m 4(42) NOTICE: {1 1 MESSAGE b8046d0e7a320b69@smsc.ims.mnc001.mcc001.3gppnetwork.org MT} <script>: Contact header: <null>
+[0;39;49m[0;32;49m 4(42) NOTICE: {1 1 MESSAGE b8046d0e7a320b69@smsc.ims.mnc001.mcc001.3gppnetwork.org MT} <script>: Term UE connection information : IP is 10.20.20.11 and Port is 31800 
+[0;39;49m[0;32;49m 4(42) NOTICE: {1 1 MESSAGE b8046d0e7a320b69@smsc.ims.mnc001.mcc001.3gppnetwork.org MT} <script>: Term P-CSCF connection information : IP is 172.22.0.21 and Port is 5060 
+[0;39;49m[0;32;49m 4(42) NOTICE: {1 1 MESSAGE b8046d0e7a320b69@smsc.ims.mnc001.mcc001.3gppnetwork.org MT} <script>: MT MESSAGE debug: Call-ID=b8046d0e7a320b69@smsc.ims.mnc001.mcc001.3gppnetwork.org From=sip:smsc@ims.mnc001.mcc001.3gppnetwork.org To=sip:111111@ims.mnc001.mcc001.3gppnetwork.org User-Agent=<null>
+[0;39;49m[0;32;49m 4(42) NOTICE: {1 1 MESSAGE b8046d0e7a320b69@smsc.ims.mnc001.mcc001.3gppnetwork.org MT} <script>: MT MESSAGE debug: P-Asserted-Identity=<sip:smsc@ims.mnc001.mcc001.3gppnetwork.org> Reply-To=<sip:smsc@ims.mnc001.mcc001.3gppnetwork.org>
+[0;39;49m[0;32;49m 4(42) NOTICE: {1 1 MESSAGE b8046d0e7a320b69@smsc.ims.mnc001.mcc001.3gppnetwork.org MT} <script>: MT MESSAGE debug: In-Reply-To=<null> Accept-Contact=*;+g.3gpp.smsip
+[0;39;49m[0;32;49m 4(42) NOTICE: {1 1 MESSAGE b8046d0e7a320b69@smsc.ims.mnc001.mcc001.3gppnetwork.org MT} <script>: MT MESSAGE debug: Content-Type=application/vnd.3gpp.sms Content-Length=13
+[0;39;49m[0;36;49m 4(42) INFO: {1 1 MESSAGE b8046d0e7a320b69@smsc.ims.mnc001.mcc001.3gppnetwork.org MT} ims_ipsec_pcscf [cmd.c:1202]: ipsec_forward(): new destination URI: sip:10.20.20.11:31800
+[0;39;49m[0;32;49m45(83) NOTICE: {2 1 MESSAGE b8046d0e7a320b69@smsc.ims.mnc001.mcc001.3gppnetwork.org MT_reply} <script>: Destination URI: <null>
+ Request URI: <null>
+[0;39;49m[0;36;49m45(83) INFO: {2 1 MESSAGE b8046d0e7a320b69@smsc.ims.mnc001.mcc001.3gppnetwork.org MT_reply} rr [rr_mod.c:574]: pv_get_route_uri_f(): No route header present.
+[0;39;49m[0;32;49m45(83) NOTICE: {2 1 MESSAGE b8046d0e7a320b69@smsc.ims.mnc001.mcc001.3gppnetwork.org MT_reply} <script>: Source IP and Port: (10.20.20.11:31100)
+ Route-URI: 
+[0;39;49m[0;32;49m45(83) NOTICE: {2 1 MESSAGE b8046d0e7a320b69@smsc.ims.mnc001.mcc001.3gppnetwork.org MT_reply} <script>: Received IP and Port: (172.22.0.21:6100)
+[0;39;49m[0;32;49m45(83) NOTICE: {2 1 MESSAGE b8046d0e7a320b69@smsc.ims.mnc001.mcc001.3gppnetwork.org MT_reply} <script>: Next hop domain: (172.22.0.20)
+[0;39;49m[0;32;49m45(83) NOTICE: {2 1 MESSAGE b8046d0e7a320b69@smsc.ims.mnc001.mcc001.3gppnetwork.org MT_reply} <script>: Contact header: <null>
+[0;39;49m[0;32;49m45(83) NOTICE: {2 1 MESSAGE b8046d0e7a320b69@smsc.ims.mnc001.mcc001.3gppnetwork.org MT_reply} <script>: MT reply debug: Call-ID=b8046d0e7a320b69@smsc.ims.mnc001.mcc001.3gppnetwork.org Status=200 OK From=<sip:smsc@ims.mnc001.mcc001.3gppnetwork.org>;tag=e6b195b8 To=<sip:111111@ims.mnc001.mcc001.3gppnetwork.org>;tag=HLkcbAD
+[0;39;49m[0;32;49m45(83) NOTICE: {2 1 MESSAGE b8046d0e7a320b69@smsc.ims.mnc001.mcc001.3gppnetwork.org MT_reply} <script>: MT reply debug: In-Reply-To=<null> Contact=<null>
+[0;39;49m[0;32;49m45(83) NOTICE: {2 1 MESSAGE b8046d0e7a320b69@smsc.ims.mnc001.mcc001.3gppnetwork.org NATMANAGE} <script>: REPLY: 200 OK (MESSAGE, 10.20.20.11:31100, b8046d0e7a320b69@smsc.ims.mnc001.mcc001.3gppnetwork.org)
+[0;39;49m[0;32;49m45(83) NOTICE: {2 1 MESSAGE b8046d0e7a320b69@smsc.ims.mnc001.mcc001.3gppnetwork.org NATMANAGE} <script>:     downstream
+[0;39;49m[0;32;49m45(83) NOTICE: {2 1 MESSAGE b8046d0e7a320b69@smsc.ims.mnc001.mcc001.3gppnetwork.org NATMANAGE} <script>:     Offer: replace-origin replace-session-connection ICE=force RTP AVP
+[0;39;49m[0;32;49m45(83) NOTICE: {2 1 MESSAGE b8046d0e7a320b69@smsc.ims.mnc001.mcc001.3gppnetwork.org NATMANAGE} <script>:     Answer: replace-origin replace-session-connection ICE=remove RTP AVP
+[0;39;49m[0;32;49m45(83) NOTICE: {2 1 MESSAGE b8046d0e7a320b69@smsc.ims.mnc001.mcc001.3gppnetwork.org NATMANAGE} <script>:     mt
+[0;39;49m[0;32;49m45(83) NOTICE: {2 1 MESSAGE b8046d0e7a320b69@smsc.ims.mnc001.mcc001.3gppnetwork.org NATMANAGE} <script>: No SDP body, skipping RTP handling
+[0;39;49m[0;32;49m 3(41) NOTICE: {1 1 MESSAGE 3e725f29330953b3@smsc.ims.mnc001.mcc001.3gppnetwork.org DEFAULT_ROUTE} <script>: PCSCF: MESSAGE sip:001010000123542@10.20.20.12:6100;alias=10.20.20.12~6101~1 (sip:111111@ims.mnc001.mcc001.3gppnetwork.org (172.22.0.20:6060) to sip:222222@ims.mnc001.mcc001.3gppnetwork.org, 3e725f29330953b3@smsc.ims.mnc001.mcc001.3gppnetwork.org)
+[0;39;49m[0;32;49m 3(41) NOTICE: {1 1 MESSAGE 3e725f29330953b3@smsc.ims.mnc001.mcc001.3gppnetwork.org NATMANAGE} <script>: REQUEST: MESSAGE sip:001010000123542@10.20.20.12:6100 (172.22.0.20:6060, 3e725f29330953b3@smsc.ims.mnc001.mcc001.3gppnetwork.org)
+[0;39;49m[0;32;49m 3(41) NOTICE: {1 1 MESSAGE 3e725f29330953b3@smsc.ims.mnc001.mcc001.3gppnetwork.org NATMANAGE} <script>:     downstream
+[0;39;49m[0;32;49m 3(41) NOTICE: {1 1 MESSAGE 3e725f29330953b3@smsc.ims.mnc001.mcc001.3gppnetwork.org NATMANAGE} <script>:     Offer: replace-origin replace-session-connection ICE=force RTP AVP
+[0;39;49m[0;32;49m 3(41) NOTICE: {1 1 MESSAGE 3e725f29330953b3@smsc.ims.mnc001.mcc001.3gppnetwork.org NATMANAGE} <script>:     Answer: replace-origin replace-session-connection ICE=remove RTP AVP
+[0;39;49m[0;32;49m 3(41) NOTICE: {1 1 MESSAGE 3e725f29330953b3@smsc.ims.mnc001.mcc001.3gppnetwork.org NATMANAGE} <script>:     mt
+[0;39;49m[0;32;49m 3(41) NOTICE: {1 1 MESSAGE 3e725f29330953b3@smsc.ims.mnc001.mcc001.3gppnetwork.org NATMANAGE} <script>: No SDP body, skipping RTP handling
+[0;39;49m[0;32;49m 3(41) NOTICE: {1 1 MESSAGE 3e725f29330953b3@smsc.ims.mnc001.mcc001.3gppnetwork.org MT} <script>: Destination URI: sip:10.20.20.12:6101
+ Request URI: sip:001010000123542@10.20.20.12:6100
+[0;39;49m[0;32;49m 3(41) NOTICE: {1 1 MESSAGE 3e725f29330953b3@smsc.ims.mnc001.mcc001.3gppnetwork.org MT} <script>: Source IP and Port: (172.22.0.20:6060)
+ Route-URI: sip:term@pcscf.ims.mnc001.mcc001.3gppnetwork.org;lr
+[0;39;49m[0;32;49m 3(41) NOTICE: {1 1 MESSAGE 3e725f29330953b3@smsc.ims.mnc001.mcc001.3gppnetwork.org MT} <script>: Received IP and Port: (172.22.0.21:5060)
+[0;39;49m[0;32;49m 3(41) NOTICE: {1 1 MESSAGE 3e725f29330953b3@smsc.ims.mnc001.mcc001.3gppnetwork.org MT} <script>: Next hop domain: (10.20.20.12)
+[0;39;49m[0;32;49m 3(41) NOTICE: {1 1 MESSAGE 3e725f29330953b3@smsc.ims.mnc001.mcc001.3gppnetwork.org MT} <script>: Contact header: <null>
+[0;39;49m[0;32;49m 3(41) NOTICE: {1 1 MESSAGE 3e725f29330953b3@smsc.ims.mnc001.mcc001.3gppnetwork.org MT} <script>: Term UE connection information : IP is 10.20.20.12 and Port is 6100 
+[0;39;49m[0;32;49m 3(41) NOTICE: {1 1 MESSAGE 3e725f29330953b3@smsc.ims.mnc001.mcc001.3gppnetwork.org MT} <script>: Term P-CSCF connection information : IP is 172.22.0.21 and Port is 5060 
+[0;39;49m[0;32;49m 3(41) NOTICE: {1 1 MESSAGE 3e725f29330953b3@smsc.ims.mnc001.mcc001.3gppnetwork.org MT} <script>: MT MESSAGE debug: Call-ID=3e725f29330953b3@smsc.ims.mnc001.mcc001.3gppnetwork.org From=sip:111111@ims.mnc001.mcc001.3gppnetwork.org To=sip:222222@ims.mnc001.mcc001.3gppnetwork.org User-Agent=<null>
+[0;39;49m[0;32;49m 3(41) NOTICE: {1 1 MESSAGE 3e725f29330953b3@smsc.ims.mnc001.mcc001.3gppnetwork.org MT} <script>: MT MESSAGE debug: P-Asserted-Identity=<sip:smsc@ims.mnc001.mcc001.3gppnetwork.org> Reply-To=<sip:smsc@ims.mnc001.mcc001.3gppnetwork.org>
+[0;39;49m[0;32;49m 3(41) NOTICE: {1 1 MESSAGE 3e725f29330953b3@smsc.ims.mnc001.mcc001.3gppnetwork.org MT} <script>: MT MESSAGE debug: In-Reply-To=<null> Accept-Contact=*;+g.3gpp.smsip
+[0;39;49m[0;32;49m 3(41) NOTICE: {1 1 MESSAGE 3e725f29330953b3@smsc.ims.mnc001.mcc001.3gppnetwork.org MT} <script>: MT MESSAGE debug: Content-Type=application/vnd.3gpp.sms Content-Length=30
+[0;39;49m[0;36;49m 3(41) INFO: {1 1 MESSAGE 3e725f29330953b3@smsc.ims.mnc001.mcc001.3gppnetwork.org MT} ims_ipsec_pcscf [cmd.c:1202]: ipsec_forward(): new destination URI: sip:10.20.20.12:6100
+[0;39;49m[0;32;49m 2(40) NOTICE: {1 1 MESSAGE 3e725f29330953b3@smsc.ims.mnc001.mcc001.3gppnetwork.org DEFAULT_ROUTE} <script>: PCSCF: MESSAGE sip:001010000123542@10.20.20.12:6100;alias=10.20.20.12~6101~1 (sip:111111@ims.mnc001.mcc001.3gppnetwork.org (172.22.0.20:6060) to sip:222222@ims.mnc001.mcc001.3gppnetwork.org, 3e725f29330953b3@smsc.ims.mnc001.mcc001.3gppnetwork.org)
+[0;39;49m[0;32;49m 1(39) NOTICE: {1 1 MESSAGE 3e725f29330953b3@smsc.ims.mnc001.mcc001.3gppnetwork.org DEFAULT_ROUTE} <script>: PCSCF: MESSAGE sip:001010000123542@10.20.20.12:6100;alias=10.20.20.12~6101~1 (sip:111111@ims.mnc001.mcc001.3gppnetwork.org (172.22.0.20:6060) to sip:222222@ims.mnc001.mcc001.3gppnetwork.org, 3e725f29330953b3@smsc.ims.mnc001.mcc001.3gppnetwork.org)
+[0;39;49m[0;32;49m89(127) NOTICE: {1 1 OPTIONS 123 NATPING} <script>: OPTIONS to sip:001010000123528@10.20.20.11:31800 via sip:10.20.20.11:31800;transport=tcp...
+[0;39;49m[0;32;49m89(127) NOTICE: {1 1 OPTIONS 123 NATPING} <script>: OPTIONS to sip:001010000123542@10.20.20.12:6100 via sip:10.20.20.12:6100;transport=tcp...
+[0;39;49m[0;32;49m97(135) NOTICE: {2 10 OPTIONS 4aa49f953b82c67f-127@172.22.0.21 uac:reply} <script>: request sent to sip:001010000123528@10.20.20.11:31800 completed with code: 200, Type 1
+[0;39;49m[0;32;49m92(130) NOTICE: {2 10 OPTIONS 4aa49f953b82c680-127@172.22.0.21 uac:reply} <script>: request sent to sip:001010000123542@10.20.20.12:6100 completed with code: 200, Type 1
+[0;39;49m[0;32;49m50(88) NOTICE: {1 1 SUBSCRIBE OHHdJXrtU0sMR-M7TYz0kg..@10.20.20.12 DEFAULT_ROUTE} <script>: PCSCF: SUBSCRIBE tel:222222 (tel:222222 (10.20.20.12:6101) to tel:222222, OHHdJXrtU0sMR-M7TYz0kg..@10.20.20.12)
+[0;39;49m[0;31;49m49(87) ERROR: {1 1 SUBSCRIBE OHHdJXrtU0sMR-M7TYz0kg..@10.20.20.12 RELAY} <core> [core/resolve.c:1777]: sip_hostport2su(): could not resolve hostname: ""
+[0;39;49m[0;31;49m49(87) ERROR: {1 1 SUBSCRIBE OHHdJXrtU0sMR-M7TYz0kg..@10.20.20.12 RELAY} tm [ut.h:302]: uri2dst2(): failed to resolve ""
+[0;39;49m[0;31;49m49(87) ERROR: {1 1 SUBSCRIBE OHHdJXrtU0sMR-M7TYz0kg..@10.20.20.12 RELAY} tm [t_fwd.c:1771]: t_forward_nonack(): failure to add branches
+[0;39;49m[0;36;49m49(87) INFO: {1 1 SUBSCRIBE OHHdJXrtU0sMR-M7TYz0kg..@10.20.20.12 RELAY} sl [sl_funcs.c:422]: sl_reply_error(): message marked with delayed-reply flag
+[0;39;49m[0;32;49m89(127) NOTICE: {1 1 OPTIONS 123 NATPING} <script>: OPTIONS to sip:001010000123528@10.20.20.11:31800 via sip:10.20.20.11:31800;transport=tcp...
+[0;39;49m[0;32;49m89(127) NOTICE: {1 1 OPTIONS 123 NATPING} <script>: OPTIONS to sip:001010000123542@10.20.20.12:6100 via sip:10.20.20.12:6100;transport=tcp...
+[0;39;49m[0;32;49m97(135) NOTICE: {2 10 OPTIONS 4aa49f953b82c681-127@172.22.0.21 uac:reply} <script>: request sent to sip:001010000123528@10.20.20.11:31800 completed with code: 200, Type 1
+[0;39;49m[0;32;49m92(130) NOTICE: {2 10 OPTIONS 4aa49f953b82c682-127@172.22.0.21 uac:reply} <script>: request sent to sip:001010000123542@10.20.20.12:6100 completed with code: 200, Type 1
+[0;39;49m[0;32;49m89(127) NOTICE: {1 1 OPTIONS 123 NATPING} <script>: OPTIONS to sip:001010000123528@10.20.20.11:31800 via sip:10.20.20.11:31800;transport=tcp...
+[0;39;49m[0;32;49m89(127) NOTICE: {1 1 OPTIONS 123 NATPING} <script>: OPTIONS to sip:001010000123542@10.20.20.12:6100 via sip:10.20.20.12:6100;transport=tcp...
+[0;39;49m[0;32;49m97(135) NOTICE: {2 10 OPTIONS 4aa49f953b82c683-127@172.22.0.21 uac:reply} <script>: request sent to sip:001010000123528@10.20.20.11:31800 completed with code: 200, Type 1
+[0;39;49m[0;32;49m92(130) NOTICE: {2 10 OPTIONS 4aa49f953b82c684-127@172.22.0.21 uac:reply} <script>: request sent to sip:001010000123542@10.20.20.12:6100 completed with code: 200, Type 1
+[0;39;49m[0;32;49m89(127) NOTICE: {1 1 OPTIONS 123 NATPING} <script>: OPTIONS to sip:001010000123528@10.20.20.11:31800 via sip:10.20.20.11:31800;transport=tcp...
+[0;39;49m[0;32;49m89(127) NOTICE: {1 1 OPTIONS 123 NATPING} <script>: OPTIONS to sip:001010000123542@10.20.20.12:6100 via sip:10.20.20.12:6100;transport=tcp...
+[0;39;49m[0;32;49m97(135) NOTICE: {2 10 OPTIONS 4aa49f953b82c685-127@172.22.0.21 uac:reply} <script>: request sent to sip:001010000123528@10.20.20.11:31800 completed with code: 200, Type 1
+[0;39;49m[0;32;49m92(130) NOTICE: {2 10 OPTIONS 4aa49f953b82c686-127@172.22.0.21 uac:reply} <script>: request sent to sip:001010000123542@10.20.20.12:6100 completed with code: 200, Type 1
+[0;39;49m[0;32;49m89(127) NOTICE: {1 1 OPTIONS 123 NATPING} <script>: OPTIONS to sip:001010000123528@10.20.20.11:31800 via sip:10.20.20.11:31800;transport=tcp...
+[0;39;49m[0;32;49m89(127) NOTICE: {1 1 OPTIONS 123 NATPING} <script>: OPTIONS to sip:001010000123542@10.20.20.12:6100 via sip:10.20.20.12:6100;transport=tcp...
+[0;39;49m[0;32;49m97(135) NOTICE: {2 10 OPTIONS 4aa49f953b82c687-127@172.22.0.21 uac:reply} <script>: request sent to sip:001010000123528@10.20.20.11:31800 completed with code: 200, Type 1
+[0;39;49m[0;32;49m92(130) NOTICE: {2 10 OPTIONS 4aa49f953b82c688-127@172.22.0.21 uac:reply} <script>: request sent to sip:001010000123542@10.20.20.12:6100 completed with code: 200, Type 1
+[0;39;49m[0;32;49m89(127) NOTICE: {1 1 OPTIONS 123 NATPING} <script>: OPTIONS to sip:001010000123528@10.20.20.11:31800 via sip:10.20.20.11:31800;transport=tcp...
+[0;39;49m[0;32;49m89(127) NOTICE: {1 1 OPTIONS 123 NATPING} <script>: OPTIONS to sip:001010000123542@10.20.20.12:6100 via sip:10.20.20.12:6100;transport=tcp...
+[0;39;49m[0;32;49m97(135) NOTICE: {2 10 OPTIONS 4aa49f953b82c689-127@172.22.0.21 uac:reply} <script>: request sent to sip:001010000123528@10.20.20.11:31800 completed with code: 200, Type 1
+[0;39;49m[0;32;49m92(130) NOTICE: {2 10 OPTIONS 4aa49f953b82c68a-127@172.22.0.21 uac:reply} <script>: request sent to sip:001010000123542@10.20.20.12:6100 completed with code: 200, Type 1
+[0;39;49m[0;32;49m89(127) NOTICE: {1 1 OPTIONS 123 NATPING} <script>: OPTIONS to sip:001010000123528@10.20.20.11:31800 via sip:10.20.20.11:31800;transport=tcp...
+[0;39;49m[0;32;49m89(127) NOTICE: {1 1 OPTIONS 123 NATPING} <script>: OPTIONS to sip:001010000123542@10.20.20.12:6100 via sip:10.20.20.12:6100;transport=tcp...
+[0;39;49m[0;32;49m97(135) NOTICE: {2 10 OPTIONS 4aa49f953b82c68b-127@172.22.0.21 uac:reply} <script>: request sent to sip:001010000123528@10.20.20.11:31800 completed with code: 200, Type 1
+[0;39;49m[0;32;49m92(130) NOTICE: {2 10 OPTIONS 4aa49f953b82c68c-127@172.22.0.21 uac:reply} <script>: request sent to sip:001010000123542@10.20.20.12:6100 completed with code: 200, Type 1
+[0;39;49m[0;32;49m89(127) NOTICE: {1 1 OPTIONS 123 NATPING} <script>: OPTIONS to sip:001010000123528@10.20.20.11:31800 via sip:10.20.20.11:31800;transport=tcp...
+[0;39;49m[0;32;49m89(127) NOTICE: {1 1 OPTIONS 123 NATPING} <script>: OPTIONS to sip:001010000123542@10.20.20.12:6100 via sip:10.20.20.12:6100;transport=tcp...
+[0;39;49m[0;32;49m97(135) NOTICE: {2 10 OPTIONS 4aa49f953b82c68d-127@172.22.0.21 uac:reply} <script>: request sent to sip:001010000123528@10.20.20.11:31800 completed with code: 200, Type 1
+[0;39;49m[0;32;49m92(130) NOTICE: {2 10 OPTIONS 4aa49f953b82c68e-127@172.22.0.21 uac:reply} <script>: request sent to sip:001010000123542@10.20.20.12:6100 completed with code: 200, Type 1
+[0;39;49m[0;32;49m89(127) NOTICE: {1 1 OPTIONS 123 NATPING} <script>: OPTIONS to sip:001010000123528@10.20.20.11:31800 via sip:10.20.20.11:31800;transport=tcp...
+[0;39;49m[0;32;49m89(127) NOTICE: {1 1 OPTIONS 123 NATPING} <script>: OPTIONS to sip:001010000123542@10.20.20.12:6100 via sip:10.20.20.12:6100;transport=tcp...
+[0;39;49m[0;32;49m97(135) NOTICE: {2 10 OPTIONS 4aa49f953b82c68f-127@172.22.0.21 uac:reply} <script>: request sent to sip:001010000123528@10.20.20.11:31800 completed with code: 200, Type 1
+[0;39;49m[0;32;49m92(130) NOTICE: {2 10 OPTIONS 4aa49f953b82c690-127@172.22.0.21 uac:reply} <script>: request sent to sip:001010000123542@10.20.20.12:6100 completed with code: 200, Type 1
+[0;39;49m[0;32;49m89(127) NOTICE: {1 1 OPTIONS 123 NATPING} <script>: OPTIONS to sip:001010000123528@10.20.20.11:31800 via sip:10.20.20.11:31800;transport=tcp...
+[0;39;49m[0;32;49m89(127) NOTICE: {1 1 OPTIONS 123 NATPING} <script>: OPTIONS to sip:001010000123542@10.20.20.12:6100 via sip:10.20.20.12:6100;transport=tcp...
+[0;39;49m[0;32;49m97(135) NOTICE: {2 10 OPTIONS 4aa49f953b82c691-127@172.22.0.21 uac:reply} <script>: request sent to sip:001010000123528@10.20.20.11:31800 completed with code: 200, Type 1
+[0;39;49m[0;32;49m92(130) NOTICE: {2 10 OPTIONS 4aa49f953b82c692-127@172.22.0.21 uac:reply} <script>: request sent to sip:001010000123542@10.20.20.12:6100 completed with code: 200, Type 1
+[0;39;49m[0;32;49m89(127) NOTICE: {1 1 OPTIONS 123 NATPING} <script>: OPTIONS to sip:001010000123528@10.20.20.11:31800 via sip:10.20.20.11:31800;transport=tcp...
+[0;39;49m[0;32;49m89(127) NOTICE: {1 1 OPTIONS 123 NATPING} <script>: OPTIONS to sip:001010000123542@10.20.20.12:6100 via sip:10.20.20.12:6100;transport=tcp...
+[0;39;49m[0;32;49m97(135) NOTICE: {2 10 OPTIONS 4aa49f953b82c693-127@172.22.0.21 uac:reply} <script>: request sent to sip:001010000123528@10.20.20.11:31800 completed with code: 200, Type 1
+[0;39;49m[0;32;49m92(130) NOTICE: {2 10 OPTIONS 4aa49f953b82c694-127@172.22.0.21 uac:reply} <script>: request sent to sip:001010000123542@10.20.20.12:6100 completed with code: 200, Type 1
+[0;39;49m[0;32;49m89(127) NOTICE: {1 1 OPTIONS 123 NATPING} <script>: OPTIONS to sip:001010000123528@10.20.20.11:31800 via sip:10.20.20.11:31800;transport=tcp...
+[0;39;49m[0;32;49m89(127) NOTICE: {1 1 OPTIONS 123 NATPING} <script>: OPTIONS to sip:001010000123542@10.20.20.12:6100 via sip:10.20.20.12:6100;transport=tcp...
+[0;39;49m[0;32;49m97(135) NOTICE: {2 10 OPTIONS 4aa49f953b82c695-127@172.22.0.21 uac:reply} <script>: request sent to sip:001010000123528@10.20.20.11:31800 completed with code: 200, Type 1
+[0;39;49m[0;32;49m92(130) NOTICE: {2 10 OPTIONS 4aa49f953b82c696-127@172.22.0.21 uac:reply} <script>: request sent to sip:001010000123542@10.20.20.12:6100 completed with code: 200, Type 1
+[0;39;49m[0;32;49m89(127) NOTICE: {1 1 OPTIONS 123 NATPING} <script>: OPTIONS to sip:001010000123528@10.20.20.11:31800 via sip:10.20.20.11:31800;transport=tcp...
+[0;39;49m[0;32;49m89(127) NOTICE: {1 1 OPTIONS 123 NATPING} <script>: OPTIONS to sip:001010000123542@10.20.20.12:6100 via sip:10.20.20.12:6100;transport=tcp...
+[0;39;49m[0;32;49m97(135) NOTICE: {2 10 OPTIONS 4aa49f953b82c697-127@172.22.0.21 uac:reply} <script>: request sent to sip:001010000123528@10.20.20.11:31800 completed with code: 200, Type 1
+[0;39;49m[0;32;49m92(130) NOTICE: {2 10 OPTIONS 4aa49f953b82c698-127@172.22.0.21 uac:reply} <script>: request sent to sip:001010000123542@10.20.20.12:6100 completed with code: 200, Type 1
+[0;39;49m[0;32;49m89(127) NOTICE: {1 1 OPTIONS 123 NATPING} <script>: OPTIONS to sip:001010000123528@10.20.20.11:31800 via sip:10.20.20.11:31800;transport=tcp...
+[0;39;49m[0;32;49m89(127) NOTICE: {1 1 OPTIONS 123 NATPING} <script>: OPTIONS to sip:001010000123542@10.20.20.12:6100 via sip:10.20.20.12:6100;transport=tcp...
+[0;39;49m[0;32;49m97(135) NOTICE: {2 10 OPTIONS 4aa49f953b82c699-127@172.22.0.21 uac:reply} <script>: request sent to sip:001010000123528@10.20.20.11:31800 completed with code: 200, Type 1
+[0;39;49m[0;32;49m92(130) NOTICE: {2 10 OPTIONS 4aa49f953b82c69a-127@172.22.0.21 uac:reply} <script>: request sent to sip:001010000123542@10.20.20.12:6100 completed with code: 200, Type 1
+[0;39;49m[0;32;49m89(127) NOTICE: {1 1 OPTIONS 123 NATPING} <script>: OPTIONS to sip:001010000123528@10.20.20.11:31800 via sip:10.20.20.11:31800;transport=tcp...
+[0;39;49m[0;32;49m89(127) NOTICE: {1 1 OPTIONS 123 NATPING} <script>: OPTIONS to sip:001010000123542@10.20.20.12:6100 via sip:10.20.20.12:6100;transport=tcp...
+[0;39;49m[0;32;49m92(130) NOTICE: {2 10 OPTIONS 4aa49f953b82c69c-127@172.22.0.21 uac:reply} <script>: request sent to sip:001010000123542@10.20.20.12:6100 completed with code: 200, Type 1
+[0;39;49m[0;32;49m97(135) NOTICE: {2 10 OPTIONS 4aa49f953b82c69b-127@172.22.0.21 uac:reply} <script>: request sent to sip:001010000123528@10.20.20.11:31800 completed with code: 200, Type 1
+[0;39;49m[0;32;49m89(127) NOTICE: {1 1 OPTIONS 123 NATPING} <script>: OPTIONS to sip:001010000123528@10.20.20.11:31800 via sip:10.20.20.11:31800;transport=tcp...
+[0;39;49m[0;32;49m89(127) NOTICE: {1 1 OPTIONS 123 NATPING} <script>: OPTIONS to sip:001010000123542@10.20.20.12:6100 via sip:10.20.20.12:6100;transport=tcp...
+[0;39;49m[0;32;49m97(135) NOTICE: {2 10 OPTIONS 4aa49f953b82c69d-127@172.22.0.21 uac:reply} <script>: request sent to sip:001010000123528@10.20.20.11:31800 completed with code: 200, Type 1
+[0;39;49m[0;32;49m92(130) NOTICE: {2 10 OPTIONS 4aa49f953b82c69e-127@172.22.0.21 uac:reply} <script>: request sent to sip:001010000123542@10.20.20.12:6100 completed with code: 200, Type 1
+[0;39;49m[0;32;49m48(86) NOTICE: {1 2 SUBSCRIBE rvkcbAlaz@10.20.20.11 DEFAULT_ROUTE} <script>: PCSCF: SUBSCRIBE sip:111111@ims.mnc001.mcc001.3gppnetwork.org (sip:111111@ims.mnc001.mcc001.3gppnetwork.org (10.20.20.11:31100) to sip:111111@ims.mnc001.mcc001.3gppnetwork.org, rvkcbAlaz@10.20.20.11)
+[0;39;49m[0;32;49m48(86) NOTICE: {1 2 SUBSCRIBE rvkcbAlaz@10.20.20.11 WITHINDLG} <script>: In-dialog: To Tag: 4d2b7af309c0e63b4f73900cc6bd5790-1e8afae2
+[0;39;49m[0;32;49m89(127) NOTICE: {1 1 OPTIONS 123 NATPING} <script>: OPTIONS to sip:001010000123528@10.20.20.11:31800 via sip:10.20.20.11:31800;transport=tcp...
+[0;39;49m[0;32;49m89(127) NOTICE: {1 1 OPTIONS 123 NATPING} <script>: OPTIONS to sip:001010000123542@10.20.20.12:6100 via sip:10.20.20.12:6100;transport=tcp...
+[0;39;49m[0;32;49m97(135) NOTICE: {2 10 OPTIONS 4aa49f953b82c69f-127@172.22.0.21 uac:reply} <script>: request sent to sip:001010000123528@10.20.20.11:31800 completed with code: 200, Type 1
+[0;39;49m[0;32;49m92(130) NOTICE: {2 10 OPTIONS 4aa49f953b82c6a0-127@172.22.0.21 uac:reply} <script>: request sent to sip:001010000123542@10.20.20.12:6100 completed with code: 200, Type 1
+[0;39;49m[0;32;49m89(127) NOTICE: {1 1 OPTIONS 123 NATPING} <script>: OPTIONS to sip:001010000123528@10.20.20.11:31800 via sip:10.20.20.11:31800;transport=tcp...
+[0;39;49m[0;32;49m89(127) NOTICE: {1 1 OPTIONS 123 NATPING} <script>: OPTIONS to sip:001010000123542@10.20.20.12:6100 via sip:10.20.20.12:6100;transport=tcp...
+[0;39;49m[0;32;49m97(135) NOTICE: {2 10 OPTIONS 4aa49f953b82c6a1-127@172.22.0.21 uac:reply} <script>: request sent to sip:001010000123528@10.20.20.11:31800 completed with code: 200, Type 1
+[0;39;49m[0;32;49m92(130) NOTICE: {2 10 OPTIONS 4aa49f953b82c6a2-127@172.22.0.21 uac:reply} <script>: request sent to sip:001010000123542@10.20.20.12:6100 completed with code: 200, Type 1

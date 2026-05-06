@@ -1,0 +1,6 @@
+[smsc] UDP 172.22.0.20:6060 MESSAGE tel:0015555;phone-context=ims.mnc001.mcc001.3gppnetwork.org SIP/2.0 call-id=cckcb6Vd2@10.20.20.9
+[smsc] UDP 172.22.0.20:6060 SIP/2.0 200 OK call-id=cf62137842487f8f@smsc.ims.mnc001.mcc001.3gppnetwork.org
+[smsc] UDP 172.22.0.20:6060 SIP/2.0 408 Request Timeout call-id=5530f4297b21627a@smsc.ims.mnc001.mcc001.3gppnetwork.org
+[smsc] UDP 172.22.0.20:6060 MESSAGE tel:0015555;phone-context=ims.mnc001.mcc001.3gppnetwork.org SIP/2.0 call-id=IIkcbQeIy@10.20.20.11
+[smsc] UDP 172.22.0.20:6060 SIP/2.0 200 OK call-id=b8046d0e7a320b69@smsc.ims.mnc001.mcc001.3gppnetwork.org
+[smsc] UDP 172.22.0.20:6060 SIP/2.0 408 Request Timeout call-id=3e725f29330953b3@smsc.ims.mnc001.mcc001.3gppnetwork.org

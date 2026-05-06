@@ -9,3 +9,6 @@ __pycache__/
 !.claude/commands/
 .omx/
 # results/
+
+
+another_phone_sip_connect.*
