@@ -1,0 +1,14 @@
+[0;39;49m[0;36;49m35(68) INFO: {1 1 REGISTER txrcbQDIw@10.20.20.15 register} ims_icscf [cxdx_uar.c:73]: create_uaa_return_code(): created AVP successfully : [uaa_return_code]
+[0;39;49m[0;36;49m16(49) INFO: {1 1 SUBSCRIBE icFeOwXkqu9uRJIFx1YToYQr <null>} ims_icscf [cxdx_avp.c:140]: cxdx_get_avp(): cxdx_get_result_code: Failed finding avp
+[0;39;49m[0;36;49m16(49) INFO: {1 1 SUBSCRIBE icFeOwXkqu9uRJIFx1YToYQr <null>} ims_icscf [cxdx_uar.c:73]: create_uaa_return_code(): created AVP successfully : [uaa_return_code]
+[0;39;49m[0;31;49m 1(34) ERROR: {1 1 SUBSCRIBE qCrcbkJDa@10.20.20.15 initial_request} <script>: $ru => sip:222222@ims.mnc001.mcc001.3gppnetwork.org
+[0;39;49m[0;36;49m 1(34) INFO: {1 1 SUBSCRIBE qCrcbkJDa@10.20.20.15 initial_request} ims_icscf [cxdx_lir.c:72]: create_lia_return_code(): created AVP successfully : [lia_return_code]
+[0;39;49m[0;36;49m17(50) INFO: {1 6 REGISTER pIACvxaqdLq0UXjMMvzwiCcv <null>} ims_icscf [cxdx_avp.c:140]: cxdx_get_avp(): cxdx_get_experimental_result_code: Failed finding avp
+[0;39;49m[0;36;49m17(50) INFO: {1 6 REGISTER pIACvxaqdLq0UXjMMvzwiCcv <null>} ims_icscf [cxdx_lir.c:72]: create_lia_return_code(): created AVP successfully : [lia_return_code]
+[0;39;49m[0;36;49m36(69) INFO: {1 1 REGISTER 229b76c118caa39e@10.20.20.16 register} ims_icscf [cxdx_uar.c:73]: create_uaa_return_code(): created AVP successfully : [uaa_return_code]
+[0;39;49m[0;36;49m18(51) INFO: {1 1 REGISTER 9dba3d52f491803d@10.20.20.13 <null>} ims_icscf [cxdx_avp.c:140]: cxdx_get_avp(): cxdx_get_result_code: Failed finding avp
+[0;39;49m[0;36;49m18(51) INFO: {1 1 REGISTER 9dba3d52f491803d@10.20.20.13 <null>} ims_icscf [cxdx_uar.c:73]: create_uaa_return_code(): created AVP successfully : [uaa_return_code]
+[0;39;49m[0;31;49m36(69) ERROR: {1 1 SUBSCRIBE 402dc086c7cf9572@10.20.20.16 initial_request} <script>: $ru => sip:111111@ims.mnc001.mcc001.3gppnetwork.org
+[0;39;49m[0;36;49m36(69) INFO: {1 1 SUBSCRIBE 402dc086c7cf9572@10.20.20.16 initial_request} ims_icscf [cxdx_lir.c:72]: create_lia_return_code(): created AVP successfully : [lia_return_code]
+[0;39;49m[0;36;49m19(52) INFO: {1 1 REGISTER 5885685528c003c9@10.20.20.14 <null>} ims_icscf [cxdx_avp.c:140]: cxdx_get_avp(): cxdx_get_experimental_result_code: Failed finding avp
+[0;39;49m[0;36;49m19(52) INFO: {1 1 REGISTER 5885685528c003c9@10.20.20.14 <null>} ims_icscf [cxdx_lir.c:72]: create_lia_return_code(): created AVP successfully : [lia_return_code]

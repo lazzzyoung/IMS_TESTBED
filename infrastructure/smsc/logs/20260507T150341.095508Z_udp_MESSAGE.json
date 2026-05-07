@@ -1,0 +1,78 @@
+{
+  "timestamp": "20260507T150341.095508Z",
+  "transport": "UDP",
+  "peer_host": "172.22.0.20",
+  "peer_port": 6060,
+  "start_line": "MESSAGE tel:0015555;phone-context=ims.mnc001.mcc001.3gppnetwork.org SIP/2.0",
+  "is_response": false,
+  "method": "MESSAGE",
+  "uri": "tel:0015555;phone-context=ims.mnc001.mcc001.3gppnetwork.org",
+  "version": "SIP/2.0",
+  "status_code": null,
+  "reason": null,
+  "from": "<sip:222222@ims.mnc001.mcc001.3gppnetwork.org>;tag=HPrcb6B",
+  "to": "<tel:0015555;phone-context=ims.mnc001.mcc001.3gppnetwork.org>",
+  "call_id": "GOrcb6BW2@10.20.20.15",
+  "cseq": "1 MESSAGE",
+  "content_type": "application/vnd.3gpp.sms",
+  "content_length": "24",
+  "in_reply_to": null,
+  "reply_to": null,
+  "p_asserted_identity": "<sip:222222@ims.mnc001.mcc001.3gppnetwork.org>",
+  "request_disposition": null,
+  "accept_contact": "*;+g.3gpp.smsip",
+  "content_transfer_encoding": null,
+  "body": "\u0000\u000f\u0000\u0005�\u0000QU�\u000e\u0001\u0018\u0006�\u0011\u0011\u0011\u0000\b\u0004�=�\t",
+  "body_hex": "000F000581005155F50E01180691111111000804D83DDE09",
+  "sms_parse": {
+    "payload_len": 24,
+    "payload_hex": "000F000581005155F50E01180691111111000804D83DDE09",
+    "rp_message_type": "0x00",
+    "rp_message_type_name": "rp-data-ms-to-network",
+    "rp_message_reference": 15,
+    "rp_originator_address_length": 0,
+    "rp_destination_address_length": 5,
+    "rp_destination_address": {
+      "ton_npi": "0x81",
+      "digits": "0015555"
+    },
+    "rp_user_data_length": 14,
+    "rp_user_data_hex": "01180691111111000804D83DDE09",
+    "tpdu": {
+      "tpdu_len": 14,
+      "tpdu_hex": "01180691111111000804D83DDE09",
+      "tpdu_first_octet": "0x01",
+      "tpdu_mti": 1,
+      "tpdu_type": "sms-submit",
+      "tp_message_reference": 24,
+      "tp_destination": {
+        "digits_len": 6,
+        "ton_npi": "0x91",
+        "digits": "111111"
+      },
+      "tp_pid": "0x00",
+      "tp_dcs": "0x08",
+      "tp_user_data_length": 4,
+      "tp_user_data_hex": "D83DDE09",
+      "tp_user_data_octets": 4,
+      "tp_user_data_text": "😉"
+    },
+    "tp_destination_digits": "111111",
+    "best_effort_destination": "111111",
+    "address_candidates": [
+      {
+        "offset": 3,
+        "digits_len": 5,
+        "ton_npi": "0x81",
+        "digits": "00155"
+      },
+      {
+        "offset": 12,
+        "digits_len": 6,
+        "ton_npi": "0x91",
+        "digits": "111111"
+      }
+    ],
+    "best_effort_originating": "00155"
+  }
+}

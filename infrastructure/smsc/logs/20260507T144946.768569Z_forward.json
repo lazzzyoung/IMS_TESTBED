@@ -1,0 +1,20 @@
+{
+  "status": "response",
+  "kind": "submit-ack",
+  "source_call_id": "d0d087d5f9b183@10.20.20.14",
+  "destination_msisdn": "111111",
+  "rp_message_reference": 1,
+  "forward_call_id": "cc22b2aab0e67ed2@smsc.ims.mnc001.mcc001.3gppnetwork.org",
+  "content_type": "application/vnd.3gpp.sms",
+  "ack_rp_message_type": "0x03",
+  "ack_body_hex": "03014109010062403151423300",
+  "payload_hex_prefix": "4D455353414745207369703A31313131313140696D732E6D6E633030312E6D63633030312E336770706E6574776F726B2E6F7267205349502F322E300D0A5669613A205349502F322E302F55445020736D73632E696D732E6D6E633030312E6D63633030312E336770706E6574776F726B2E6F72673A353036303B6272616E63683D7A39684734624B2D333465353663626563306366613431640D0A4D61782D",
+  "scscf_host": "172.22.0.20",
+  "scscf_port": 6060,
+  "response_transport": "UDP",
+  "response_from": "172.22.0.20:6060",
+  "response_start_line": "SIP/2.0 200 OK",
+  "response_status_code": 200,
+  "response_reason": "OK",
+  "response_text": "SIP/2.0 200 OK"
+}

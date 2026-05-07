@@ -1,0 +1,18 @@
+NAME        IMAGE              COMMAND                  SERVICE     CREATED       STATUS       PORTS
+dns         docker_dns         "/mnt/dns/dns_init.sh"   dns         2 hours ago   Up 2 hours   53/tcp, 53/udp
+hss         docker_open5gs     "/open5gs_init.sh"       hss         2 hours ago   Up 2 hours   3868/sctp, 3868/tcp
+icscf       docker_kamailio    "/kamailio_init.sh"      icscf       2 hours ago   Up 2 hours   3869/tcp, 4060/tcp, 4060/udp, 3869/sctp, 5060/tcp, 5060/udp
+mme         docker_open5gs     "/open5gs_init.sh"       mme         2 hours ago   Up 2 hours   3868/sctp, 3868/tcp, 0.0.0.0:36412->36412/sctp, [::]:36412->36412/sctp
+mongo       mongo:6.0          "docker-entrypoint.s…"   mongo       2 hours ago   Up 2 hours   27017/tcp
+mysql       docker_mysql       "/mysql_init.sh"         mysql       2 hours ago   Up 2 hours   3306/tcp
+pcrf        docker_open5gs     "/open5gs_init.sh"       pcrf        2 hours ago   Up 2 hours   3873/sctp, 3873/tcp
+pcscf       docker_kamailio    "/kamailio_init.sh"      pcscf       2 hours ago   Up 2 hours   0.0.0.0:5060->5060/tcp, 0.0.0.0:5060->5060/udp, [::]:5060->5060/tcp, [::]:5060->5060/udp, 0.0.0.0:5100->5100/tcp, 0.0.0.0:5100->5100/udp, [::]:5100->5100/tcp, [::]:5100->5100/udp, 0.0.0.0:6100->6100/tcp, 0.0.0.0:6100->6100/udp, [::]:6100->6100/tcp, [::]:6100->6100/udp, 5060/sctp
+pyhss       docker_pyhss       "/mnt/pyhss/pyhss_in…"   pyhss       2 hours ago   Up 2 hours   3875/sctp, 3875/tcp, 0.0.0.0:8080->8080/tcp, [::]:8080->8080/tcp
+rtpengine   docker_rtpengine   "/mnt/rtpengine/rtpe…"   rtpengine   2 hours ago   Up 2 hours   2223/udp
+scscf       docker_kamailio    "/kamailio_init.sh"      scscf       2 hours ago   Up 2 hours   3870/tcp, 5060/tcp, 5060/udp, 3870/sctp, 6060/tcp, 6060/udp
+sgwc        docker_open5gs     "/open5gs_init.sh"       sgwc        2 hours ago   Up 2 hours   2123/udp, 8805/udp
+sgwu        docker_open5gs     "/open5gs_init.sh"       sgwu        2 hours ago   Up 2 hours   0.0.0.0:2152->2152/udp, [::]:2152->2152/udp, 8805/udp
+smf         docker_open5gs     "/open5gs_init.sh"       smf         2 hours ago   Up 2 hours   2123/udp, 8805/udp, 3868/sctp, 3868/tcp
+smsc        docker_smsc        "python /app/smsc_se…"   smsc        2 hours ago   Up 2 hours   5060/tcp, 5060/udp
+upf         docker_open5gs     "/open5gs_init.sh"       upf         2 hours ago   Up 2 hours   2152/udp, 8805/udp
+webui       docker_open5gs     "/open5gs_init.sh"       webui       2 hours ago   Up 2 hours   0.0.0.0:9999->9999/tcp, [::]:9999->9999/tcp

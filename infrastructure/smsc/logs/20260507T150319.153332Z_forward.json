@@ -1,0 +1,14 @@
+{
+  "status": "skipped",
+  "reason": "non-mo-rp-message",
+  "rp_message_type": "0x02",
+  "rp_message_type_name": "rp-ack-ms-to-network",
+  "sms_parse": {
+    "payload_len": 2,
+    "payload_hex": "0205",
+    "rp_message_type": "0x02",
+    "rp_message_type_name": "rp-ack-ms-to-network",
+    "rp_message_reference": 5
+  },
+  "call_id": "tFrcbAhXK@10.20.20.15"
+}

@@ -1,0 +1,78 @@
+{
+  "timestamp": "20260507T144943.449214Z",
+  "transport": "UDP",
+  "peer_host": "172.22.0.20",
+  "peer_port": 6060,
+  "start_line": "MESSAGE sip:+0015555@ims.mnc001.mcc001.3gppnetwork.org SIP/2.0",
+  "is_response": false,
+  "method": "MESSAGE",
+  "uri": "sip:+0015555@ims.mnc001.mcc001.3gppnetwork.org",
+  "version": "SIP/2.0",
+  "status_code": null,
+  "reason": null,
+  "from": "<sip:111111@ims.mnc001.mcc001.3gppnetwork.org>;tag=7eb0b847",
+  "to": "<sip:+0015555@ims.mnc001.mcc001.3gppnetwork.org>",
+  "call_id": "b2d9151e8e4202cd@10.20.20.14",
+  "cseq": "1 MESSAGE",
+  "content_type": "application/vnd.3gpp.sms",
+  "content_length": "22",
+  "in_reply_to": null,
+  "reply_to": null,
+  "p_asserted_identity": "<sip:111111@ims.mnc001.mcc001.3gppnetwork.org>",
+  "request_disposition": "no-fork",
+  "accept_contact": "*;+g.3gpp.smsip",
+  "content_transfer_encoding": null,
+  "body": "\u0000\u0000\u0000\u0005�\u0000QU�\f\u0001\u000f\u0006�\"\"\"\u0000\b\u0002Ż",
+  "body_hex": "0000000581005155F50C010F0691222222000802C5BB",
+  "sms_parse": {
+    "payload_len": 22,
+    "payload_hex": "0000000581005155F50C010F0691222222000802C5BB",
+    "rp_message_type": "0x00",
+    "rp_message_type_name": "rp-data-ms-to-network",
+    "rp_message_reference": 0,
+    "rp_originator_address_length": 0,
+    "rp_destination_address_length": 5,
+    "rp_destination_address": {
+      "ton_npi": "0x81",
+      "digits": "0015555"
+    },
+    "rp_user_data_length": 12,
+    "rp_user_data_hex": "010F0691222222000802C5BB",
+    "tpdu": {
+      "tpdu_len": 12,
+      "tpdu_hex": "010F0691222222000802C5BB",
+      "tpdu_first_octet": "0x01",
+      "tpdu_mti": 1,
+      "tpdu_type": "sms-submit",
+      "tp_message_reference": 15,
+      "tp_destination": {
+        "digits_len": 6,
+        "ton_npi": "0x91",
+        "digits": "222222"
+      },
+      "tp_pid": "0x00",
+      "tp_dcs": "0x08",
+      "tp_user_data_length": 2,
+      "tp_user_data_hex": "C5BB",
+      "tp_user_data_octets": 2,
+      "tp_user_data_text": "얻"
+    },
+    "tp_destination_digits": "222222",
+    "best_effort_destination": "222222",
+    "address_candidates": [
+      {
+        "offset": 3,
+        "digits_len": 5,
+        "ton_npi": "0x81",
+        "digits": "00155"
+      },
+      {
+        "offset": 12,
+        "digits_len": 6,
+        "ton_npi": "0x91",
+        "digits": "222222"
+      }
+    ],
+    "best_effort_originating": "00155"
+  }
+}
