@@ -703,3 +703,43 @@ Open5GS daemon v2.7.6-78-g47d0062
 05/07 13:10:01.130: [upf] INFO: UE F-SEID[UP:0xb3f CP:0x96f] APN[ims] PDN-Type[1] IPv4[10.20.20.3] IPv6[] (../src/upf/context.c:498)
 05/07 13:35:36.230: [upf] INFO: [Removed] Number of UPF-sessions is now 3 (../src/upf/context.c:256)
 05/07 13:35:37.189: [upf] INFO: [Removed] Number of UPF-sessions is now 2 (../src/upf/context.c:256)
+05/07 13:54:08.248: [upf] INFO: [Added] Number of UPF-Sessions is now 3 (../src/upf/context.c:212)
+05/07 13:54:08.248: [upf] INFO: UE F-SEID[UP:0x9ac CP:0xee6] APN[internet] PDN-Type[1] IPv4[10.10.10.5] IPv6[] (../src/upf/context.c:498)
+05/07 13:54:08.248: [upf] INFO: UE F-SEID[UP:0x9ac CP:0xee6] APN[internet] PDN-Type[1] IPv4[10.10.10.5] IPv6[] (../src/upf/context.c:498)
+05/07 13:54:08.688: [upf] INFO: [Added] Number of UPF-Sessions is now 4 (../src/upf/context.c:212)
+05/07 13:54:08.688: [upf] INFO: UE F-SEID[UP:0xb6d CP:0x904] APN[ims] PDN-Type[1] IPv4[10.20.20.4] IPv6[] (../src/upf/context.c:498)
+05/07 13:54:08.688: [upf] INFO: UE F-SEID[UP:0xb6d CP:0x904] APN[ims] PDN-Type[1] IPv4[10.20.20.4] IPv6[] (../src/upf/context.c:498)
+05/07 13:54:08.745: [upf] ERROR: Invalid packet [IP version:6, Packet Length:76] (../src/upf/gtp-path.c:694)
+0000: 60000000 00240001 fe800000 00000000   `....$..........
+0010: a82a3fff fe7a0e94 ff020000 00000000   .*?..z..........
+0020: 00000000 00000016 3a000502 00000100   ........:.......
+0030: 8f006cc2 00000001 04000000 ff020000   ..l.............
+0040: 00000000 00000001 ff7a0e94            .........z..
+05/07 13:54:08.745: [upf] ERROR: Invalid packet [IP version:6, Packet Length:48] (../src/upf/gtp-path.c:694)
+0000: 60000000 00083aff fe800000 00000000   `.....:.........
+0010: a82a3fff fe7a0e94 ff020000 00000000   .*?..z..........
+0020: 00000000 00000002 850087fe 00000000   ................
+05/07 13:55:23.905: [upf] INFO: [Removed] Number of UPF-sessions is now 3 (../src/upf/context.c:256)
+05/07 13:55:23.905: [upf] INFO: [Removed] Number of UPF-sessions is now 2 (../src/upf/context.c:256)
+05/07 13:55:27.827: [upf] INFO: [Added] Number of UPF-Sessions is now 3 (../src/upf/context.c:212)
+05/07 13:55:27.827: [upf] INFO: UE F-SEID[UP:0xbb4 CP:0x3c9] APN[internet] PDN-Type[3] IPv4[10.10.10.6] IPv6[2001:230:cafe:2::3] (../src/upf/context.c:498)
+05/07 13:55:27.827: [upf] INFO: UE F-SEID[UP:0xbb4 CP:0x3c9] APN[internet] PDN-Type[3] IPv4[10.10.10.6] IPv6[2001:230:cafe:2::3] (../src/upf/context.c:498)
+05/07 13:55:28.092: [upf] INFO: [Added] Number of UPF-Sessions is now 4 (../src/upf/context.c:212)
+05/07 13:55:28.092: [upf] INFO: UE F-SEID[UP:0xa88 CP:0x5f0] APN[ims] PDN-Type[1] IPv4[10.20.20.5] IPv6[] (../src/upf/context.c:498)
+05/07 13:55:28.092: [upf] INFO: UE F-SEID[UP:0xa88 CP:0x5f0] APN[ims] PDN-Type[1] IPv4[10.20.20.5] IPv6[] (../src/upf/context.c:498)
+05/07 13:56:47.025: [upf] INFO: [Removed] Number of UPF-sessions is now 3 (../src/upf/context.c:256)
+05/07 13:56:47.026: [upf] INFO: [Removed] Number of UPF-sessions is now 2 (../src/upf/context.c:256)
+05/07 13:56:47.988: [upf] INFO: [Added] Number of UPF-Sessions is now 3 (../src/upf/context.c:212)
+05/07 13:56:47.988: [upf] INFO: UE F-SEID[UP:0x8a6 CP:0x265] APN[internet] PDN-Type[3] IPv4[10.10.10.7] IPv6[2001:230:cafe:3::4] (../src/upf/context.c:498)
+05/07 13:56:47.988: [upf] INFO: UE F-SEID[UP:0x8a6 CP:0x265] APN[internet] PDN-Type[3] IPv4[10.10.10.7] IPv6[2001:230:cafe:3::4] (../src/upf/context.c:498)
+05/07 13:56:48.252: [upf] INFO: [Added] Number of UPF-Sessions is now 4 (../src/upf/context.c:212)
+05/07 13:56:48.252: [upf] INFO: UE F-SEID[UP:0xb74 CP:0xa82] APN[ims] PDN-Type[1] IPv4[10.20.20.6] IPv6[] (../src/upf/context.c:498)
+05/07 13:56:48.252: [upf] INFO: UE F-SEID[UP:0xb74 CP:0xa82] APN[ims] PDN-Type[1] IPv4[10.20.20.6] IPv6[] (../src/upf/context.c:498)
+05/07 13:57:11.748: [upf] INFO: [Removed] Number of UPF-sessions is now 3 (../src/upf/context.c:256)
+05/07 13:57:11.954: [upf] INFO: [Removed] Number of UPF-sessions is now 2 (../src/upf/context.c:256)
+05/07 13:57:16.050: [upf] INFO: [Added] Number of UPF-Sessions is now 3 (../src/upf/context.c:212)
+05/07 13:57:16.050: [upf] INFO: UE F-SEID[UP:0x94b CP:0x907] APN[internet] PDN-Type[1] IPv4[10.10.10.8] IPv6[] (../src/upf/context.c:498)
+05/07 13:57:16.050: [upf] INFO: UE F-SEID[UP:0x94b CP:0x907] APN[internet] PDN-Type[1] IPv4[10.10.10.8] IPv6[] (../src/upf/context.c:498)
+05/07 13:57:16.422: [upf] INFO: [Added] Number of UPF-Sessions is now 4 (../src/upf/context.c:212)
+05/07 13:57:16.422: [upf] INFO: UE F-SEID[UP:0xe81 CP:0x70e] APN[ims] PDN-Type[1] IPv4[10.20.20.7] IPv6[] (../src/upf/context.c:498)
+05/07 13:57:16.422: [upf] INFO: UE F-SEID[UP:0xe81 CP:0x70e] APN[ims] PDN-Type[1] IPv4[10.20.20.7] IPv6[] (../src/upf/context.c:498)
